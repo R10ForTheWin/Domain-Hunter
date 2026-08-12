@@ -14,7 +14,14 @@ from flask import Flask, render_template
 app = Flask(__name__)
 
 REPO_ROOT = Path(__file__).resolve().parent.parent
-DATA_DIR = REPO_ROOT / "data"
+# Normal case: data/ lives one level up, as a sibling of site/ (true in git
+# checkouts and in a real GitHub-linked Railway deploy, which uploads the
+# whole repo and just changes the working directory for build/start).
+# Fallback: a "railway up" CLI deploy only uploads site/'s own contents, so
+# if a local site/data/ snapshot exists (bundled in for that kind of
+# deploy), prefer it over a ../data/ that won't exist in that container.
+_LOCAL_DATA = Path(__file__).resolve().parent / "data"
+DATA_DIR = _LOCAL_DATA if _LOCAL_DATA.exists() else REPO_ROOT / "data"
 
 # Stage status is maintained by hand here (mirrors the team status update) --
 # there's no automated way to know "is Chantell done with scoring yet", so

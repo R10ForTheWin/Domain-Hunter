@@ -24,22 +24,40 @@ exist on the `dj-book-corpus` branch (PR #3) but not yet on `dj-development` or 
 run this locally on a branch without that data, you'll correctly see "No corpus data yet" rather
 than an error. That's not a bug; it's the dashboard being honest about what's actually merged.
 
-## Deploying (Railway)
+## Deployed
 
-`railway.json` in this folder is set up the same way as Artie's deployment:
+**Live at: https://domain-huntress-site-production.up.railway.app**
 
-1. In the Railway dashboard: New Project → Deploy from GitHub repo → `Domain-Hunter`
-2. In the service's Settings: set **Root Directory** to `site` (Railway builds from repo root by
-   default, and `railway.json` alone doesn't redirect that — this has to be set in the dashboard)
-3. Railway should pick up `railway.json` automatically from there (build:
-   `pip install -r requirements.txt`, start: `gunicorn --bind 0.0.0.0:$PORT app:app`)
-4. Deploy from whichever branch has the real data merged in (`main`, once PRs land) — deploying
-   from a branch without `data/book_corpus.csv` will just show empty states, not break
-5. Railway auto-assigns a `*.up.railway.app` URL once it deploys successfully (same as
-   `artie-production-1b13.up.railway.app`) — that's the link to share/demo
+Deployed via the Railway CLI (`railway` was already installed and logged in as
+djnurre@gmail.com), project `domain-huntress-site` in the `r10forthewin's Projects` workspace.
+This was a CLI upload deploy, not a GitHub-linked one yet -- see the gotcha below and the redeploy
+steps.
 
-This step needs to happen from DJ's own Railway account — not something that can be done through
-this repo alone.
+### Redeploying after a change
+
+`railway up` only uploads `site/`'s own contents, not `../data/` (which is one level up) -- so a
+fresh data snapshot needs bundling into `site/data/` before each deploy, and the upload needs
+`--no-gitignore` since `site/data/` is (correctly) gitignored so it never gets committed as a
+stale duplicate of the real `data/book_corpus.csv`. `app.py` checks `site/data/` first and falls
+back to `../data/`, so this only matters for this CLI-upload style of deploy.
+
+```
+cd site
+git show origin/dj-book-corpus:data/book_corpus.csv > data/book_corpus.csv   # refresh the snapshot
+railway up --detach --no-gitignore
+```
+
+(Swap `dj-book-corpus` for wherever the current merged corpus lives once PR #3 merges into
+`dj-development`/`main`.)
+
+### Moving to GitHub-linked deploys (better long-term)
+
+Right now every update needs a manual `railway up`. Connecting the service to the GitHub repo
+directly (Settings → Source → connect `Domain-Hunter`, root directory `site`) would make it
+redeploy automatically on every push, the same way Artie works — and would also make the
+`../data/` gotcha above disappear, since a GitHub-linked deploy uploads the whole repo rather than
+just the `site/` subfolder. That connection step needs the Railway dashboard (OAuth-style GitHub
+App install), not something scriptable from the CLI or this repo alone.
 
 ## Updating pipeline status
 
