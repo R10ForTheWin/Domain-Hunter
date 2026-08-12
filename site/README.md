@@ -24,18 +24,21 @@ exist on the `dj-book-corpus` branch (PR #3) but not yet on `dj-development` or 
 run this locally on a branch without that data, you'll correctly see "No corpus data yet" rather
 than an error. That's not a bug; it's the dashboard being honest about what's actually merged.
 
-## Deploying (Render)
+## Deploying (Railway)
 
-`render.yaml` in this folder is set up the same way as Reggie's deployment:
+`railway.json` in this folder is set up the same way as Artie's deployment:
 
-1. In the Render dashboard: New → Web Service → connect the `Domain-Hunter` GitHub repo
-2. Root directory: `site`
-3. Render should pick up `render.yaml` automatically (build: `pip install -r requirements.txt`,
-   start: `gunicorn --bind 0.0.0.0:$PORT app:app`)
+1. In the Railway dashboard: New Project → Deploy from GitHub repo → `Domain-Hunter`
+2. In the service's Settings: set **Root Directory** to `site` (Railway builds from repo root by
+   default, and `railway.json` alone doesn't redirect that — this has to be set in the dashboard)
+3. Railway should pick up `railway.json` automatically from there (build:
+   `pip install -r requirements.txt`, start: `gunicorn --bind 0.0.0.0:$PORT app:app`)
 4. Deploy from whichever branch has the real data merged in (`main`, once PRs land) — deploying
-   from a branch without `data/book_corpus.csv` will just show empty states, not break.
+   from a branch without `data/book_corpus.csv` will just show empty states, not break
+5. Railway auto-assigns a `*.up.railway.app` URL once it deploys successfully (same as
+   `artie-production-1b13.up.railway.app`) — that's the link to share/demo
 
-This step needs to happen from DJ's own Render account — not something that can be done through
+This step needs to happen from DJ's own Railway account — not something that can be done through
 this repo alone.
 
 ## Updating pipeline status
