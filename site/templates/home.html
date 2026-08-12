@@ -19,13 +19,54 @@
     background: var(--teal);
     overflow: hidden;
   }
-  .hero {
-    position: relative;
-    width: 100vw;
+  .page {
+    display: flex;
+    flex-direction: column;
     height: 100vh;
+    width: 100vw;
+  }
+
+  /* Dedicated logo band -- its own space, never overlapping the media below */
+  .logo-band {
+    flex: 0 0 auto;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 14px 20px;
+    background: var(--teal);
+    background-image: radial-gradient(rgba(255,255,255,0.10) 1px, transparent 1px);
+    background-size: 14px 14px;
+    position: relative;
+    z-index: 2;
+  }
+  .wordmark {
+    max-width: 360px;
+    width: 46%;
+    min-width: 200px;
+    filter: drop-shadow(0 4px 8px rgba(0,0,0,0.35));
+  }
+  .status-link {
+    position: absolute;
+    top: 50%;
+    right: 18px;
+    transform: translateY(-50%);
+    font-size: 11px;
+    color: var(--cream);
+    text-decoration: none;
+    background: rgba(0,0,0,0.25);
+    padding: 6px 14px;
+    border-radius: 14px;
+    border: 1px solid rgba(255,255,255,0.4);
+  }
+
+  /* Media band -- the animation, filling all remaining space below the logo */
+  .media-band {
+    position: relative;
+    flex: 1 1 auto;
+    min-height: 0;
     overflow: hidden;
   }
-  .hero video {
+  .media-band video {
     position: absolute;
     top: 50%;
     left: 50%;
@@ -36,41 +77,6 @@
     transform: translate(-50%, -50%);
     object-fit: cover;
   }
-  .hero-top {
-    position: absolute;
-    top: 0; left: 0; right: 0;
-    display: flex;
-    justify-content: center;
-    padding: 30px 20px;
-    z-index: 2;
-    background: linear-gradient(to bottom, rgba(0,0,0,0.35), transparent);
-  }
-  .hero-top img {
-    max-width: 260px;
-    width: 55%;
-    filter: drop-shadow(0 4px 10px rgba(0,0,0,0.5));
-  }
-  .logo-placeholder {
-    color: var(--cream);
-    font-weight: 800;
-    font-size: 22px;
-    letter-spacing: 0.03em;
-    text-shadow: 0 3px 8px rgba(0,0,0,0.6);
-    text-transform: uppercase;
-  }
-  .status-link {
-    position: absolute;
-    top: 18px;
-    right: 18px;
-    z-index: 3;
-    font-size: 11px;
-    color: var(--cream);
-    text-decoration: none;
-    background: rgba(0,0,0,0.35);
-    padding: 6px 14px;
-    border-radius: 14px;
-    border: 1px solid rgba(255,255,255,0.4);
-  }
   .hero-bottom {
     position: absolute;
     bottom: 0; left: 0; right: 0;
@@ -78,7 +84,7 @@
     justify-content: center;
     gap: 24px;
     flex-wrap: wrap;
-    padding: 30px 20px 44px 20px;
+    padding: 24px 20px 36px 20px;
     z-index: 2;
     background: linear-gradient(to top, rgba(0,0,0,0.55), transparent);
   }
@@ -92,8 +98,8 @@
     background: var(--gold);
     border: 4px solid var(--ink);
     border-radius: 16px;
-    padding: 18px 30px;
-    min-width: 230px;
+    padding: 16px 28px;
+    min-width: 220px;
     box-shadow: 6px 6px 0 rgba(0,0,0,0.4);
     transition: transform 0.15s ease, box-shadow 0.15s ease;
     text-align: center;
@@ -107,7 +113,7 @@
     color: var(--cream);
   }
   .cta-btn .cta-title {
-    font-size: 17px;
+    font-size: 16px;
     font-weight: 800;
     text-transform: uppercase;
     letter-spacing: 0.03em;
@@ -122,29 +128,30 @@
 </head>
 <body>
 
-<div class="hero">
-  <video autoplay muted loop playsinline poster="{{ url_for('static', filename='logo.png') }}">
-    <source src="{{ url_for('static', filename='logo-animation-textless.mp4') }}" type="video/mp4">
-  </video>
+<div class="page">
 
-  <a class="status-link" href="{{ url_for('status') }}">Pipeline status →</a>
-
-  <div class="hero-top">
-    <!-- Placeholder until the new logo file lands -- swap the div below for
-         an <img src="{{ url_for('static', filename='logo.png') }}"> once it does -->
-    <div class="logo-placeholder">Domain Huntress</div>
+  <div class="logo-band">
+    <img class="wordmark" src="{{ url_for('static', filename='logo-wordmark.png') }}" alt="Domain Huntress — Public-Domain Adaptation Scout">
+    <a class="status-link" href="{{ url_for('status') }}">Pipeline status →</a>
   </div>
 
-  <div class="hero-bottom">
-    <a class="cta-btn" href="{{ url_for('producers') }}">
-      <span class="cta-title">I'm a Producer</span>
-      <span class="cta-sub">Check if a book is public domain</span>
-    </a>
-    <a class="cta-btn red" href="{{ url_for('networks') }}">
-      <span class="cta-title">I'm a Network</span>
-      <span class="cta-sub">Find PD books for your mandate</span>
-    </a>
+  <div class="media-band">
+    <video autoplay muted loop playsinline poster="{{ url_for('static', filename='logo.png') }}">
+      <source src="{{ url_for('static', filename='logo-animation-textless.mp4') }}" type="video/mp4">
+    </video>
+
+    <div class="hero-bottom">
+      <a class="cta-btn" href="{{ url_for('producers') }}">
+        <span class="cta-title">I'm a Producer</span>
+        <span class="cta-sub">Check if a book is public domain</span>
+      </a>
+      <a class="cta-btn red" href="{{ url_for('networks') }}">
+        <span class="cta-title">I'm a Network</span>
+        <span class="cta-sub">Find PD books for your mandate</span>
+      </a>
+    </div>
   </div>
+
 </div>
 
 </body>
