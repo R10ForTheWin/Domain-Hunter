@@ -50,6 +50,8 @@ on the live demo site (`site/`). A web-ready copy lives at `site/static/logo-ani
 static PNG logo is used as its poster frame / fallback for browsers that don't autoplay video.
 
 `../logo/Animation Textelss.mp4` — a second animation, textless (no "Domain Huntress" title
-lockup). Saved as a brand asset for now; not wired into the site yet. Could work as a hover state,
-a background element, or a lower-thirds/intro clip if we ever want the mark without the title
-baked in — placement not decided.
+lockup). **The plan:** `Huntress Animation 1.mp4`'s baked-in title text has a misspelling, so this
+textless version is meant to eventually replace it as the site header animation, with the
+"Domain Huntress" wordmark composited on top separately (as an HTML/CSS overlay, not baked into
+the video) — that way a typo or a rebrand doesn't mean re-exporting the whole animation again.
+Not done yet; holding onto the file until that swap happens.
