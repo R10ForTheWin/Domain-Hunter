@@ -27,9 +27,10 @@
     text-align: center;
     padding: 36px 20px 24px 20px;
   }
-  header img {
+  header img, header video {
     max-width: 320px;
     width: 80%;
+    border-radius: 12px;
     filter: drop-shadow(0 4px 10px rgba(0,0,0,0.35));
   }
   .tagline {
@@ -113,7 +114,12 @@
 <body>
 
 <header>
-  <img src="{{ url_for('static', filename='logo.png') }}" alt="Domain Huntress">
+  <video
+    autoplay muted loop playsinline
+    poster="{{ url_for('static', filename='logo.png') }}"
+    aria-label="Domain Huntress">
+    <source src="{{ url_for('static', filename='logo-animation.mp4') }}" type="video/mp4">
+  </video>
   <div class="tagline">Public-Domain Adaptation Scout — Live Project Status</div>
 </header>
 
