@@ -21,6 +21,7 @@ reads or writes.
 | `shortlist_output/` | 5 — Shortlist & Output Formatting | Luis R. |
 | `data/` | shared interchange files (see `docs/data-contracts.md`) | — |
 | `assets/logo/` | project logo | Ross |
+| `site/` | live class-demo site (deployed dashboard) | DJ (Package 6) |
 
 Each package folder has its own `README.md` with that package's exact goal, bullets, inputs, and
 outputs — start there.

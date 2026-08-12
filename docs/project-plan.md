@@ -112,6 +112,10 @@ Goal: keep the repo usable, review everyone's work, and make sure the pieces act
 - Maintain `CLAUDE.md` as the shared project brief everyone's Claude reads
 - Spot-check each package's output before it's merged
 - Run point on overall strategy — including hearing pushback and adjusting course
+- **Added 2026-08-12:** build and deploy a live demo site (`site/`) for presenting the project to
+  class — matches how DJ's other projects (Artie, Reggie) get demoed, as a real deployed URL
+  rather than a slide deck. Shows pipeline status and corpus stats now; wires in real PD
+  verification, scoring, and shortlist results as those packages land.
 
 ### Additional assignment — Domain-Hunter logo
 **Owner:** Ross
