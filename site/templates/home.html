@@ -40,14 +40,22 @@
     object-fit: cover;
     object-position: center center;
   }
-  /* The source video is wide-format (landscape) -- on a narrow phone
-     screen, object-fit:cover zooms in enough to crop the bow off the
-     right edge entirely. Below this breakpoint, show the whole frame
-     letterboxed on the hero's own background instead of cropping it. */
+  /* The source video is native portrait (720x1280, ~9:16) -- already
+     close to a phone's own proportions. No reason to force-crop it into
+     a fixed-height box on mobile: just let it render at its natural
+     size, full frame, nothing hidden. The hero's height on mobile comes
+     from the video itself instead of a fixed 100dvh. */
   @media (max-width: 700px) {
+    .hero {
+      height: auto;
+      min-height: 0;
+    }
     .hero video {
-      object-fit: contain;
-      object-position: center center;
+      position: static;
+      display: block;
+      width: 100%;
+      height: auto;
+      aspect-ratio: 9 / 16;
     }
   }
 
