@@ -9,7 +9,7 @@ computed from the CSVs already checked into the repo.
 import csv
 from pathlib import Path
 
-from flask import Flask, render_template
+from flask import Flask, render_template, request
 
 app = Flask(__name__)
 
@@ -36,13 +36,18 @@ STAGES = [
 ]
 
 
-def load_corpus_stats():
+def load_corpus_rows():
     path = DATA_DIR / "book_corpus.csv"
     if not path.exists():
-        return None
-
+        return []
     with path.open(newline="", encoding="utf-8") as f:
-        rows = list(csv.DictReader(f))
+        return list(csv.DictReader(f))
+
+
+def load_corpus_stats():
+    rows = load_corpus_rows()
+    if not rows:
+        return None
 
     total = len(rows)
     has_death = sum(1 for r in rows if r.get("author_death_year"))
@@ -75,13 +80,33 @@ def load_shortlist():
 
 
 @app.route("/")
-def index():
+def home():
+    return render_template("home.html")
+
+
+@app.route("/status")
+def status():
     return render_template(
-        "index.html",
+        "status.html",
         stages=STAGES,
         corpus=load_corpus_stats(),
         shortlist=load_shortlist(),
     )
+
+
+@app.route("/producers")
+def producers():
+    query = request.args.get("q", "").strip()
+    results = []
+    if query:
+        q_lower = query.lower()
+        results = [r for r in load_corpus_rows() if q_lower in r["title"].lower()][:25]
+    return render_template("producers.html", query=query, results=results)
+
+
+@app.route("/networks")
+def networks():
+    return render_template("networks.html")
 
 
 if __name__ == "__main__":

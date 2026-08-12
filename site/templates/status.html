@@ -26,6 +26,19 @@
   header {
     text-align: center;
     padding: 36px 20px 24px 20px;
+    position: relative;
+  }
+  .back-link {
+    position: absolute;
+    top: 18px;
+    left: 20px;
+    font-size: 12px;
+    color: var(--cream);
+    text-decoration: none;
+    background: rgba(0,0,0,0.25);
+    padding: 5px 12px;
+    border-radius: 12px;
+    border: 1px solid rgba(255,255,255,0.4);
   }
   header img, header video {
     max-width: 320px;
@@ -114,12 +127,8 @@
 <body>
 
 <header>
-  <video
-    autoplay muted loop playsinline
-    poster="{{ url_for('static', filename='logo.png') }}"
-    aria-label="Domain Huntress">
-    <source src="{{ url_for('static', filename='logo-animation.mp4') }}" type="video/mp4">
-  </video>
+  <a href="{{ url_for('home') }}" class="back-link">← Home</a>
+  <img src="{{ url_for('static', filename='logo.png') }}" alt="Domain Huntress" style="max-width:220px;width:60%;">
   <div class="tagline">Public-Domain Adaptation Scout — Live Project Status</div>
 </header>
 
