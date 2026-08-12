@@ -1,6 +1,6 @@
 # Package 2 — PD Verification Agent
 
-**Owner:** Teammate (phone ending 8253) · Branch suggestion: `yourname-pd-verification`
+**Owner:** Jason Brown · Branch suggestion: `jason-pd-verification`
 
 ## Goal
 
