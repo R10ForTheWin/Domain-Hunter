@@ -3,6 +3,27 @@
 ## Project
 Domain Hunter is a group software project. This GitHub repository is the single source of truth for the app.
 
+Domain Hunter screens hundreds of candidate books, filters them to ones we can legally use (public
+domain), scores the survivors against a researched studio adaptation mandate, and produces a
+shortlist of ten. Full plan and role assignments: [`docs/project-plan.md`](docs/project-plan.md).
+The exact file formats passed between packages are pinned in
+[`docs/data-contracts.md`](docs/data-contracts.md) — read that before changing what your package
+reads or writes.
+
+## Package map
+| Folder | Package | Owner |
+|---|---|---|
+| `pd_calendar/` | 1 — Forward-Looking PD Calendar | Teammate (…9302) |
+| `pd_verification/` | 2 — PD Verification Agent | Teammate (…8253) |
+| `book_corpus/` | 3 — Book Corpus & Data Pipeline | Radoslav Raychev |
+| `studio_scoring/` | 4 — Studio Mandate Research & Scoring | Chantell Ferrell |
+| `shortlist_output/` | 5 — Shortlist & Output Formatting | Luis R. |
+| `data/` | shared interchange files (see `docs/data-contracts.md`) | — |
+| `assets/logo/` | project logo | Teammate (…9302) |
+
+Each package folder has its own `README.md` with that package's exact goal, bullets, inputs, and
+outputs — start there.
+
 ## Development Rules
 - Do not work directly on main.
 - Each team member should work on their own branch.
@@ -15,11 +36,12 @@ Domain Hunter is a group software project. This GitHub repository is the single 
 - Never commit passwords, API keys, secrets, or credentials.
 
 ## Git Workflow
-1. Start from the latest main branch.
-2. Work on your personal or feature branch.
+1. Start from the latest `main` branch.
+2. Work on your own branch, named `yourname-packagename` (e.g. `luis-shortlist`).
 3. Commit changes with a clear description.
 4. Push the branch to GitHub.
-5. Merge completed work into main through a pull request.
+5. Open a pull request **into `dj-development`**, not `main` — DJ reviews there and merges into
+   `main` periodically once packages fit together.
 
 ## Claude Instructions
 Before making significant changes:
