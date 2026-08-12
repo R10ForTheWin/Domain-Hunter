@@ -1,9 +1,10 @@
-# Domain Hunter
+# Domain Huntress
 
 ## Project
-Domain Hunter is a group software project. This GitHub repository is the single source of truth for the app.
+Domain Huntress (formerly "Domain Hunter") is a group software project. This GitHub repository —
+still named `Domain-Hunter` on GitHub, unchanged — is the single source of truth for the app.
 
-Domain Hunter screens hundreds of candidate books, filters them to ones we can legally use (public
+Domain Huntress screens hundreds of candidate books, filters them to ones we can legally use (public
 domain), scores the survivors against a researched studio adaptation mandate, and produces a
 shortlist of ten. Full plan and role assignments: [`docs/project-plan.md`](docs/project-plan.md).
 The exact file formats passed between packages are pinned in

@@ -1,10 +1,16 @@
-# Domain Hunter
+# Domain Huntress
+
+![Domain Huntress](assets/logo/domain-huntress-logo.png)
 
 Public-domain book screening & adaptation-potential shortlisting.
 
-Domain Hunter screens hundreds of candidate books, filters them down to ones we can legally use
+Domain Huntress screens hundreds of candidate books, filters them down to ones we can legally use
 (public domain), scores the survivors against a researched studio adaptation mandate, and produces
 a shortlist of ten. A forward-looking piece also tracks what's about to become public domain.
+
+> Renamed from "Domain Hunter" — see [`assets/style/STYLE_GUIDE.md`](assets/style/STYLE_GUIDE.md).
+> The GitHub repo, folder, and branch names are unchanged; only the product name and branding
+> updated.
 
 | Stage | What happens | Folder |
 |---|---|---|

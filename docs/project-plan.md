@@ -6,6 +6,12 @@ Public-domain book screening & adaptation-potential shortlisting.
 > assignments were randomized — no one was picked for background or skill. Swaps are fine, just
 > tell DJ. **This is a starting point for the team to react to, not a final decision.**
 
+> **Update:** the project has since been renamed **Domain Huntress** (see §6 below and
+> [`data-contracts.md`](data-contracts.md)'s sibling, [`../assets/style/STYLE_GUIDE.md`](../assets/style/STYLE_GUIDE.md)).
+> This document is kept as the original v1.2 record, so it still says "Domain-Hunter" throughout —
+> including in the GitHub Desktop / clone instructions below, where that's correct: the GitHub
+> repo, folder, and branch names were **not** changed, only the product branding.
+
 ## 1. What we're building
 
 A workflow that screens hundreds of candidate books, filters them down to ones we can legally use
@@ -149,11 +155,16 @@ Open a conversation with Claude and paste in your package's goal + bullets from 
 - Push back on this plan any time. It was randomly assigned by Claude to get us moving, not handed down as final.
 - Questions go in the group chat — if one person is stuck, others probably will be too.
 
-## 6. Open question: naming
+## 6. Naming — resolved
 
-"Domain-Hunter" can read like an internet-domain search tool rather than a public-domain/free-IP
-discovery engine. Worth revisiting — e.g. something that signals "hunt for freely adaptable IP"
-more directly (one direction floated: *Farrah — The Free IP Huntress*). Not decided; react freely.
+"Domain-Hunter" could read like an internet-domain search tool rather than a public-domain/free-IP
+discovery engine, so the team explored a name that signals "hunt for freely adaptable IP" more
+directly (one direction floated: *Farrah — The Free IP Huntress*).
+
+**Decision:** the product is now branded **Domain Huntress**, with a new logo combining the
+original book/magnifying-glass mark with an archer character — see
+[`../assets/style/STYLE_GUIDE.md`](../assets/style/STYLE_GUIDE.md). The underlying GitHub repo,
+folder, and branch names stay `Domain-Hunter` / `dj-development` unchanged.
 
 ## 7. How the pieces connect (data contracts)
 
