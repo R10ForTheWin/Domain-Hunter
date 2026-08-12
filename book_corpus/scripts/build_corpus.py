@@ -33,7 +33,7 @@ MAX_GUTENDEX_PAGES = 25     # safety cap
 OL_SLEEP_SECONDS = 0.3      # be polite to Open Library
 CURRENT_YEAR = 2026
 
-OUT_PATH = Path(__file__).resolve().parent.parent.parent / "data" / "book_corpus.csv"
+OUT_PATH = Path(__file__).resolve().parent.parent.parent / "data" / "book_corpus_gutenberg.csv"
 
 HEADERS = {"User-Agent": "DomainHuntress-BookCorpus/1.0 (student project; contact: djnurre@gmail.com)"}
 
@@ -71,6 +71,13 @@ def fetch_gutendex_candidates(target_count: int) -> list[dict]:
         pages += 1
 
         for book in data["results"]:
+            if book.get("copyright") is True:
+                # Gutendex explicitly flags this as still under copyright,
+                # hosted with the rights-holder's permission rather than
+                # because the work is PD (this really happens -- e.g. a
+                # modern translation of an otherwise-PD original). Do not
+                # include it as a PD candidate.
+                continue
             authors = book.get("authors") or []
             if not authors:
                 continue  # skip anonymous/no-author entries -- can't assess PD without an author

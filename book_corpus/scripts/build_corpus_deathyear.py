@@ -164,6 +164,16 @@ def main():
             )
             if not pub_year_str:
                 note += "; publication year not available from Open Library"
+            elif int(pub_year_str) - author["death_year"] > 50:
+                # Almost certainly Open Library indexing a modern reprint/
+                # collected edition as "first publish year", not a genuine
+                # posthumous first publication decades after death.
+                note += (
+                    f"; publication year ({pub_year_str}) discarded as implausible "
+                    f"(>50 years after author's death, likely a modern reprint/collected "
+                    f"edition); needs manual research"
+                )
+                pub_year_str = ""
 
             book_id = build_book_id(title, author["name"], pub_year_str, used_ids)
             rows.append({

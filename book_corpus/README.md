@@ -4,8 +4,8 @@
 
 ## Goal
 
-Assemble the pool of hundreds of candidate books that everything else runs against. This is the
-first thing the other packages depend on — Packages 1, 2, and 4 all read your output.
+Assemble the pool of candidate books that everything else runs against. This is the first thing
+the other packages depend on — Packages 1, 2, and 4 all read the output.
 
 - Source candidates (e.g. Project Gutenberg's catalog is a good starting point)
 - Collect the metadata the other agents need: title, author, author death year, original
@@ -17,89 +17,109 @@ Full context: [`../docs/project-plan.md`](../docs/project-plan.md) §2, Package 
 
 ## Output
 
-- `data/book_corpus.csv` — exact schema, including the `book_id` primary-key format every other
-  package joins on, in [`../docs/data-contracts.md`](../docs/data-contracts.md)
+- `data/book_corpus.csv` — the merged, deduped corpus. Exact schema, including the `book_id`
+  primary-key format every other package joins on, in
+  [`../docs/data-contracts.md`](../docs/data-contracts.md). **This is the file downstream packages
+  should read.**
 
-## Notes
+## Status: merged corpus ready — 2,764 books
 
-- `book_id` is minted here and used everywhere downstream — get the slug format right
-  (`slugified-title__slugified-author__pub-year`) since Packages 1, 2, 4, and 5 all key off it.
-- This package has no upstream dependency — you can start immediately.
+This started as DJ's first-pass draft to unblock everyone else, then got split three ways across
+DJ and Rado to cover both actual legal routes to public domain (not just Gutenberg's curated,
+popularity-skewed catalog), then merged into the final corpus. **Treat all of this as a draft to
+improve, not a finished package** — feel free to rework, extend, or replace any of it.
 
-## Status: first-pass draft already in progress (DJ)
+### The three source batches
 
-DJ started this package to unblock everyone else while waiting on things — **treat this as a
-draft, not a finished package.** Feel free to take it over, rework it, or throw it out; nothing
-here is precious.
-
-What exists so far:
-
-- `scripts/build_corpus.py` — pulls the ~500 most-downloaded English titles from
-  [Gutendex](https://gutendex.com) (a JSON API over Project Gutenberg's catalog), then tries to
-  find each book's *original* publication year via the Open Library search API (Gutendex only has
-  the ebook's release date, not the work's real pub year).
-- `data/book_corpus.csv` — the output of one run of that script. 500 rows, 500 unique `book_id`s.
-
-**Known limitations to fix or improve:**
-
-- Only 250/500 (50%) rows have a `publication_year` — the automated Open Library lookup is a
-  "take the earliest plausible edition year" heuristic, and it's genuinely unreliable a lot of the
-  time (wrong editions, mismatched titles, no data for ancient/classical works). Rather than keep
-  a guessed year, rows where the lookup failed or looked implausible (e.g. published before the
-  author was born, or decades after they died — both happened before this was caught) are left
-  blank with a reason in `notes`. Those 250 gaps need real research, not another automated pass.
-- `author_death_year` comes from a single source (Gutendex/Wikidata-derived) with no
-  cross-corroboration — `author_death_year_disputed` is always `false` because there's only one
-  source to disagree with itself. A real second source should be added, especially since Package 1
-  needs solid death years too.
-- Only the primary author is captured; co-authored/multi-author works note the omission in
-  `notes` but don't record the other authors.
-- No manual QA pass yet on titles/authors themselves (e.g. translated-title duplicates, series
-  vs. individual volumes) — only exact title+author string matching was used to dedupe.
-- Corpus is capped at 500 and skewed toward already-popular titles (`sort=popular` on Gutendex) —
-  worth deciding if that's the right sampling strategy or if it should be broadened.
-
-To re-run: `python3 book_corpus/scripts/build_corpus.py` (requires `requests`; regenerates
-`data/book_corpus.csv` from scratch, takes a few minutes due to rate-limited API calls).
-
-## Expansion in progress: two more batches, split three ways
-
-The Gutenberg batch above tops out at 500 books and leans heavily on already-popular fiction. To
-get "many more" candidates, the corpus is being expanded along the two actual legal routes to
-public domain, split across three people so nobody blocks on the others:
-
-| Batch | Rule | Who | Output file |
+| Batch | Rule | Built by | Raw output file |
 |---|---|---|---|
-| Gutenberg (above) | mixed / Gutendex-curated | DJ (done, first pass) | `data/book_corpus.csv` |
-| Publication-year ("-96") | anything published 96+ years ago is PD regardless of death year | Rado | `data/book_corpus_pubyear.csv` |
-| Death-year ("life+70") | an author's works are PD once 71 years have passed since their death | DJ | `data/book_corpus_deathyear.csv` |
+| Gutenberg | Gutendex-curated candidates, `copyright:false`-only | DJ | `data/book_corpus_gutenberg.csv` (495 rows) |
+| Publication-year ("-96") | anything published 96+ years ago is PD regardless of death year | Rado | `data/book_corpus_pubyear.csv` (497 rows, deduped) — PR #2 |
+| Death-year ("life+70") | an author's works are PD once 71 years have passed since their death | DJ | `data/book_corpus_deathyear.csv` (1,826 rows) |
 
-**Death-year batch — done, first pass** (`scripts/build_corpus_deathyear.py`):
+**Gutenberg batch** (`scripts/build_corpus.py`): pulls the ~500 most-downloaded English titles
+from [Gutendex](https://gutendex.com), then cross-references Open Library for each book's
+*original* publication year. Filters out anything Gutendex itself flags `copyright:true` (hosted
+with a rights-holder's permission, not because it's actually PD — e.g. a modern translation of an
+otherwise-PD original; 5 titles were caught and removed this way, including *Metamorphosis* and
+*Twenty Thousand Leagues Under the Seas*, where the specific translations Gutenberg hosts are
+still under copyright even though the original works aren't).
 
-- Source: [Wikidata](https://query.wikidata.org) for notable authors (occupation = writer) who
-  died between 1850 and 1955 (i.e. death year + 71 ≤ 2026, so already PD via life+70 right now),
-  ranked by sitelink count as a notability proxy — then each author's actual books are looked up
-  via the Open Library search API.
-- Result: **1,826 books from 691 authors**, 0 duplicate `book_id`s, 0 rows violating the death-year
-  cutoff, 0 title/author overlap with the existing Gutenberg batch.
-- Because PD eligibility here is gated by *death year* (verified from Wikidata), not publication
-  year, a missing/uncertain `publication_year` is much lower-stakes than in the Gutenberg batch —
-  it's just descriptive metadata, not what's making the PD claim.
-- Known characteristic, not a bug: Wikidata's "writer" occupation is broad — political and
-  scientific figures (Einstein, Marx, Gandhi) show up alongside novelists (Tolstoy, Nietzsche).
-  Left in deliberately rather than filtered to fiction-only, since their own writings are
-  legitimate adaptation source material too (e.g. biopics); Package 4's scoring is where actual
-  adaptation fit gets judged, not corpus assembly.
-- Known limitation: Open Library's "title" field is the work's original-language title even when
-  filtered to `language=eng` editions (e.g. Nietzsche's works show German titles) — the language
-  filter only checks that *an* English edition exists, not that the returned title is the English
-  one. Not fixed in this pass.
-- To re-run: `python3 book_corpus/scripts/build_corpus_deathyear.py` (requires `requests`; takes
-  a few minutes).
+**Death-year batch** (`scripts/build_corpus_deathyear.py`): queries
+[Wikidata](https://query.wikidata.org) for notable authors (occupation = writer) who died
+1850–1955 (already PD via life+70 as of 2026), ranked by sitelink count, then looks up each
+author's actual books via Open Library. PD eligibility here is gated by *death year*, not
+publication year, so a missing pub year is lower-stakes than in the other batches — it's
+descriptive metadata, not what's making the PD claim. Known characteristic, not a bug: Wikidata's
+"writer" occupation is broad (Einstein, Marx, and Gandhi show up alongside Tolstoy and Nietzsche)
+— left in deliberately since their own writings are legitimate adaptation source material too
+(e.g. biopics); Package 4's scoring is where actual adaptation fit gets judged, not corpus
+assembly.
 
-**Publication-year batch — Rado, in progress.** See his branch / PR for status.
+**Publication-year batch** (Rado, `book_corpus/build_pubyear_corpus.py` on his branch, PR #2):
+queries Open Library directly for `first_publish_year:[1500 TO 1930]`, trusting the query-bound
+year rather than cross-referencing (the right call — avoids the bug the Gutenberg batch hit).
+Also adds institutional-author filtering (drops things like "Great Britain. Parliament") that the
+other two batches don't have.
 
-**Not merged yet.** All three files currently coexist unmerged. Once all three batches are in,
-they need to be combined into a single deduped `data/book_corpus.csv` (matching on title+author
-across sources) — whoever finishes last, flag it in the group chat so that merge happens once,
-deliberately, rather than each batch overwriting the others.
+### The merge (`scripts/merge_corpus.py`)
+
+Combines all three raw batches into `data/book_corpus.csv`, deduping on (title, author)
+case-insensitively. Where the same book appears in more than one source, the most complete row
+wins and any blank fields get filled in from whichever other row has a value; if sources
+genuinely disagree on a value, the row is flagged (`author_death_year_disputed=true` for death
+year conflicts, a note for others) rather than silently picking one.
+
+A final plausibility pass runs after merging: any `publication_year` more than 50 years after the
+author's death, or more than 100 years before it, gets discarded (blanked + noted) even if it
+came from a source batch that didn't itself catch the problem — this matters because merging can
+reintroduce a bad value one batch had already correctly discarded, if another source's row for
+the same book didn't have the same guard. Caught real examples this way, e.g. "As You Like It"
+showing publication year 1734 (Shakespeare died 1616) and "A Portrait of the Artist as a Young
+Man" showing 1818 (Joyce wasn't born until 1882) — both from Open Library returning a mismatched
+edition/work record.
+
+**Note on Rado's batch:** as of this merge, PR #2 has two open review comments Rado hasn't fixed
+yet (book_id name-order convention, a few in-file duplicate titles). The merge script corrects
+both **on a local copy only** — it does not touch his branch or PR. Once his real fix lands and
+merges, re-running `merge_corpus.py` should produce an equivalent result; if it doesn't, that's
+worth a second look.
+
+### Final corpus stats (2,764 rows)
+
+- 0 duplicate `book_id`s, 0 duplicate title+author pairs
+- 83% have `author_death_year`, 74% have `publication_year`
+- 0 rows with an implausible publication year relative to author death year (checked both
+  directions: >50 years after death, >100 years before it)
+
+### Known limitations still open
+
+- No birth-year cross-check for the death-year batch specifically (only the Gutenberg batch fetches
+  author birth year) — the post-merge plausibility pass catches the worst offenders via the
+  death-year bound instead, but a real birth-year check would be more precise.
+- Open Library's "title" field is the work's original-language title even when filtered to
+  `language=eng` editions (e.g. some German/Russian titles slip through) — the language filter
+  only checks that *an* English edition exists, not that the returned title is the English one.
+- Only the primary author is captured for multi-author works; co-authorship is noted in `notes`
+  but other authors aren't recorded as separate fields.
+- No corroborating second source for most `author_death_year` values (Wikidata for the death-year
+  batch, Gutendex for the Gutenberg batch) — `author_death_year_disputed` only trips when two of
+  our three *batches* disagree with each other, not from any independent cross-check within a
+  single source.
+- ~26% of rows still lack a `publication_year` — left blank rather than guessed, per the project's
+  own ground rules, but real research would fill in more of these.
+
+### Re-running
+
+Each script can be re-run independently; re-run the merge afterward to regenerate the final file:
+
+```
+python3 book_corpus/scripts/build_corpus.py            # -> data/book_corpus_gutenberg.csv
+python3 book_corpus/scripts/build_corpus_deathyear.py   # -> data/book_corpus_deathyear.csv
+# (Rado's script produces data/book_corpus_pubyear.csv on his branch)
+python3 book_corpus/scripts/merge_corpus.py             # -> data/book_corpus.csv (final)
+```
+
+All three fetch scripts require `requests` and take a few minutes due to rate-limited API calls.
+`merge_corpus.py` is pure local CSV processing and runs instantly, so it's cheap to re-run any
+time one of the three sources changes.
