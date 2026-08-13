@@ -36,19 +36,16 @@ They are `unittest.TestCase` classes, so `pytest` collects them without any adap
 for `python -m unittest discover` — `CLAUDE.md` rules it out project-wide, because it silently
 collects zero tests from pytest-style suites and hard-crashes on directories that aren't packages.
 
-### Heads-up for whoever merges this
+A bare `pytest` from the repo root reaches this directory too, once PR #9 merges.
 
-PR #9 pins `testpaths = ["pd_verification/tests", "pd_calendar/scripts"]` in `pyproject.toml`.
-That is an allowlist, so **a bare `pytest` from the repo root will not collect this directory**:
+That was briefly not the case. PR #9 originally pinned
+`testpaths = ["pd_verification/tests", "pd_calendar/scripts"]` — an allowlist, so `pytest` reported
+`104 passed` while silently skipping all 21 tests here. Jason dropped the line in `e9be69f` once it
+was raised, and a repo-root run now collects `125 passed`.
 
-```
-with PR #9's testpaths:   104 passed     <- qa/'s 21 tests silently skipped
-with testpaths removed:   125 passed     <- everything collected
-```
-
-Either add `"qa"` to `testpaths`, or drop the line entirely (verified: without it, pytest collects
-nothing from `.venv` or `site/`, since its default `norecursedirs` skips dot-directories). Until
-one of those happens, run `pytest qa/` explicitly. Raised on PR #9.
+Nothing to do; recorded only because it is worth not reintroducing. An allowlist of test
+directories has to be updated by hand the first time anyone adds tests anywhere new, and the
+failure mode when nobody remembers is a green run that tested less than it appeared to.
 
 ## What it checks
 
