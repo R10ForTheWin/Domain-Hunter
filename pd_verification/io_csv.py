@@ -79,6 +79,40 @@ def read_supplementary_inputs(path: str) -> Dict[str, Dict[str, str]]:
         return {row["book_id"]: row for row in csv.DictReader(f)}
 
 
+def find_corpus_row_by_gutenberg_id(corpus_rows: List[Dict[str, str]], gutenberg_id: str) -> Optional[Dict[str, str]]:
+    """Best-effort match: does the team's already-researched book_corpus.csv
+    already have a row for this Gutenberg ebook? Matches on `source_url`
+    containing the ebook ID (e.g. ".../ebooks/84"). Used so the public
+    validator bot can reuse real publication-year/death-year research
+    instead of falling back to Gutenberg's own catalog, which doesn't carry
+    a first-publication year at all.
+    """
+    needle = f"ebooks/{gutenberg_id}"
+    for row in corpus_rows:
+        if needle in (row.get("source_url") or ""):
+            return row
+    return None
+
+
+def find_corpus_row_by_title_author(
+    corpus_rows: List[Dict[str, str]], title: str, author: str
+) -> Optional[Dict[str, str]]:
+    """Best-effort fallback match by normalized title (loose match) --
+    used for non-Gutenberg lookups (ISBN/OCLC/title search results) where
+    there's no ebook ID to match on. Author isn't compared strictly since
+    name formatting ("Last, First" vs "First Last") varies across sources;
+    title match alone is treated as sufficient signal, same conservative
+    "corroborate, don't invent" spirit as everywhere else in this package.
+    """
+    target = title.strip().lower()
+    if not target:
+        return None
+    for row in corpus_rows:
+        if (row.get("title") or "").strip().lower() == target:
+            return row
+    return None
+
+
 def build_book_input(corpus_row: Dict[str, str], supplementary_row: Optional[Dict[str, str]]) -> BookInput:
     supplementary_row = supplementary_row or {}
     return BookInput(

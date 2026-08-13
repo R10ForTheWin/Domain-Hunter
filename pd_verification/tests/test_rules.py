@@ -12,6 +12,8 @@ these tests don't quietly start failing/passing differently a year from
 now -- the rule engine's behavior for a fixed point in time should never
 change.
 """
+import datetime as _dt
+
 from pd_verification.models import BookInput
 from pd_verification.rules import evaluate
 
@@ -42,6 +44,8 @@ def test_domestic_pre1978_with_known_dead_author_is_confirmed():
     assert verdict.pd_status == "confirmed"
     assert verdict.rule_applied == "life+70-and-pre1978-both-expired"
     assert verdict.missing_fields == []
+    # Later of the two candidate dates (pub+96=2021, death+71=2011) -- 2021 wins.
+    assert verdict.pd_effective_date == _dt.date(2021, 1, 1)
 
 
 def test_domestic_pre1978_with_unknown_death_year_still_confirmed():
@@ -52,6 +56,7 @@ def test_domestic_pre1978_with_unknown_death_year_still_confirmed():
     assert verdict.pd_status == "confirmed"
     assert verdict.rule_applied == "pre1978-95yr-expired-domestic"
     assert verdict.missing_fields == []
+    assert verdict.pd_effective_date == _dt.date(2021, 1, 1)
 
 
 def test_pre1978_permanently_expired_even_with_country_unknown_if_death_year_old_enough():
@@ -121,6 +126,10 @@ def test_renewal_era_not_renewed_is_confirmed():
     verdict = evaluate(book, as_of_year=AS_OF_YEAR)
     assert verdict.pd_status == "confirmed"
     assert verdict.rule_applied == "renewal-era-not-renewed"
+    # Lapsed at the end of the 28-year initial term, NOT the full 95-year
+    # ceiling -- it fell into the PD decades before it would have expired
+    # on its own even if nobody had ever objected.
+    assert verdict.pd_effective_date == _dt.date(1963, 1, 1)
 
 
 def test_renewal_era_renewed_is_not_confirmed():
@@ -128,6 +137,9 @@ def test_renewal_era_renewed_is_not_confirmed():
     verdict = evaluate(book, as_of_year=AS_OF_YEAR)
     assert verdict.pd_status == "not_confirmed"
     assert verdict.rule_applied == "renewal-era-renewed-still-in-term"
+    # "Private now but will be public on" -- the full 95-year term is known
+    # exactly, even though it hasn't run out yet.
+    assert verdict.pd_effective_date == _dt.date(2031, 1, 1)
 
 
 def test_renewal_era_unknown_renewal_status_is_uncertain():
@@ -176,6 +188,7 @@ def test_1964_to_1977_us_work_is_not_confirmed_no_lookup_needed():
     assert verdict.pd_status == "not_confirmed"
     assert verdict.rule_applied == "automatic-renewal-1964-1977"
     assert verdict.missing_fields == []  # nothing to look up, don't ask for anything
+    assert verdict.pd_effective_date == _dt.date(2066, 1, 1)
 
 
 # --- Post-1977 named-author works (life+70 controls) ------------------------
@@ -327,3 +340,34 @@ def test_pd_status_is_always_a_valid_enum_value():
     ]
     for book in scenarios:
         assert evaluate(book, as_of_year=AS_OF_YEAR).pd_status in valid
+
+
+# --- pd_effective_date invariants -------------------------------------------
+# The public validator bot's whole "Public as of X" / "Private now but will
+# be public on X" / "Unclear because ..." phrasing depends on this holding
+# for every branch: confirmed/not_confirmed always carry a date, uncertain
+# never does.
+
+def test_effective_date_present_iff_status_is_resolved():
+    scenarios = [
+        _book(publication_year=1900),  # confirmed, domestic-only rule
+        _book(publication_year=1925, country_of_first_publication="US"),  # confirmed
+        _book(publication_year=1935, country_of_first_publication="US", renewal_filed=False),  # confirmed
+        _book(publication_year=1935, country_of_first_publication="US", renewal_filed=True),  # not_confirmed
+        _book(publication_year=1970, country_of_first_publication="US"),  # not_confirmed
+        _book(publication_year=1985, author_death_year=1960, country_of_first_publication="US"),  # confirmed
+        _book(publication_year=1985, author_death_year=2010, country_of_first_publication="US"),  # not_confirmed
+        _book(publication_year=2020, is_anonymous_pseudonymous_or_corporate=True),  # not_confirmed
+        _book(publication_year=1900, is_anonymous_pseudonymous_or_corporate=True),  # confirmed
+        _book(publication_year=None),  # uncertain
+        _book(publication_year=1930, country_of_first_publication="Spain"),  # uncertain
+        _book(publication_year=1935, country_of_first_publication="US"),  # uncertain (renewal unknown)
+        _book(publication_year=2000, country_of_first_publication="US"),  # uncertain (no death year)
+    ]
+    for book in scenarios:
+        verdict = evaluate(book, as_of_year=AS_OF_YEAR)
+        if verdict.pd_status == "uncertain":
+            assert verdict.pd_effective_date is None, verdict.rule_applied
+        else:
+            assert verdict.pd_effective_date is not None, verdict.rule_applied
+            assert isinstance(verdict.pd_effective_date, _dt.date)

@@ -53,12 +53,25 @@ def _normalize_book(raw: Dict[str, Any]) -> Dict[str, Any]:
         for a in raw.get("authors", [])
     ]
     return {
+        # "source"/"source_id"/"publication_year" match the shape openlibrary.py
+        # produces, so lookup.py and public_status.py can treat either origin
+        # uniformly. "gutenberg_id" is kept alongside for existing callers.
+        "source": "gutenberg",
+        "source_id": str(raw.get("id")) if raw.get("id") is not None else None,
         "gutenberg_id": raw.get("id"),
         "title": raw.get("title"),
         "authors": authors,
         "languages": raw.get("languages", []),
         "subjects": raw.get("subjects", []),
         "download_count": raw.get("download_count"),
+        # Gutendex's catalog has no reliable first-publication-year field --
+        # it's an ebook-edition catalog, not a bibliographic one. Left None
+        # here on purpose; public_status.py fills this in from
+        # data/book_corpus.csv when this Gutenberg ID is already in the
+        # team's researched corpus, and the interactive CLI (agent.py) asks
+        # the user directly. Never guess it from, say, the ebook's release
+        # date -- that's not the same thing as the original publication year.
+        "publication_year": None,
     }
 
 

@@ -60,6 +60,48 @@ unless *both* the 95-years-from-publication ceiling *and* the life+70 ceiling ha
 expired** — so it doesn't matter which theory actually controls. Anything short of that comes back
 `uncertain` with a `uraa_restoration_risk` flag and the specific missing fact named.
 
+## Public validator bot (site integration)
+
+The "I'm a Producer" button on the live demo site (`/producers`) now runs a real check through this
+package — not just a corpus search. Pick an identifier type (**Book Name**, **ISBN**, **Gutenberg
+#**, or **OCLC #**), enter a value, and it answers in exactly one of these forms:
+
+- `Public as of 2021-01-01.` — confirmed, with the actual date it entered (or will enter) the
+  public domain
+- `Private now but will be public on 2071-01-01.` — not confirmed, but the future date is
+  determinable (this only happens when the applicable rule is fully resolved, e.g. a known death
+  year or an automatically-renewed work — never a guess)
+- `Unclear because <specific reason>.` — the existing `uncertain` reasoning, worded for a public
+  reader
+- `Couldn't locate a book matching that <identifier type>.` — the lookup itself failed
+- A "found multiple matches" message if a **Book Name** search is ambiguous — it asks for a more
+  specific identifier rather than guessing which book was meant
+
+The entry point is `pd_verification/public_status.py` (`check_book(identifier_type, query)`),
+called from `site/app.py`'s `/producers` route (that import is defensive — if `pd_verification`
+isn't bundled into a given deploy, the validator card just reports itself unavailable instead of
+crashing the site). **This is a presentation layer on top of the same rule engine** — it does not
+change `pd_status`'s three values or `data/pd_verification.csv`'s schema, which Package 5 still
+depends on exactly as documented below.
+
+Two new lookup sources feed it:
+
+- **Project Gutenberg** (`gutenberg.py`, existing) for Book Name / Gutenberg # — but Gutendex's
+  catalog has no first-publication-year field at all (it's an ebook-edition catalog). When a
+  Gutenberg match is already in the team's researched `data/book_corpus.csv`, that real data is
+  used; otherwise the verdict is honestly `Unclear because no publication year on file`.
+- **Open Library** (`openlibrary.py`, new — free, no API key) for ISBN / OCLC / a Book Name
+  fallback when Gutenberg has no match. ⚠️ **Known limitation:** Open Library's `publish_date` is
+  for the *specific edition* matched by that ISBN, which is very often a modern reprint of a much
+  older work — a Penguin Classics ISBN for an 1850s novel will report a 1990s-or-later publish
+  date. This is safe (it can only make the engine *more* conservative, never wrongly `confirmed`,
+  since a later date means more time has to pass before any rule fires) but it does mean genuinely
+  public-domain classics can come back `Unclear` via ISBN lookup when they'd resolve cleanly by
+  Gutenberg # or title. Prefer Gutenberg # for anything already in the candidate corpus.
+
+`pd_verification/lookup.py` is the shared dispatch/joint-author-resolution logic behind all of
+this — it also backs the interactive CLI's Gutenberg lookup.
+
 ## How to run it
 
 **Interactive** — check one book at a time, with Project Gutenberg lookup:
@@ -101,7 +143,11 @@ python -m pytest pd_verification/tests/ -v
 ## Output
 
 - `data/pd_verification.csv` — exact schema in [`../docs/data-contracts.md`](../docs/data-contracts.md).
-  `pd_status` is always exactly one of `confirmed` / `not_confirmed` / `uncertain`.
+  `pd_status` is always exactly one of `confirmed` / `not_confirmed` / `uncertain`. **Unchanged by
+  the public validator bot above** — that's a separate presentation layer, not a second contract.
+- Every `Verdict` (in code, not the CSV) also carries `pd_effective_date`: the Jan 1 date a
+  `confirmed` book actually entered the public domain, or a `not_confirmed` book will. Always
+  `None` for `uncertain` — an undetermined status has no date to give.
 
 ## What this doesn't model (always routes to `uncertain` instead of guessing)
 

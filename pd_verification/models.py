@@ -7,6 +7,7 @@ data/ CSVs) for that.
 """
 from __future__ import annotations
 
+import datetime as _dt
 from dataclasses import dataclass, field
 from typing import List, Optional
 
@@ -48,13 +49,24 @@ class BookInput:
 
 @dataclass
 class Verdict:
-    """The rule engine's determination for one book."""
+    """The rule engine's determination for one book.
+
+    `pd_effective_date` is the Jan 1 date the work entered (status
+    "confirmed") or will enter ("not_confirmed") the public domain, when the
+    controlling rule makes that date knowable. It is always None when
+    `pd_status == "uncertain"` — an undetermined status has no date to give.
+    For "not_confirmed", every current rule branch that reaches that status
+    does so via a fully-resolved rule (automatic renewal, a known future
+    life+70 date, etc.), so it always carries a date too; see rules.py if
+    that ever stops being true for a new branch.
+    """
 
     pd_status: str  # "confirmed" | "not_confirmed" | "uncertain" — never anything else
     reasoning: str
     rule_applied: str
     flags: List[str] = field(default_factory=list)
     missing_fields: List[str] = field(default_factory=list)
+    pd_effective_date: Optional[_dt.date] = None
 
     def flags_str(self) -> str:
         return ";".join(self.flags)

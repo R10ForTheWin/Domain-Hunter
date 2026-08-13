@@ -23,16 +23,18 @@ Statutory basis (current U.S. law, 17 U.S.C.):
                    the 95-year-from-publication prong is virtually always
                    the binding (shorter) one, so that's what this engine
                    checks.
-  - Sec. 304:     Works first published before 1978: an initial term plus a
-                   renewal term, capped at 95 years from publication overall
-                   (after the Sonny Bono Copyright Term Extension Act).
-                   Works published 1923-1963 needed an affirmative renewal
-                   filed in their 28th year or they fell into the public
-                   domain; works published 1964-1977 were automatically
-                   renewed by the Copyright Renewal Act of 1992. Before
-                   1978, publication without the required copyright notice
-                   (and no cure) put a work into the public domain
-                   immediately — there was no cure period.
+  - Sec. 304:     Works first published before 1978: an initial 28-year
+                   term plus a renewal term, capped at 95 years from
+                   publication overall (after the Sonny Bono Copyright Term
+                   Extension Act). Works published 1923-1963 needed an
+                   affirmative renewal filed in their 28th year or the
+                   initial term simply ran out and the work fell into the
+                   public domain at that point (publication_year + 28);
+                   works published 1964-1977 were automatically renewed by
+                   the Copyright Renewal Act of 1992, so they always get the
+                   full 95 years. Before 1978, publication without the
+                   required copyright notice (and no cure) put a work into
+                   the public domain immediately — there was no cure period.
   - Sec. 104A:    URAA restoration. Certain foreign works that fell into
                    the U.S. public domain solely for failing to comply with
                    U.S. formalities (notice, renewal, etc.) — NOT because
@@ -53,6 +55,17 @@ below. If you can't confirm the book is a "United States work" (domestic
 first publication, or first published outside the U.S. but also published
 in the U.S. within 30 days), assume restoration risk is possible.
 
+Every Verdict also carries `pd_effective_date` when the controlling rule
+makes one knowable: for "confirmed", the Jan 1 date the work actually
+entered the public domain; for "not_confirmed", the Jan 1 date it WILL
+enter the public domain (every current "not_confirmed" branch is fully
+resolved enough to know this). "uncertain" never carries a date. Where two
+independent theories could each explain a "confirmed" result (the
+foreign/URAA-safe double-expiry case) and we don't know which one is
+legally the real one, the LATER of the two candidate dates is reported —
+that date is guaranteed correct under either theory, which the earlier one
+isn't.
+
 What this engine deliberately does NOT try to fully resolve, and always
 routes to "uncertain" instead of guessing:
   - Unpublished works (Sec. 303 has its own, narrower rules).
@@ -66,7 +79,8 @@ routes to "uncertain" instead of guessing:
 """
 from __future__ import annotations
 
-from typing import List, Set, Tuple
+import datetime as _dt
+from typing import List, Optional, Set, Tuple
 
 from .models import BookInput, Verdict
 
@@ -74,6 +88,7 @@ from .models import BookInput, Verdict
 
 PRE1978_TERM_YEARS = 96  # publication_year + 96 => Jan 1 the work enters the PD (17 U.S.C. 304)
 LIFE70_OFFSET = 71  # author_death_year + 71 => Jan 1 the work enters the PD (17 U.S.C. 302(a))
+INITIAL_TERM_YEARS = 28  # the pre-renewal initial term (17 U.S.C. 304); lapses at publication_year + 28
 
 RENEWAL_ERA: Tuple[int, int] = (1923, 1963)  # affirmative renewal required
 AUTO_RENEWAL_ERA: Tuple[int, int] = (1964, 1977)  # renewal automatic (Copyright Renewal Act of 1992)
@@ -96,13 +111,37 @@ def _normalize_country(value: str) -> str:
     return value.strip().upper()
 
 
-def _v(status: str, reasoning: str, rule_applied: str, flags: List[str], missing: List[str]) -> Verdict:
-    """Build a Verdict, making sure `missing_fields` only ever shows up on a
-    genuinely "uncertain" result. A field that happened to be unset but
-    didn't actually block a confirmed/not_confirmed determination isn't
-    "missing" in any sense that matters to whoever reads this output.
+def _jan1(year: int) -> _dt.date:
+    return _dt.date(year, 1, 1)
+
+
+def _v(
+    status: str,
+    reasoning: str,
+    rule_applied: str,
+    flags: List[str],
+    missing: List[str],
+    effective_date: Optional[_dt.date] = None,
+) -> Verdict:
+    """Build a Verdict, making sure `missing_fields` and `pd_effective_date`
+    only ever show up in ways that actually make sense together:
+
+    - `missing_fields` only on a genuinely "uncertain" result. A field that
+      happened to be unset but didn't actually block a confirmed/
+      not_confirmed determination isn't "missing" in any sense that matters
+      to whoever reads this output.
+    - `pd_effective_date` never on "uncertain" — an undetermined status has
+      no date to give, even if a date happened to get computed along the
+      way in some earlier branch.
     """
-    return Verdict(status, reasoning, rule_applied, list(flags), list(missing) if status == "uncertain" else [])
+    return Verdict(
+        status,
+        reasoning,
+        rule_applied,
+        list(flags),
+        list(missing) if status == "uncertain" else [],
+        effective_date if status != "uncertain" else None,
+    )
 
 
 def evaluate(book: BookInput, *, as_of_year: int) -> Verdict:
@@ -167,6 +206,7 @@ def evaluate(book: BookInput, *, as_of_year: int) -> Verdict:
                 "anonymous-95yr-expired",
                 flags,
                 missing,
+                _jan1(expiry_year),
             )
         return _v(
             "not_confirmed",
@@ -177,6 +217,7 @@ def evaluate(book: BookInput, *, as_of_year: int) -> Verdict:
             "anonymous-95yr-not-yet-expired",
             flags,
             missing,
+            _jan1(expiry_year),
         )
 
     # ---- Branch B: named individual author(s), published 1989 or later ----
@@ -195,6 +236,7 @@ def evaluate(book: BookInput, *, as_of_year: int) -> Verdict:
                     "life+70-expired",
                     flags,
                     missing,
+                    _jan1(expiry_year),
                 )
             return _v(
                 "not_confirmed",
@@ -204,6 +246,7 @@ def evaluate(book: BookInput, *, as_of_year: int) -> Verdict:
                 "life+70-not-yet-expired",
                 flags,
                 missing,
+                _jan1(expiry_year),
             )
         if book.author_death_year is None:
             missing.append("author_death_year")
@@ -230,10 +273,13 @@ def evaluate(book: BookInput, *, as_of_year: int) -> Verdict:
                 "confirmed",
                 f"'{book.title}' was published {pub} in the U.S. without a copyright "
                 f"notice. Before March 1, 1989 there was no cure period for that, so "
-                f"the work entered the public domain immediately on publication.",
+                f"the work entered the public domain immediately on publication "
+                f"(the exact day isn't tracked here, so {pub} is used as an "
+                f"approximate effective date).",
                 "no-notice-instant-pd-1978-1988",
                 flags,
                 missing,
+                _jan1(pub),
             )
         if is_confirmed_domestic and book.had_copyright_notice_at_publication is None:
             missing.append("had_copyright_notice_at_publication")
@@ -258,6 +304,7 @@ def evaluate(book: BookInput, *, as_of_year: int) -> Verdict:
                     "life+70-expired-1978-1988",
                     flags,
                     missing,
+                    _jan1(expiry_year),
                 )
             return _v(
                 "not_confirmed",
@@ -267,6 +314,7 @@ def evaluate(book: BookInput, *, as_of_year: int) -> Verdict:
                 "life+70-not-yet-expired-1978-1988",
                 flags,
                 missing,
+                _jan1(expiry_year),
             )
         if book.author_death_year is None:
             missing.append("author_death_year")
@@ -287,22 +335,30 @@ def evaluate(book: BookInput, *, as_of_year: int) -> Verdict:
     # pre-1978 year). Foreign/unknown-country works carry independent URAA
     # restoration risk on the life+70 clock, on top of (not instead of) the
     # domestic analysis.
-    pre1978_expired = as_of_year >= (pub + PRE1978_TERM_YEARS)
+    pre1978_expiry_year = pub + PRE1978_TERM_YEARS
+    pre1978_expired = as_of_year >= pre1978_expiry_year
 
     if pre1978_expired and has_clean_death_year and as_of_year >= (
         book.author_death_year + LIFE70_OFFSET
     ):
+        life70_expiry_year = book.author_death_year + LIFE70_OFFSET
+        # We don't know which theory actually governs (domestic 95-year vs.
+        # a hypothetically-restored life+70), so report the LATER of the two
+        # dates -- that one is correct no matter which theory turns out to
+        # be the real one.
+        safe_expiry_year = max(pre1978_expiry_year, life70_expiry_year)
         return _v(
             "confirmed",
             f"'{book.title}' was published {pub}; the author died {book.author_death_year}. "
             f"Both the 95-years-from-publication ceiling (17 U.S.C. 304, expired "
-            f"{pub + PRE1978_TERM_YEARS}) and the life+70 ceiling (17 U.S.C. 302(a), "
-            f"expired {book.author_death_year + LIFE70_OFFSET}) have passed, so this "
+            f"{pre1978_expiry_year}) and the life+70 ceiling (17 U.S.C. 302(a), "
+            f"expired {life70_expiry_year}) have passed, so this "
             f"is public domain regardless of country of first publication or URAA "
             f"restoration status.",
             "life+70-and-pre1978-both-expired",
             flags,
             missing,
+            _jan1(safe_expiry_year),
         )
 
     if pre1978_expired and is_confirmed_domestic:
@@ -313,10 +369,11 @@ def evaluate(book: BookInput, *, as_of_year: int) -> Verdict:
             + (" / simultaneous U.S. publication" if book.simultaneous_us_publication else "")
             + f"), so URAA restoration (17 U.S.C. 104A) does not apply to it. The "
             f"95-year term from publication (17 U.S.C. 304) expired Jan 1, "
-            f"{pub + PRE1978_TERM_YEARS}.",
+            f"{pre1978_expiry_year}.",
             "pre1978-95yr-expired-domestic",
             flags,
             missing,
+            _jan1(pre1978_expiry_year),
         )
 
     if pre1978_expired and is_foreign_or_unknown:
@@ -354,10 +411,13 @@ def evaluate(book: BookInput, *, as_of_year: int) -> Verdict:
                 "confirmed",
                 f"'{book.title}' was published {pub} in the U.S. without a copyright "
                 f"notice, which (for a pre-1978 publication) put the work into the "
-                f"public domain immediately — there was no cure period before 1978.",
+                f"public domain immediately — there was no cure period before 1978 "
+                f"(the exact day isn't tracked here, so {pub} is used as an "
+                f"approximate effective date).",
                 "no-notice-instant-pd",
                 flags,
                 missing,
+                _jan1(pub),
             )
         if book.had_copyright_notice_at_publication is None:
             missing.append("had_copyright_notice_at_publication")
@@ -365,26 +425,30 @@ def evaluate(book: BookInput, *, as_of_year: int) -> Verdict:
 
         if RENEWAL_ERA[0] <= pub <= RENEWAL_ERA[1]:
             if book.renewal_filed is False:
+                lapse_year = pub + INITIAL_TERM_YEARS
                 return _v(
                     "confirmed",
                     f"'{book.title}' was published {pub} in the U.S. (the 1923-1963 "
                     f"renewal-era window) and, per records on file, was never renewed "
-                    f"in its 28th year, so copyright lapsed and it fell into the "
-                    f"public domain.",
+                    f"in its 28th year, so the initial term simply ran out and it fell "
+                    f"into the public domain Jan 1, {lapse_year} (28 years after "
+                    f"publication).",
                     "renewal-era-not-renewed",
                     flags,
                     missing,
+                    _jan1(lapse_year),
                 )
             if book.renewal_filed is True:
                 return _v(
                     "not_confirmed",
                     f"'{book.title}' was published {pub} in the U.S. and was renewed "
                     f"in its 28th year, giving it the full 95-year term, which does "
-                    f"not expire until Jan 1, {pub + PRE1978_TERM_YEARS}. Still under "
+                    f"not expire until Jan 1, {pre1978_expiry_year}. Still under "
                     f"copyright.",
                     "renewal-era-renewed-still-in-term",
                     flags,
                     missing,
+                    _jan1(pre1978_expiry_year),
                 )
             missing.append(
                 "renewal_filed (check the Stanford Copyright Renewal Database or the "
@@ -409,10 +473,11 @@ def evaluate(book: BookInput, *, as_of_year: int) -> Verdict:
                 f"1964-1977 were automatically renewed by the Copyright Renewal Act of "
                 f"1992, so they get the full 95-year term regardless of whether anyone "
                 f"filed a renewal. Term does not expire until Jan 1, "
-                f"{pub + PRE1978_TERM_YEARS}.",
+                f"{pre1978_expiry_year}.",
                 "automatic-renewal-1964-1977",
                 flags,
                 missing,
+                _jan1(pre1978_expiry_year),
             )
 
         # pub < 1923 but somehow not yet past the 95-year mark — only possible
