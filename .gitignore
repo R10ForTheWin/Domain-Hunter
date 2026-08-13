@@ -10,3 +10,7 @@ venv/
 # editors
 .vscode/
 .idea/
+
+# Package 4 — per-run generated artifacts (regenerated each demo run / test run)
+studio_scoring/mandate_live.yaml
+data/studio_scores.csv

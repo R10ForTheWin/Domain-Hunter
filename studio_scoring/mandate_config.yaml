@@ -1,0 +1,25 @@
+# Package 4 — editable scoring weights for the A24 mandate.
+# Rationale for each weight is in mandate_brief.md's "Weight rationale" section.
+# Weights must sum to 1.0.
+
+studio: "A24"
+
+weights:
+  genre_fit: 0.25
+  franchise_potential: 0.25
+  budget_scale_fit: 0.15
+  visual_story_adaptability: 0.15
+  audience_fit: 0.15
+  name_recognition: 0.05
+
+# name_recognition is the one category NOT filled by the live mad-lib (see mandate_brief.md
+# "Design decision"). The scoring agent derives it from the book's own metadata instead.
+madlib_categories:
+  - genre_fit
+  - visual_story_adaptability
+  - audience_fit
+  - franchise_potential
+  - budget_scale_fit
+
+book_metadata_categories:
+  - name_recognition
