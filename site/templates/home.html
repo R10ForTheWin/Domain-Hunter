@@ -69,6 +69,7 @@
 
 <div class="hero">
   <video autoplay muted loop playsinline poster="{{ url_for('static', filename='poster-archer.png') }}">
+    <source src="{{ url_for('static', filename='logo-animation-desktop.mp4') }}" type="video/mp4" media="(min-width: 701px)">
     <source src="{{ url_for('static', filename='logo-animation-textless.mp4') }}" type="video/mp4">
   </video>
 
