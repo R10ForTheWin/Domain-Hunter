@@ -54,8 +54,11 @@
     text-transform: uppercase;
     font-size: 13px;
     cursor: pointer;
+    box-shadow: 3px 3px 0 rgba(0,0,0,0.25);
+    transition: transform 0.1s ease, box-shadow 0.1s ease;
   }
   button:hover { background: var(--red); color: var(--cream); }
+  button:active { transform: translate(2px, 2px); box-shadow: 1px 1px 0 rgba(0,0,0,0.25); }
   table { width: 100%; border-collapse: collapse; font-size: 13.5px; margin-top: 14px; }
   th, td { text-align: left; padding: 8px 10px; border-bottom: 1px solid #e2dcc8; }
   th { color: var(--teal-dark); font-size: 11px; text-transform: uppercase; letter-spacing: 0.03em; }
@@ -70,7 +73,56 @@
   }
   .empty { color: #777; font-style: italic; }
 
-  /* --- Validator card ------------------------------------------------- */
+  /* --- Validator card ---------------------------------------------------
+     Applies assets/style/STYLE_GUIDE.md's pop-art direction (halftone dots,
+     starburst accents, red-orange "impact" title lettering, bold black
+     outlines) the same way the rest of the site expresses it: in CSS, not
+     as reused button-PNG pixels -- the three existing button graphics
+     (assets/Buttons/) are baked-in labels + art on a non-isolatable
+     background, so they can't be cleanly cropped for a new, differently-
+     labeled button without redrawing. This card gets the same motifs by a
+     different, redraw-free route. */
+  .card.pop {
+    background-color: var(--cream);
+    background-image: radial-gradient(rgba(232,185,63,0.4) 1.5px, transparent 1.5px);
+    background-size: 12px 12px;
+  }
+  .comic-heading {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin: 0 0 14px 0;
+    font-size: 22px;
+    font-weight: 900;
+    font-style: italic;
+    text-transform: uppercase;
+    letter-spacing: 0.01em;
+    color: var(--red);
+    text-shadow:
+      -2px -2px 0 var(--ink), 2px -2px 0 var(--ink),
+      -2px  2px 0 var(--ink), 2px  2px 0 var(--ink),
+      3px 3px 0 rgba(0,0,0,0.25);
+  }
+  /* Starburst accent -- two overlapping black-outlined gold squares, one
+     rotated 45deg, same "energy burst behind the focal element" motif as
+     the real button art's sparkle. Pure CSS, no image asset needed. */
+  .burst {
+    position: relative;
+    flex: 0 0 auto;
+    width: 30px;
+    height: 30px;
+  }
+  .burst::before, .burst::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: var(--gold);
+    border: 3px solid var(--ink);
+    border-radius: 3px;
+  }
+  .burst::after { transform: rotate(45deg); }
+  .check-row { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+
   .type-picker { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 10px; }
   .type-picker input[type=radio] { position: absolute; opacity: 0; width: 0; height: 0; }
   .type-picker label {
@@ -82,8 +134,14 @@
     text-transform: uppercase;
     font-size: 12px;
     cursor: pointer;
+    box-shadow: 3px 3px 0 rgba(0,0,0,0.25);
+    transition: transform 0.1s ease;
   }
-  .type-picker input[type=radio]:checked + label { background: var(--gold); }
+  .type-picker input[type=radio]:checked + label {
+    background: var(--gold);
+    transform: translate(1px, 1px);
+    box-shadow: 2px 2px 0 rgba(0,0,0,0.25);
+  }
   .type-picker input[type=radio]:focus-visible + label { outline: 2px solid var(--teal-dark); outline-offset: 2px; }
 
   .verdict {
@@ -115,8 +173,8 @@
 </header>
 
 <main>
-  <div class="card">
-    <h2 style="margin-top:0; font-size:16px; color: var(--teal-dark);">Public Domain Validator</h2>
+  <div class="card pop">
+    <h2 class="comic-heading"><span class="burst" aria-hidden="true"></span> Public Domain Validator</h2>
     <form method="get">
       <div class="type-picker">
         {% for type_value, type_label in [
@@ -127,7 +185,7 @@
         <label for="type-{{ type_value }}">{{ type_label }}</label>
         {% endfor %}
       </div>
-      <div style="display:flex; gap:10px; flex-wrap:wrap;">
+      <div class="check-row">
         <input type="text" name="value" value="{{ identifier_value }}"
                placeholder="Enter the value for the identifier picked above" autofocus>
         <button type="submit">Check</button>
