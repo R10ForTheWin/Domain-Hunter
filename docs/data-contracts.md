@@ -67,12 +67,12 @@ dates — a 1931 title and a 1935 title by the same person are five years apart.
 row cannot represent that.
 
 **Which rule governs.** U.S. works published before 1978 run 95 years from publication no matter
-when the author died; only works published 1978 or later use life+70. Measured against the 2,764
-rows of `book_corpus.csv`: `pub+95` governs 2,015 books, `life+70` governs 44. Earlier versions of
-this file and of `pd_calendar/README.md` described the calendar as a life+70 calculation. That is
-the wrong rule for a pre-1978 corpus, and it errs toward declaring free a work that is still in
-copyright — an author who died in 1951 with a book published in 1950 comes out as public domain in
-2022 under life+70, when the real date is 2046.
+when the author died; only works published 1978 or later use life+70. Measured against the 2,630
+rows of `book_corpus.csv` as of `ed022ca`: `pub+95` governs 1,597 books, `life+70` governs 9.
+Earlier versions of this file and of `pd_calendar/README.md` described the calendar as a life+70
+calculation. That is the wrong rule for a pre-1978 corpus, and it errs toward declaring free a work
+that is still in copyright — an author who died in 1951 with a book published in 1950 comes out as
+public domain in 2022 under life+70, when the real date is 2046.
 
 | column | type | notes |
 |---|---|---|

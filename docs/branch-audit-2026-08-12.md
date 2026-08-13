@@ -3,11 +3,25 @@
 Cross-branch review looking for defects, contract violations, and data-quality problems.
 Written for DJ (Package 6, Infra/QA) and intended to be actionable by an AI coding agent.
 
-**Nothing in this document has been fixed.** Every issue below lives on a branch owned by
-someone else, and `CLAUDE.md` is explicit: *"Do not delete or substantially rewrite another
-team member's work without approval."* Each issue names its owner. Get their sign-off first.
+**Nothing here was fixed by Package 1.** Every issue lives on a branch owned by someone else, and
+`CLAUDE.md` is explicit: *"Do not delete or substantially rewrite another team member's work
+without approval."* Each issue names its owner.
 
-Branch state when this was written:
+**Update — several have since been fixed by their owners.** Status is marked per issue:
+
+| | status |
+|---|---|
+| ISSUE-1 site shows zero books | resolved by merging PR #3 |
+| ISSUE-2 author name formats | **FIXED** (`6bb06ef`) |
+| ISSUE-3 reprint dates | **FIXED** (`6bb06ef`) |
+| ISSUE-4 `disputed` never populated | open |
+| ISSUE-5 merge not reproducible | open, now time-critical |
+| ISSUE-6 `__unk` book_ids | open |
+| ISSUE-7 Package 4 mandate + never run | open |
+| ISSUE-8 `studio_scores.csv` gitignored | open, blocker on PR #6 |
+| ISSUE-9 Package 2 tests run zero tests | open |
+
+Original branch state (2026-08-12), kept so the figures below can be reproduced:
 
 | branch | SHA |
 |---|---|
@@ -18,11 +32,13 @@ Branch state when this was written:
 | `jason-pd-verification` | `edc8b67` |
 | `chantell-mandate-scoring` | `e05d993` (no commits) |
 
-All figures below come from `data/book_corpus.csv` at `origin/dj-book-corpus` (2,764 rows).
-Reproduce any of them with:
+Figures in ISSUE-1 through ISSUE-7 come from `data/book_corpus.csv` at `origin/dj-book-corpus`
+(2,764 rows). The corpus is now 2,630 rows on `dj-development` at `ed022ca` after the ISSUE-2 and
+ISSUE-3 fixes; where a number has moved, the issue says so.
 
 ```bash
-git show origin/dj-book-corpus:data/book_corpus.csv > /tmp/corpus.csv
+git show origin/dj-book-corpus:data/book_corpus.csv > /tmp/corpus.csv   # original figures
+git show origin/dj-development:data/book_corpus.csv > /tmp/corpus.csv   # current
 ```
 
 ---
@@ -58,6 +74,9 @@ the page it renders is the kind of thing a demo audience notices.
 
 ## ISSUE-2 — The same author exists twice under two name formats
 
+**Status: FIXED** in `6bb06ef` on `dj-development`. `Last, First` now covers 2,564 of 2,630 rows
+(was 908 of 2,764). Kept here for the record.
+
 **Severity:** high · **Owner:** Package 3 (Radoslav / DJ) · **Branch:** `dj-book-corpus`
 
 `docs/data-contracts.md` specifies `author` as *"full name, 'Last, First' preferred."* The
@@ -77,6 +96,10 @@ the contract if `First Last` is preferred, rather than leaving it ambiguous.
 ---
 
 ## ISSUE-3 — 324 rows record a reprint date as the original publication year
+
+**Status: FIXED** in `6bb06ef`. Rows with `publication_year` later than `author_death_year`: 324 -> 0.
+The honest cost is more blanks — blank publication years went 705 -> 1,024, which is the right
+trade: a known gap beats a wrong value the calendar would key a date off. Kept here for the record.
 
 **Severity:** high · **Owner:** Package 3 · **Branch:** `dj-book-corpus`
 
@@ -234,6 +257,51 @@ just conflicts with an architecture that uses committed CSVs as the transport be
 **Fix:** drop the `data/studio_scores.csv` line. `studio_scoring/mandate_live.yaml` is genuinely
 a per-run artifact and should stay ignored. One line, and it is worth doing before PR #6 merges —
 `.gitignore` is repo-root, so once merged it silences that path for every teammate.
+
+---
+
+## ISSUE-9 — Package 2's test suite reports OK while running zero tests
+
+**Severity:** high · **Owner:** Jason + DJ · **Branch:** now on `dj-development` (`ed022ca`)
+
+`pd_verification/tests/` contains 65 test functions across four files. They are written
+pytest-style — bare `def test_*()` functions, not `unittest.TestCase` subclasses — and **pytest is
+not installed, nor declared anywhere in the repo.** There is no root `requirements.txt`; the only
+dependency manifests are `site/requirements.txt` (flask, gunicorn) and
+`studio_scoring/requirements.txt`, neither of which mentions pytest.
+
+`unittest` only collects `TestCase` subclasses, so it finds nothing and reports success:
+
+```
+$ python3 -m unittest discover -s pd_verification/tests -t .
+Ran 0 tests in 0.000s
+
+OK
+```
+
+That is a false green. Anyone verifying Package 2 with the runner that is actually available on a
+clean machine gets a passing result having executed nothing — on the package that is the project's
+centerpiece and the gate every book must pass.
+
+**The tests themselves are fine.** Executing them through a shim that calls each function
+directly: 43 of the 65 run without fixtures, and **all 43 pass**. The remaining 22 take pytest
+fixture parameters and need pytest proper. So this is purely a runner/dependency gap, not a code
+defect — which is what makes it easy to miss.
+
+**Fix, pick one:**
+
+1. Add a root `requirements-dev.txt` with `pytest`, and document `pytest` as the project's test
+   command in `README.md`. Cleanest, and Package 4 already introduces a third-party dependency so
+   the stdlib-only convention is no longer strictly held anyway.
+2. Convert the four files to `unittest.TestCase`, keeping the project runnable with nothing
+   installed. Matches `docs/data-contracts.md`'s stdlib-only rationale and how
+   `pd_calendar/scripts/` is written.
+
+Either is fine; the current state — where the command that appears to pass runs nothing — is not.
+
+**Related:** this is exactly what check 6 in `docs/evaluation-spec.md` is for. A test suite that
+silently collects zero tests is indistinguishable from one that passes, and only an explicit
+assertion about the collected count tells them apart.
 
 ---
 
