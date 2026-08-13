@@ -30,7 +30,34 @@ no other file should reference it.
 | `source` | string | e.g. `gutenberg` |
 | `source_url` | string | link to the catalog entry |
 | `language` | string | ISO code, e.g. `en` |
+| `summary` | string or blank | **proposed, see below** — what the book is actually about |
+| `subjects` | string or blank | **proposed, see below** — semicolon-separated, e.g. `gothic;orphans;revenge` |
 | `notes` | string | free text, optional |
+
+### Proposed: `summary` and `subjects` — needs Package 3's sign-off
+
+*Proposed by Package 1; not yet implemented. Both columns are optional and blank-allowed, so
+adding them breaks nothing that exists today — an existing reader that ignores them keeps working,
+and Package 3 can backfill them incrementally.*
+
+Package 4 scores every book on genre fit, visual/story adaptability, franchise potential, and
+audience fit. The columns above give it a **title, an author, and a year**. Nothing in this file
+says what any book is about, so those four judgments are currently being made from a title string.
+
+That is not a scoring problem, it is a data problem, and it caps how good the shortlist can ever
+be. It also makes the scores unevaluable — you cannot tell a good score from a bad one when the
+input carried no content to reason over (see `docs/evaluation-spec.md`).
+
+Both sources already in use can supply this: Open Library exposes subjects and often a
+description; Project Gutenberg carries subject headings and the full text. Suggested shape —
+
+- `summary` — a few sentences of plot/premise. Provenance goes in `notes`. If it is generated
+  rather than sourced, say so there, so Package 4 knows what it is reasoning over.
+- `subjects` — semicolon-separated controlled terms, lowercase, same delimiter convention as
+  `flags` elsewhere in this document.
+
+Leave both blank rather than inventing content. A blank summary is a known gap; a plausible
+invented one is a silent error that propagates into the shortlist's stated reasoning.
 
 ## `data/pd_calendar.csv` — Package 1 output (reads `book_corpus.csv`)
 
