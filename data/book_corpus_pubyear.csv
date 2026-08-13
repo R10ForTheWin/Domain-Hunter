@@ -1,501 +1,501 @@
 book_id,title,author,author_death_year,author_death_year_disputed,publication_year,source,source_url,language,notes
-pride-and-prejudice__jane-austen__1813,Pride and Prejudice,"Austen, Jane",,false,1813,openlibrary,https://openlibrary.org/works/OL66554W,en,pd_basis=pub_year<=1930
-alices-adventures-in-wonderland__lewis-carroll__1865,Alice's Adventures in Wonderland,"Carroll, Lewis",,false,1865,openlibrary,https://openlibrary.org/works/OL138052W,en,pd_basis=pub_year<=1930
-a-christmas-carol__charles-dickens__1843,A Christmas Carol,"Dickens, Charles",,false,1843,openlibrary,https://openlibrary.org/works/OL32466W,en,pd_basis=pub_year<=1930
-the-picture-of-dorian-gray__oscar-wilde__1890,The Picture of Dorian Gray,"Wilde, Oscar",,false,1890,openlibrary,https://openlibrary.org/works/OL8193416W,en,pd_basis=pub_year<=1930
-wuthering-heights__emily-bronte__1846,Wuthering Heights,"Brontë, Emily",,false,1846,openlibrary,https://openlibrary.org/works/OL21177W,en,pd_basis=pub_year<=1930
-adventures-of-huckleberry-finn__mark-twain__1876,Adventures of Huckleberry Finn,"Twain, Mark",,false,1876,openlibrary,https://openlibrary.org/works/OL53908W,en,pd_basis=pub_year<=1930
-the-scarlet-letter__nathaniel-hawthorne__1800,The Scarlet Letter,"Hawthorne, Nathaniel",,false,1800,openlibrary,https://openlibrary.org/works/OL455305W,en,pd_basis=pub_year<=1930
-robinson-crusoe__daniel-defoe__1686,Robinson Crusoe,"Defoe, Daniel",,false,1686,openlibrary,https://openlibrary.org/works/OL45089W,en,pd_basis=pub_year<=1930
-hamlet__william-shakespeare__1603,Hamlet,"Shakespeare, William",,false,1603,openlibrary,https://openlibrary.org/works/OL9170454W,en,pd_basis=pub_year<=1930
-emma__jane-austen__1815,Emma,"Austen, Jane",,false,1815,openlibrary,https://openlibrary.org/works/OL66513W,en,pd_basis=pub_year<=1930
-oliver-twist__charles-dickens__1822,Oliver Twist,"Dickens, Charles",,false,1822,openlibrary,https://openlibrary.org/works/OL8193478W,en,pd_basis=pub_year<=1930
-frankenstein-or-the-modern-prometheus__mary-shelley__1818,"Frankenstein; or, The Modern Prometheus","Shelley, Mary",,false,1818,openlibrary,https://openlibrary.org/works/OL450063W,en,pd_basis=pub_year<=1930
-sense-and-sensibility__jane-austen__1811,Sense and Sensibility,"Austen, Jane",,false,1811,openlibrary,https://openlibrary.org/works/OL66562W,en,pd_basis=pub_year<=1930
-a-tale-of-two-cities__charles-dickens__1800,A Tale of Two Cities,"Dickens, Charles",,false,1800,openlibrary,https://openlibrary.org/works/OL8193465W,en,pd_basis=pub_year<=1930
-the-wonderful-wizard-of-oz__l-frank-baum__1899,The Wonderful Wizard of Oz,"Baum, L. Frank",,false,1899,openlibrary,https://openlibrary.org/works/OL18417W,en,pd_basis=pub_year<=1930
-treasure-island__robert-louis-stevenson__1880,Treasure Island,"Stevenson, Robert Louis",,false,1880,openlibrary,https://openlibrary.org/works/OL24034W,en,pd_basis=pub_year<=1930
-dracula__bram-stoker__1897,Dracula,"Stoker, Bram",,false,1897,openlibrary,https://openlibrary.org/works/OL85892W,en,pd_basis=pub_year<=1930
-little-women__louisa-may-alcott__1848,Little Women,"Alcott, Louisa May",,false,1848,openlibrary,https://openlibrary.org/works/OL29983W,en,pd_basis=pub_year<=1930
-macbeth__william-shakespeare__1508,Macbeth,"Shakespeare, William",,false,1508,openlibrary,https://openlibrary.org/works/OL258902W,en,pd_basis=pub_year<=1930
-gullivers-travels__jonathan-swift__1726,Gulliver's Travels,"Swift, Jonathan",,false,1726,openlibrary,https://openlibrary.org/works/OL20600W,en,pd_basis=pub_year<=1930
-the-call-of-the-wild__jack-london__1903,The Call of the Wild,"London, Jack",,false,1903,openlibrary,https://openlibrary.org/works/OL14942956W,en,pd_basis=pub_year<=1930
-king-lear__william-shakespeare__1608,King Lear,"Shakespeare, William",,false,1608,openlibrary,https://openlibrary.org/works/OL259026W,en,pd_basis=pub_year<=1930
-the-secret-garden__frances-hodgson-burnett__1911,The Secret Garden,"Burnett, Frances Hodgson",,false,1911,openlibrary,https://openlibrary.org/works/OL69612W,en,pd_basis=pub_year<=1930
-don-quijote-de-la-mancha__miguel-de-cervantes-saavedra__1600,Don Quijote de la Mancha,"Saavedra, Miguel de Cervantes",,false,1600,openlibrary,https://openlibrary.org/works/OL503666W,en,pd_basis=pub_year<=1930
-madame-bovary__gustave-flaubert__1856,Madame Bovary,"Flaubert, Gustave",,false,1856,openlibrary,https://openlibrary.org/works/OL893707W,en,pd_basis=pub_year<=1930
-the-art-of-war__sun-tzu__1900,The Art of War,"Tzu), 孙武 (Sun",,false,1900,openlibrary,https://openlibrary.org/works/OL244537W,en,pd_basis=pub_year<=1930
-a-midsummer-nights-dream__william-shakespeare__1600,A Midsummer Night's Dream,"Shakespeare, William",,false,1600,openlibrary,https://openlibrary.org/works/OL259010W,en,pd_basis=pub_year<=1930
-great-expectations__charles-dickens__1861,Great Expectations,"Dickens, Charles",,false,1861,openlibrary,https://openlibrary.org/works/OL8721462W,en,pd_basis=pub_year<=1930
-julius-caesar__william-shakespeare__1656,Julius Caesar,"Shakespeare, William",,false,1656,openlibrary,https://openlibrary.org/works/OL362702W,en,pd_basis=pub_year<=1930
-a-study-in-scarlet__arthur-conan-doyle__1887,A Study in Scarlet,"Doyle, Arthur Conan",,false,1887,openlibrary,https://openlibrary.org/works/OL262496W,en,pd_basis=pub_year<=1930
-the-prince__niccolo-machiavelli__1515,The Prince,"Machiavelli, Niccolò",,false,1515,openlibrary,https://openlibrary.org/works/OL1089297W,en,pd_basis=pub_year<=1930
-through-the-lookingglass__lewis-carroll__1865,Through the Looking-Glass,"Carroll, Lewis",,false,1865,openlibrary,https://openlibrary.org/works/OL151406W,en,pd_basis=pub_year<=1930
-the-wind-in-the-willows__kenneth-grahame__1908,The Wind in the Willows,"Grahame, Kenneth",,false,1908,openlibrary,https://openlibrary.org/works/OL28570037W,en,pd_basis=pub_year<=1930
-the-hound-of-the-baskervilles__arthur-conan-doyle__1900,The Hound of the Baskervilles,"Doyle, Arthur Conan",,false,1900,openlibrary,https://openlibrary.org/works/OL262454W,en,pd_basis=pub_year<=1930
-anne-of-green-gables__lucy-maud-montgomery__1908,Anne of Green Gables,"Montgomery, Lucy Maud",,false,1908,openlibrary,https://openlibrary.org/works/OL77746W,en,pd_basis=pub_year<=1930
-persuasion__jane-austen__1789,Persuasion,"Austen, Jane",,false,1789,openlibrary,https://openlibrary.org/works/OL66544W,en,pd_basis=pub_year<=1930
-the-great-gatsby__f-scott-fitzgerald__1920,The Great Gatsby,"Fitzgerald, F. Scott",,false,1920,openlibrary,https://openlibrary.org/works/OL468431W,en,pd_basis=pub_year<=1930
-jane-eyre__charlotte-bronte__1847,Jane Eyre,"Brontë, Charlotte",,false,1847,openlibrary,https://openlibrary.org/works/OL1095427W,en,pd_basis=pub_year<=1930
-the-time-machine__h-g-wells__1895,The Time Machine,"Wells, H. G.",,false,1895,openlibrary,https://openlibrary.org/works/OL52267W,en,pd_basis=pub_year<=1930
-walden__henry-david-thoreau__1854,Walden,"Thoreau, Henry David",,false,1854,openlibrary,https://openlibrary.org/works/OL55649W,en,pd_basis=pub_year<=1930
-three-men-in-a-boat-to-say-nothing-of-the-dog__jerome-klapka-jerome__1889,Three Men in a Boat (to say nothing of the dog),"Jérôme, Jerome Klapka",,false,1889,openlibrary,https://openlibrary.org/works/OL1793164W,en,pd_basis=pub_year<=1930
-the-adventures-of-sherlock-holmes-12-stories__arthur-conan-doyle__1892,The Adventures of Sherlock Holmes [12 stories],"Doyle, Arthur Conan",,false,1892,openlibrary,https://openlibrary.org/works/OL262421W,en,pd_basis=pub_year<=1930
-the-taming-of-the-shrew__william-shakespeare__1631,The Taming of the Shrew,"Shakespeare, William",,false,1631,openlibrary,https://openlibrary.org/works/OL362690W,en,pd_basis=pub_year<=1930
-moby-dick__herman-melville__1851,Moby Dick,"Melville, Herman",,false,1851,openlibrary,https://openlibrary.org/works/OL102749W,en,pd_basis=pub_year<=1930
-moll-flanders__daniel-defoe__1722,Moll Flanders,"Defoe, Daniel",,false,1722,openlibrary,https://openlibrary.org/works/OL45139W,en,pd_basis=pub_year<=1930
-mansfield-park__jane-austen__1814,Mansfield Park,"Austen, Jane",,false,1814,openlibrary,https://openlibrary.org/works/OL66530W,en,pd_basis=pub_year<=1930
-the-man-who-was-thursday__gilbert-keith-chesterton__1908,The Man Who Was Thursday,"Chesterton, Gilbert Keith",,false,1908,openlibrary,https://openlibrary.org/works/OL76487W,en,pd_basis=pub_year<=1930
-king-solomons-mines__h-rider-haggard__1876,King Solomon's Mines,"Haggard, H. Rider",,false,1876,openlibrary,https://openlibrary.org/works/OL17448W,en,pd_basis=pub_year<=1930
-les-trois-mousquetaires__alexandre-dumas__1844,Les Trois Mousquetaires,"Dumas, Alexandre",,false,1844,openlibrary,https://openlibrary.org/works/OL36861W,en,pd_basis=pub_year<=1930
-the-mysterious-affair-at-styles__agatha-christie__1920,The Mysterious Affair at Styles,"Christie, Agatha",,false,1920,openlibrary,https://openlibrary.org/works/OL472715W,en,pd_basis=pub_year<=1930
+pride-and-prejudice__austen-jane__1813,Pride and Prejudice,"Austen, Jane",,false,1813,openlibrary,https://openlibrary.org/works/OL66554W,en,pd_basis=pub_year<=1930
+alices-adventures-in-wonderland__carroll-lewis__1865,Alice's Adventures in Wonderland,"Carroll, Lewis",,false,1865,openlibrary,https://openlibrary.org/works/OL138052W,en,pd_basis=pub_year<=1930
+a-christmas-carol__dickens-charles__1843,A Christmas Carol,"Dickens, Charles",,false,1843,openlibrary,https://openlibrary.org/works/OL32466W,en,pd_basis=pub_year<=1930
+the-picture-of-dorian-gray__wilde-oscar__1890,The Picture of Dorian Gray,"Wilde, Oscar",,false,1890,openlibrary,https://openlibrary.org/works/OL8193416W,en,pd_basis=pub_year<=1930
+wuthering-heights__bronte-emily__1846,Wuthering Heights,"Brontë, Emily",,false,1846,openlibrary,https://openlibrary.org/works/OL21177W,en,pd_basis=pub_year<=1930
+adventures-of-huckleberry-finn__twain-mark__1876,Adventures of Huckleberry Finn,"Twain, Mark",,false,1876,openlibrary,https://openlibrary.org/works/OL53908W,en,pd_basis=pub_year<=1930
+the-scarlet-letter__hawthorne-nathaniel__1800,The Scarlet Letter,"Hawthorne, Nathaniel",,false,1800,openlibrary,https://openlibrary.org/works/OL455305W,en,pd_basis=pub_year<=1930
+robinson-crusoe__defoe-daniel__1686,Robinson Crusoe,"Defoe, Daniel",,false,1686,openlibrary,https://openlibrary.org/works/OL45089W,en,pd_basis=pub_year<=1930
+hamlet__shakespeare-william__1603,Hamlet,"Shakespeare, William",,false,1603,openlibrary,https://openlibrary.org/works/OL9170454W,en,pd_basis=pub_year<=1930
+emma__austen-jane__1815,Emma,"Austen, Jane",,false,1815,openlibrary,https://openlibrary.org/works/OL66513W,en,pd_basis=pub_year<=1930
+oliver-twist__dickens-charles__1822,Oliver Twist,"Dickens, Charles",,false,1822,openlibrary,https://openlibrary.org/works/OL8193478W,en,pd_basis=pub_year<=1930
+frankenstein-or-the-modern-prometheus__shelley-mary__1818,"Frankenstein; or, The Modern Prometheus","Shelley, Mary",,false,1818,openlibrary,https://openlibrary.org/works/OL450063W,en,pd_basis=pub_year<=1930
+sense-and-sensibility__austen-jane__1811,Sense and Sensibility,"Austen, Jane",,false,1811,openlibrary,https://openlibrary.org/works/OL66562W,en,pd_basis=pub_year<=1930
+a-tale-of-two-cities__dickens-charles__1800,A Tale of Two Cities,"Dickens, Charles",,false,1800,openlibrary,https://openlibrary.org/works/OL8193465W,en,pd_basis=pub_year<=1930
+the-wonderful-wizard-of-oz__baum-l-frank__1899,The Wonderful Wizard of Oz,"Baum, L. Frank",,false,1899,openlibrary,https://openlibrary.org/works/OL18417W,en,pd_basis=pub_year<=1930
+treasure-island__stevenson-robert-louis__1880,Treasure Island,"Stevenson, Robert Louis",,false,1880,openlibrary,https://openlibrary.org/works/OL24034W,en,pd_basis=pub_year<=1930
+dracula__stoker-bram__1897,Dracula,"Stoker, Bram",,false,1897,openlibrary,https://openlibrary.org/works/OL85892W,en,pd_basis=pub_year<=1930
+little-women__alcott-louisa-may__1848,Little Women,"Alcott, Louisa May",,false,1848,openlibrary,https://openlibrary.org/works/OL29983W,en,pd_basis=pub_year<=1930
+macbeth__shakespeare-william__1508,Macbeth,"Shakespeare, William",,false,1508,openlibrary,https://openlibrary.org/works/OL258902W,en,pd_basis=pub_year<=1930
+gullivers-travels__swift-jonathan__1726,Gulliver's Travels,"Swift, Jonathan",,false,1726,openlibrary,https://openlibrary.org/works/OL20600W,en,pd_basis=pub_year<=1930
+the-call-of-the-wild__london-jack__1903,The Call of the Wild,"London, Jack",,false,1903,openlibrary,https://openlibrary.org/works/OL14942956W,en,pd_basis=pub_year<=1930
+king-lear__shakespeare-william__1608,King Lear,"Shakespeare, William",,false,1608,openlibrary,https://openlibrary.org/works/OL259026W,en,pd_basis=pub_year<=1930
+the-secret-garden__burnett-frances-hodgson__1911,The Secret Garden,"Burnett, Frances Hodgson",,false,1911,openlibrary,https://openlibrary.org/works/OL69612W,en,pd_basis=pub_year<=1930
+don-quijote-de-la-mancha__saavedra-miguel-de-cervantes__1600,Don Quijote de la Mancha,"Saavedra, Miguel de Cervantes",,false,1600,openlibrary,https://openlibrary.org/works/OL503666W,en,pd_basis=pub_year<=1930
+madame-bovary__flaubert-gustave__1856,Madame Bovary,"Flaubert, Gustave",,false,1856,openlibrary,https://openlibrary.org/works/OL893707W,en,pd_basis=pub_year<=1930
+the-art-of-war__tzu-sun__1900,The Art of War,"Tzu), 孙武 (Sun",,false,1900,openlibrary,https://openlibrary.org/works/OL244537W,en,pd_basis=pub_year<=1930
+a-midsummer-nights-dream__shakespeare-william__1600,A Midsummer Night's Dream,"Shakespeare, William",,false,1600,openlibrary,https://openlibrary.org/works/OL259010W,en,pd_basis=pub_year<=1930
+great-expectations__dickens-charles__1861,Great Expectations,"Dickens, Charles",,false,1861,openlibrary,https://openlibrary.org/works/OL8721462W,en,pd_basis=pub_year<=1930
+julius-caesar__shakespeare-william__1656,Julius Caesar,"Shakespeare, William",,false,1656,openlibrary,https://openlibrary.org/works/OL362702W,en,pd_basis=pub_year<=1930
+a-study-in-scarlet__doyle-arthur-conan__1887,A Study in Scarlet,"Doyle, Arthur Conan",,false,1887,openlibrary,https://openlibrary.org/works/OL262496W,en,pd_basis=pub_year<=1930
+the-prince__machiavelli-niccolo__1515,The Prince,"Machiavelli, Niccolò",,false,1515,openlibrary,https://openlibrary.org/works/OL1089297W,en,pd_basis=pub_year<=1930
+through-the-lookingglass__carroll-lewis__1865,Through the Looking-Glass,"Carroll, Lewis",,false,1865,openlibrary,https://openlibrary.org/works/OL151406W,en,pd_basis=pub_year<=1930
+the-wind-in-the-willows__grahame-kenneth__1908,The Wind in the Willows,"Grahame, Kenneth",,false,1908,openlibrary,https://openlibrary.org/works/OL28570037W,en,pd_basis=pub_year<=1930
+the-hound-of-the-baskervilles__doyle-arthur-conan__1900,The Hound of the Baskervilles,"Doyle, Arthur Conan",,false,1900,openlibrary,https://openlibrary.org/works/OL262454W,en,pd_basis=pub_year<=1930
+anne-of-green-gables__montgomery-lucy-maud__1908,Anne of Green Gables,"Montgomery, Lucy Maud",,false,1908,openlibrary,https://openlibrary.org/works/OL77746W,en,pd_basis=pub_year<=1930
+persuasion__austen-jane__1789,Persuasion,"Austen, Jane",,false,1789,openlibrary,https://openlibrary.org/works/OL66544W,en,pd_basis=pub_year<=1930
+the-great-gatsby__fitzgerald-f-scott__1920,The Great Gatsby,"Fitzgerald, F. Scott",,false,1920,openlibrary,https://openlibrary.org/works/OL468431W,en,pd_basis=pub_year<=1930
+jane-eyre__bronte-charlotte__1847,Jane Eyre,"Brontë, Charlotte",,false,1847,openlibrary,https://openlibrary.org/works/OL1095427W,en,pd_basis=pub_year<=1930
+the-time-machine__wells-h-g__1895,The Time Machine,"Wells, H. G.",,false,1895,openlibrary,https://openlibrary.org/works/OL52267W,en,pd_basis=pub_year<=1930
+walden__thoreau-henry-david__1854,Walden,"Thoreau, Henry David",,false,1854,openlibrary,https://openlibrary.org/works/OL55649W,en,pd_basis=pub_year<=1930
+three-men-in-a-boat-to-say-nothing-of-the-dog__jerome-jerome-klapka__1889,Three Men in a Boat (to say nothing of the dog),"Jérôme, Jerome Klapka",,false,1889,openlibrary,https://openlibrary.org/works/OL1793164W,en,pd_basis=pub_year<=1930
+the-adventures-of-sherlock-holmes-12-stories__doyle-arthur-conan__1892,The Adventures of Sherlock Holmes [12 stories],"Doyle, Arthur Conan",,false,1892,openlibrary,https://openlibrary.org/works/OL262421W,en,pd_basis=pub_year<=1930
+the-taming-of-the-shrew__shakespeare-william__1631,The Taming of the Shrew,"Shakespeare, William",,false,1631,openlibrary,https://openlibrary.org/works/OL362690W,en,pd_basis=pub_year<=1930
+moby-dick__melville-herman__1851,Moby Dick,"Melville, Herman",,false,1851,openlibrary,https://openlibrary.org/works/OL102749W,en,pd_basis=pub_year<=1930
+moll-flanders__defoe-daniel__1722,Moll Flanders,"Defoe, Daniel",,false,1722,openlibrary,https://openlibrary.org/works/OL45139W,en,pd_basis=pub_year<=1930
+mansfield-park__austen-jane__1814,Mansfield Park,"Austen, Jane",,false,1814,openlibrary,https://openlibrary.org/works/OL66530W,en,pd_basis=pub_year<=1930
+king-solomons-mines__haggard-h-rider__1876,King Solomon's Mines,"Haggard, H. Rider",,false,1876,openlibrary,https://openlibrary.org/works/OL17448W,en,pd_basis=pub_year<=1930
+the-man-who-was-thursday__chesterton-gilbert-keith__1908,The Man Who Was Thursday,"Chesterton, Gilbert Keith",,false,1908,openlibrary,https://openlibrary.org/works/OL76487W,en,pd_basis=pub_year<=1930
+les-trois-mousquetaires__dumas-alexandre__1844,Les Trois Mousquetaires,"Dumas, Alexandre",,false,1844,openlibrary,https://openlibrary.org/works/OL36861W,en,pd_basis=pub_year<=1930
+the-mysterious-affair-at-styles__christie-agatha__1920,The Mysterious Affair at Styles,"Christie, Agatha",,false,1920,openlibrary,https://openlibrary.org/works/OL472715W,en,pd_basis=pub_year<=1930
 candide__voltaire__1746,Candide,Voltaire,,false,1746,openlibrary,https://openlibrary.org/works/OL100672W,en,pd_basis=pub_year<=1930
-narrative-of-the-life-of-frederick-douglass__frederick-douglass__1845,Narrative of the life of Frederick Douglass,"Douglass, Frederick",,false,1845,openlibrary,https://openlibrary.org/works/OL69178W,en,pd_basis=pub_year<=1930
-twelve-years-a-slave__solomon-northup__1853,Twelve years a slave,"Northup, Solomon",,false,1853,openlibrary,https://openlibrary.org/works/OL78871W,en,pd_basis=pub_year<=1930
-hard-times__charles-dickens__1854,Hard Times,"Dickens, Charles",,false,1854,openlibrary,https://openlibrary.org/works/OL8193387W,en,pd_basis=pub_year<=1930
-the-legend-of-sleepy-hollow__washington-irving__1820,The Legend of Sleepy Hollow,"Irving, Washington",,false,1820,openlibrary,https://openlibrary.org/works/OL63985W,en,pd_basis=pub_year<=1930
-northanger-abbey__jane-austen__1818,Northanger Abbey,"Austen, Jane",,false,1818,openlibrary,https://openlibrary.org/works/OL66534W,en,pd_basis=pub_year<=1930
-ethan-frome__edith-wharton__1910,Ethan Frome,"Wharton, Edith",,false,1910,openlibrary,https://openlibrary.org/works/OL98501W,en,pd_basis=pub_year<=1930
-dubliners__james-joyce__1914,Dubliners,"Joyce, James",,false,1914,openlibrary,https://openlibrary.org/works/OL86320W,en,pd_basis=pub_year<=1930
-troilus-and-cressida__william-shakespeare__1609,Troilus and Cressida,"Shakespeare, William",,false,1609,openlibrary,https://openlibrary.org/works/OL362685W,en,pd_basis=pub_year<=1930
-captains-courageous__rudyard-kipling__1896,Captains Courageous,"Kipling, Rudyard",,false,1896,openlibrary,https://openlibrary.org/works/OL19842W,en,pd_basis=pub_year<=1930
-the-railway-children__edith-nesbit__1900,The Railway Children,"Nesbit, Edith",,false,1900,openlibrary,https://openlibrary.org/works/OL99509W,en,pd_basis=pub_year<=1930
-romeo-and-juliet__william-shakespeare__1597,Romeo and Juliet,"Shakespeare, William",,false,1597,openlibrary,https://openlibrary.org/works/OL362427W,en,pd_basis=pub_year<=1930
-the-moonstone__wilkie-collins__1800,The Moonstone,"Collins, Wilkie",,false,1800,openlibrary,https://openlibrary.org/works/OL176092W,en,pd_basis=pub_year<=1930
-the-sign-of-four__arthur-conan-doyle__1889,The Sign of Four,"Doyle, Arthur Conan",,false,1889,openlibrary,https://openlibrary.org/works/OL262438W,en,pd_basis=pub_year<=1930
-metamorphosis__franz-kafka__1915,Metamorphosis,"Kafka, Franz",,false,1915,openlibrary,https://openlibrary.org/works/OL498556W,en,pd_basis=pub_year<=1930
-five-children-and-it__edith-nesbit__1905,Five Children and It,"Nesbit, Edith",,false,1905,openlibrary,https://openlibrary.org/works/OL99499W,en,pd_basis=pub_year<=1930
-antony-and-cleopatra__william-shakespeare__1734,Antony and Cleopatra,"Shakespeare, William",,false,1734,openlibrary,https://openlibrary.org/works/OL362695W,en,pd_basis=pub_year<=1930
-kim__rudyard-kipling__1901,Kim,"Kipling, Rudyard",,false,1901,openlibrary,https://openlibrary.org/works/OL19908W,en,pd_basis=pub_year<=1930
-the-thirtynine-steps__john-buchan__1915,The Thirty-Nine Steps,"Buchan, John",,false,1915,openlibrary,https://openlibrary.org/works/OL76524W,en,pd_basis=pub_year<=1930
-the-adventures-of-tom-sawyer__mark-twain__1817,The Adventures of Tom Sawyer,"Twain, Mark",,false,1817,openlibrary,https://openlibrary.org/works/OL53919W,en,pd_basis=pub_year<=1930
-the-last-of-the-mohicans__james-fenimore-cooper__1826,The Last of the Mohicans,"Cooper, James Fenimore",,false,1826,openlibrary,https://openlibrary.org/works/OL77958W,en,pd_basis=pub_year<=1930
-the-innocence-of-father-brown-father-brown-mystery__gilbert-keith-chesterton__1583,The Innocence of Father Brown (Father Brown Mystery),"Chesterton, Gilbert Keith",,false,1583,openlibrary,https://openlibrary.org/works/OL76341W,en,pd_basis=pub_year<=1930
-david-copperfield__charles-dickens__1800,David Copperfield,"Dickens, Charles",,false,1800,openlibrary,https://openlibrary.org/works/OL8662242W,en,pd_basis=pub_year<=1930
-cymbeline__william-shakespeare__1734,Cymbeline,"Shakespeare, William",,false,1734,openlibrary,https://openlibrary.org/works/OL258656W,en,pd_basis=pub_year<=1930
-king-richard-ii__william-shakespeare__1597,King Richard II,"Shakespeare, William",,false,1597,openlibrary,https://openlibrary.org/works/OL362665W,en,pd_basis=pub_year<=1930
-my-antonia__willa-cather__1818,My Ántonia,"Cather, Willa",,false,1818,openlibrary,https://openlibrary.org/works/OL12791W,en,pd_basis=pub_year<=1930
-the-old-curiosity-shop__charles-dickens__1800,The Old Curiosity Shop,"Dickens, Charles",,false,1800,openlibrary,https://openlibrary.org/works/OL14869167W,en,pd_basis=pub_year<=1930
-annes-house-of-dreams__lucy-maud-montgomery__1917,Anne's House of Dreams,"Montgomery, Lucy Maud",,false,1917,openlibrary,https://openlibrary.org/works/OL77764W,en,pd_basis=pub_year<=1930
-alls-well-that-ends-well__william-shakespeare__1734,All's Well That Ends Well,"Shakespeare, William",,false,1734,openlibrary,https://openlibrary.org/works/OL362676W,en,pd_basis=pub_year<=1930
-the-merchant-of-venice__william-shakespeare__1600,The Merchant of Venice,"Shakespeare, William",,false,1600,openlibrary,https://openlibrary.org/works/OL258758W,en,pd_basis=pub_year<=1930
-anne-of-avonlea__lucy-maud-montgomery__1909,Anne of Avonlea,"Montgomery, Lucy Maud",,false,1909,openlibrary,https://openlibrary.org/works/OL77744W,en,pd_basis=pub_year<=1930
-othello__william-shakespeare__1622,Othello,"Shakespeare, William",,false,1622,openlibrary,https://openlibrary.org/works/OL258850W,en,pd_basis=pub_year<=1930
-the-tempest__william-shakespeare__1611,The Tempest,"Shakespeare, William",,false,1611,openlibrary,https://openlibrary.org/works/OL362699W,en,pd_basis=pub_year<=1930
-the-secret-adversary__agatha-christie__1922,The Secret Adversary,"Christie, Agatha",,false,1922,openlibrary,https://openlibrary.org/works/OL471789W,en,pd_basis=pub_year<=1930
-a-connecticut-yankee-in-king-arthurs-court__mark-twain__1889,A Connecticut Yankee in King Arthur's Court,"Twain, Mark",,false,1889,openlibrary,https://openlibrary.org/works/OL54031W,en,pd_basis=pub_year<=1930
-der-proce__franz-kafka__1825,Der Proceß,"Kafka, Franz",,false,1825,openlibrary,https://openlibrary.org/works/OL498463W,en,pd_basis=pub_year<=1930
-henry-iv-part-1__william-shakespeare__1598,"Henry IV, Part 1","Shakespeare, William",,false,1598,openlibrary,https://openlibrary.org/works/OL1348798W,en,pd_basis=pub_year<=1930
-two-gentlemen-of-verona__william-shakespeare__1632,Two Gentlemen of Verona,"Shakespeare, William",,false,1632,openlibrary,https://openlibrary.org/works/OL362671W,en,pd_basis=pub_year<=1930
-anne-of-the-island__lucy-maud-montgomery__1915,Anne of the Island,"Montgomery, Lucy Maud",,false,1915,openlibrary,https://openlibrary.org/works/OL77748W,en,pd_basis=pub_year<=1930
-coriolanus__william-shakespeare__1734,Coriolanus,"Shakespeare, William",,false,1734,openlibrary,https://openlibrary.org/works/OL362166W,en,pd_basis=pub_year<=1930
-the-cricket-on-the-hearth__charles-dickens__1846,The Cricket on the Hearth,"Dickens, Charles",,false,1846,openlibrary,https://openlibrary.org/works/OL14868783W,en,pd_basis=pub_year<=1930
-a-portrait-of-the-artist-as-a-young-man__james-joyce__1818,A Portrait of the Artist as a Young Man,"Joyce, James",,false,1818,openlibrary,https://openlibrary.org/works/OL86343W,en,pd_basis=pub_year<=1930
-the-mill-on-the-floss__george-eliot__1800,The Mill on the Floss,"Eliot, George",,false,1800,openlibrary,https://openlibrary.org/works/OL20938W,en,pd_basis=pub_year<=1930
-richard-iii__william-shakespeare__1597,Richard III,"Shakespeare, William",,false,1597,openlibrary,https://openlibrary.org/works/OL362684W,en,pd_basis=pub_year<=1930
-the-valley-of-fear__arthur-conan-doyle__1914,The Valley of Fear,"Doyle, Arthur Conan",,false,1914,openlibrary,https://openlibrary.org/works/OL262505W,en,pd_basis=pub_year<=1930
-a-room-with-a-view__e-m-forster__1905,A Room with a View,"Forster, E. M.",,false,1905,openlibrary,https://openlibrary.org/works/OL88813W,en,pd_basis=pub_year<=1930
-the-prince-and-the-pauper__mark-twain__1881,The Prince and the Pauper,"Twain, Mark",,false,1881,openlibrary,https://openlibrary.org/works/OL53994W,en,pd_basis=pub_year<=1930
-leaves-of-grass__walt-whitman__1855,Leaves of Grass,"Whitman, Walt",,false,1855,openlibrary,https://openlibrary.org/works/OL16333W,en,pd_basis=pub_year<=1930
-the-blue-fairy-book__andrew-lang__1889,The Blue Fairy Book,"Lang, Andrew",,false,1889,openlibrary,https://openlibrary.org/works/OL1088770W,en,pd_basis=pub_year<=1930
-the-princess-and-the-goblin__george-macdonald__1872,The Princess and the Goblin,"MacDonald, George",,false,1872,openlibrary,https://openlibrary.org/works/OL15449W,en,pd_basis=pub_year<=1930
-the-lost-world__arthur-conan-doyle__1900,The Lost World,"Doyle, Arthur Conan",,false,1900,openlibrary,https://openlibrary.org/works/OL262460W,en,pd_basis=pub_year<=1930
-tess-of-the-durbervilles__thomas-hardy__1707,Tess of the d'Urbervilles,"Hardy, Thomas",,false,1707,openlibrary,https://openlibrary.org/works/OL44927W,en,pd_basis=pub_year<=1930
-hrabe-monte-cristo-dil-1-a-2-trisvazkove-vydani__alexandre-dumas__1830,Hrabě Monte Cristo. Díl 1 a 2 (třísvazkové vydání),"Dumas, Alexandre",,false,1830,openlibrary,https://openlibrary.org/works/OL36287W,en,pd_basis=pub_year<=1930
-the-marvelous-land-of-oz__l-frank-baum__1904,The Marvelous Land of Oz,"Baum, L. Frank",,false,1904,openlibrary,https://openlibrary.org/works/OL18396W,en,pd_basis=pub_year<=1930
-robin-hood__howard-pyle__1883,Robin Hood,"Pyle, Howard",,false,1883,openlibrary,https://openlibrary.org/works/OL2021953W,en,pd_basis=pub_year<=1930
-the-yellow-wallpaper__charlotte-perkins-gilman__1892,The Yellow Wallpaper,"Gilman, Charlotte Perkins",,false,1892,openlibrary,https://openlibrary.org/works/OL2772007W,en,pd_basis=pub_year<=1930
-aeneis__publius-vergilius-maro__1592,Aeneis,"Maro, Publius Vergilius",,false,1592,openlibrary,https://openlibrary.org/works/OL47087W,en,pd_basis=pub_year<=1930
-king-henry-viii__william-shakespeare__1670,King Henry VIII,"Shakespeare, William",,false,1670,openlibrary,https://openlibrary.org/works/OL361246W,en,pd_basis=pub_year<=1930
-the-comedy-of-errors__william-shakespeare__1734,The Comedy of Errors,"Shakespeare, William",,false,1734,openlibrary,https://openlibrary.org/works/OL362679W,en,pd_basis=pub_year<=1930
-riders-of-the-purple-sage__zane-grey__1912,Riders of the Purple Sage,"Grey, Zane",,false,1912,openlibrary,https://openlibrary.org/works/OL485504W,en,pd_basis=pub_year<=1930
-ozma-of-oz__l-frank-baum__1907,Ozma of Oz,"Baum, L. Frank",,false,1907,openlibrary,https://openlibrary.org/works/OL18415W,en,pd_basis=pub_year<=1930
-decamerone__giovanni-boccaccio__1516,Decamerone,"Boccaccio, Giovanni",,false,1516,openlibrary,https://openlibrary.org/works/OL7180368W,en,pd_basis=pub_year<=1930
-the-house-of-mirth__edith-wharton__1905,The House of Mirth,"Wharton, Edith",,false,1905,openlibrary,https://openlibrary.org/works/OL98587W,en,pd_basis=pub_year<=1930
-uncle-toms-cabin__harriet-beecher-stowe__1850,Uncle Tom's Cabin,"Stowe, Harriet Beecher",,false,1850,openlibrary,https://openlibrary.org/works/OL152161W,en,pd_basis=pub_year<=1930
-twelfth-night-or-what-you-will__william-shakespeare__1734,"Twelfth Night, or What You Will","Shakespeare, William",,false,1734,openlibrary,https://openlibrary.org/works/OL362694W,en,pd_basis=pub_year<=1930
-the-pilgrims-progress__john-bunyan__1678,The Pilgrim's Progress,"Bunyan, John",,false,1678,openlibrary,https://openlibrary.org/works/OL107195W,en,pd_basis=pub_year<=1930
-the-autobiography-of-benjamin-franklin__benjamin-franklin__1791,The Autobiography of Benjamin Franklin,"Franklin, Benjamin",,false,1791,openlibrary,https://openlibrary.org/works/OL26492W,en,pd_basis=pub_year<=1930
-the-mayor-of-casterbridge__thomas-hardy__1800,The Mayor of Casterbridge,"Hardy, Thomas",,false,1800,openlibrary,https://openlibrary.org/works/OL8193406W,en,pd_basis=pub_year<=1930
-the-jungle__upton-sinclair__1791,The Jungle,"Sinclair, Upton",,false,1791,openlibrary,https://openlibrary.org/works/OL114967W,en,pd_basis=pub_year<=1930
-rainbow-valley__lucy-maud-montgomery__1919,Rainbow Valley,"Montgomery, Lucy Maud",,false,1919,openlibrary,https://openlibrary.org/works/OL77756W,en,pd_basis=pub_year<=1930
-as-a-man-thinketh__james-allen__1902,As a man thinketh,"Allen, James",,false,1902,openlibrary,https://openlibrary.org/works/OL43024W,en,pd_basis=pub_year<=1930
-the-story-of-the-treasure-seekers__edith-nesbit__1899,The Story of the Treasure Seekers,"Nesbit, Edith",,false,1899,openlibrary,https://openlibrary.org/works/OL99522W,en,pd_basis=pub_year<=1930
-the-jewel-of-seven-stars__bram-stoker__1902,The Jewel of Seven Stars,"Stoker, Bram",,false,1902,openlibrary,https://openlibrary.org/works/OL85891W,en,pd_basis=pub_year<=1930
-the-woman-in-white__wilkie-collins__1859,The Woman in White,"Collins, Wilkie",,false,1859,openlibrary,https://openlibrary.org/works/OL176045W,en,pd_basis=pub_year<=1930
-the-battle-of-life__charles-dickens__1846,The Battle of Life,"Dickens, Charles",,false,1846,openlibrary,https://openlibrary.org/works/OL14868497W,en,pd_basis=pub_year<=1930
-sonnets__william-shakespeare__1609,Sonnets,"Shakespeare, William",,false,1609,openlibrary,https://openlibrary.org/works/OL362706W,en,pd_basis=pub_year<=1930
-the-man-who-knew-too-much__gilbert-keith-chesterton__1922,The Man Who Knew Too Much,"Chesterton, Gilbert Keith",,false,1922,openlibrary,https://openlibrary.org/works/OL76468W,en,pd_basis=pub_year<=1930
-meditations__marcus-aurelius__1626,Meditations,"Aurelius, Marcus",,false,1626,openlibrary,https://openlibrary.org/works/OL1317211W,en,pd_basis=pub_year<=1930
-the-red-badge-of-courage__stephen-crane__1855,The Red Badge of Courage,"Crane, Stephen",,false,1855,openlibrary,https://openlibrary.org/works/OL20844W,en,pd_basis=pub_year<=1930
-rilla-of-ingleside__lucy-maud-montgomery__1920,Rilla of Ingleside,"Montgomery, Lucy Maud",,false,1920,openlibrary,https://openlibrary.org/works/OL77757W,en,pd_basis=pub_year<=1930
-du-cote-de-chez-swann__marcel-proust__1908,Du côté de chez Swann,"Proust, Marcel",,false,1908,openlibrary,https://openlibrary.org/works/OL30053009W,en,pd_basis=pub_year<=1930
-the-emerald-city-of-oz__l-frank-baum__1910,The Emerald City of Oz,"Baum, L. Frank",,false,1910,openlibrary,https://openlibrary.org/works/OL18409W,en,pd_basis=pub_year<=1930
-faust__johann-wolfgang-von-goethe__1800,Faust,"Goethe, Johann Wolfgang von",,false,1800,openlibrary,https://openlibrary.org/works/OL52456W,en,pd_basis=pub_year<=1930
-henry-v__william-shakespeare__1600,Henry V,"Shakespeare, William",,false,1600,openlibrary,https://openlibrary.org/works/OL361466W,en,pd_basis=pub_year<=1930
-this-side-of-paradise__f-scott-fitzgerald__1920,This Side of Paradise,"Fitzgerald, F. Scott",,false,1920,openlibrary,https://openlibrary.org/works/OL468488W,en,pd_basis=pub_year<=1930
-silas-marner__george-eliot__1800,Silas Marner,"Eliot, George",,false,1800,openlibrary,https://openlibrary.org/works/OL20874W,en,pd_basis=pub_year<=1930
-the-prisoner-of-zenda__anthony-hope__1800,The Prisoner of Zenda,"Hope, Anthony",,false,1800,openlibrary,https://openlibrary.org/works/OL245401W,en,pd_basis=pub_year<=1930
-herland__charlotte-perkins-gilman__1915,Herland,"Gilman, Charlotte Perkins",,false,1915,openlibrary,https://openlibrary.org/works/OL2771987W,en,pd_basis=pub_year<=1930
-dorothy-and-the-wizard-in-oz__l-frank-baum__1908,Dorothy and the Wizard in Oz,"Baum, L. Frank",,false,1908,openlibrary,https://openlibrary.org/works/OL18412W,en,pd_basis=pub_year<=1930
-agnes-grey__anne-bronte__1847,Agnes Grey,"Brontë, Anne",,false,1847,openlibrary,https://openlibrary.org/works/OL2462427W,en,pd_basis=pub_year<=1930
-o-pioneers__willa-cather__1913,O Pioneers!,"Cather, Willa",,false,1913,openlibrary,https://openlibrary.org/works/OL12795W,en,pd_basis=pub_year<=1930
-ulysses__james-joyce__1914,Ulysses,"Joyce, James",,false,1914,openlibrary,https://openlibrary.org/works/OL86318W,en,pd_basis=pub_year<=1930
-the-second-jungle-book__rudyard-kipling__1887,The Second Jungle Book,"Kipling, Rudyard",,false,1887,openlibrary,https://openlibrary.org/works/OL19926W,en,pd_basis=pub_year<=1930
-lady-susan__jane-austen__1925,Lady Susan,"Austen, Jane",,false,1925,openlibrary,https://openlibrary.org/works/OL66614W,en,pd_basis=pub_year<=1930
-the-mystery-of-edwin-drood__charles-dickens__1870,The mystery of Edwin Drood,"Dickens, Charles",,false,1870,openlibrary,https://openlibrary.org/works/OL8763148W,en,pd_basis=pub_year<=1930
-bram-stokers-dracula-omnibus__bram-stoker__1897,Bram Stoker's Dracula omnibus,"Stoker, Bram",,false,1897,openlibrary,https://openlibrary.org/works/OL85875W,en,pd_basis=pub_year<=1930
-the-iron-heel__jack-london__1907,The Iron Heel,"London, Jack",,false,1907,openlibrary,https://openlibrary.org/works/OL74502W,en,pd_basis=pub_year<=1930
-jos-boys__louisa-may-alcott__1886,Jo's Boys,"Alcott, Louisa May",,false,1886,openlibrary,https://openlibrary.org/works/OL26668762W,en,pd_basis=pub_year<=1930
-eight-cousins__louisa-may-alcott__1874,Eight cousins,"Alcott, Louisa May",,false,1874,openlibrary,https://openlibrary.org/works/OL17846238W,en,pd_basis=pub_year<=1930
-the-lost-princess-of-oz__l-frank-baum__1917,The Lost Princess of Oz,"Baum, L. Frank",,false,1917,openlibrary,https://openlibrary.org/works/OL18411W,en,pd_basis=pub_year<=1930
-the-scarlet-pimpernel__emma-orczy__1900,The Scarlet Pimpernel,"Orczy, Emma",,false,1900,openlibrary,https://openlibrary.org/works/OL1253285W,en,pd_basis=pub_year<=1930
-flatland__edwin-abbott-abbott__1884,Flatland,"Abbott, Edwin Abbott",,false,1884,openlibrary,https://openlibrary.org/works/OL118388W,en,pd_basis=pub_year<=1930
-his-last-bow-8-stories__arthur-conan-doyle__1917,His Last Bow [8 stories],"Doyle, Arthur Conan",,false,1917,openlibrary,https://openlibrary.org/works/OL262452W,en,pd_basis=pub_year<=1930
-the-castle-of-otranto__horace-walpole__1764,The Castle of Otranto,"Walpole, Horace",,false,1764,openlibrary,https://openlibrary.org/works/OL183675W,en,pd_basis=pub_year<=1930
-the-story-of-the-amulet__edith-nesbit__1905,The Story of the Amulet,"Nesbit, Edith",,false,1905,openlibrary,https://openlibrary.org/works/OL407476W,en,pd_basis=pub_year<=1930
-the-blithedale-romance__nathaniel-hawthorne__1852,The Blithedale Romance,"Hawthorne, Nathaniel",,false,1852,openlibrary,https://openlibrary.org/works/OL455512W,en,pd_basis=pub_year<=1930
-carmilla__sheridan-le-fanu__1871,Carmilla,"Fanu, Sheridan Le",,false,1871,openlibrary,https://openlibrary.org/works/OL2895536W,en,pd_basis=pub_year<=1930
-the-prophet__kahlil-gibran__1900,The Prophet,"Gibran, Kahlil",,false,1900,openlibrary,https://openlibrary.org/works/OL318900W,en,pd_basis=pub_year<=1930
-women-in-love__d-h-lawrence__1877,Women in Love,"Lawrence, D. H.",,false,1877,openlibrary,https://openlibrary.org/works/OL81294W,en,pd_basis=pub_year<=1930
-the-turn-of-the-screw__henry-james__1898,The Turn of the Screw,"James, Henry",,false,1898,openlibrary,https://openlibrary.org/works/OL276386W,en,pd_basis=pub_year<=1930
-the-complete-life-and-adventures-of-santa-claus__l-frank-baum__1902,The Complete Life and Adventures of Santa Claus,"Baum, L. Frank",,false,1902,openlibrary,https://openlibrary.org/works/OL262358W,en,pd_basis=pub_year<=1930
-the-tenant-of-wildfell-hall__anne-bronte__1847,The Tenant of Wildfell Hall,"Brontë, Anne",,false,1847,openlibrary,https://openlibrary.org/works/OL260101W,en,pd_basis=pub_year<=1930
-lorna-doone__r-d-blackmore__1656,Lorna Doone,"Blackmore, R. D.",,false,1656,openlibrary,https://openlibrary.org/works/OL3686133W,en,pd_basis=pub_year<=1930
+narrative-of-the-life-of-frederick-douglass__douglass-frederick__1845,Narrative of the life of Frederick Douglass,"Douglass, Frederick",,false,1845,openlibrary,https://openlibrary.org/works/OL69178W,en,pd_basis=pub_year<=1930
+twelve-years-a-slave__northup-solomon__1853,Twelve years a slave,"Northup, Solomon",,false,1853,openlibrary,https://openlibrary.org/works/OL78871W,en,pd_basis=pub_year<=1930
+hard-times__dickens-charles__1854,Hard Times,"Dickens, Charles",,false,1854,openlibrary,https://openlibrary.org/works/OL8193387W,en,pd_basis=pub_year<=1930
+the-legend-of-sleepy-hollow__irving-washington__1820,The Legend of Sleepy Hollow,"Irving, Washington",,false,1820,openlibrary,https://openlibrary.org/works/OL63985W,en,pd_basis=pub_year<=1930
+northanger-abbey__austen-jane__1818,Northanger Abbey,"Austen, Jane",,false,1818,openlibrary,https://openlibrary.org/works/OL66534W,en,pd_basis=pub_year<=1930
+ethan-frome__wharton-edith__1910,Ethan Frome,"Wharton, Edith",,false,1910,openlibrary,https://openlibrary.org/works/OL98501W,en,pd_basis=pub_year<=1930
+dubliners__joyce-james__1914,Dubliners,"Joyce, James",,false,1914,openlibrary,https://openlibrary.org/works/OL86320W,en,pd_basis=pub_year<=1930
+troilus-and-cressida__shakespeare-william__1609,Troilus and Cressida,"Shakespeare, William",,false,1609,openlibrary,https://openlibrary.org/works/OL362685W,en,pd_basis=pub_year<=1930
+captains-courageous__kipling-rudyard__1896,Captains Courageous,"Kipling, Rudyard",,false,1896,openlibrary,https://openlibrary.org/works/OL19842W,en,pd_basis=pub_year<=1930
+the-railway-children__nesbit-edith__1900,The Railway Children,"Nesbit, Edith",,false,1900,openlibrary,https://openlibrary.org/works/OL99509W,en,pd_basis=pub_year<=1930
+romeo-and-juliet__shakespeare-william__1597,Romeo and Juliet,"Shakespeare, William",,false,1597,openlibrary,https://openlibrary.org/works/OL362427W,en,pd_basis=pub_year<=1930
+the-moonstone__collins-wilkie__1800,The Moonstone,"Collins, Wilkie",,false,1800,openlibrary,https://openlibrary.org/works/OL176092W,en,pd_basis=pub_year<=1930
+the-sign-of-four__doyle-arthur-conan__1889,The Sign of Four,"Doyle, Arthur Conan",,false,1889,openlibrary,https://openlibrary.org/works/OL262438W,en,pd_basis=pub_year<=1930
+metamorphosis__kafka-franz__1915,Metamorphosis,"Kafka, Franz",,false,1915,openlibrary,https://openlibrary.org/works/OL498556W,en,pd_basis=pub_year<=1930
+five-children-and-it__nesbit-edith__1905,Five Children and It,"Nesbit, Edith",,false,1905,openlibrary,https://openlibrary.org/works/OL99499W,en,pd_basis=pub_year<=1930
+antony-and-cleopatra__shakespeare-william__1734,Antony and Cleopatra,"Shakespeare, William",,false,1734,openlibrary,https://openlibrary.org/works/OL362695W,en,pd_basis=pub_year<=1930
+kim__kipling-rudyard__1901,Kim,"Kipling, Rudyard",,false,1901,openlibrary,https://openlibrary.org/works/OL19908W,en,pd_basis=pub_year<=1930
+the-thirtynine-steps__buchan-john__1915,The Thirty-Nine Steps,"Buchan, John",,false,1915,openlibrary,https://openlibrary.org/works/OL76524W,en,pd_basis=pub_year<=1930
+the-adventures-of-tom-sawyer__twain-mark__1817,The Adventures of Tom Sawyer,"Twain, Mark",,false,1817,openlibrary,https://openlibrary.org/works/OL53919W,en,pd_basis=pub_year<=1930
+the-last-of-the-mohicans__cooper-james-fenimore__1826,The Last of the Mohicans,"Cooper, James Fenimore",,false,1826,openlibrary,https://openlibrary.org/works/OL77958W,en,pd_basis=pub_year<=1930
+the-innocence-of-father-brown-father-brown-mystery__chesterton-gilbert-keith__1583,The Innocence of Father Brown (Father Brown Mystery),"Chesterton, Gilbert Keith",,false,1583,openlibrary,https://openlibrary.org/works/OL76341W,en,pd_basis=pub_year<=1930
+david-copperfield__dickens-charles__1800,David Copperfield,"Dickens, Charles",,false,1800,openlibrary,https://openlibrary.org/works/OL8662242W,en,pd_basis=pub_year<=1930
+cymbeline__shakespeare-william__1734,Cymbeline,"Shakespeare, William",,false,1734,openlibrary,https://openlibrary.org/works/OL258656W,en,pd_basis=pub_year<=1930
+king-richard-ii__shakespeare-william__1597,King Richard II,"Shakespeare, William",,false,1597,openlibrary,https://openlibrary.org/works/OL362665W,en,pd_basis=pub_year<=1930
+my-antonia__cather-willa__1818,My Ántonia,"Cather, Willa",,false,1818,openlibrary,https://openlibrary.org/works/OL12791W,en,pd_basis=pub_year<=1930
+the-old-curiosity-shop__dickens-charles__1800,The Old Curiosity Shop,"Dickens, Charles",,false,1800,openlibrary,https://openlibrary.org/works/OL14869167W,en,pd_basis=pub_year<=1930
+annes-house-of-dreams__montgomery-lucy-maud__1917,Anne's House of Dreams,"Montgomery, Lucy Maud",,false,1917,openlibrary,https://openlibrary.org/works/OL77764W,en,pd_basis=pub_year<=1930
+alls-well-that-ends-well__shakespeare-william__1734,All's Well That Ends Well,"Shakespeare, William",,false,1734,openlibrary,https://openlibrary.org/works/OL362676W,en,pd_basis=pub_year<=1930
+the-merchant-of-venice__shakespeare-william__1600,The Merchant of Venice,"Shakespeare, William",,false,1600,openlibrary,https://openlibrary.org/works/OL258758W,en,pd_basis=pub_year<=1930
+anne-of-avonlea__montgomery-lucy-maud__1909,Anne of Avonlea,"Montgomery, Lucy Maud",,false,1909,openlibrary,https://openlibrary.org/works/OL77744W,en,pd_basis=pub_year<=1930
+othello__shakespeare-william__1622,Othello,"Shakespeare, William",,false,1622,openlibrary,https://openlibrary.org/works/OL258850W,en,pd_basis=pub_year<=1930
+the-tempest__shakespeare-william__1611,The Tempest,"Shakespeare, William",,false,1611,openlibrary,https://openlibrary.org/works/OL362699W,en,pd_basis=pub_year<=1930
+the-secret-adversary__christie-agatha__1922,The Secret Adversary,"Christie, Agatha",,false,1922,openlibrary,https://openlibrary.org/works/OL471789W,en,pd_basis=pub_year<=1930
+a-connecticut-yankee-in-king-arthurs-court__twain-mark__1889,A Connecticut Yankee in King Arthur's Court,"Twain, Mark",,false,1889,openlibrary,https://openlibrary.org/works/OL54031W,en,pd_basis=pub_year<=1930
+der-proce__kafka-franz__1825,Der Proceß,"Kafka, Franz",,false,1825,openlibrary,https://openlibrary.org/works/OL498463W,en,pd_basis=pub_year<=1930
+henry-iv-part-1__shakespeare-william__1598,"Henry IV, Part 1","Shakespeare, William",,false,1598,openlibrary,https://openlibrary.org/works/OL1348798W,en,pd_basis=pub_year<=1930
+anne-of-the-island__montgomery-lucy-maud__1915,Anne of the Island,"Montgomery, Lucy Maud",,false,1915,openlibrary,https://openlibrary.org/works/OL77748W,en,pd_basis=pub_year<=1930
+two-gentlemen-of-verona__shakespeare-william__1632,Two Gentlemen of Verona,"Shakespeare, William",,false,1632,openlibrary,https://openlibrary.org/works/OL362671W,en,pd_basis=pub_year<=1930
+coriolanus__shakespeare-william__1734,Coriolanus,"Shakespeare, William",,false,1734,openlibrary,https://openlibrary.org/works/OL362166W,en,pd_basis=pub_year<=1930
+the-cricket-on-the-hearth__dickens-charles__1846,The Cricket on the Hearth,"Dickens, Charles",,false,1846,openlibrary,https://openlibrary.org/works/OL14868783W,en,pd_basis=pub_year<=1930
+a-portrait-of-the-artist-as-a-young-man__joyce-james__1818,A Portrait of the Artist as a Young Man,"Joyce, James",,false,1818,openlibrary,https://openlibrary.org/works/OL86343W,en,pd_basis=pub_year<=1930
+the-mill-on-the-floss__eliot-george__1800,The Mill on the Floss,"Eliot, George",,false,1800,openlibrary,https://openlibrary.org/works/OL20938W,en,pd_basis=pub_year<=1930
+richard-iii__shakespeare-william__1597,Richard III,"Shakespeare, William",,false,1597,openlibrary,https://openlibrary.org/works/OL362684W,en,pd_basis=pub_year<=1930
+the-valley-of-fear__doyle-arthur-conan__1914,The Valley of Fear,"Doyle, Arthur Conan",,false,1914,openlibrary,https://openlibrary.org/works/OL262505W,en,pd_basis=pub_year<=1930
+a-room-with-a-view__forster-e-m__1905,A Room with a View,"Forster, E. M.",,false,1905,openlibrary,https://openlibrary.org/works/OL88813W,en,pd_basis=pub_year<=1930
+the-prince-and-the-pauper__twain-mark__1881,The Prince and the Pauper,"Twain, Mark",,false,1881,openlibrary,https://openlibrary.org/works/OL53994W,en,pd_basis=pub_year<=1930
+leaves-of-grass__whitman-walt__1855,Leaves of Grass,"Whitman, Walt",,false,1855,openlibrary,https://openlibrary.org/works/OL16333W,en,pd_basis=pub_year<=1930
+the-blue-fairy-book__lang-andrew__1889,The Blue Fairy Book,"Lang, Andrew",,false,1889,openlibrary,https://openlibrary.org/works/OL1088770W,en,pd_basis=pub_year<=1930
+the-princess-and-the-goblin__macdonald-george__1872,The Princess and the Goblin,"MacDonald, George",,false,1872,openlibrary,https://openlibrary.org/works/OL15449W,en,pd_basis=pub_year<=1930
+tess-of-the-durbervilles__hardy-thomas__1707,Tess of the d'Urbervilles,"Hardy, Thomas",,false,1707,openlibrary,https://openlibrary.org/works/OL44927W,en,pd_basis=pub_year<=1930
+the-lost-world__doyle-arthur-conan__1900,The Lost World,"Doyle, Arthur Conan",,false,1900,openlibrary,https://openlibrary.org/works/OL262460W,en,pd_basis=pub_year<=1930
+hrabe-monte-cristo-dil-1-a-2-trisvazkove-vydani__dumas-alexandre__1830,Hrabě Monte Cristo. Díl 1 a 2 (třísvazkové vydání),"Dumas, Alexandre",,false,1830,openlibrary,https://openlibrary.org/works/OL36287W,en,pd_basis=pub_year<=1930
+the-marvelous-land-of-oz__baum-l-frank__1904,The Marvelous Land of Oz,"Baum, L. Frank",,false,1904,openlibrary,https://openlibrary.org/works/OL18396W,en,pd_basis=pub_year<=1930
+robin-hood__pyle-howard__1883,Robin Hood,"Pyle, Howard",,false,1883,openlibrary,https://openlibrary.org/works/OL2021953W,en,pd_basis=pub_year<=1930
+the-yellow-wallpaper__gilman-charlotte-perkins__1892,The Yellow Wallpaper,"Gilman, Charlotte Perkins",,false,1892,openlibrary,https://openlibrary.org/works/OL2772007W,en,pd_basis=pub_year<=1930
+aeneis__maro-publius-vergilius__1592,Aeneis,"Maro, Publius Vergilius",,false,1592,openlibrary,https://openlibrary.org/works/OL47087W,en,pd_basis=pub_year<=1930
+king-henry-viii__shakespeare-william__1670,King Henry VIII,"Shakespeare, William",,false,1670,openlibrary,https://openlibrary.org/works/OL361246W,en,pd_basis=pub_year<=1930
+the-comedy-of-errors__shakespeare-william__1734,The Comedy of Errors,"Shakespeare, William",,false,1734,openlibrary,https://openlibrary.org/works/OL362679W,en,pd_basis=pub_year<=1930
+riders-of-the-purple-sage__grey-zane__1912,Riders of the Purple Sage,"Grey, Zane",,false,1912,openlibrary,https://openlibrary.org/works/OL485504W,en,pd_basis=pub_year<=1930
+ozma-of-oz__baum-l-frank__1907,Ozma of Oz,"Baum, L. Frank",,false,1907,openlibrary,https://openlibrary.org/works/OL18415W,en,pd_basis=pub_year<=1930
+decamerone__boccaccio-giovanni__1516,Decamerone,"Boccaccio, Giovanni",,false,1516,openlibrary,https://openlibrary.org/works/OL7180368W,en,pd_basis=pub_year<=1930
+the-house-of-mirth__wharton-edith__1905,The House of Mirth,"Wharton, Edith",,false,1905,openlibrary,https://openlibrary.org/works/OL98587W,en,pd_basis=pub_year<=1930
+uncle-toms-cabin__stowe-harriet-beecher__1850,Uncle Tom's Cabin,"Stowe, Harriet Beecher",,false,1850,openlibrary,https://openlibrary.org/works/OL152161W,en,pd_basis=pub_year<=1930
+twelfth-night-or-what-you-will__shakespeare-william__1734,"Twelfth Night, or What You Will","Shakespeare, William",,false,1734,openlibrary,https://openlibrary.org/works/OL362694W,en,pd_basis=pub_year<=1930
+the-pilgrims-progress__bunyan-john__1678,The Pilgrim's Progress,"Bunyan, John",,false,1678,openlibrary,https://openlibrary.org/works/OL107195W,en,pd_basis=pub_year<=1930
+the-autobiography-of-benjamin-franklin__franklin-benjamin__1791,The Autobiography of Benjamin Franklin,"Franklin, Benjamin",,false,1791,openlibrary,https://openlibrary.org/works/OL26492W,en,pd_basis=pub_year<=1930
+the-mayor-of-casterbridge__hardy-thomas__1800,The Mayor of Casterbridge,"Hardy, Thomas",,false,1800,openlibrary,https://openlibrary.org/works/OL8193406W,en,pd_basis=pub_year<=1930
+the-jungle__sinclair-upton__1791,The Jungle,"Sinclair, Upton",,false,1791,openlibrary,https://openlibrary.org/works/OL114967W,en,pd_basis=pub_year<=1930
+rainbow-valley__montgomery-lucy-maud__1919,Rainbow Valley,"Montgomery, Lucy Maud",,false,1919,openlibrary,https://openlibrary.org/works/OL77756W,en,pd_basis=pub_year<=1930
+as-a-man-thinketh__allen-james__1902,As a man thinketh,"Allen, James",,false,1902,openlibrary,https://openlibrary.org/works/OL43024W,en,pd_basis=pub_year<=1930
+the-story-of-the-treasure-seekers__nesbit-edith__1899,The Story of the Treasure Seekers,"Nesbit, Edith",,false,1899,openlibrary,https://openlibrary.org/works/OL99522W,en,pd_basis=pub_year<=1930
+the-jewel-of-seven-stars__stoker-bram__1902,The Jewel of Seven Stars,"Stoker, Bram",,false,1902,openlibrary,https://openlibrary.org/works/OL85891W,en,pd_basis=pub_year<=1930
+the-woman-in-white__collins-wilkie__1859,The Woman in White,"Collins, Wilkie",,false,1859,openlibrary,https://openlibrary.org/works/OL176045W,en,pd_basis=pub_year<=1930
+the-battle-of-life__dickens-charles__1846,The Battle of Life,"Dickens, Charles",,false,1846,openlibrary,https://openlibrary.org/works/OL14868497W,en,pd_basis=pub_year<=1930
+sonnets__shakespeare-william__1609,Sonnets,"Shakespeare, William",,false,1609,openlibrary,https://openlibrary.org/works/OL362706W,en,pd_basis=pub_year<=1930
+the-man-who-knew-too-much__chesterton-gilbert-keith__1922,The Man Who Knew Too Much,"Chesterton, Gilbert Keith",,false,1922,openlibrary,https://openlibrary.org/works/OL76468W,en,pd_basis=pub_year<=1930
+meditations__aurelius-marcus__1626,Meditations,"Aurelius, Marcus",,false,1626,openlibrary,https://openlibrary.org/works/OL1317211W,en,pd_basis=pub_year<=1930
+the-red-badge-of-courage__crane-stephen__1871,The Red Badge of Courage,"Crane, Stephen",,false,1871,openlibrary,https://openlibrary.org/works/OL25649539W,en,pd_basis=pub_year<=1930;multi_year_dedup_review
+rilla-of-ingleside__montgomery-lucy-maud__1920,Rilla of Ingleside,"Montgomery, Lucy Maud",,false,1920,openlibrary,https://openlibrary.org/works/OL77757W,en,pd_basis=pub_year<=1930
+du-cote-de-chez-swann__proust-marcel__1908,Du côté de chez Swann,"Proust, Marcel",,false,1908,openlibrary,https://openlibrary.org/works/OL30053009W,en,pd_basis=pub_year<=1930
+the-emerald-city-of-oz__baum-l-frank__1910,The Emerald City of Oz,"Baum, L. Frank",,false,1910,openlibrary,https://openlibrary.org/works/OL18409W,en,pd_basis=pub_year<=1930
+faust__goethe-johann-wolfgang-von__1800,Faust,"Goethe, Johann Wolfgang von",,false,1800,openlibrary,https://openlibrary.org/works/OL52456W,en,pd_basis=pub_year<=1930
+henry-v__shakespeare-william__1600,Henry V,"Shakespeare, William",,false,1600,openlibrary,https://openlibrary.org/works/OL361466W,en,pd_basis=pub_year<=1930
+this-side-of-paradise__fitzgerald-f-scott__1920,This Side of Paradise,"Fitzgerald, F. Scott",,false,1920,openlibrary,https://openlibrary.org/works/OL468488W,en,pd_basis=pub_year<=1930
+silas-marner__eliot-george__1800,Silas Marner,"Eliot, George",,false,1800,openlibrary,https://openlibrary.org/works/OL20874W,en,pd_basis=pub_year<=1930
+the-prisoner-of-zenda__hope-anthony__1800,The Prisoner of Zenda,"Hope, Anthony",,false,1800,openlibrary,https://openlibrary.org/works/OL245401W,en,pd_basis=pub_year<=1930
+herland__gilman-charlotte-perkins__1915,Herland,"Gilman, Charlotte Perkins",,false,1915,openlibrary,https://openlibrary.org/works/OL2771987W,en,pd_basis=pub_year<=1930
+dorothy-and-the-wizard-in-oz__baum-l-frank__1908,Dorothy and the Wizard in Oz,"Baum, L. Frank",,false,1908,openlibrary,https://openlibrary.org/works/OL18412W,en,pd_basis=pub_year<=1930
+agnes-grey__bronte-anne__1847,Agnes Grey,"Brontë, Anne",,false,1847,openlibrary,https://openlibrary.org/works/OL2462427W,en,pd_basis=pub_year<=1930
+o-pioneers__cather-willa__1913,O Pioneers!,"Cather, Willa",,false,1913,openlibrary,https://openlibrary.org/works/OL12795W,en,pd_basis=pub_year<=1930
+ulysses__joyce-james__1914,Ulysses,"Joyce, James",,false,1914,openlibrary,https://openlibrary.org/works/OL86318W,en,pd_basis=pub_year<=1930
+the-second-jungle-book__kipling-rudyard__1887,The Second Jungle Book,"Kipling, Rudyard",,false,1887,openlibrary,https://openlibrary.org/works/OL19926W,en,pd_basis=pub_year<=1930
+lady-susan__austen-jane__1925,Lady Susan,"Austen, Jane",,false,1925,openlibrary,https://openlibrary.org/works/OL66614W,en,pd_basis=pub_year<=1930
+the-mystery-of-edwin-drood__dickens-charles__1870,The mystery of Edwin Drood,"Dickens, Charles",,false,1870,openlibrary,https://openlibrary.org/works/OL8763148W,en,pd_basis=pub_year<=1930
+bram-stokers-dracula-omnibus__stoker-bram__1897,Bram Stoker's Dracula omnibus,"Stoker, Bram",,false,1897,openlibrary,https://openlibrary.org/works/OL85875W,en,pd_basis=pub_year<=1930
+the-iron-heel__london-jack__1907,The Iron Heel,"London, Jack",,false,1907,openlibrary,https://openlibrary.org/works/OL74502W,en,pd_basis=pub_year<=1930
+jos-boys__alcott-louisa-may__1886,Jo's Boys,"Alcott, Louisa May",,false,1886,openlibrary,https://openlibrary.org/works/OL26668762W,en,pd_basis=pub_year<=1930
+eight-cousins__alcott-louisa-may__1874,Eight cousins,"Alcott, Louisa May",,false,1874,openlibrary,https://openlibrary.org/works/OL17846238W,en,pd_basis=pub_year<=1930
+the-lost-princess-of-oz__baum-l-frank__1917,The Lost Princess of Oz,"Baum, L. Frank",,false,1917,openlibrary,https://openlibrary.org/works/OL18411W,en,pd_basis=pub_year<=1930
+the-scarlet-pimpernel__orczy-emma__1900,The Scarlet Pimpernel,"Orczy, Emma",,false,1900,openlibrary,https://openlibrary.org/works/OL1253285W,en,pd_basis=pub_year<=1930
+flatland__abbott-edwin-abbott__1886,Flatland,"Abbott, Edwin Abbott",,false,1886,openlibrary,https://openlibrary.org/works/OL118393W,en,pd_basis=pub_year<=1930;multi_year_dedup_review
+his-last-bow-8-stories__doyle-arthur-conan__1917,His Last Bow [8 stories],"Doyle, Arthur Conan",,false,1917,openlibrary,https://openlibrary.org/works/OL262452W,en,pd_basis=pub_year<=1930
+the-castle-of-otranto__walpole-horace__1764,The Castle of Otranto,"Walpole, Horace",,false,1764,openlibrary,https://openlibrary.org/works/OL183675W,en,pd_basis=pub_year<=1930
+the-story-of-the-amulet__nesbit-edith__1905,The Story of the Amulet,"Nesbit, Edith",,false,1905,openlibrary,https://openlibrary.org/works/OL407476W,en,pd_basis=pub_year<=1930
+the-blithedale-romance__hawthorne-nathaniel__1852,The Blithedale Romance,"Hawthorne, Nathaniel",,false,1852,openlibrary,https://openlibrary.org/works/OL455512W,en,pd_basis=pub_year<=1930
+carmilla__fanu-sheridan-le__1871,Carmilla,"Fanu, Sheridan Le",,false,1871,openlibrary,https://openlibrary.org/works/OL2895536W,en,pd_basis=pub_year<=1930
+the-prophet__gibran-kahlil__1900,The Prophet,"Gibran, Kahlil",,false,1900,openlibrary,https://openlibrary.org/works/OL318900W,en,pd_basis=pub_year<=1930
+women-in-love__lawrence-d-h__1877,Women in Love,"Lawrence, D. H.",,false,1877,openlibrary,https://openlibrary.org/works/OL81294W,en,pd_basis=pub_year<=1930
+the-turn-of-the-screw__james-henry__1898,The Turn of the Screw,"James, Henry",,false,1898,openlibrary,https://openlibrary.org/works/OL276386W,en,pd_basis=pub_year<=1930
+the-complete-life-and-adventures-of-santa-claus__baum-l-frank__1902,The Complete Life and Adventures of Santa Claus,"Baum, L. Frank",,false,1902,openlibrary,https://openlibrary.org/works/OL262358W,en,pd_basis=pub_year<=1930
+the-tenant-of-wildfell-hall__bronte-anne__1847,The Tenant of Wildfell Hall,"Brontë, Anne",,false,1847,openlibrary,https://openlibrary.org/works/OL260101W,en,pd_basis=pub_year<=1930
+lorna-doone__blackmore-r-d__1656,Lorna Doone,"Blackmore, R. D.",,false,1656,openlibrary,https://openlibrary.org/works/OL3686133W,en,pd_basis=pub_year<=1930
 la-chartreuse-de-parme__stendhal__1800,La chartreuse de Parme,Stendhal,,false,1800,openlibrary,https://openlibrary.org/works/OL733285W,en,pd_basis=pub_year<=1930
-heart-of-darkness__joseph-conrad__1899,Heart of Darkness,"Conrad, Joseph",,false,1899,openlibrary,https://openlibrary.org/works/OL38663W,en,pd_basis=pub_year<=1930
-pollyanna__eleanor-hodgman-porter__1912,Pollyanna,"Porter, Eleanor Hodgman",,false,1912,openlibrary,https://openlibrary.org/works/OL2775807W,en,pd_basis=pub_year<=1930
-also-sprach-zarathustra__friedrich-nietzsche__1883,Also sprach Zarathustra,"Nietzsche, Friedrich",,false,1883,openlibrary,https://openlibrary.org/works/OL98130W,en,pd_basis=pub_year<=1930
-heretics__gilbert-keith-chesterton__1905,Heretics,"Chesterton, Gilbert Keith",,false,1905,openlibrary,https://openlibrary.org/works/OL76482W,en,pd_basis=pub_year<=1930
-orthodoxy__gilbert-keith-chesterton__1874,Orthodoxy,"Chesterton, Gilbert Keith",,false,1874,openlibrary,https://openlibrary.org/works/OL76350W,en,pd_basis=pub_year<=1930
-the-affair-at-the-semiramis-hotel__a-e-w-mason__1917,The Affair at the Semiramis Hotel,"Mason, A. E. W.",,false,1917,openlibrary,https://openlibrary.org/works/OL532398W,en,pd_basis=pub_year<=1930
-saint-francis-of-assisi__gilbert-keith-chesterton__1923,Saint Francis of Assisi,"Chesterton, Gilbert Keith",,false,1923,openlibrary,https://openlibrary.org/works/OL76399W,en,pd_basis=pub_year<=1930
-the-return-of-sherlock-holmes__arthur-conan-doyle__1903,The Return of Sherlock Holmes,"Doyle, Arthur Conan",,false,1903,openlibrary,https://openlibrary.org/works/OL262477W,en,pd_basis=pub_year<=1930
-alices-adventures-in-wonderland-through-the-looking-glass__lewis-carroll__1889,Alice's Adventures in Wonderland / Through the Looking Glass,"Carroll, Lewis",,false,1889,openlibrary,https://openlibrary.org/works/OL151411W,en,pd_basis=pub_year<=1930
-adam-bede__george-eliot__1800,Adam Bede,"Eliot, George",,false,1800,openlibrary,https://openlibrary.org/works/OL20935W,en,pd_basis=pub_year<=1930
-the-pickwick-papers__charles-dickens__1800,The Pickwick Papers,"Dickens, Charles",,false,1800,openlibrary,https://openlibrary.org/works/OL8763776W,en,pd_basis=pub_year<=1930
-shirley__charlotte-bronte__1800,Shirley,"Brontë, Charlotte",,false,1800,openlibrary,https://openlibrary.org/works/OL1095397W,en,pd_basis=pub_year<=1930
-the-jungle-book__rudyard-kipling__1893,The Jungle Book,"Kipling, Rudyard",,false,1893,openlibrary,https://openlibrary.org/works/OL19870W,en,pd_basis=pub_year<=1930
-the-road-to-oz__l-frank-baum__1909,The Road to Oz,"Baum, L. Frank",,false,1909,openlibrary,https://openlibrary.org/works/OL262390W,en,pd_basis=pub_year<=1930
-the-murders-in-the-rue-morgue__edgar-allan-poe__1841,The Murders in the Rue Morgue,"Poe, Edgar Allan",,false,1841,openlibrary,https://openlibrary.org/works/OL41072W,en,pd_basis=pub_year<=1930
-the-riddle-of-the-sands__erskine-childers__1903,The Riddle of the Sands,"Childers, Erskine",,false,1903,openlibrary,https://openlibrary.org/works/OL23797W,en,pd_basis=pub_year<=1930
-memoirs-of-sherlock-holmes-11-stories__arthur-conan-doyle__1893,Memoirs of Sherlock Holmes [11 stories],"Doyle, Arthur Conan",,false,1893,openlibrary,https://openlibrary.org/works/OL262463W,en,pd_basis=pub_year<=1930
-the-sea-fairies__l-frank-baum__1911,The Sea Fairies,"Baum, L. Frank",,false,1911,openlibrary,https://openlibrary.org/works/OL262384W,en,pd_basis=pub_year<=1930
-patrologiae-cursus-completus__jp-migne__1800,Patrologiae cursus completus,"Migne, J.-P",,false,1800,openlibrary,https://openlibrary.org/works/OL177456W,en,pd_basis=pub_year<=1930
-loves-labours-lost__william-shakespeare__1891,Love's Labour's Lost,"Shakespeare, William",,false,1891,openlibrary,https://openlibrary.org/works/OL24399008W,en,pd_basis=pub_year<=1930
-les-miserables__victor-hugo__1862,Les Misérables,"Hugo, Victor",,false,1862,openlibrary,https://openlibrary.org/works/OL1063588W,en,pd_basis=pub_year<=1930
-henry-vi-part-3__william-shakespeare__1600,"Henry VI, Part 3","Shakespeare, William",,false,1600,openlibrary,https://openlibrary.org/works/OL258713W,en,pd_basis=pub_year<=1930
-the-club-of-queer-trades__gilbert-keith-chesterton__1900,The Club of Queer Trades,"Chesterton, Gilbert Keith",,false,1900,openlibrary,https://openlibrary.org/works/OL76325W,en,pd_basis=pub_year<=1930
-greenmantle__john-buchan__1915,Greenmantle,"Buchan, John",,false,1915,openlibrary,https://openlibrary.org/works/OL76501W,en,pd_basis=pub_year<=1930
-to-the-lighthouse__virginia-woolf__1927,To the Lighthouse,"Woolf, Virginia",,false,1927,openlibrary,https://openlibrary.org/works/OL39396W,en,pd_basis=pub_year<=1930
-moonfleet__john-meade-falkner__1898,Moonfleet,"Falkner, John Meade",,false,1898,openlibrary,https://openlibrary.org/works/OL1352097W,en,pd_basis=pub_year<=1930
-villette-a-novel__charlotte-bronte__1853,"Villette, a novel","Brontë, Charlotte",,false,1853,openlibrary,https://openlibrary.org/works/OL1095403W,en,pd_basis=pub_year<=1930
-little-men__louisa-may-alcott__1885,Little men,"Alcott, Louisa May",,false,1885,openlibrary,https://openlibrary.org/works/OL17761452W,en,pd_basis=pub_year<=1930
-lady-chatterleys-lover__d-h-lawrence__1900,Lady Chatterley's Lover,"Lawrence, D. H.",,false,1900,openlibrary,https://openlibrary.org/works/OL81180W,en,pd_basis=pub_year<=1930
-baums-american-fairy-tales__l-frank-baum__1901,Baum's American Fairy Tales,"Baum, L. Frank",,false,1901,openlibrary,https://openlibrary.org/works/OL262341W,en,pd_basis=pub_year<=1930
-sky-island__l-frank-baum__1912,Sky Island,"Baum, L. Frank",,false,1912,openlibrary,https://openlibrary.org/works/OL262385W,en,pd_basis=pub_year<=1930
-the-crimson-fairy-book__andrew-lang__1903,The Crimson Fairy Book,"Lang, Andrew",,false,1903,openlibrary,https://openlibrary.org/works/OL1088783W,en,pd_basis=pub_year<=1930
-she__h-rider-haggard__1886,She,"Haggard, H. Rider",,false,1886,openlibrary,https://openlibrary.org/works/OL17453W,en,pd_basis=pub_year<=1930
-my-bondage-and-my-freedom__frederick-douglass__1815,My bondage and my freedom,"Douglass, Frederick",,false,1815,openlibrary,https://openlibrary.org/works/OL69179W,en,pd_basis=pub_year<=1930
-the-happy-prince-and-other-tales__oscar-wilde__1888,The Happy Prince and other tales,"Wilde, Oscar",,false,1888,openlibrary,https://openlibrary.org/works/OL8269770W,en,pd_basis=pub_year<=1930
-allan-quatermain__h-rider-haggard__1887,Allan Quatermain,"Haggard, H. Rider",,false,1887,openlibrary,https://openlibrary.org/works/OL17465W,en,pd_basis=pub_year<=1930
-the-orange-fairy-book__andrew-lang__1906,The Orange Fairy Book,"Lang, Andrew",,false,1906,openlibrary,https://openlibrary.org/works/OL1088838W,en,pd_basis=pub_year<=1930
-the-deerslayer__james-fenimore-cooper__1841,The deerslayer,"Cooper, James Fenimore",,false,1841,openlibrary,https://openlibrary.org/works/OL77950W,en,pd_basis=pub_year<=1930
-the-scarecrow-of-oz__l-frank-baum__1915,The Scarecrow of Oz,"Baum, L. Frank",,false,1915,openlibrary,https://openlibrary.org/works/OL262352W,en,pd_basis=pub_year<=1930
-howards-end__e-m-forster__1910,Howards End,"Forster, E. M.",,false,1910,openlibrary,https://openlibrary.org/works/OL88881W,en,pd_basis=pub_year<=1930
-at-the-back-of-the-north-wind__george-macdonald__1871,At the Back of the North Wind,"MacDonald, George",,false,1871,openlibrary,https://openlibrary.org/works/OL15451W,en,pd_basis=pub_year<=1930
-the-patchwork-girl-of-oz__l-frank-baum__1913,The Patchwork Girl of Oz,"Baum, L. Frank",,false,1913,openlibrary,https://openlibrary.org/works/OL18405W,en,pd_basis=pub_year<=1930
-the-magic-of-oz__l-frank-baum__1919,The Magic of Oz,"Baum, L. Frank",,false,1919,openlibrary,https://openlibrary.org/works/OL262380W,en,pd_basis=pub_year<=1930
-the-beautiful-and-damned__f-scott-fitzgerald__1920,The Beautiful and Damned,"Fitzgerald, F. Scott",,false,1920,openlibrary,https://openlibrary.org/works/OL468362W,en,pd_basis=pub_year<=1930
-winters-tale__william-shakespeare__1735,Winter's Tale,"Shakespeare, William",,false,1735,openlibrary,https://openlibrary.org/works/OL362687W,en,pd_basis=pub_year<=1930
-tiktok-of-oz__l-frank-baum__1914,Tik-Tok of Oz,"Baum, L. Frank",,false,1914,openlibrary,https://openlibrary.org/works/OL18414W,en,pd_basis=pub_year<=1930
-pericles__william-shakespeare__1609,Pericles,"Shakespeare, William",,false,1609,openlibrary,https://openlibrary.org/works/OL361665W,en,pd_basis=pub_year<=1930
-rinkitink-in-oz__l-frank-baum__1916,Rinkitink in Oz,"Baum, L. Frank",,false,1916,openlibrary,https://openlibrary.org/works/OL262376W,en,pd_basis=pub_year<=1930
-the-princess-and-curdie__george-macdonald__1832,The Princess and Curdie,"MacDonald, George",,false,1832,openlibrary,https://openlibrary.org/works/OL15448W,en,pd_basis=pub_year<=1930
-lilith__george-macdonald__1895,Lilith,"MacDonald, George",,false,1895,openlibrary,https://openlibrary.org/works/OL15437W,en,pd_basis=pub_year<=1930
-the-red-fairy-book__andrew-lang__1890,The Red Fairy Book,"Lang, Andrew",,false,1890,openlibrary,https://openlibrary.org/works/OL1088858W,en,pd_basis=pub_year<=1930
-henry-iv-part-2__william-shakespeare__1600,"Henry IV, Part 2","Shakespeare, William",,false,1600,openlibrary,https://openlibrary.org/works/OL362697W,en,pd_basis=pub_year<=1930
-ivanhoe__sir-walter-scott__1800,Ivanhoe,"Scott, Sir Walter",,false,1800,openlibrary,https://openlibrary.org/works/OL863808W,en,pd_basis=pub_year<=1930
-the-king-in-yellow__robert-w-chambers__1895,The King in Yellow,"Chambers, Robert W.",,false,1895,openlibrary,https://openlibrary.org/works/OL8127201W,en,pd_basis=pub_year<=1930
-the-enchanted-castle__edith-nesbit__1907,The Enchanted Castle,"Nesbit, Edith",,false,1907,openlibrary,https://openlibrary.org/works/OL99541W,en,pd_basis=pub_year<=1930
-eugenics-and-other-evils__gilbert-keith-chesterton__1922,Eugenics and Other Evils,"Chesterton, Gilbert Keith",,false,1922,openlibrary,https://openlibrary.org/works/OL76446W,en,pd_basis=pub_year<=1930
-the-book-of-tea__okakura-kakuzo__1900,The Book of Tea,"Kakuzō, Okakura",,false,1900,openlibrary,https://openlibrary.org/works/OL7095112W,en,pd_basis=pub_year<=1930
-mrs-dalloway__virginia-woolf__1925,Mrs. Dalloway,"Woolf, Virginia",,false,1925,openlibrary,https://openlibrary.org/works/OL39349W,en,pd_basis=pub_year<=1930
-cranford__elizabeth-cleghorn-gaskell__1853,Cranford,"Gaskell, Elizabeth Cleghorn",,false,1853,openlibrary,https://openlibrary.org/works/OL1103093W,en,pd_basis=pub_year<=1930
-the-coral-island__robert-michael-ballantyne__1858,The Coral Island,"Ballantyne, Robert Michael",,false,1858,openlibrary,https://openlibrary.org/works/OL2319934W,en,pd_basis=pub_year<=1930
-phantastes__george-macdonald__1850,Phantastes,"MacDonald, George",,false,1850,openlibrary,https://openlibrary.org/works/OL15450W,en,pd_basis=pub_year<=1930
-a-history-of-new-york__washington-irving__1800,A history of New York,"Irving, Washington",,false,1800,openlibrary,https://openlibrary.org/works/OL63871W,en,pd_basis=pub_year<=1930
-the-house-of-seven-gables-readalong__nathaniel-hawthorne__1851,The House of Seven Gables Readalong,"Hawthorne, Nathaniel",,false,1851,openlibrary,https://openlibrary.org/works/OL455288W,en,pd_basis=pub_year<=1930
-barchester-towers__anthony-trollope__1815,Barchester Towers,"Trollope, Anthony",,false,1815,openlibrary,https://openlibrary.org/works/OL109724W,en,pd_basis=pub_year<=1930
-as-you-like-it__william-shakespeare__1734,As You Like It,"Shakespeare, William",,false,1734,openlibrary,https://openlibrary.org/works/OL362698W,en,pd_basis=pub_year<=1930
-the-wisdom-of-father-brown__gilbert-keith-chesterton__1913,The Wisdom of Father Brown,"Chesterton, Gilbert Keith",,false,1913,openlibrary,https://openlibrary.org/works/OL76483W,en,pd_basis=pub_year<=1930
-voyage-out__virginia-woolf__1915,Voyage Out,"Woolf, Virginia",,false,1915,openlibrary,https://openlibrary.org/works/OL27064817W,en,pd_basis=pub_year<=1930
-on-liberty__john-stuart-mill__1859,On Liberty,"Mill, John Stuart",,false,1859,openlibrary,https://openlibrary.org/works/OL1068091W,en,pd_basis=pub_year<=1930
-sister-carrie__theodore-dreiser__1900,Sister Carrie,"Dreiser, Theodore",,false,1900,openlibrary,https://openlibrary.org/works/OL100203W,en,pd_basis=pub_year<=1930
-ayesha__h-rider-haggard__1900,Ayesha,"Haggard, H. Rider",,false,1900,openlibrary,https://openlibrary.org/works/OL17440W,en,pd_basis=pub_year<=1930
-the-white-company__arthur-conan-doyle__1890,The White Company,"Doyle, Arthur Conan",,false,1890,openlibrary,https://openlibrary.org/works/OL262553W,en,pd_basis=pub_year<=1930
-the-tin-woodman-of-oz__l-frank-baum__1918,The Tin Woodman of Oz,"Baum, L. Frank",,false,1918,openlibrary,https://openlibrary.org/works/OL262381W,en,pd_basis=pub_year<=1930
-the-man-who-would-be-king__rudyard-kipling__1898,The  man who would be king,"Kipling, Rudyard",,false,1898,openlibrary,https://openlibrary.org/works/OL20112W,en,pd_basis=pub_year<=1930
-the-violet-fairy-book-large-print__andrew-lang__1901,The Violet Fairy Book (Large Print),"Lang, Andrew",,false,1901,openlibrary,https://openlibrary.org/works/OL1088883W,en,pd_basis=pub_year<=1930
-the-alhambra__washington-irving__1800,The Alhambra,"Irving, Washington",,false,1800,openlibrary,https://openlibrary.org/works/OL63996W,en,pd_basis=pub_year<=1930
-manifest-der-kommunistischen-partei__karl-marx__1848,Manifest der Kommunistischen Partei,"Marx, Karl",,false,1848,openlibrary,https://openlibrary.org/works/OL629052W,en,pd_basis=pub_year<=1930
-the-yellow-fairy-book__andrew-lang__1894,The Yellow Fairy Book,"Lang, Andrew",,false,1894,openlibrary,https://openlibrary.org/works/OL1088888W,en,pd_basis=pub_year<=1930
-a-princess-of-mars__edgar-rice-burroughs__1912,A Princess of Mars,"Burroughs, Edgar Rice",,false,1912,openlibrary,https://openlibrary.org/works/OL1418187W,en,pd_basis=pub_year<=1930
-the-importance-of-being-earnest__oscar-wilde__1893,The Importance of Being Earnest,"Wilde, Oscar",,false,1893,openlibrary,https://openlibrary.org/works/OL27776452W,en,pd_basis=pub_year<=1930
-glinda-of-oz__l-frank-baum__1920,Glinda of Oz,"Baum, L. Frank",,false,1920,openlibrary,https://openlibrary.org/works/OL262391W,en,pd_basis=pub_year<=1930
-the-napoleon-of-notting-hill__gilbert-keith-chesterton__1904,The Napoleon of Notting Hill,"Chesterton, Gilbert Keith",,false,1904,openlibrary,https://openlibrary.org/works/OL76473W,en,pd_basis=pub_year<=1930
-quo-vadis-powiesc-z-czasow-nerona__henryk-sienkiewicz__1895,Quo Vadis? Powieść z czasów Nerona,"Sienkiewicz, Henryk",,false,1895,openlibrary,https://openlibrary.org/works/OL503424W,en,pd_basis=pub_year<=1930
-orlando__virginia-woolf__1928,Orlando,"Woolf, Virginia",,false,1928,openlibrary,https://openlibrary.org/works/OL39360W,en,pd_basis=pub_year<=1930
-babbitt__sinclair-lewis__1922,Babbitt,"Lewis, Sinclair",,false,1922,openlibrary,https://openlibrary.org/works/OL51148W,en,pd_basis=pub_year<=1930
-la-dame-aux-camelias-novel__alexandre-dumas-fils__1848,La dame aux camélias [novel],"fils, Alexandre Dumas",,false,1848,openlibrary,https://openlibrary.org/works/OL259509W,en,pd_basis=pub_year<=1930
-metamorphoses__lucius-apuleius__1500,Metamorphoses,"Apuleius, Lucius",,false,1500,openlibrary,https://openlibrary.org/works/OL658250W,en,pd_basis=pub_year<=1930
-flower-fables__louisa-may-alcott__1854,Flower Fables,"Alcott, Louisa May",,false,1854,openlibrary,https://openlibrary.org/works/OL30056W,en,pd_basis=pub_year<=1930
-the-red-badge-of-courage__stephen-crane__1871,The Red Badge of Courage,"Crane, Stephen",,false,1871,openlibrary,https://openlibrary.org/works/OL25649539W,en,pd_basis=pub_year<=1930
-the-heritage-of-the-desert__zane-grey__1910,The Heritage of the Desert,"Grey, Zane",,false,1910,openlibrary,https://openlibrary.org/works/OL485453W,en,pd_basis=pub_year<=1930
-inferno__dante-alighieri__1767,Inferno,"Alighieri, Dante",,false,1767,openlibrary,https://openlibrary.org/works/OL93227W,en,pd_basis=pub_year<=1930
-emily-of-new-moon__lucy-maud-montgomery__1923,Emily of New Moon,"Montgomery, Lucy Maud",,false,1923,openlibrary,https://openlibrary.org/works/OL77781W,en,pd_basis=pub_year<=1930
-the-magic-city__edith-nesbit__1910,The Magic City,"Nesbit, Edith",,false,1910,openlibrary,https://openlibrary.org/works/OL99535W,en,pd_basis=pub_year<=1930
-peter-pan__j-m-barrie__1911,Peter Pan,"Barrie, J. M.",,false,1911,openlibrary,https://openlibrary.org/works/OL462007W,en,pd_basis=pub_year<=1930
-the-chimes__charles-dickens__1800,The Chimes,"Dickens, Charles",,false,1800,openlibrary,https://openlibrary.org/works/OL14868619W,en,pd_basis=pub_year<=1930
-la-pere-goriot__honore-de-balzac__1800,La père Goriot,"Balzac, Honoré de",,false,1800,openlibrary,https://openlibrary.org/works/OL85047W,en,pd_basis=pub_year<=1930
-the-phoenix-and-the-carpet__edith-nesbit__1903,The Phoenix and the Carpet,"Nesbit, Edith",,false,1903,openlibrary,https://openlibrary.org/works/OL99539W,en,pd_basis=pub_year<=1930
-mr-standfast__john-buchan__1918,Mr. Standfast,"Buchan, John",,false,1918,openlibrary,https://openlibrary.org/works/OL76598W,en,pd_basis=pub_year<=1930
-the-history-of-tom-jones__henry-fielding__1749,The History of Tom Jones,"Fielding, Henry",,false,1749,openlibrary,https://openlibrary.org/works/OL45623W,en,pd_basis=pub_year<=1930
-idle-thoughts-of-an-idle-fellow__jerome-klapka-jerome__1880,Idle Thoughts of an Idle Fellow,"Jérôme, Jerome Klapka",,false,1880,openlibrary,https://openlibrary.org/works/OL1793135W,en,pd_basis=pub_year<=1930
-the-portrait-of-a-lady__henry-james__1881,The Portrait of a Lady,"James, Henry",,false,1881,openlibrary,https://openlibrary.org/works/OL276365W,en,pd_basis=pub_year<=1930
-the-great-god-pan__arthur-machen__1894,The Great God Pan,"Machen, Arthur",,false,1894,openlibrary,https://openlibrary.org/works/OL3388961W,en,pd_basis=pub_year<=1930
-le-avventure-di-pinocchio__carlo-collodi__1883,Le avventure di Pinocchio,"Collodi, Carlo",,false,1883,openlibrary,https://openlibrary.org/works/OL1527356W,en,pd_basis=pub_year<=1930
-the-last-man__mary-shelley__1826,The Last Man,"Shelley, Mary",,false,1826,openlibrary,https://openlibrary.org/works/OL450124W,en,pd_basis=pub_year<=1930
-up-from-slavery__booker-t-washington__1900,Up from Slavery,"Washington, Booker T.",,false,1900,openlibrary,https://openlibrary.org/works/OL357501W,en,pd_basis=pub_year<=1930
-the-pathfinder__james-fenimore-cooper__1800,The Pathfinder,"Cooper, James Fenimore",,false,1800,openlibrary,https://openlibrary.org/works/OL78009W,en,pd_basis=pub_year<=1930
-le-tour-du-monde-en-quatrevingts-jours__jules-verne__1872,Le Tour du Monde en Quatre-Vingts Jours,"Verne, Jules",,false,1872,openlibrary,https://openlibrary.org/works/OL1100007W,en,pd_basis=pub_year<=1930
-the-norsemen-in-the-west-or-america-before-columbus__robert-michael-ballantyne__1872,"The Norsemen in the West, or, America before Columbus","Ballantyne, Robert Michael",,false,1872,openlibrary,https://openlibrary.org/works/OL2320039W,en,pd_basis=pub_year<=1930
-jude-the-obscure__thomas-hardy__1895,Jude the Obscure,"Hardy, Thomas",,false,1895,openlibrary,https://openlibrary.org/works/OL44986W,en,pd_basis=pub_year<=1930
-under-the-greenwood-tree-or-the-mellstock-quire__thomas-hardy__1872,"Under the Greenwood Tree or, The Mellstock quire","Hardy, Thomas",,false,1872,openlibrary,https://openlibrary.org/works/OL44973W,en,pd_basis=pub_year<=1930
-de-la-democratie-en-amerique__alexis-de-tocqueville__1835,De la démocratie en Amérique,"Tocqueville, Alexis de",,false,1835,openlibrary,https://openlibrary.org/works/OL278001W,en,pd_basis=pub_year<=1930
-the-golden-age__kenneth-grahame__1879,The Golden Age,"Grahame, Kenneth",,false,1879,openlibrary,https://openlibrary.org/works/OL69603W,en,pd_basis=pub_year<=1930
-the-man-of-the-forest__zane-grey__1920,The Man of the Forest,"Grey, Zane",,false,1920,openlibrary,https://openlibrary.org/works/OL485477W,en,pd_basis=pub_year<=1930
-the-warlord-of-mars-3__edgar-rice-burroughs__1914,The warlord of Mars #3,"Burroughs, Edgar Rice",,false,1914,openlibrary,https://openlibrary.org/works/OL1418137W,en,pd_basis=pub_year<=1930
-bleak-house__charles-dickens__1850,Bleak House,"Dickens, Charles",,false,1850,openlibrary,https://openlibrary.org/works/OL14868510W,en,pd_basis=pub_year<=1930
-tanglewood-tales__nathaniel-hawthorne__1853,Tanglewood Tales,"Hawthorne, Nathaniel",,false,1853,openlibrary,https://openlibrary.org/works/OL455476W,en,pd_basis=pub_year<=1930
-basil__wilkie-collins__1852,Basil,"Collins, Wilkie",,false,1852,openlibrary,https://openlibrary.org/works/OL176086W,en,pd_basis=pub_year<=1930
-princesse-de-cleves__madame-de-la-fayette__1678,Princesse de Clèves,"Fayette, Madame de La",,false,1678,openlibrary,https://openlibrary.org/works/OL1244914W,en,pd_basis=pub_year<=1930
+heart-of-darkness__conrad-joseph__1899,Heart of Darkness,"Conrad, Joseph",,false,1899,openlibrary,https://openlibrary.org/works/OL38663W,en,pd_basis=pub_year<=1930
+pollyanna__porter-eleanor-hodgman__1912,Pollyanna,"Porter, Eleanor Hodgman",,false,1912,openlibrary,https://openlibrary.org/works/OL2775807W,en,pd_basis=pub_year<=1930
+also-sprach-zarathustra__nietzsche-friedrich__1883,Also sprach Zarathustra,"Nietzsche, Friedrich",,false,1883,openlibrary,https://openlibrary.org/works/OL98130W,en,pd_basis=pub_year<=1930
+heretics__chesterton-gilbert-keith__1905,Heretics,"Chesterton, Gilbert Keith",,false,1905,openlibrary,https://openlibrary.org/works/OL76482W,en,pd_basis=pub_year<=1930
+orthodoxy__chesterton-gilbert-keith__1874,Orthodoxy,"Chesterton, Gilbert Keith",,false,1874,openlibrary,https://openlibrary.org/works/OL76350W,en,pd_basis=pub_year<=1930
+the-affair-at-the-semiramis-hotel__mason-a-e-w__1917,The Affair at the Semiramis Hotel,"Mason, A. E. W.",,false,1917,openlibrary,https://openlibrary.org/works/OL532398W,en,pd_basis=pub_year<=1930
+saint-francis-of-assisi__chesterton-gilbert-keith__1923,Saint Francis of Assisi,"Chesterton, Gilbert Keith",,false,1923,openlibrary,https://openlibrary.org/works/OL76399W,en,pd_basis=pub_year<=1930
+alices-adventures-in-wonderland-through-the-looking-glass__carroll-lewis__1889,Alice's Adventures in Wonderland / Through the Looking Glass,"Carroll, Lewis",,false,1889,openlibrary,https://openlibrary.org/works/OL151411W,en,pd_basis=pub_year<=1930
+the-return-of-sherlock-holmes__doyle-arthur-conan__1903,The Return of Sherlock Holmes,"Doyle, Arthur Conan",,false,1903,openlibrary,https://openlibrary.org/works/OL262477W,en,pd_basis=pub_year<=1930
+adam-bede__eliot-george__1800,Adam Bede,"Eliot, George",,false,1800,openlibrary,https://openlibrary.org/works/OL20935W,en,pd_basis=pub_year<=1930
+the-pickwick-papers__dickens-charles__1800,The Pickwick Papers,"Dickens, Charles",,false,1800,openlibrary,https://openlibrary.org/works/OL8763776W,en,pd_basis=pub_year<=1930
+shirley__bronte-charlotte__1800,Shirley,"Brontë, Charlotte",,false,1800,openlibrary,https://openlibrary.org/works/OL1095397W,en,pd_basis=pub_year<=1930
+the-jungle-book__kipling-rudyard__1893,The Jungle Book,"Kipling, Rudyard",,false,1893,openlibrary,https://openlibrary.org/works/OL19870W,en,pd_basis=pub_year<=1930
+the-road-to-oz__baum-l-frank__1909,The Road to Oz,"Baum, L. Frank",,false,1909,openlibrary,https://openlibrary.org/works/OL262390W,en,pd_basis=pub_year<=1930
+the-murders-in-the-rue-morgue__poe-edgar-allan__1841,The Murders in the Rue Morgue,"Poe, Edgar Allan",,false,1841,openlibrary,https://openlibrary.org/works/OL41072W,en,pd_basis=pub_year<=1930
+the-riddle-of-the-sands__childers-erskine__1903,The Riddle of the Sands,"Childers, Erskine",,false,1903,openlibrary,https://openlibrary.org/works/OL23797W,en,pd_basis=pub_year<=1930
+memoirs-of-sherlock-holmes-11-stories__doyle-arthur-conan__1893,Memoirs of Sherlock Holmes [11 stories],"Doyle, Arthur Conan",,false,1893,openlibrary,https://openlibrary.org/works/OL262463W,en,pd_basis=pub_year<=1930
+the-sea-fairies__baum-l-frank__1911,The Sea Fairies,"Baum, L. Frank",,false,1911,openlibrary,https://openlibrary.org/works/OL262384W,en,pd_basis=pub_year<=1930
+patrologiae-cursus-completus__migne-jp__1800,Patrologiae cursus completus,"Migne, J.-P",,false,1800,openlibrary,https://openlibrary.org/works/OL177456W,en,pd_basis=pub_year<=1930
+loves-labours-lost__shakespeare-william__1891,Love's Labour's Lost,"Shakespeare, William",,false,1891,openlibrary,https://openlibrary.org/works/OL24399008W,en,pd_basis=pub_year<=1930;multi_year_dedup_review
+les-miserables__hugo-victor__1862,Les Misérables,"Hugo, Victor",,false,1862,openlibrary,https://openlibrary.org/works/OL1063588W,en,pd_basis=pub_year<=1930
+henry-vi-part-3__shakespeare-william__1600,"Henry VI, Part 3","Shakespeare, William",,false,1600,openlibrary,https://openlibrary.org/works/OL258713W,en,pd_basis=pub_year<=1930
+to-the-lighthouse__woolf-virginia__1927,To the Lighthouse,"Woolf, Virginia",,false,1927,openlibrary,https://openlibrary.org/works/OL39396W,en,pd_basis=pub_year<=1930
+the-club-of-queer-trades__chesterton-gilbert-keith__1900,The Club of Queer Trades,"Chesterton, Gilbert Keith",,false,1900,openlibrary,https://openlibrary.org/works/OL76325W,en,pd_basis=pub_year<=1930
+greenmantle__buchan-john__1915,Greenmantle,"Buchan, John",,false,1915,openlibrary,https://openlibrary.org/works/OL76501W,en,pd_basis=pub_year<=1930
+moonfleet__falkner-john-meade__1898,Moonfleet,"Falkner, John Meade",,false,1898,openlibrary,https://openlibrary.org/works/OL1352097W,en,pd_basis=pub_year<=1930
+villette-a-novel__bronte-charlotte__1853,"Villette, a novel","Brontë, Charlotte",,false,1853,openlibrary,https://openlibrary.org/works/OL1095403W,en,pd_basis=pub_year<=1930
+little-men__alcott-louisa-may__1885,Little men,"Alcott, Louisa May",,false,1885,openlibrary,https://openlibrary.org/works/OL17761452W,en,pd_basis=pub_year<=1930
+lady-chatterleys-lover__lawrence-d-h__1900,Lady Chatterley's Lover,"Lawrence, D. H.",,false,1900,openlibrary,https://openlibrary.org/works/OL81180W,en,pd_basis=pub_year<=1930
+baums-american-fairy-tales__baum-l-frank__1901,Baum's American Fairy Tales,"Baum, L. Frank",,false,1901,openlibrary,https://openlibrary.org/works/OL262341W,en,pd_basis=pub_year<=1930
+sky-island__baum-l-frank__1912,Sky Island,"Baum, L. Frank",,false,1912,openlibrary,https://openlibrary.org/works/OL262385W,en,pd_basis=pub_year<=1930
+the-crimson-fairy-book__lang-andrew__1903,The Crimson Fairy Book,"Lang, Andrew",,false,1903,openlibrary,https://openlibrary.org/works/OL1088783W,en,pd_basis=pub_year<=1930
+she__haggard-h-rider__1886,She,"Haggard, H. Rider",,false,1886,openlibrary,https://openlibrary.org/works/OL17453W,en,pd_basis=pub_year<=1930
+my-bondage-and-my-freedom__douglass-frederick__1815,My bondage and my freedom,"Douglass, Frederick",,false,1815,openlibrary,https://openlibrary.org/works/OL69179W,en,pd_basis=pub_year<=1930
+the-happy-prince-and-other-tales__wilde-oscar__1888,The Happy Prince and other tales,"Wilde, Oscar",,false,1888,openlibrary,https://openlibrary.org/works/OL8269770W,en,pd_basis=pub_year<=1930
+allan-quatermain__haggard-h-rider__1887,Allan Quatermain,"Haggard, H. Rider",,false,1887,openlibrary,https://openlibrary.org/works/OL17465W,en,pd_basis=pub_year<=1930
+the-orange-fairy-book__lang-andrew__1906,The Orange Fairy Book,"Lang, Andrew",,false,1906,openlibrary,https://openlibrary.org/works/OL1088838W,en,pd_basis=pub_year<=1930
+the-deerslayer__cooper-james-fenimore__1841,The deerslayer,"Cooper, James Fenimore",,false,1841,openlibrary,https://openlibrary.org/works/OL77950W,en,pd_basis=pub_year<=1930
+the-scarecrow-of-oz__baum-l-frank__1915,The Scarecrow of Oz,"Baum, L. Frank",,false,1915,openlibrary,https://openlibrary.org/works/OL262352W,en,pd_basis=pub_year<=1930
+howards-end__forster-e-m__1910,Howards End,"Forster, E. M.",,false,1910,openlibrary,https://openlibrary.org/works/OL88881W,en,pd_basis=pub_year<=1930
+at-the-back-of-the-north-wind__macdonald-george__1871,At the Back of the North Wind,"MacDonald, George",,false,1871,openlibrary,https://openlibrary.org/works/OL15451W,en,pd_basis=pub_year<=1930
+the-patchwork-girl-of-oz__baum-l-frank__1913,The Patchwork Girl of Oz,"Baum, L. Frank",,false,1913,openlibrary,https://openlibrary.org/works/OL18405W,en,pd_basis=pub_year<=1930
+the-magic-of-oz__baum-l-frank__1919,The Magic of Oz,"Baum, L. Frank",,false,1919,openlibrary,https://openlibrary.org/works/OL262380W,en,pd_basis=pub_year<=1930
+the-beautiful-and-damned__fitzgerald-f-scott__1920,The Beautiful and Damned,"Fitzgerald, F. Scott",,false,1920,openlibrary,https://openlibrary.org/works/OL468362W,en,pd_basis=pub_year<=1930
+winters-tale__shakespeare-william__1735,Winter's Tale,"Shakespeare, William",,false,1735,openlibrary,https://openlibrary.org/works/OL362687W,en,pd_basis=pub_year<=1930
+tiktok-of-oz__baum-l-frank__1914,Tik-Tok of Oz,"Baum, L. Frank",,false,1914,openlibrary,https://openlibrary.org/works/OL18414W,en,pd_basis=pub_year<=1930
+pericles__shakespeare-william__1609,Pericles,"Shakespeare, William",,false,1609,openlibrary,https://openlibrary.org/works/OL361665W,en,pd_basis=pub_year<=1930
+rinkitink-in-oz__baum-l-frank__1916,Rinkitink in Oz,"Baum, L. Frank",,false,1916,openlibrary,https://openlibrary.org/works/OL262376W,en,pd_basis=pub_year<=1930
+the-princess-and-curdie__macdonald-george__1832,The Princess and Curdie,"MacDonald, George",,false,1832,openlibrary,https://openlibrary.org/works/OL15448W,en,pd_basis=pub_year<=1930
+lilith__macdonald-george__1895,Lilith,"MacDonald, George",,false,1895,openlibrary,https://openlibrary.org/works/OL15437W,en,pd_basis=pub_year<=1930
+the-red-fairy-book__lang-andrew__1890,The Red Fairy Book,"Lang, Andrew",,false,1890,openlibrary,https://openlibrary.org/works/OL1088858W,en,pd_basis=pub_year<=1930
+henry-iv-part-2__shakespeare-william__1600,"Henry IV, Part 2","Shakespeare, William",,false,1600,openlibrary,https://openlibrary.org/works/OL362697W,en,pd_basis=pub_year<=1930
+ivanhoe__scott-sir-walter__1800,Ivanhoe,"Scott, Sir Walter",,false,1800,openlibrary,https://openlibrary.org/works/OL863808W,en,pd_basis=pub_year<=1930
+the-king-in-yellow__chambers-robert-w__1895,The King in Yellow,"Chambers, Robert W.",,false,1895,openlibrary,https://openlibrary.org/works/OL8127201W,en,pd_basis=pub_year<=1930
+the-enchanted-castle__nesbit-edith__1907,The Enchanted Castle,"Nesbit, Edith",,false,1907,openlibrary,https://openlibrary.org/works/OL99541W,en,pd_basis=pub_year<=1930
+eugenics-and-other-evils__chesterton-gilbert-keith__1922,Eugenics and Other Evils,"Chesterton, Gilbert Keith",,false,1922,openlibrary,https://openlibrary.org/works/OL76446W,en,pd_basis=pub_year<=1930
+the-book-of-tea__kakuzo-okakura__1900,The Book of Tea,"Kakuzō, Okakura",,false,1900,openlibrary,https://openlibrary.org/works/OL7095112W,en,pd_basis=pub_year<=1930
+mrs-dalloway__woolf-virginia__1925,Mrs. Dalloway,"Woolf, Virginia",,false,1925,openlibrary,https://openlibrary.org/works/OL39349W,en,pd_basis=pub_year<=1930
+the-coral-island__ballantyne-robert-michael__1858,The Coral Island,"Ballantyne, Robert Michael",,false,1858,openlibrary,https://openlibrary.org/works/OL2319934W,en,pd_basis=pub_year<=1930
+cranford__gaskell-elizabeth-cleghorn__1853,Cranford,"Gaskell, Elizabeth Cleghorn",,false,1853,openlibrary,https://openlibrary.org/works/OL1103093W,en,pd_basis=pub_year<=1930
+phantastes__macdonald-george__1850,Phantastes,"MacDonald, George",,false,1850,openlibrary,https://openlibrary.org/works/OL15450W,en,pd_basis=pub_year<=1930
+a-history-of-new-york__irving-washington__1800,A history of New York,"Irving, Washington",,false,1800,openlibrary,https://openlibrary.org/works/OL63871W,en,pd_basis=pub_year<=1930
+the-house-of-seven-gables-readalong__hawthorne-nathaniel__1851,The House of Seven Gables Readalong,"Hawthorne, Nathaniel",,false,1851,openlibrary,https://openlibrary.org/works/OL455288W,en,pd_basis=pub_year<=1930
+barchester-towers__trollope-anthony__1815,Barchester Towers,"Trollope, Anthony",,false,1815,openlibrary,https://openlibrary.org/works/OL109724W,en,pd_basis=pub_year<=1930
+as-you-like-it__shakespeare-william__1734,As You Like It,"Shakespeare, William",,false,1734,openlibrary,https://openlibrary.org/works/OL362698W,en,pd_basis=pub_year<=1930
+voyage-out__woolf-virginia__1915,Voyage Out,"Woolf, Virginia",,false,1915,openlibrary,https://openlibrary.org/works/OL27064817W,en,pd_basis=pub_year<=1930
+on-liberty__mill-john-stuart__1859,On Liberty,"Mill, John Stuart",,false,1859,openlibrary,https://openlibrary.org/works/OL1068091W,en,pd_basis=pub_year<=1930
+the-wisdom-of-father-brown__chesterton-gilbert-keith__1913,The Wisdom of Father Brown,"Chesterton, Gilbert Keith",,false,1913,openlibrary,https://openlibrary.org/works/OL76483W,en,pd_basis=pub_year<=1930
+sister-carrie__dreiser-theodore__1900,Sister Carrie,"Dreiser, Theodore",,false,1900,openlibrary,https://openlibrary.org/works/OL100203W,en,pd_basis=pub_year<=1930
+ayesha__haggard-h-rider__1900,Ayesha,"Haggard, H. Rider",,false,1900,openlibrary,https://openlibrary.org/works/OL17440W,en,pd_basis=pub_year<=1930
+the-white-company__doyle-arthur-conan__1890,The White Company,"Doyle, Arthur Conan",,false,1890,openlibrary,https://openlibrary.org/works/OL262553W,en,pd_basis=pub_year<=1930
+the-tin-woodman-of-oz__baum-l-frank__1918,The Tin Woodman of Oz,"Baum, L. Frank",,false,1918,openlibrary,https://openlibrary.org/works/OL262381W,en,pd_basis=pub_year<=1930
+the-man-who-would-be-king__kipling-rudyard__1898,The  man who would be king,"Kipling, Rudyard",,false,1898,openlibrary,https://openlibrary.org/works/OL20112W,en,pd_basis=pub_year<=1930
+the-violet-fairy-book-large-print__lang-andrew__1901,The Violet Fairy Book (Large Print),"Lang, Andrew",,false,1901,openlibrary,https://openlibrary.org/works/OL1088883W,en,pd_basis=pub_year<=1930
+the-alhambra__irving-washington__1800,The Alhambra,"Irving, Washington",,false,1800,openlibrary,https://openlibrary.org/works/OL63996W,en,pd_basis=pub_year<=1930
+manifest-der-kommunistischen-partei__marx-karl__1848,Manifest der Kommunistischen Partei,"Marx, Karl",,false,1848,openlibrary,https://openlibrary.org/works/OL629052W,en,pd_basis=pub_year<=1930
+the-yellow-fairy-book__lang-andrew__1894,The Yellow Fairy Book,"Lang, Andrew",,false,1894,openlibrary,https://openlibrary.org/works/OL1088888W,en,pd_basis=pub_year<=1930
+a-princess-of-mars__burroughs-edgar-rice__1912,A Princess of Mars,"Burroughs, Edgar Rice",,false,1912,openlibrary,https://openlibrary.org/works/OL1418187W,en,pd_basis=pub_year<=1930
+the-importance-of-being-earnest__wilde-oscar__1893,The Importance of Being Earnest,"Wilde, Oscar",,false,1893,openlibrary,https://openlibrary.org/works/OL27776452W,en,pd_basis=pub_year<=1930
+glinda-of-oz__baum-l-frank__1920,Glinda of Oz,"Baum, L. Frank",,false,1920,openlibrary,https://openlibrary.org/works/OL262391W,en,pd_basis=pub_year<=1930
+the-napoleon-of-notting-hill__chesterton-gilbert-keith__1904,The Napoleon of Notting Hill,"Chesterton, Gilbert Keith",,false,1904,openlibrary,https://openlibrary.org/works/OL76473W,en,pd_basis=pub_year<=1930
+quo-vadis-powiesc-z-czasow-nerona__sienkiewicz-henryk__1895,Quo Vadis? Powieść z czasów Nerona,"Sienkiewicz, Henryk",,false,1895,openlibrary,https://openlibrary.org/works/OL503424W,en,pd_basis=pub_year<=1930
+orlando__woolf-virginia__1928,Orlando,"Woolf, Virginia",,false,1928,openlibrary,https://openlibrary.org/works/OL39360W,en,pd_basis=pub_year<=1930
+babbitt__lewis-sinclair__1922,Babbitt,"Lewis, Sinclair",,false,1922,openlibrary,https://openlibrary.org/works/OL51148W,en,pd_basis=pub_year<=1930
+la-dame-aux-camelias-novel__fils-alexandre-dumas__1848,La dame aux camélias [novel],"fils, Alexandre Dumas",,false,1848,openlibrary,https://openlibrary.org/works/OL259509W,en,pd_basis=pub_year<=1930
+metamorphoses__apuleius-lucius__1500,Metamorphoses,"Apuleius, Lucius",,false,1500,openlibrary,https://openlibrary.org/works/OL658250W,en,pd_basis=pub_year<=1930
+flower-fables__alcott-louisa-may__1854,Flower Fables,"Alcott, Louisa May",,false,1854,openlibrary,https://openlibrary.org/works/OL30056W,en,pd_basis=pub_year<=1930
+the-heritage-of-the-desert__grey-zane__1910,The Heritage of the Desert,"Grey, Zane",,false,1910,openlibrary,https://openlibrary.org/works/OL485453W,en,pd_basis=pub_year<=1930
+inferno__alighieri-dante__1767,Inferno,"Alighieri, Dante",,false,1767,openlibrary,https://openlibrary.org/works/OL93227W,en,pd_basis=pub_year<=1930
+emily-of-new-moon__montgomery-lucy-maud__1923,Emily of New Moon,"Montgomery, Lucy Maud",,false,1923,openlibrary,https://openlibrary.org/works/OL77781W,en,pd_basis=pub_year<=1930
+the-magic-city__nesbit-edith__1910,The Magic City,"Nesbit, Edith",,false,1910,openlibrary,https://openlibrary.org/works/OL99535W,en,pd_basis=pub_year<=1930
+peter-pan__barrie-j-m__1911,Peter Pan,"Barrie, J. M.",,false,1911,openlibrary,https://openlibrary.org/works/OL462007W,en,pd_basis=pub_year<=1930
+the-chimes__dickens-charles__1800,The Chimes,"Dickens, Charles",,false,1800,openlibrary,https://openlibrary.org/works/OL14868619W,en,pd_basis=pub_year<=1930
+la-pere-goriot__balzac-honore-de__1800,La père Goriot,"Balzac, Honoré de",,false,1800,openlibrary,https://openlibrary.org/works/OL85047W,en,pd_basis=pub_year<=1930
+the-phoenix-and-the-carpet__nesbit-edith__1903,The Phoenix and the Carpet,"Nesbit, Edith",,false,1903,openlibrary,https://openlibrary.org/works/OL99539W,en,pd_basis=pub_year<=1930
+mr-standfast__buchan-john__1918,Mr. Standfast,"Buchan, John",,false,1918,openlibrary,https://openlibrary.org/works/OL76598W,en,pd_basis=pub_year<=1930
+the-history-of-tom-jones__fielding-henry__1749,The History of Tom Jones,"Fielding, Henry",,false,1749,openlibrary,https://openlibrary.org/works/OL45623W,en,pd_basis=pub_year<=1930
+idle-thoughts-of-an-idle-fellow__jerome-jerome-klapka__1880,Idle Thoughts of an Idle Fellow,"Jérôme, Jerome Klapka",,false,1880,openlibrary,https://openlibrary.org/works/OL1793135W,en,pd_basis=pub_year<=1930
+the-portrait-of-a-lady__james-henry__1881,The Portrait of a Lady,"James, Henry",,false,1881,openlibrary,https://openlibrary.org/works/OL276365W,en,pd_basis=pub_year<=1930
+the-great-god-pan__machen-arthur__1894,The Great God Pan,"Machen, Arthur",,false,1894,openlibrary,https://openlibrary.org/works/OL3388961W,en,pd_basis=pub_year<=1930
+le-avventure-di-pinocchio__collodi-carlo__1883,Le avventure di Pinocchio,"Collodi, Carlo",,false,1883,openlibrary,https://openlibrary.org/works/OL1527356W,en,pd_basis=pub_year<=1930
+up-from-slavery__washington-booker-t__1900,Up from Slavery,"Washington, Booker T.",,false,1900,openlibrary,https://openlibrary.org/works/OL357501W,en,pd_basis=pub_year<=1930
+the-last-man__shelley-mary__1826,The Last Man,"Shelley, Mary",,false,1826,openlibrary,https://openlibrary.org/works/OL450124W,en,pd_basis=pub_year<=1930
+the-pathfinder__cooper-james-fenimore__1800,The Pathfinder,"Cooper, James Fenimore",,false,1800,openlibrary,https://openlibrary.org/works/OL78009W,en,pd_basis=pub_year<=1930
+le-tour-du-monde-en-quatrevingts-jours__verne-jules__1872,Le Tour du Monde en Quatre-Vingts Jours,"Verne, Jules",,false,1872,openlibrary,https://openlibrary.org/works/OL1100007W,en,pd_basis=pub_year<=1930
+the-norsemen-in-the-west-or-america-before-columbus__ballantyne-robert-michael__1872,"The Norsemen in the West, or, America before Columbus","Ballantyne, Robert Michael",,false,1872,openlibrary,https://openlibrary.org/works/OL2320039W,en,pd_basis=pub_year<=1930
+jude-the-obscure__hardy-thomas__1895,Jude the Obscure,"Hardy, Thomas",,false,1895,openlibrary,https://openlibrary.org/works/OL44986W,en,pd_basis=pub_year<=1930
+under-the-greenwood-tree-or-the-mellstock-quire__hardy-thomas__1872,"Under the Greenwood Tree or, The Mellstock quire","Hardy, Thomas",,false,1872,openlibrary,https://openlibrary.org/works/OL44973W,en,pd_basis=pub_year<=1930
+de-la-democratie-en-amerique__tocqueville-alexis-de__1835,De la démocratie en Amérique,"Tocqueville, Alexis de",,false,1835,openlibrary,https://openlibrary.org/works/OL278001W,en,pd_basis=pub_year<=1930
+the-golden-age__grahame-kenneth__1879,The Golden Age,"Grahame, Kenneth",,false,1879,openlibrary,https://openlibrary.org/works/OL69603W,en,pd_basis=pub_year<=1930
+the-man-of-the-forest__grey-zane__1920,The Man of the Forest,"Grey, Zane",,false,1920,openlibrary,https://openlibrary.org/works/OL485477W,en,pd_basis=pub_year<=1930
+the-warlord-of-mars-3__burroughs-edgar-rice__1914,The warlord of Mars #3,"Burroughs, Edgar Rice",,false,1914,openlibrary,https://openlibrary.org/works/OL1418137W,en,pd_basis=pub_year<=1930
+bleak-house__dickens-charles__1850,Bleak House,"Dickens, Charles",,false,1850,openlibrary,https://openlibrary.org/works/OL14868510W,en,pd_basis=pub_year<=1930
+tanglewood-tales__hawthorne-nathaniel__1853,Tanglewood Tales,"Hawthorne, Nathaniel",,false,1853,openlibrary,https://openlibrary.org/works/OL455476W,en,pd_basis=pub_year<=1930
+basil__collins-wilkie__1852,Basil,"Collins, Wilkie",,false,1852,openlibrary,https://openlibrary.org/works/OL176086W,en,pd_basis=pub_year<=1930
+princesse-de-cleves__fayette-madame-de-la__1678,Princesse de Clèves,"Fayette, Madame de La",,false,1678,openlibrary,https://openlibrary.org/works/OL1244914W,en,pd_basis=pub_year<=1930
 nicomachean-ethics__aristotle__1558,Nicomachean Ethics,Aristotle,,false,1558,openlibrary,https://openlibrary.org/works/OL8273964W,en,pd_basis=pub_year<=1930
-the-mysterious-rider__zane-grey__1921,The Mysterious Rider,"Grey, Zane",,false,1921,openlibrary,https://openlibrary.org/works/OL485697W,en,pd_basis=pub_year<=1930
-jenseits-von-gut-und-bose__friedrich-nietzsche__1885,Jenseits von Gut und Böse,"Nietzsche, Friedrich",,false,1885,openlibrary,https://openlibrary.org/works/OL98174W,en,pd_basis=pub_year<=1930
-the-souls-of-black-folk__w-e-b-du-bois__1903,The Souls of Black Folk,"Bois, W. E. B. Du",,false,1903,openlibrary,https://openlibrary.org/works/OL28577W,en,pd_basis=pub_year<=1930
-our-androcentric-culture-or-the-manmade-world__charlotte-perkins-gilman__1911,"Our Androcentric Culture, or the Man-Made World","Gilman, Charlotte Perkins",,false,1911,openlibrary,https://openlibrary.org/works/OL2772023W,en,pd_basis=pub_year<=1930
-the-song-of-the-lark__willa-cather__1915,The Song of the Lark,"Cather, Willa",,false,1915,openlibrary,https://openlibrary.org/works/OL12831W,en,pd_basis=pub_year<=1930
-roughing-it__mark-twain__1872,Roughing It,"Twain, Mark",,false,1872,openlibrary,https://openlibrary.org/works/OL54059W,en,pd_basis=pub_year<=1930
-uncle-toms-cabin__harriet-stowe__1852,Uncle Tom's Cabin,"Stowe, Harriet",,false,1852,openlibrary,https://openlibrary.org/works/OL29204473W,en,pd_basis=pub_year<=1930
-of-human-bondage__william-somerset-maugham__1915,Of Human Bondage,"Maugham, William Somerset",,false,1915,openlibrary,https://openlibrary.org/works/OL505781W,en,pd_basis=pub_year<=1930
-mosses-from-an-old-manse__nathaniel-hawthorne__1846,Mosses from an Old Manse,"Hawthorne, Nathaniel",,false,1846,openlibrary,https://openlibrary.org/works/OL455350W,en,pd_basis=pub_year<=1930
-burning-daylight__jack-london__1910,Burning Daylight,"London, Jack",,false,1910,openlibrary,https://openlibrary.org/works/OL144821W,en,pd_basis=pub_year<=1930
+the-mysterious-rider__grey-zane__1921,The Mysterious Rider,"Grey, Zane",,false,1921,openlibrary,https://openlibrary.org/works/OL485697W,en,pd_basis=pub_year<=1930
+jenseits-von-gut-und-bose__nietzsche-friedrich__1885,Jenseits von Gut und Böse,"Nietzsche, Friedrich",,false,1885,openlibrary,https://openlibrary.org/works/OL98174W,en,pd_basis=pub_year<=1930
+the-souls-of-black-folk__bois-w-e-b-du__1903,The Souls of Black Folk,"Bois, W. E. B. Du",,false,1903,openlibrary,https://openlibrary.org/works/OL28577W,en,pd_basis=pub_year<=1930
+our-androcentric-culture-or-the-manmade-world__gilman-charlotte-perkins__1911,"Our Androcentric Culture, or the Man-Made World","Gilman, Charlotte Perkins",,false,1911,openlibrary,https://openlibrary.org/works/OL2772023W,en,pd_basis=pub_year<=1930
+the-song-of-the-lark__cather-willa__1915,The Song of the Lark,"Cather, Willa",,false,1915,openlibrary,https://openlibrary.org/works/OL12831W,en,pd_basis=pub_year<=1930
+roughing-it__twain-mark__1872,Roughing It,"Twain, Mark",,false,1872,openlibrary,https://openlibrary.org/works/OL54059W,en,pd_basis=pub_year<=1930
+uncle-toms-cabin__stowe-harriet__1852,Uncle Tom's Cabin,"Stowe, Harriet",,false,1852,openlibrary,https://openlibrary.org/works/OL29204473W,en,pd_basis=pub_year<=1930
+of-human-bondage__maugham-william-somerset__1915,Of Human Bondage,"Maugham, William Somerset",,false,1915,openlibrary,https://openlibrary.org/works/OL505781W,en,pd_basis=pub_year<=1930
+mosses-from-an-old-manse__hawthorne-nathaniel__1846,Mosses from an Old Manse,"Hawthorne, Nathaniel",,false,1846,openlibrary,https://openlibrary.org/works/OL455350W,en,pd_basis=pub_year<=1930
+burning-daylight__london-jack__1910,Burning Daylight,"London, Jack",,false,1910,openlibrary,https://openlibrary.org/works/OL144821W,en,pd_basis=pub_year<=1930
 le-rouge-et-le-noir__stendhal__1830,Le rouge et le noir,Stendhal,,false,1830,openlibrary,https://openlibrary.org/works/OL733640W,en,pd_basis=pub_year<=1930
-timon-of-athens__william-shakespeare__1734,Timon of Athens,"Shakespeare, William",,false,1734,openlibrary,https://openlibrary.org/works/OL362223W,en,pd_basis=pub_year<=1930
-much-ado-about-nothing__william-shakespeare__1600,Much Ado About Nothing,"Shakespeare, William",,false,1600,openlibrary,https://openlibrary.org/works/OL362691W,en,pd_basis=pub_year<=1930
-hound-of-the-baskervilles__arthur-conan-doyle__1902,Hound of the Baskervilles,"Doyle, Arthur Conan",,false,1902,openlibrary,https://openlibrary.org/works/OL37844349W,en,pd_basis=pub_year<=1930
-la-tulipe-noire__alexandre-dumas__1800,La tulipe noire,"Dumas, Alexandre",,false,1800,openlibrary,https://openlibrary.org/works/OL36854W,en,pd_basis=pub_year<=1930
-the-prairie__james-fenimore-cooper__1800,The Prairie,"Cooper, James Fenimore",,false,1800,openlibrary,https://openlibrary.org/works/OL77970W,en,pd_basis=pub_year<=1930
-the-moon-and-sixpence__william-somerset-maugham__1919,The moon and sixpence,"Maugham, William Somerset",,false,1919,openlibrary,https://openlibrary.org/works/OL505740W,en,pd_basis=pub_year<=1930
-paradise-lost__john-milton__1667,Paradise Lost,"Milton, John",,false,1667,openlibrary,https://openlibrary.org/works/OL810991W,en,pd_basis=pub_year<=1930
-pensees__blaise-pascal__1670,Pensées,"Pascal, Blaise",,false,1670,openlibrary,https://openlibrary.org/works/OL1262495W,en,pd_basis=pub_year<=1930
-imitation-of-christ__thomas-a-kempis__1568,Imitation of Christ,"Kempis, Thomas à",,false,1568,openlibrary,https://openlibrary.org/works/OL260847W,en,pd_basis=pub_year<=1930
-the-life-and-adventures-of-nicholas-nickleby__charles-dickens__1800,The Life and Adventures of Nicholas Nickleby,"Dickens, Charles",,false,1800,openlibrary,https://openlibrary.org/works/OL13114895W,en,pd_basis=pub_year<=1930
-the-woodlanders__thomas-hardy__1800,The Woodlanders,"Hardy, Thomas",,false,1800,openlibrary,https://openlibrary.org/works/OL44990W,en,pd_basis=pub_year<=1930
-the-narrative-of-arthur-gordon-pym__edgar-allan-poe__1838,The Narrative of Arthur Gordon Pym,"Poe, Edgar Allan",,false,1838,openlibrary,https://openlibrary.org/works/OL40962W,en,pd_basis=pub_year<=1930
-love-insurance__earl-derr-biggers__1914,Love Insurance,"Biggers, Earl Derr",,false,1914,openlibrary,https://openlibrary.org/works/OL6438822W,en,pd_basis=pub_year<=1930
-the-night-before-christmas__clement-clarke-moore__1857,The Night Before Christmas,"Moore, Clement Clarke",,false,1857,openlibrary,https://openlibrary.org/works/OL655908W,en,pd_basis=pub_year<=1930
-henry-vi-part-1__william-shakespeare__1735,"Henry VI, Part 1","Shakespeare, William",,false,1735,openlibrary,https://openlibrary.org/works/OL25532590W,en,pd_basis=pub_year<=1930
-white-fang__jack-london__1905,White Fang,"London, Jack",,false,1905,openlibrary,https://openlibrary.org/works/OL74504W,en,pd_basis=pub_year<=1930
-the-longest-journey__e-m-forster__1907,The Longest Journey,"Forster, E. M.",,false,1907,openlibrary,https://openlibrary.org/works/OL88878W,en,pd_basis=pub_year<=1930
-incidents-in-the-life-of-a-slave-girl__harriet-a-jacobs__1861,Incidents in the Life of a Slave Girl,"Jacobs, Harriet A.",,false,1861,openlibrary,https://openlibrary.org/works/OL28623W,en,pd_basis=pub_year<=1930
-der-antichrist__friedrich-nietzsche__1895,Der Antichrist,"Nietzsche, Friedrich",,false,1895,openlibrary,https://openlibrary.org/works/OL15692719W,en,pd_basis=pub_year<=1930
-the-law-and-the-lady__wilkie-collins__1875,The Law and the Lady,"Collins, Wilkie",,false,1875,openlibrary,https://openlibrary.org/works/OL176081W,en,pd_basis=pub_year<=1930
-the-grey-fairy-book__andrew-lang__1900,The Grey Fairy Book,"Lang, Andrew",,false,1900,openlibrary,https://openlibrary.org/works/OL1088798W,en,pd_basis=pub_year<=1930
-vingt-mille-lieues-sous-les-mers__jules-verne__1870,Vingt mille lieues sous les mers,"Verne, Jules",,false,1870,openlibrary,https://openlibrary.org/works/OL1099280W,en,pd_basis=pub_year<=1930
-the-insidious-dr-fu-manchu__sax-rohmer__1913,The Insidious Dr. Fu Manchu,"Rohmer, Sax",,false,1913,openlibrary,https://openlibrary.org/works/OL2288684W,en,pd_basis=pub_year<=1930
-where-angels-fear-to-tread__e-m-forster__1920,Where Angels Fear to Tread,"Forster, E. M.",,false,1920,openlibrary,https://openlibrary.org/works/OL88876W,en,pd_basis=pub_year<=1930
-chronicles-of-avonlea__lucy-maud-montgomery__1912,Chronicles of Avonlea,"Montgomery, Lucy Maud",,false,1912,openlibrary,https://openlibrary.org/works/OL77788W,en,pd_basis=pub_year<=1930
-the-rainbow-trail__zane-grey__1915,The Rainbow Trail,"Grey, Zane",,false,1915,openlibrary,https://openlibrary.org/works/OL485498W,en,pd_basis=pub_year<=1930
-measure-for-measure__william-shakespeare__1700,Measure for Measure,"Shakespeare, William",,false,1700,openlibrary,https://openlibrary.org/works/OL17534698W,en,pd_basis=pub_year<=1930
-rob-roy__sir-walter-scott__1817,Rob Roy,"Scott, Sir Walter",,false,1817,openlibrary,https://openlibrary.org/works/OL863587W,en,pd_basis=pub_year<=1930
-waverley-or-tis-sixty-years-since__sir-walter-scott__1800,"Waverley; or, 'Tis sixty years since ...","Scott, Sir Walter",,false,1800,openlibrary,https://openlibrary.org/works/OL31616714W,en,pd_basis=pub_year<=1930
-the-pioneers__james-fenimore-cooper__1800,The pioneers,"Cooper, James Fenimore",,false,1800,openlibrary,https://openlibrary.org/works/OL77997W,en,pd_basis=pub_year<=1930
-arabian-nights__andrew-lang__1898,Arabian Nights,"Lang, Andrew",,false,1898,openlibrary,https://openlibrary.org/works/OL29464513W,en,pd_basis=pub_year<=1930
-esther-waters-a-novel__george-moore__1890,"Esther Waters, a novel","Moore, George",,false,1890,openlibrary,https://openlibrary.org/works/OL1381165W,en,pd_basis=pub_year<=1930
-the-golden-bough__james-george-frazer__1890,The Golden Bough,"Frazer, James George",,false,1890,openlibrary,https://openlibrary.org/works/OL1159648W,en,pd_basis=pub_year<=1930
-the-dragon-and-the-raven__g-a-henty__1800,The Dragon and the Raven,"Henty, G. A.",,false,1800,openlibrary,https://openlibrary.org/works/OL1794685W,en,pd_basis=pub_year<=1930
-the-strange-case-of-dr-jekyll-and-mr-hyde__robert-louis-stevenson__1875,The Strange Case of Dr. Jekyll and Mr. Hyde,"Stevenson, Robert Louis",,false,1875,openlibrary,https://openlibrary.org/works/OL24156W,en,pd_basis=pub_year<=1930
-le-morte-darthur__thomas-malory__1557,Le Morte d'Arthur,"Malory, Thomas",,false,1557,openlibrary,https://openlibrary.org/works/OL15450151W,en,pd_basis=pub_year<=1930
-poems__william-wordsworth__1807,Poems,"Wordsworth, William",,false,1807,openlibrary,https://openlibrary.org/works/OL26386W,en,pd_basis=pub_year<=1930
-hedda-gabler__henrik-ibsen__1890,Hedda Gabler,"Ibsen, Henrik",,false,1890,openlibrary,https://openlibrary.org/works/OL25129727W,en,pd_basis=pub_year<=1930
-the-uncommercial-traveller__charles-dickens__1776,The uncommercial traveller,"Dickens, Charles",,false,1776,openlibrary,https://openlibrary.org/works/OL14868771W,en,pd_basis=pub_year<=1930
-i-malavoglia-di-giovanni-verga__mario-principato__1873,I Malavoglia di Giovanni Verga,"Principato, Mario",,false,1873,openlibrary,https://openlibrary.org/works/OL141870W,en,pd_basis=pub_year<=1930
-twicetold-tales__nathaniel-hawthorne__1800,Twice-Told Tales,"Hawthorne, Nathaniel",,false,1800,openlibrary,https://openlibrary.org/works/OL455489W,en,pd_basis=pub_year<=1930
-burya__william-shakespeare__1789,Burya,"Shakespeare, William",,false,1789,openlibrary,https://openlibrary.org/works/OL9972802W,en,pd_basis=pub_year<=1930
-os-lusiadas__luis-de-camoes__1572,Os Lusíadas,"Camões, Luís de",,false,1572,openlibrary,https://openlibrary.org/works/OL848771W,en,pd_basis=pub_year<=1930
-tender-buttons__gertrude-stein__1914,Tender Buttons,"Stein, Gertrude",,false,1914,openlibrary,https://openlibrary.org/works/OL35395W,en,pd_basis=pub_year<=1930
-raspberry-jam__carolyn-wells__1920,Raspberry Jam,"Wells, Carolyn",,false,1920,openlibrary,https://openlibrary.org/works/OL1202237W,en,pd_basis=pub_year<=1930
-les-fleurs-du-mal__charles-baudelaire__1855,Les fleurs du mal,"Baudelaire, Charles",,false,1855,openlibrary,https://openlibrary.org/works/OL1158921W,en,pd_basis=pub_year<=1930
-the-spirit-of-the-border__zane-grey__1906,The Spirit of the Border,"Grey, Zane",,false,1906,openlibrary,https://openlibrary.org/works/OL485527W,en,pd_basis=pub_year<=1930
-one-of-ours__willa-cather__1922,One of Ours,"Cather, Willa",,false,1922,openlibrary,https://openlibrary.org/works/OL12830W,en,pd_basis=pub_year<=1930
-the-description-of-a-new-world__margaret-cavendish-duchess-of-newcastle__1666,The description of a new world,"Newcastle, Margaret Cavendish, Duchess of",,false,1666,openlibrary,https://openlibrary.org/works/OL1112413W,en,pd_basis=pub_year<=1930
-cleopatra__h-rider-haggard__1881,Cleopatra,"Haggard, H. Rider",,false,1881,openlibrary,https://openlibrary.org/works/OL17531W,en,pd_basis=pub_year<=1930
-an-oldfashioned-girl__louisa-may-alcott__1869,An Old-Fashioned Girl,"Alcott, Louisa May",,false,1869,openlibrary,https://openlibrary.org/works/OL29970W,en,pd_basis=pub_year<=1930
-the-rainbow__d-h-lawrence__1915,The Rainbow,"Lawrence, D. H.",,false,1915,openlibrary,https://openlibrary.org/works/OL81293W,en,pd_basis=pub_year<=1930
-the-lone-star-ranger__zane-grey__1914,The Lone Star Ranger,"Grey, Zane",,false,1914,openlibrary,https://openlibrary.org/works/OL485469W,en,pd_basis=pub_year<=1930
-a-lost-lady__willa-cather__1923,A Lost Lady,"Cather, Willa",,false,1923,openlibrary,https://openlibrary.org/works/OL12789W,en,pd_basis=pub_year<=1930
-trents-last-case__e-c-bentley__1900,Trent's Last Case,"Bentley, E. C.",,false,1900,openlibrary,https://openlibrary.org/works/OL1315930W,en,pd_basis=pub_year<=1930
-le-vicomte-de-bragelonne-ou-dix-ans-plus-tard__alexandre-dumas__1848,"Le vicomte de Bragelonne, ou, dix ans plus tard","Dumas, Alexandre",,false,1848,openlibrary,https://openlibrary.org/works/OL36738W,en,pd_basis=pub_year<=1930
-the-good-soldier__ford-madox-ford__1915,The Good Soldier,"Ford, Ford Madox",,false,1915,openlibrary,https://openlibrary.org/works/OL509889W,en,pd_basis=pub_year<=1930
-allans-wife__h-rider-haggard__1889,Allan's Wife,"Haggard, H. Rider",,false,1889,openlibrary,https://openlibrary.org/works/OL17530W,en,pd_basis=pub_year<=1930
-kidnapped__robert-louis-stevenson__1886,Kidnapped,"Stevenson, Robert Louis",,false,1886,openlibrary,https://openlibrary.org/works/OL24166W,en,pd_basis=pub_year<=1930
-the-financier__theodore-dreiser__1912,The Financier,"Dreiser, Theodore",,false,1912,openlibrary,https://openlibrary.org/works/OL100237W,en,pd_basis=pub_year<=1930
-barnaby-rudge__charles-dickens__1840,Barnaby Rudge,"Dickens, Charles",,false,1840,openlibrary,https://openlibrary.org/works/OL8300174W,en,pd_basis=pub_year<=1930
-the-titan__theodore-dreiser__1914,The Titan,"Dreiser, Theodore",,false,1914,openlibrary,https://openlibrary.org/works/OL100238W,en,pd_basis=pub_year<=1930
-the-sketchbook-of-geoffrey-crayon-esq__washington-irving__1819,"The sketch-book of Geoffrey Crayon, Esq","Irving, Washington",,false,1819,openlibrary,https://openlibrary.org/works/OL63893W,en,pd_basis=pub_year<=1930
-donnegan__frederick-faust__1923,Donnegan,"Faust, Frederick",,false,1923,openlibrary,https://openlibrary.org/works/OL8074992W,en,pd_basis=pub_year<=1930
-the-federalist-or-the-new-constitution__alexander-hamilton__1788,"The Federalist, or, The New Constitution","Hamilton, Alexander",,false,1788,openlibrary,https://openlibrary.org/works/OL284420W,en,pd_basis=pub_year<=1930
-desert-gold__zane-grey__1913,Desert Gold,"Grey, Zane",,false,1913,openlibrary,https://openlibrary.org/works/OL485420W,en,pd_basis=pub_year<=1930
-news-from-nowhere-or-an-epoch-of-rest-being-some-chapters-from-a-utopian-romance__william-morris__1890,"News from nowhere, or, An epoch of rest, being some chapters from a utopian romance","Morris, William",,false,1890,openlibrary,https://openlibrary.org/works/OL47721W,en,pd_basis=pub_year<=1930
-the-awakening__kate-chopin__1899,The Awakening,"Chopin, Kate",,false,1899,openlibrary,https://openlibrary.org/works/OL65430W,en,pd_basis=pub_year<=1930
-fables__jean-de-la-fontaine__1678,Fables,"Fontaine, Jean de La",,false,1678,openlibrary,https://openlibrary.org/works/OL50348W,en,pd_basis=pub_year<=1930
-the-poison-belt__arthur-conan-doyle__1913,The Poison Belt,"Doyle, Arthur Conan",,false,1913,openlibrary,https://openlibrary.org/works/OL262596W,en,pd_basis=pub_year<=1930
-lord-jim__joseph-conrad__1900,Lord Jim,"Conrad, Joseph",,false,1900,openlibrary,https://openlibrary.org/works/OL38684W,en,pd_basis=pub_year<=1930
-falkner__mary-shelley__1837,Falkner,"Shelley, Mary",,false,1837,openlibrary,https://openlibrary.org/works/OL449979W,en,pd_basis=pub_year<=1930
-death-comes-for-the-archbishop__willa-cather__1732,Death Comes for the Archbishop,"Cather, Willa",,false,1732,openlibrary,https://openlibrary.org/works/OL12832W,en,pd_basis=pub_year<=1930
-dialogues-concerning-natural-religion__david-hume__1779,Dialogues Concerning Natural Religion,"Hume, David",,false,1779,openlibrary,https://openlibrary.org/works/OL93568W,en,pd_basis=pub_year<=1930
-the-story-girl__lucy-maud-montgomery__1911,The story girl,"Montgomery, Lucy Maud",,false,1911,openlibrary,https://openlibrary.org/works/OL77786W,en,pd_basis=pub_year<=1930
-she-and-allan__h-rider-haggard__1921,She and Allan,"Haggard, H. Rider",,false,1921,openlibrary,https://openlibrary.org/works/OL17532W,en,pd_basis=pub_year<=1930
-prester-john__john-buchan__1900,Prester John,"Buchan, John",,false,1900,openlibrary,https://openlibrary.org/works/OL76595W,en,pd_basis=pub_year<=1930
-erewhon__samuel-butler__1700,Erewhon,"Butler, Samuel",,false,1700,openlibrary,https://openlibrary.org/works/OL22364W,en,pd_basis=pub_year<=1930
-a-rebours__joriskarl-huysmans__1884,À rebours,"Huysmans, Joris-Karl",,false,1884,openlibrary,https://openlibrary.org/works/OL2239396W,en,pd_basis=pub_year<=1930
-the-warden__anthony-trollope__1809,The Warden,"Trollope, Anthony",,false,1809,openlibrary,https://openlibrary.org/works/OL109882W,en,pd_basis=pub_year<=1930
-the-green-fairy-book__andrew-lang__1892,The Green Fairy Book,"Lang, Andrew",,false,1892,openlibrary,https://openlibrary.org/works/OL1088797W,en,pd_basis=pub_year<=1930
-riceyman-steps__arnold-bennett__1923,Riceyman Steps,"Bennett, Arnold",,false,1923,openlibrary,https://openlibrary.org/works/OL109222W,en,pd_basis=pub_year<=1930
-child-of-storm__h-rider-haggard__1911,Child of Storm,"Haggard, H. Rider",,false,1911,openlibrary,https://openlibrary.org/works/OL17445W,en,pd_basis=pub_year<=1930
-the-secret-agent__joseph-conrad__1907,The Secret Agent,"Conrad, Joseph",,false,1907,openlibrary,https://openlibrary.org/works/OL39108W,en,pd_basis=pub_year<=1930
-the-american-claimant__mark-twain__1881,The American Claimant,"Twain, Mark",,false,1881,openlibrary,https://openlibrary.org/works/OL54153W,en,pd_basis=pub_year<=1930
-tom-sawyer-abroad__mark-twain__1894,Tom Sawyer Abroad,"Twain, Mark",,false,1894,openlibrary,https://openlibrary.org/works/OL413674W,en,pd_basis=pub_year<=1930
-an-arabian-tale__william-beckford__1786,An Arabian tale,"Beckford, William",,false,1786,openlibrary,https://openlibrary.org/works/OL777826W,en,pd_basis=pub_year<=1930
-sons-and-lovers__d-h-lawrence__1913,Sons and Lovers,"Lawrence, D. H.",,false,1913,openlibrary,https://openlibrary.org/works/OL81295W,en,pd_basis=pub_year<=1930
-little-lord-fauntleroy__frances-hodgson-burnett__1886,Little Lord Fauntleroy,"Burnett, Frances Hodgson",,false,1886,openlibrary,https://openlibrary.org/works/OL69625W,en,pd_basis=pub_year<=1930
-tonobungay__h-g-wells__1890,Tono-Bungay,"Wells, H. G.",,false,1890,openlibrary,https://openlibrary.org/works/OL52269W,en,pd_basis=pub_year<=1930
-king-john__william-shakespeare__1700,King John,"Shakespeare, William",,false,1700,openlibrary,https://openlibrary.org/works/OL362680W,en,pd_basis=pub_year<=1930
-le-cote-de-guermantes__marcel-proust__1920,Le Côté de Guermantes,"Proust, Marcel",,false,1920,openlibrary,https://openlibrary.org/works/OL27213717W,en,pd_basis=pub_year<=1930
-loves-labours-lost__william-shakespeare__1598,Love's Labour's Lost,"Shakespeare, William",,false,1598,openlibrary,https://openlibrary.org/works/OL362686W,en,pd_basis=pub_year<=1930
-middlemarch__george-eliot__1800,Middlemarch,"Eliot, George",,false,1800,openlibrary,https://openlibrary.org/works/OL20867W,en,pd_basis=pub_year<=1930
-der-ritt-der-walkuren__richard-wagner__1800,Der Ritt der Walkuren,"Wagner, Richard",,false,1800,openlibrary,https://openlibrary.org/works/OL579130W,en,pd_basis=pub_year<=1930
-flatland__edwin-abbott-abbott__1886,Flatland,"Abbott, Edwin Abbott",,false,1886,openlibrary,https://openlibrary.org/works/OL118393W,en,pd_basis=pub_year<=1930
-the-elusive-pimpernel-scarlet-pimpernel__emma-orczy__1908,The Elusive Pimpernel (Scarlet Pimpernel),"Orczy, Emma",,false,1908,openlibrary,https://openlibrary.org/works/OL8444981W,en,pd_basis=pub_year<=1930
-dombey-and-son__charles-dickens__1800,Dombey and Son,"Dickens, Charles",,false,1800,openlibrary,https://openlibrary.org/works/OL14868861W,en,pd_basis=pub_year<=1930
-godfrey-of-bulloigne__torquato-tasso__1581,Godfrey of Bulloigne,"Tasso, Torquato",,false,1581,openlibrary,https://openlibrary.org/works/OL502943W,en,pd_basis=pub_year<=1930
-the-lilac-fairy-book__andrew-lang__1910,The Lilac Fairy Book,"Lang, Andrew",,false,1910,openlibrary,https://openlibrary.org/works/OL1088811W,en,pd_basis=pub_year<=1930
+timon-of-athens__shakespeare-william__1734,Timon of Athens,"Shakespeare, William",,false,1734,openlibrary,https://openlibrary.org/works/OL362223W,en,pd_basis=pub_year<=1930
+much-ado-about-nothing__shakespeare-william__1600,Much Ado About Nothing,"Shakespeare, William",,false,1600,openlibrary,https://openlibrary.org/works/OL362691W,en,pd_basis=pub_year<=1930
+hound-of-the-baskervilles__doyle-arthur-conan__1902,Hound of the Baskervilles,"Doyle, Arthur Conan",,false,1902,openlibrary,https://openlibrary.org/works/OL37844349W,en,pd_basis=pub_year<=1930
+the-prairie__cooper-james-fenimore__1800,The Prairie,"Cooper, James Fenimore",,false,1800,openlibrary,https://openlibrary.org/works/OL77970W,en,pd_basis=pub_year<=1930
+la-tulipe-noire__dumas-alexandre__1800,La tulipe noire,"Dumas, Alexandre",,false,1800,openlibrary,https://openlibrary.org/works/OL36854W,en,pd_basis=pub_year<=1930
+the-moon-and-sixpence__maugham-william-somerset__1919,The moon and sixpence,"Maugham, William Somerset",,false,1919,openlibrary,https://openlibrary.org/works/OL505740W,en,pd_basis=pub_year<=1930
+paradise-lost__milton-john__1667,Paradise Lost,"Milton, John",,false,1667,openlibrary,https://openlibrary.org/works/OL810991W,en,pd_basis=pub_year<=1930
+pensees__pascal-blaise__1670,Pensées,"Pascal, Blaise",,false,1670,openlibrary,https://openlibrary.org/works/OL1262495W,en,pd_basis=pub_year<=1930
+imitation-of-christ__kempis-thomas-a__1568,Imitation of Christ,"Kempis, Thomas à",,false,1568,openlibrary,https://openlibrary.org/works/OL260847W,en,pd_basis=pub_year<=1930
+the-life-and-adventures-of-nicholas-nickleby__dickens-charles__1800,The Life and Adventures of Nicholas Nickleby,"Dickens, Charles",,false,1800,openlibrary,https://openlibrary.org/works/OL13114895W,en,pd_basis=pub_year<=1930
+the-woodlanders__hardy-thomas__1800,The Woodlanders,"Hardy, Thomas",,false,1800,openlibrary,https://openlibrary.org/works/OL44990W,en,pd_basis=pub_year<=1930
+the-narrative-of-arthur-gordon-pym__poe-edgar-allan__1838,The Narrative of Arthur Gordon Pym,"Poe, Edgar Allan",,false,1838,openlibrary,https://openlibrary.org/works/OL40962W,en,pd_basis=pub_year<=1930
+love-insurance__biggers-earl-derr__1914,Love Insurance,"Biggers, Earl Derr",,false,1914,openlibrary,https://openlibrary.org/works/OL6438822W,en,pd_basis=pub_year<=1930
+the-night-before-christmas__moore-clement-clarke__1857,The Night Before Christmas,"Moore, Clement Clarke",,false,1857,openlibrary,https://openlibrary.org/works/OL655908W,en,pd_basis=pub_year<=1930
+henry-vi-part-1__shakespeare-william__1735,"Henry VI, Part 1","Shakespeare, William",,false,1735,openlibrary,https://openlibrary.org/works/OL25532590W,en,pd_basis=pub_year<=1930
+white-fang__london-jack__1905,White Fang,"London, Jack",,false,1905,openlibrary,https://openlibrary.org/works/OL74504W,en,pd_basis=pub_year<=1930
+the-longest-journey__forster-e-m__1907,The Longest Journey,"Forster, E. M.",,false,1907,openlibrary,https://openlibrary.org/works/OL88878W,en,pd_basis=pub_year<=1930
+incidents-in-the-life-of-a-slave-girl__jacobs-harriet-a__1861,Incidents in the Life of a Slave Girl,"Jacobs, Harriet A.",,false,1861,openlibrary,https://openlibrary.org/works/OL28623W,en,pd_basis=pub_year<=1930
+der-antichrist__nietzsche-friedrich__1895,Der Antichrist,"Nietzsche, Friedrich",,false,1895,openlibrary,https://openlibrary.org/works/OL15692719W,en,pd_basis=pub_year<=1930
+the-law-and-the-lady__collins-wilkie__1875,The Law and the Lady,"Collins, Wilkie",,false,1875,openlibrary,https://openlibrary.org/works/OL176081W,en,pd_basis=pub_year<=1930
+the-grey-fairy-book__lang-andrew__1900,The Grey Fairy Book,"Lang, Andrew",,false,1900,openlibrary,https://openlibrary.org/works/OL1088798W,en,pd_basis=pub_year<=1930
+vingt-mille-lieues-sous-les-mers__verne-jules__1870,Vingt mille lieues sous les mers,"Verne, Jules",,false,1870,openlibrary,https://openlibrary.org/works/OL1099280W,en,pd_basis=pub_year<=1930
+the-insidious-dr-fu-manchu__rohmer-sax__1913,The Insidious Dr. Fu Manchu,"Rohmer, Sax",,false,1913,openlibrary,https://openlibrary.org/works/OL2288684W,en,pd_basis=pub_year<=1930
+where-angels-fear-to-tread__forster-e-m__1920,Where Angels Fear to Tread,"Forster, E. M.",,false,1920,openlibrary,https://openlibrary.org/works/OL88876W,en,pd_basis=pub_year<=1930
+chronicles-of-avonlea__montgomery-lucy-maud__1912,Chronicles of Avonlea,"Montgomery, Lucy Maud",,false,1912,openlibrary,https://openlibrary.org/works/OL77788W,en,pd_basis=pub_year<=1930
+the-rainbow-trail__grey-zane__1915,The Rainbow Trail,"Grey, Zane",,false,1915,openlibrary,https://openlibrary.org/works/OL485498W,en,pd_basis=pub_year<=1930
+measure-for-measure__shakespeare-william__1700,Measure for Measure,"Shakespeare, William",,false,1700,openlibrary,https://openlibrary.org/works/OL17534698W,en,pd_basis=pub_year<=1930
+rob-roy__scott-sir-walter__1817,Rob Roy,"Scott, Sir Walter",,false,1817,openlibrary,https://openlibrary.org/works/OL863587W,en,pd_basis=pub_year<=1930
+waverley-or-tis-sixty-years-since__scott-sir-walter__1800,"Waverley; or, 'Tis sixty years since ...","Scott, Sir Walter",,false,1800,openlibrary,https://openlibrary.org/works/OL31616714W,en,pd_basis=pub_year<=1930
+the-pioneers__cooper-james-fenimore__1800,The pioneers,"Cooper, James Fenimore",,false,1800,openlibrary,https://openlibrary.org/works/OL77997W,en,pd_basis=pub_year<=1930
+arabian-nights__lang-andrew__1898,Arabian Nights,"Lang, Andrew",,false,1898,openlibrary,https://openlibrary.org/works/OL29464513W,en,pd_basis=pub_year<=1930
+esther-waters-a-novel__moore-george__1890,"Esther Waters, a novel","Moore, George",,false,1890,openlibrary,https://openlibrary.org/works/OL1381165W,en,pd_basis=pub_year<=1930
+the-golden-bough__frazer-james-george__1890,The Golden Bough,"Frazer, James George",,false,1890,openlibrary,https://openlibrary.org/works/OL1159648W,en,pd_basis=pub_year<=1930
+the-dragon-and-the-raven__henty-g-a__1800,The Dragon and the Raven,"Henty, G. A.",,false,1800,openlibrary,https://openlibrary.org/works/OL1794685W,en,pd_basis=pub_year<=1930
+the-strange-case-of-dr-jekyll-and-mr-hyde__stevenson-robert-louis__1875,The Strange Case of Dr. Jekyll and Mr. Hyde,"Stevenson, Robert Louis",,false,1875,openlibrary,https://openlibrary.org/works/OL24156W,en,pd_basis=pub_year<=1930
+le-morte-darthur__malory-thomas__1557,Le Morte d'Arthur,"Malory, Thomas",,false,1557,openlibrary,https://openlibrary.org/works/OL15450151W,en,pd_basis=pub_year<=1930
+poems__wordsworth-william__1807,Poems,"Wordsworth, William",,false,1807,openlibrary,https://openlibrary.org/works/OL26386W,en,pd_basis=pub_year<=1930
+hedda-gabler__ibsen-henrik__1890,Hedda Gabler,"Ibsen, Henrik",,false,1890,openlibrary,https://openlibrary.org/works/OL25129727W,en,pd_basis=pub_year<=1930
+the-uncommercial-traveller__dickens-charles__1776,The uncommercial traveller,"Dickens, Charles",,false,1776,openlibrary,https://openlibrary.org/works/OL14868771W,en,pd_basis=pub_year<=1930
+twicetold-tales__hawthorne-nathaniel__1800,Twice-Told Tales,"Hawthorne, Nathaniel",,false,1800,openlibrary,https://openlibrary.org/works/OL455489W,en,pd_basis=pub_year<=1930
+i-malavoglia-di-giovanni-verga__principato-mario__1873,I Malavoglia di Giovanni Verga,"Principato, Mario",,false,1873,openlibrary,https://openlibrary.org/works/OL141870W,en,pd_basis=pub_year<=1930
+burya__shakespeare-william__1789,Burya,"Shakespeare, William",,false,1789,openlibrary,https://openlibrary.org/works/OL9972802W,en,pd_basis=pub_year<=1930
+os-lusiadas__camoes-luis-de__1572,Os Lusíadas,"Camões, Luís de",,false,1572,openlibrary,https://openlibrary.org/works/OL848771W,en,pd_basis=pub_year<=1930
+tender-buttons__stein-gertrude__1914,Tender Buttons,"Stein, Gertrude",,false,1914,openlibrary,https://openlibrary.org/works/OL35395W,en,pd_basis=pub_year<=1930
+raspberry-jam__wells-carolyn__1920,Raspberry Jam,"Wells, Carolyn",,false,1920,openlibrary,https://openlibrary.org/works/OL1202237W,en,pd_basis=pub_year<=1930
+les-fleurs-du-mal__baudelaire-charles__1855,Les fleurs du mal,"Baudelaire, Charles",,false,1855,openlibrary,https://openlibrary.org/works/OL1158921W,en,pd_basis=pub_year<=1930
+the-spirit-of-the-border__grey-zane__1906,The Spirit of the Border,"Grey, Zane",,false,1906,openlibrary,https://openlibrary.org/works/OL485527W,en,pd_basis=pub_year<=1930
+one-of-ours__cather-willa__1922,One of Ours,"Cather, Willa",,false,1922,openlibrary,https://openlibrary.org/works/OL12830W,en,pd_basis=pub_year<=1930
+the-description-of-a-new-world__newcastle-margaret-cavendish-duchess-of__1666,The description of a new world,"Newcastle, Margaret Cavendish, Duchess of",,false,1666,openlibrary,https://openlibrary.org/works/OL1112413W,en,pd_basis=pub_year<=1930
+cleopatra__haggard-h-rider__1881,Cleopatra,"Haggard, H. Rider",,false,1881,openlibrary,https://openlibrary.org/works/OL17531W,en,pd_basis=pub_year<=1930
+an-oldfashioned-girl__alcott-louisa-may__1869,An Old-Fashioned Girl,"Alcott, Louisa May",,false,1869,openlibrary,https://openlibrary.org/works/OL29970W,en,pd_basis=pub_year<=1930
+the-rainbow__lawrence-d-h__1915,The Rainbow,"Lawrence, D. H.",,false,1915,openlibrary,https://openlibrary.org/works/OL81293W,en,pd_basis=pub_year<=1930
+the-lone-star-ranger__grey-zane__1914,The Lone Star Ranger,"Grey, Zane",,false,1914,openlibrary,https://openlibrary.org/works/OL485469W,en,pd_basis=pub_year<=1930
+a-lost-lady__cather-willa__1923,A Lost Lady,"Cather, Willa",,false,1923,openlibrary,https://openlibrary.org/works/OL12789W,en,pd_basis=pub_year<=1930
+trents-last-case__bentley-e-c__1900,Trent's Last Case,"Bentley, E. C.",,false,1900,openlibrary,https://openlibrary.org/works/OL1315930W,en,pd_basis=pub_year<=1930
+le-vicomte-de-bragelonne-ou-dix-ans-plus-tard__dumas-alexandre__1848,"Le vicomte de Bragelonne, ou, dix ans plus tard","Dumas, Alexandre",,false,1848,openlibrary,https://openlibrary.org/works/OL36738W,en,pd_basis=pub_year<=1930
+the-good-soldier__ford-ford-madox__1915,The Good Soldier,"Ford, Ford Madox",,false,1915,openlibrary,https://openlibrary.org/works/OL509889W,en,pd_basis=pub_year<=1930
+allans-wife__haggard-h-rider__1889,Allan's Wife,"Haggard, H. Rider",,false,1889,openlibrary,https://openlibrary.org/works/OL17530W,en,pd_basis=pub_year<=1930
+kidnapped__stevenson-robert-louis__1886,Kidnapped,"Stevenson, Robert Louis",,false,1886,openlibrary,https://openlibrary.org/works/OL24166W,en,pd_basis=pub_year<=1930
+the-financier__dreiser-theodore__1912,The Financier,"Dreiser, Theodore",,false,1912,openlibrary,https://openlibrary.org/works/OL100237W,en,pd_basis=pub_year<=1930
+barnaby-rudge__dickens-charles__1840,Barnaby Rudge,"Dickens, Charles",,false,1840,openlibrary,https://openlibrary.org/works/OL8300174W,en,pd_basis=pub_year<=1930
+the-titan__dreiser-theodore__1914,The Titan,"Dreiser, Theodore",,false,1914,openlibrary,https://openlibrary.org/works/OL100238W,en,pd_basis=pub_year<=1930
+the-sketchbook-of-geoffrey-crayon-esq__irving-washington__1819,"The sketch-book of Geoffrey Crayon, Esq","Irving, Washington",,false,1819,openlibrary,https://openlibrary.org/works/OL63893W,en,pd_basis=pub_year<=1930
+donnegan__faust-frederick__1923,Donnegan,"Faust, Frederick",,false,1923,openlibrary,https://openlibrary.org/works/OL8074992W,en,pd_basis=pub_year<=1930
+the-federalist-or-the-new-constitution__hamilton-alexander__1788,"The Federalist, or, The New Constitution","Hamilton, Alexander",,false,1788,openlibrary,https://openlibrary.org/works/OL284420W,en,pd_basis=pub_year<=1930
+desert-gold__grey-zane__1913,Desert Gold,"Grey, Zane",,false,1913,openlibrary,https://openlibrary.org/works/OL485420W,en,pd_basis=pub_year<=1930
+news-from-nowhere-or-an-epoch-of-rest-being-some-chapters-from-a-utopian-romance__morris-william__1890,"News from nowhere, or, An epoch of rest, being some chapters from a utopian romance","Morris, William",,false,1890,openlibrary,https://openlibrary.org/works/OL47721W,en,pd_basis=pub_year<=1930
+the-awakening__chopin-kate__1899,The Awakening,"Chopin, Kate",,false,1899,openlibrary,https://openlibrary.org/works/OL65430W,en,pd_basis=pub_year<=1930
+fables__fontaine-jean-de-la__1678,Fables,"Fontaine, Jean de La",,false,1678,openlibrary,https://openlibrary.org/works/OL50348W,en,pd_basis=pub_year<=1930
+lord-jim__conrad-joseph__1900,Lord Jim,"Conrad, Joseph",,false,1900,openlibrary,https://openlibrary.org/works/OL38684W,en,pd_basis=pub_year<=1930
+the-poison-belt__doyle-arthur-conan__1913,The Poison Belt,"Doyle, Arthur Conan",,false,1913,openlibrary,https://openlibrary.org/works/OL262596W,en,pd_basis=pub_year<=1930
+death-comes-for-the-archbishop__cather-willa__1732,Death Comes for the Archbishop,"Cather, Willa",,false,1732,openlibrary,https://openlibrary.org/works/OL12832W,en,pd_basis=pub_year<=1930
+falkner__shelley-mary__1837,Falkner,"Shelley, Mary",,false,1837,openlibrary,https://openlibrary.org/works/OL449979W,en,pd_basis=pub_year<=1930
+dialogues-concerning-natural-religion__hume-david__1779,Dialogues Concerning Natural Religion,"Hume, David",,false,1779,openlibrary,https://openlibrary.org/works/OL93568W,en,pd_basis=pub_year<=1930
+the-story-girl__montgomery-lucy-maud__1911,The story girl,"Montgomery, Lucy Maud",,false,1911,openlibrary,https://openlibrary.org/works/OL77786W,en,pd_basis=pub_year<=1930
+she-and-allan__haggard-h-rider__1921,She and Allan,"Haggard, H. Rider",,false,1921,openlibrary,https://openlibrary.org/works/OL17532W,en,pd_basis=pub_year<=1930
+prester-john__buchan-john__1900,Prester John,"Buchan, John",,false,1900,openlibrary,https://openlibrary.org/works/OL76595W,en,pd_basis=pub_year<=1930
+erewhon__butler-samuel__1700,Erewhon,"Butler, Samuel",,false,1700,openlibrary,https://openlibrary.org/works/OL22364W,en,pd_basis=pub_year<=1930
+a-rebours__huysmans-joriskarl__1884,À rebours,"Huysmans, Joris-Karl",,false,1884,openlibrary,https://openlibrary.org/works/OL2239396W,en,pd_basis=pub_year<=1930
+the-warden__trollope-anthony__1809,The Warden,"Trollope, Anthony",,false,1809,openlibrary,https://openlibrary.org/works/OL109882W,en,pd_basis=pub_year<=1930
+the-green-fairy-book__lang-andrew__1892,The Green Fairy Book,"Lang, Andrew",,false,1892,openlibrary,https://openlibrary.org/works/OL1088797W,en,pd_basis=pub_year<=1930
+riceyman-steps__bennett-arnold__1923,Riceyman Steps,"Bennett, Arnold",,false,1923,openlibrary,https://openlibrary.org/works/OL109222W,en,pd_basis=pub_year<=1930
+child-of-storm__haggard-h-rider__1911,Child of Storm,"Haggard, H. Rider",,false,1911,openlibrary,https://openlibrary.org/works/OL17445W,en,pd_basis=pub_year<=1930
+the-secret-agent__conrad-joseph__1907,The Secret Agent,"Conrad, Joseph",,false,1907,openlibrary,https://openlibrary.org/works/OL39108W,en,pd_basis=pub_year<=1930
+the-american-claimant__twain-mark__1881,The American Claimant,"Twain, Mark",,false,1881,openlibrary,https://openlibrary.org/works/OL54153W,en,pd_basis=pub_year<=1930
+tom-sawyer-abroad__twain-mark__1894,Tom Sawyer Abroad,"Twain, Mark",,false,1894,openlibrary,https://openlibrary.org/works/OL413674W,en,pd_basis=pub_year<=1930
+an-arabian-tale__beckford-william__1786,An Arabian tale,"Beckford, William",,false,1786,openlibrary,https://openlibrary.org/works/OL777826W,en,pd_basis=pub_year<=1930
+sons-and-lovers__lawrence-d-h__1913,Sons and Lovers,"Lawrence, D. H.",,false,1913,openlibrary,https://openlibrary.org/works/OL81295W,en,pd_basis=pub_year<=1930
+little-lord-fauntleroy__burnett-frances-hodgson__1886,Little Lord Fauntleroy,"Burnett, Frances Hodgson",,false,1886,openlibrary,https://openlibrary.org/works/OL69625W,en,pd_basis=pub_year<=1930
+tonobungay__wells-h-g__1890,Tono-Bungay,"Wells, H. G.",,false,1890,openlibrary,https://openlibrary.org/works/OL52269W,en,pd_basis=pub_year<=1930
+king-john__shakespeare-william__1700,King John,"Shakespeare, William",,false,1700,openlibrary,https://openlibrary.org/works/OL362680W,en,pd_basis=pub_year<=1930
+le-cote-de-guermantes__proust-marcel__1920,Le Côté de Guermantes,"Proust, Marcel",,false,1920,openlibrary,https://openlibrary.org/works/OL27213717W,en,pd_basis=pub_year<=1930
+middlemarch__eliot-george__1800,Middlemarch,"Eliot, George",,false,1800,openlibrary,https://openlibrary.org/works/OL20867W,en,pd_basis=pub_year<=1930
+der-ritt-der-walkuren__wagner-richard__1800,Der Ritt der Walkuren,"Wagner, Richard",,false,1800,openlibrary,https://openlibrary.org/works/OL579130W,en,pd_basis=pub_year<=1930
+the-elusive-pimpernel-scarlet-pimpernel__orczy-emma__1908,The Elusive Pimpernel (Scarlet Pimpernel),"Orczy, Emma",,false,1908,openlibrary,https://openlibrary.org/works/OL8444981W,en,pd_basis=pub_year<=1930
+godfrey-of-bulloigne__tasso-torquato__1581,Godfrey of Bulloigne,"Tasso, Torquato",,false,1581,openlibrary,https://openlibrary.org/works/OL502943W,en,pd_basis=pub_year<=1930
+dombey-and-son__dickens-charles__1800,Dombey and Son,"Dickens, Charles",,false,1800,openlibrary,https://openlibrary.org/works/OL14868861W,en,pd_basis=pub_year<=1930
+the-lilac-fairy-book__lang-andrew__1910,The Lilac Fairy Book,"Lang, Andrew",,false,1910,openlibrary,https://openlibrary.org/works/OL1088811W,en,pd_basis=pub_year<=1930
 lives__plutarch__1564,Lives,Plutarch,,false,1564,openlibrary,https://openlibrary.org/works/OL2521179W,en,pd_basis=pub_year<=1930
-puck-of-pooks-hill__rudyard-kipling__1900,Puck of Pook's Hill,"Kipling, Rudyard",,false,1900,openlibrary,https://openlibrary.org/works/OL20165W,en,pd_basis=pub_year<=1930
-astoria__washington-irving__1800,Astoria,"Irving, Washington",,false,1800,openlibrary,https://openlibrary.org/works/OL63862W,en,pd_basis=pub_year<=1930
-the-ghost__arnold-bennett__1907,The ghost,"Bennett, Arnold",,false,1907,openlibrary,https://openlibrary.org/works/OL109229W,en,pd_basis=pub_year<=1930
-whose-body__dorothy-l-sayers__1923,Whose Body?,"Sayers, Dorothy L.",,false,1923,openlibrary,https://openlibrary.org/works/OL2234917W,en,pd_basis=pub_year<=1930
-our-mutual-friend__charles-dickens__1800,Our Mutual Friend,"Dickens, Charles",,false,1800,openlibrary,https://openlibrary.org/works/OL13162727W,en,pd_basis=pub_year<=1930
-the-history-of-the-great-plague-in-london-in-the-year-1665__daniel-defoe__1722,The history of the great plague in London in the year 1665,"Defoe, Daniel",,false,1722,openlibrary,https://openlibrary.org/works/OL45109W,en,pd_basis=pub_year<=1930
-framley-parsonage__anthony-trollope__1861,Framley Parsonage,"Trollope, Anthony",,false,1861,openlibrary,https://openlibrary.org/works/OL109880W,en,pd_basis=pub_year<=1930
-emily-climbs__lucy-maud-montgomery__1920,Emily climbs,"Montgomery, Lucy Maud",,false,1920,openlibrary,https://openlibrary.org/works/OL77777W,en,pd_basis=pub_year<=1930
-the-clue-of-the-twisted-candle__edgar-wallace__1900,The Clue of the Twisted Candle,"Wallace, Edgar",,false,1900,openlibrary,https://openlibrary.org/works/OL1518059W,en,pd_basis=pub_year<=1930
-the-gods-of-mars__edgar-rice-burroughs__1918,The Gods of Mars,"Burroughs, Edgar Rice",,false,1918,openlibrary,https://openlibrary.org/works/OL1417942W,en,pd_basis=pub_year<=1930
-an-essay-on-man__alexander-pope__1733,An essay on man,"Pope, Alexander",,false,1733,openlibrary,https://openlibrary.org/works/OL79353W,en,pd_basis=pub_year<=1930
-king-henry-vi-part-2__william-shakespeare__1600,King Henry VI. Part 2,"Shakespeare, William",,false,1600,openlibrary,https://openlibrary.org/works/OL258709W,en,pd_basis=pub_year<=1930
-the-magician__william-somerset-maugham__1908,The Magician,"Maugham, William Somerset",,false,1908,openlibrary,https://openlibrary.org/works/OL505730W,en,pd_basis=pub_year<=1930
-the-chessmen-of-mars__edgar-rice-burroughs__1922,The Chessmen of Mars,"Burroughs, Edgar Rice",,false,1922,openlibrary,https://openlibrary.org/works/OL1418244W,en,pd_basis=pub_year<=1930
-the-exploits-of-brigadier-gerard__arthur-conan-doyle__1896,The Exploits of Brigadier Gerard,"Doyle, Arthur Conan",,false,1896,openlibrary,https://openlibrary.org/works/OL262581W,en,pd_basis=pub_year<=1930
-riders-of-the-silence__frederick-faust__1920,Riders Of The Silence,"Faust, Frederick",,false,1920,openlibrary,https://openlibrary.org/works/OL8074846W,en,pd_basis=pub_year<=1930
-the-brown-fairy-book__andrew-lang__1904,The Brown Fairy Book,"Lang, Andrew",,false,1904,openlibrary,https://openlibrary.org/works/OL1088779W,en,pd_basis=pub_year<=1930
-dead-mens-money__joseph-smith-fletcher__1920,Dead Men's Money,"Fletcher, Joseph Smith",,false,1920,openlibrary,https://openlibrary.org/works/OL1797749W,en,pd_basis=pub_year<=1930
-three-men-on-the-bummel__jerome-klapka-jerome__1900,Three Men on the Bummel,"Jérôme, Jerome Klapka",,false,1900,openlibrary,https://openlibrary.org/works/OL40946456W,en,pd_basis=pub_year<=1930
-the-devils-dictionary__ambrose-bierce__1840,The Devil's Dictionary,"Bierce, Ambrose",,false,1840,openlibrary,https://openlibrary.org/works/OL7973273W,en,pd_basis=pub_year<=1930
-the-machine-stops__e-m-forster__1909,The Machine Stops,"Forster, E. M.",,false,1909,openlibrary,https://openlibrary.org/works/OL88800W,en,pd_basis=pub_year<=1930
+puck-of-pooks-hill__kipling-rudyard__1900,Puck of Pook's Hill,"Kipling, Rudyard",,false,1900,openlibrary,https://openlibrary.org/works/OL20165W,en,pd_basis=pub_year<=1930
+astoria__irving-washington__1800,Astoria,"Irving, Washington",,false,1800,openlibrary,https://openlibrary.org/works/OL63862W,en,pd_basis=pub_year<=1930
+the-ghost__bennett-arnold__1907,The ghost,"Bennett, Arnold",,false,1907,openlibrary,https://openlibrary.org/works/OL109229W,en,pd_basis=pub_year<=1930
+whose-body__sayers-dorothy-l__1923,Whose Body?,"Sayers, Dorothy L.",,false,1923,openlibrary,https://openlibrary.org/works/OL2234917W,en,pd_basis=pub_year<=1930
+our-mutual-friend__dickens-charles__1800,Our Mutual Friend,"Dickens, Charles",,false,1800,openlibrary,https://openlibrary.org/works/OL13162727W,en,pd_basis=pub_year<=1930
+the-history-of-the-great-plague-in-london-in-the-year-1665__defoe-daniel__1722,The history of the great plague in London in the year 1665,"Defoe, Daniel",,false,1722,openlibrary,https://openlibrary.org/works/OL45109W,en,pd_basis=pub_year<=1930
+framley-parsonage__trollope-anthony__1861,Framley Parsonage,"Trollope, Anthony",,false,1861,openlibrary,https://openlibrary.org/works/OL109880W,en,pd_basis=pub_year<=1930
+emily-climbs__montgomery-lucy-maud__1920,Emily climbs,"Montgomery, Lucy Maud",,false,1920,openlibrary,https://openlibrary.org/works/OL77777W,en,pd_basis=pub_year<=1930
+the-clue-of-the-twisted-candle__wallace-edgar__1900,The Clue of the Twisted Candle,"Wallace, Edgar",,false,1900,openlibrary,https://openlibrary.org/works/OL1518059W,en,pd_basis=pub_year<=1930
+an-essay-on-man__pope-alexander__1733,An essay on man,"Pope, Alexander",,false,1733,openlibrary,https://openlibrary.org/works/OL79353W,en,pd_basis=pub_year<=1930
+king-henry-vi-part-2__shakespeare-william__1600,King Henry VI. Part 2,"Shakespeare, William",,false,1600,openlibrary,https://openlibrary.org/works/OL258709W,en,pd_basis=pub_year<=1930
+the-gods-of-mars__burroughs-edgar-rice__1918,The Gods of Mars,"Burroughs, Edgar Rice",,false,1918,openlibrary,https://openlibrary.org/works/OL1417942W,en,pd_basis=pub_year<=1930
+the-magician__maugham-william-somerset__1908,The Magician,"Maugham, William Somerset",,false,1908,openlibrary,https://openlibrary.org/works/OL505730W,en,pd_basis=pub_year<=1930
+the-chessmen-of-mars__burroughs-edgar-rice__1922,The Chessmen of Mars,"Burroughs, Edgar Rice",,false,1922,openlibrary,https://openlibrary.org/works/OL1418244W,en,pd_basis=pub_year<=1930
+riders-of-the-silence__faust-frederick__1920,Riders Of The Silence,"Faust, Frederick",,false,1920,openlibrary,https://openlibrary.org/works/OL8074846W,en,pd_basis=pub_year<=1930
+the-exploits-of-brigadier-gerard__doyle-arthur-conan__1896,The Exploits of Brigadier Gerard,"Doyle, Arthur Conan",,false,1896,openlibrary,https://openlibrary.org/works/OL262581W,en,pd_basis=pub_year<=1930
+the-brown-fairy-book__lang-andrew__1904,The Brown Fairy Book,"Lang, Andrew",,false,1904,openlibrary,https://openlibrary.org/works/OL1088779W,en,pd_basis=pub_year<=1930
+dead-mens-money__fletcher-joseph-smith__1920,Dead Men's Money,"Fletcher, Joseph Smith",,false,1920,openlibrary,https://openlibrary.org/works/OL1797749W,en,pd_basis=pub_year<=1930
+three-men-on-the-bummel__jerome-jerome-klapka__1900,Three Men on the Bummel,"Jérôme, Jerome Klapka",,false,1900,openlibrary,https://openlibrary.org/works/OL40946456W,en,pd_basis=pub_year<=1930
+the-devils-dictionary__bierce-ambrose__1840,The Devil's Dictionary,"Bierce, Ambrose",,false,1840,openlibrary,https://openlibrary.org/works/OL7973273W,en,pd_basis=pub_year<=1930
+the-machine-stops__forster-e-m__1909,The Machine Stops,"Forster, E. M.",,false,1909,openlibrary,https://openlibrary.org/works/OL88800W,en,pd_basis=pub_year<=1930
 satyricon__petronius__1575,Satyricon,Petronius,,false,1575,openlibrary,https://openlibrary.org/works/OL503861W,en,pd_basis=pub_year<=1930
-rodney-stone__arthur-conan-doyle__1896,Rodney Stone,"Doyle, Arthur Conan",,false,1896,openlibrary,https://openlibrary.org/works/OL262455W,en,pd_basis=pub_year<=1930
-jennie-gerhardt__theodore-dreiser__1911,Jennie Gerhardt,"Dreiser, Theodore",,false,1911,openlibrary,https://openlibrary.org/works/OL100236W,en,pd_basis=pub_year<=1930
-cyrano-de-bergerac__edmond-rostand__1821,Cyrano de Bergerac,"Rostand, Edmond",,false,1821,openlibrary,https://openlibrary.org/works/OL551668W,en,pd_basis=pub_year<=1930
-a-vindication-of-rights-of-woman__mary-wollstonecraft__1792,A Vindication of Rights of Woman,"Wollstonecraft, Mary",,false,1792,openlibrary,https://openlibrary.org/works/OL849186W,en,pd_basis=pub_year<=1930
-jacobs-room__virginia-woolf__1922,Jacob's Room,"Woolf, Virginia",,false,1922,openlibrary,https://openlibrary.org/works/OL39329W,en,pd_basis=pub_year<=1930
-a-strange-disappearance__anna-katharine-green__1879,A strange disappearance,"Green, Anna Katharine",,false,1879,openlibrary,https://openlibrary.org/works/OL4885721W,en,pd_basis=pub_year<=1930
-benita-an-african-romance__h-rider-haggard__1906,"Benita, an African Romance","Haggard, H. Rider",,false,1906,openlibrary,https://openlibrary.org/works/OL17479W,en,pd_basis=pub_year<=1930
-seven-keys-to-baldpate__earl-derr-biggers__1913,Seven keys to Baldpate,"Biggers, Earl Derr",,false,1913,openlibrary,https://openlibrary.org/works/OL6438826W,en,pd_basis=pub_year<=1930
-little-dorrit__charles-dickens__1800,Little Dorrit,"Dickens, Charles",,false,1800,openlibrary,https://openlibrary.org/works/OL14869215W,en,pd_basis=pub_year<=1930
-a-little-princess__frances-hodgson-burnett__1905,A Little Princess,"Burnett, Frances Hodgson",,false,1905,openlibrary,https://openlibrary.org/works/OL69630W,en,pd_basis=pub_year<=1930
-the-black-robe__wilkie-collins__1881,The Black Robe,"Collins, Wilkie",,false,1881,openlibrary,https://openlibrary.org/works/OL176068W,en,pd_basis=pub_year<=1930
-plain-tales-from-the-hills__rudyard-kipling__1888,Plain tales from the hills,"Kipling, Rudyard",,false,1888,openlibrary,https://openlibrary.org/works/OL20170W,en,pd_basis=pub_year<=1930
-dream-days__kenneth-grahame__1898,Dream days,"Grahame, Kenneth",,false,1898,openlibrary,https://openlibrary.org/works/OL69601W,en,pd_basis=pub_year<=1930
-a-room-of-ones-own__virginia-woolf__1929,A Room of One's Own,"Woolf, Virginia",,false,1929,openlibrary,https://openlibrary.org/works/OL39379W,en,pd_basis=pub_year<=1930
-the-border-legion__zane-grey__1916,The border legion,"Grey, Zane",,false,1916,openlibrary,https://openlibrary.org/works/OL485410W,en,pd_basis=pub_year<=1930
-love-eternal__h-rider-haggard__1918,Love Eternal,"Haggard, H. Rider",,false,1918,openlibrary,https://openlibrary.org/works/OL17493W,en,pd_basis=pub_year<=1930
-with-her-in-ourland__charlotte-perkins-gilman__1916,With her in Ourland,"Gilman, Charlotte Perkins",,false,1916,openlibrary,https://openlibrary.org/works/OL152238W,en,pd_basis=pub_year<=1930
-children-of-the-frost__jack-london__1800,Children of the Frost,"London, Jack",,false,1800,openlibrary,https://openlibrary.org/works/OL144813W,en,pd_basis=pub_year<=1930
-the-age-of-innocence__edith-wharton__1920,The Age of Innocence,"Wharton, Edith",,false,1920,openlibrary,https://openlibrary.org/works/OL98491W,en,pd_basis=pub_year<=1930
-daddylonglegs__jean-webster__1912,Daddy-Long-Legs,"Webster, Jean",,false,1912,openlibrary,https://openlibrary.org/works/OL4322177W,en,pd_basis=pub_year<=1930
-crome-yellow__aldous-huxley__1921,Crome yellow,"Huxley, Aldous",,false,1921,openlibrary,https://openlibrary.org/works/OL64369W,en,pd_basis=pub_year<=1930
-the-age-of-fable__thomas-bulfinch__1800,The Age of Fable,"Bulfinch, Thomas",,false,1800,openlibrary,https://openlibrary.org/works/OL77559W,en,pd_basis=pub_year<=1930
-allan-and-the-holy-flower__h-rider-haggard__1900,Allan and the Holy Flower,"Haggard, H. Rider",,false,1900,openlibrary,https://openlibrary.org/works/OL17460W,en,pd_basis=pub_year<=1930
-hans-andersens-fairy-tales__hans-christian-andersen__1846,Hans Andersen's Fairy Tales,"Andersen, Hans Christian",,false,1846,openlibrary,https://openlibrary.org/works/OL16249171W,en,pd_basis=pub_year<=1930
-pollyanna-grows-up__eleanor-hodgman-porter__1915,Pollyanna Grows Up,"Porter, Eleanor Hodgman",,false,1915,openlibrary,https://openlibrary.org/works/OL2775806W,en,pd_basis=pub_year<=1930
-the-life-of-olaudah-equiano-or-gustavus-vassa-the-african__olaudah-equiano__1789,"The life of Olaudah Equiano, or Gustavus Vassa, the African","Equiano, Olaudah",,false,1789,openlibrary,https://openlibrary.org/works/OL743333W,en,pd_basis=pub_year<=1930
-sailing-alone-around-the-world__joshua-slocum__1800,Sailing alone around the world,"Slocum, Joshua",,false,1800,openlibrary,https://openlibrary.org/works/OL59979W,en,pd_basis=pub_year<=1930
-the-lust-of-hate__guy-boothby__1898,The Lust of Hate,"Boothby, Guy",,false,1898,openlibrary,https://openlibrary.org/works/OL1065777W,en,pd_basis=pub_year<=1930
-the-art-of-money-getting-or-golden-rules-for-money-getting__p-t-barnum__1880,"The art of money getting, or, Golden rules for money getting","Barnum, P. T.",,false,1880,openlibrary,https://openlibrary.org/works/OL891636W,en,pd_basis=pub_year<=1930
-a-voyage-to-arcturus__david-lindsay__1920,A Voyage to Arcturus,"Lindsay, David",,false,1920,openlibrary,https://openlibrary.org/works/OL235280W,en,pd_basis=pub_year<=1930
-the-island-of-dr-moreau__h-g-wells__1896,The Island of Dr. Moreau,"Wells, H. G.",,false,1896,openlibrary,https://openlibrary.org/works/OL381550W,en,pd_basis=pub_year<=1930
-the-blue-castle__lucy-maud-montgomery__1926,The blue castle,"Montgomery, Lucy Maud",,false,1926,openlibrary,https://openlibrary.org/works/OL77775W,en,pd_basis=pub_year<=1930
-the-call-of-the-canyon__zane-grey__1921,The Call of the Canyon,"Grey, Zane",,false,1921,openlibrary,https://openlibrary.org/works/OL485412W,en,pd_basis=pub_year<=1930
-she-stoops-to-conquer__oliver-goldsmith__1773,She Stoops To Conquer,"Goldsmith, Oliver",,false,1773,openlibrary,https://openlibrary.org/works/OL7981267W,en,pd_basis=pub_year<=1930
-essais__montaigne-michel-de__1600,Essais,"de, Montaigne, Michel",,false,1600,openlibrary,https://openlibrary.org/works/OL1086528W,en,pd_basis=pub_year<=1930
-huntingtower__john-buchan__1910,Huntingtower,"Buchan, John",,false,1910,openlibrary,https://openlibrary.org/works/OL76597W,en,pd_basis=pub_year<=1930
-the-complete-poetical-works__robert-burns__1786,The complete poetical works,"Burns, Robert",,false,1786,openlibrary,https://openlibrary.org/works/OL766052W,en,pd_basis=pub_year<=1930
-the-great-shadow__arthur-conan-doyle__1892,The Great Shadow,"Doyle, Arthur Conan",,false,1892,openlibrary,https://openlibrary.org/works/OL262447W,en,pd_basis=pub_year<=1930
-miltons-poems__john-milton__1605,Milton's Poems,"Milton, John",,false,1605,openlibrary,https://openlibrary.org/works/OL810990W,en,pd_basis=pub_year<=1930
-the-pit__frank-norris__1903,The Pit,"Norris, Frank",,false,1903,openlibrary,https://openlibrary.org/works/OL1794919W,en,pd_basis=pub_year<=1930
-mcteague__frank-norris__1899,McTeague,"Norris, Frank",,false,1899,openlibrary,https://openlibrary.org/works/OL1794911W,en,pd_basis=pub_year<=1930
-the-people-of-the-mist__h-rider-haggard__1894,The People of the Mist,"Haggard, H. Rider",,false,1894,openlibrary,https://openlibrary.org/works/OL17536W,en,pd_basis=pub_year<=1930
-the-evil-shepherd__edward-phillips-oppenheim__1922,The Evil Shepherd,"Oppenheim, Edward Phillips",,false,1922,openlibrary,https://openlibrary.org/works/OL2681032W,en,pd_basis=pub_year<=1930
-il-paradiso__dante-alighieri__1595,Il Paradiso,"Alighieri, Dante",,false,1595,openlibrary,https://openlibrary.org/works/OL93230W,en,pd_basis=pub_year<=1930
-the-merry-wives-of-windsor__william-shakespeare__1602,The Merry Wives of Windsor,"Shakespeare, William",,false,1602,openlibrary,https://openlibrary.org/works/OL361595W,en,pd_basis=pub_year<=1930
-martin-chuzzlewit__charles-dickens__1800,Martin Chuzzlewit,"Dickens, Charles",,false,1800,openlibrary,https://openlibrary.org/works/OL14869242W,en,pd_basis=pub_year<=1930
-the-street-of-seven-stars__mary-roberts-rinehart__1914,The Street of Seven Stars,"Rinehart, Mary Roberts",,false,1914,openlibrary,https://openlibrary.org/works/OL137393W,en,pd_basis=pub_year<=1930
-the-problems-of-philosophy__bertrand-russell__1900,The Problems of Philosophy,"Russell, Bertrand",,false,1900,openlibrary,https://openlibrary.org/works/OL1088577W,en,pd_basis=pub_year<=1930
-the-enchanted-island-of-yew__l-frank-baum__1903,The Enchanted Island of Yew,"Baum, L. Frank",,false,1903,openlibrary,https://openlibrary.org/works/OL262388W,en,pd_basis=pub_year<=1930
-through-the-magic-door__arthur-conan-doyle__1907,Through the Magic Door,"Doyle, Arthur Conan",,false,1907,openlibrary,https://openlibrary.org/works/OL262572W,en,pd_basis=pub_year<=1930
-manon-lescaut__abbe-prevost__1734,Manon Lescaut,"Prévost, Abbé",,false,1734,openlibrary,https://openlibrary.org/works/OL1132652W,en,pd_basis=pub_year<=1930
-dracula-sign-of-four__anne-collins__1897,Dracula / Sign of Four,"Collins, Anne",,false,1897,openlibrary,https://openlibrary.org/works/OL14930024W,en,pd_basis=pub_year<=1930
-the-raven__edgar-allan-poe__1845,The Raven,"Poe, Edgar Allan",,false,1845,openlibrary,https://openlibrary.org/works/OL41081W,en,pd_basis=pub_year<=1930
-brown-alumni-monthly__brown-university__1900,Brown alumni monthly,"University, Brown",,false,1900,openlibrary,https://openlibrary.org/works/OL16822924W,en,pd_basis=pub_year<=1930
-wildfire__zane-grey__1916,Wildfire,"Grey, Zane",,false,1916,openlibrary,https://openlibrary.org/works/OL485558W,en,pd_basis=pub_year<=1930
-what-katy-did__susan-coolidge__1873,What Katy Did,"Coolidge, Susan",,false,1873,openlibrary,https://openlibrary.org/works/OL5114586W,en,pd_basis=pub_year<=1930
-the-casebook-of-sherlock-holmes__arthur-conan-doyle__1927,The Case-Book of Sherlock Holmes,"Doyle, Arthur Conan",,false,1927,openlibrary,https://openlibrary.org/works/OL262426W,en,pd_basis=pub_year<=1930
-heidi__spyri-johanna__1880,Heidi,"Johanna, Spyri,",,false,1880,openlibrary,https://openlibrary.org/works/OL28815175W,en,pd_basis=pub_year<=1930
-the-young-buglers__g-a-henty__1880,The Young Buglers,"Henty, G. A.",,false,1880,openlibrary,https://openlibrary.org/works/OL1794677W,en,pd_basis=pub_year<=1930
-kilmeny-of-the-orchard__lucy-maud-montgomery__1910,Kilmeny of the orchard,"Montgomery, Lucy Maud",,false,1910,openlibrary,https://openlibrary.org/works/OL77785W,en,pd_basis=pub_year<=1930
-the-seawolf__jack-london__1900,The Sea-Wolf,"London, Jack",,false,1900,openlibrary,https://openlibrary.org/works/OL144824W,en,pd_basis=pub_year<=1930
-memoirs-of-fanny-hill__john-cleland__1749,Memoirs of Fanny Hill,"Cleland, John",,false,1749,openlibrary,https://openlibrary.org/works/OL848436W,en,pd_basis=pub_year<=1930
-the-wouldbegoods__edith-nesbit__1901,The Wouldbegoods,"Nesbit, Edith",,false,1901,openlibrary,https://openlibrary.org/works/OL99543W,en,pd_basis=pub_year<=1930
-hudibras__samuel-butler__1662,Hudibras,"Butler, Samuel",,false,1662,openlibrary,https://openlibrary.org/works/OL3159983W,en,pd_basis=pub_year<=1930
-rights-of-man__thomas-paine__1791,Rights of Man,"Paine, Thomas",,false,1791,openlibrary,https://openlibrary.org/works/OL60359W,en,pd_basis=pub_year<=1930
-the-private-memoirs-and-confessions-of-a-justified-sinner-with-a-detail-of-curious-traditionary-facts-and-other-evidence-by-the-editor__james-hogg__1824,"The Private Memoirs and Confessions of A Justified Sinner (With A Detail of Curious Traditionary Facts, And Other Evidence, By The Editor)","Hogg, James",,false,1824,openlibrary,https://openlibrary.org/works/OL240077W,en,pd_basis=pub_year<=1930
-the-haunted-hotel__wilkie-collins__1878,The Haunted Hotel,"Collins, Wilkie",,false,1878,openlibrary,https://openlibrary.org/works/OL176025W,en,pd_basis=pub_year<=1930
-helen-of-troy__andrew-lang__1882,Helen of Troy,"Lang, Andrew",,false,1882,openlibrary,https://openlibrary.org/works/OL415234W,en,pd_basis=pub_year<=1930
-poems__alfred-lord-tennyson__1827,Poems,"Tennyson, Alfred Lord",,false,1827,openlibrary,https://openlibrary.org/works/OL15097239W,en,pd_basis=pub_year<=1930
-nada-the-lily__h-rider-haggard__1890,Nada the Lily,"Haggard, H. Rider",,false,1890,openlibrary,https://openlibrary.org/works/OL17525W,en,pd_basis=pub_year<=1930
-after-london__richard-jefferies__1885,After London,"Jefferies, Richard",,false,1885,openlibrary,https://openlibrary.org/works/OL1176822W,en,pd_basis=pub_year<=1930
-david-balfour__robert-louis-stevenson__1883,David Balfour,"Stevenson, Robert Louis",,false,1883,openlibrary,https://openlibrary.org/works/OL24163W,en,pd_basis=pub_year<=1930
-le-roman-du-masque-de-fer__alexandre-dumas__1600,Le roman du masque de fer,"Dumas, Alexandre",,false,1600,openlibrary,https://openlibrary.org/works/OL36371W,en,pd_basis=pub_year<=1930
-women-and-economics__charlotte-perkins-gilman__1898,Women and economics,"Gilman, Charlotte Perkins",,false,1898,openlibrary,https://openlibrary.org/works/OL2772026W,en,pd_basis=pub_year<=1930
-charlotte-temple__mrs-susanna-haswell-rowson__1794,Charlotte Temple,"Rowson, Mrs. Susanna (Haswell)",,false,1794,openlibrary,https://openlibrary.org/works/OL1487362W,en,pd_basis=pub_year<=1930
-les-lettres-de-mon-moulin__alphonse-daudet__1869,Les lettres de mon moulin,"Daudet, Alphonse",,false,1869,openlibrary,https://openlibrary.org/works/OL942495W,en,pd_basis=pub_year<=1930
-tom-sawyer-detective__mark-twain__1897,"Tom Sawyer, Detective","Twain, Mark",,false,1897,openlibrary,https://openlibrary.org/works/OL54147W,en,pd_basis=pub_year<=1930
-the-ancient-allen__h-rider-haggard__1920,The Ancient Allen,"Haggard, H. Rider",,false,1920,openlibrary,https://openlibrary.org/works/OL17438W,en,pd_basis=pub_year<=1930
-acres-of-diamonds__russell-herman-conwell__1901,Acres of diamonds,"Conwell, Russell Herman",,false,1901,openlibrary,https://openlibrary.org/works/OL3920712W,en,pd_basis=pub_year<=1930
-the-last-days-of-pompeii__edward-bulwer-lytton-baron-lytton__1800,The Last Days of Pompeii,"Lytton, Edward Bulwer Lytton, Baron",,false,1800,openlibrary,https://openlibrary.org/works/OL61867W,en,pd_basis=pub_year<=1930
-the-lone-wolf__louis-joseph-vance__1914,The Lone Wolf,"Vance, Louis Joseph",,false,1914,openlibrary,https://openlibrary.org/works/OL7562583W,en,pd_basis=pub_year<=1930
-main-street__sinclair-lewis__1634,MAIN STREET,"Lewis, Sinclair",,false,1634,openlibrary,https://openlibrary.org/works/OL51117W,en,pd_basis=pub_year<=1930
-emilys-quest__lucy-maud-montgomery__1756,Emily's quest,"Montgomery, Lucy Maud",,false,1756,openlibrary,https://openlibrary.org/works/OL77778W,en,pd_basis=pub_year<=1930
-to-the-last-man__zane-grey__1921,To the Last Man,"Grey, Zane",,false,1921,openlibrary,https://openlibrary.org/works/OL485543W,en,pd_basis=pub_year<=1930
+rodney-stone__doyle-arthur-conan__1896,Rodney Stone,"Doyle, Arthur Conan",,false,1896,openlibrary,https://openlibrary.org/works/OL262455W,en,pd_basis=pub_year<=1930
+jennie-gerhardt__dreiser-theodore__1911,Jennie Gerhardt,"Dreiser, Theodore",,false,1911,openlibrary,https://openlibrary.org/works/OL100236W,en,pd_basis=pub_year<=1930
+cyrano-de-bergerac__rostand-edmond__1821,Cyrano de Bergerac,"Rostand, Edmond",,false,1821,openlibrary,https://openlibrary.org/works/OL551668W,en,pd_basis=pub_year<=1930
+a-vindication-of-rights-of-woman__wollstonecraft-mary__1792,A Vindication of Rights of Woman,"Wollstonecraft, Mary",,false,1792,openlibrary,https://openlibrary.org/works/OL849186W,en,pd_basis=pub_year<=1930
+jacobs-room__woolf-virginia__1922,Jacob's Room,"Woolf, Virginia",,false,1922,openlibrary,https://openlibrary.org/works/OL39329W,en,pd_basis=pub_year<=1930
+a-strange-disappearance__green-anna-katharine__1879,A strange disappearance,"Green, Anna Katharine",,false,1879,openlibrary,https://openlibrary.org/works/OL4885721W,en,pd_basis=pub_year<=1930
+benita-an-african-romance__haggard-h-rider__1906,"Benita, an African Romance","Haggard, H. Rider",,false,1906,openlibrary,https://openlibrary.org/works/OL17479W,en,pd_basis=pub_year<=1930
+seven-keys-to-baldpate__biggers-earl-derr__1913,Seven keys to Baldpate,"Biggers, Earl Derr",,false,1913,openlibrary,https://openlibrary.org/works/OL6438826W,en,pd_basis=pub_year<=1930
+little-dorrit__dickens-charles__1800,Little Dorrit,"Dickens, Charles",,false,1800,openlibrary,https://openlibrary.org/works/OL14869215W,en,pd_basis=pub_year<=1930
+a-little-princess__burnett-frances-hodgson__1905,A Little Princess,"Burnett, Frances Hodgson",,false,1905,openlibrary,https://openlibrary.org/works/OL69630W,en,pd_basis=pub_year<=1930
+the-black-robe__collins-wilkie__1881,The Black Robe,"Collins, Wilkie",,false,1881,openlibrary,https://openlibrary.org/works/OL176068W,en,pd_basis=pub_year<=1930
+plain-tales-from-the-hills__kipling-rudyard__1888,Plain tales from the hills,"Kipling, Rudyard",,false,1888,openlibrary,https://openlibrary.org/works/OL20170W,en,pd_basis=pub_year<=1930
+dream-days__grahame-kenneth__1898,Dream days,"Grahame, Kenneth",,false,1898,openlibrary,https://openlibrary.org/works/OL69601W,en,pd_basis=pub_year<=1930
+a-room-of-ones-own__woolf-virginia__1929,A Room of One's Own,"Woolf, Virginia",,false,1929,openlibrary,https://openlibrary.org/works/OL39379W,en,pd_basis=pub_year<=1930
+the-border-legion__grey-zane__1916,The border legion,"Grey, Zane",,false,1916,openlibrary,https://openlibrary.org/works/OL485410W,en,pd_basis=pub_year<=1930
+love-eternal__haggard-h-rider__1918,Love Eternal,"Haggard, H. Rider",,false,1918,openlibrary,https://openlibrary.org/works/OL17493W,en,pd_basis=pub_year<=1930
+with-her-in-ourland__gilman-charlotte-perkins__1916,With her in Ourland,"Gilman, Charlotte Perkins",,false,1916,openlibrary,https://openlibrary.org/works/OL152238W,en,pd_basis=pub_year<=1930
+children-of-the-frost__london-jack__1800,Children of the Frost,"London, Jack",,false,1800,openlibrary,https://openlibrary.org/works/OL144813W,en,pd_basis=pub_year<=1930
+the-age-of-innocence__wharton-edith__1920,The Age of Innocence,"Wharton, Edith",,false,1920,openlibrary,https://openlibrary.org/works/OL98491W,en,pd_basis=pub_year<=1930
+daddylonglegs__webster-jean__1912,Daddy-Long-Legs,"Webster, Jean",,false,1912,openlibrary,https://openlibrary.org/works/OL4322177W,en,pd_basis=pub_year<=1930
+crome-yellow__huxley-aldous__1921,Crome yellow,"Huxley, Aldous",,false,1921,openlibrary,https://openlibrary.org/works/OL64369W,en,pd_basis=pub_year<=1930
+the-age-of-fable__bulfinch-thomas__1800,The Age of Fable,"Bulfinch, Thomas",,false,1800,openlibrary,https://openlibrary.org/works/OL77559W,en,pd_basis=pub_year<=1930
+allan-and-the-holy-flower__haggard-h-rider__1900,Allan and the Holy Flower,"Haggard, H. Rider",,false,1900,openlibrary,https://openlibrary.org/works/OL17460W,en,pd_basis=pub_year<=1930
+hans-andersens-fairy-tales__andersen-hans-christian__1846,Hans Andersen's Fairy Tales,"Andersen, Hans Christian",,false,1846,openlibrary,https://openlibrary.org/works/OL16249171W,en,pd_basis=pub_year<=1930
+pollyanna-grows-up__porter-eleanor-hodgman__1915,Pollyanna Grows Up,"Porter, Eleanor Hodgman",,false,1915,openlibrary,https://openlibrary.org/works/OL2775806W,en,pd_basis=pub_year<=1930
+the-life-of-olaudah-equiano-or-gustavus-vassa-the-african__equiano-olaudah__1789,"The life of Olaudah Equiano, or Gustavus Vassa, the African","Equiano, Olaudah",,false,1789,openlibrary,https://openlibrary.org/works/OL743333W,en,pd_basis=pub_year<=1930
+sailing-alone-around-the-world__slocum-joshua__1800,Sailing alone around the world,"Slocum, Joshua",,false,1800,openlibrary,https://openlibrary.org/works/OL59979W,en,pd_basis=pub_year<=1930
+the-lust-of-hate__boothby-guy__1898,The Lust of Hate,"Boothby, Guy",,false,1898,openlibrary,https://openlibrary.org/works/OL1065777W,en,pd_basis=pub_year<=1930
+the-art-of-money-getting-or-golden-rules-for-money-getting__barnum-p-t__1880,"The art of money getting, or, Golden rules for money getting","Barnum, P. T.",,false,1880,openlibrary,https://openlibrary.org/works/OL891636W,en,pd_basis=pub_year<=1930
+a-voyage-to-arcturus__lindsay-david__1920,A Voyage to Arcturus,"Lindsay, David",,false,1920,openlibrary,https://openlibrary.org/works/OL235280W,en,pd_basis=pub_year<=1930
+the-island-of-dr-moreau__wells-h-g__1896,The Island of Dr. Moreau,"Wells, H. G.",,false,1896,openlibrary,https://openlibrary.org/works/OL381550W,en,pd_basis=pub_year<=1930
+the-blue-castle__montgomery-lucy-maud__1926,The blue castle,"Montgomery, Lucy Maud",,false,1926,openlibrary,https://openlibrary.org/works/OL77775W,en,pd_basis=pub_year<=1930
+the-call-of-the-canyon__grey-zane__1921,The Call of the Canyon,"Grey, Zane",,false,1921,openlibrary,https://openlibrary.org/works/OL485412W,en,pd_basis=pub_year<=1930
+she-stoops-to-conquer__goldsmith-oliver__1773,She Stoops To Conquer,"Goldsmith, Oliver",,false,1773,openlibrary,https://openlibrary.org/works/OL7981267W,en,pd_basis=pub_year<=1930
+essais__de-montaigne-michel__1600,Essais,"de, Montaigne, Michel",,false,1600,openlibrary,https://openlibrary.org/works/OL1086528W,en,pd_basis=pub_year<=1930
+the-complete-poetical-works__burns-robert__1786,The complete poetical works,"Burns, Robert",,false,1786,openlibrary,https://openlibrary.org/works/OL766052W,en,pd_basis=pub_year<=1930
+huntingtower__buchan-john__1910,Huntingtower,"Buchan, John",,false,1910,openlibrary,https://openlibrary.org/works/OL76597W,en,pd_basis=pub_year<=1930
+miltons-poems__milton-john__1605,Milton's Poems,"Milton, John",,false,1605,openlibrary,https://openlibrary.org/works/OL810990W,en,pd_basis=pub_year<=1930
+the-great-shadow__doyle-arthur-conan__1892,The Great Shadow,"Doyle, Arthur Conan",,false,1892,openlibrary,https://openlibrary.org/works/OL262447W,en,pd_basis=pub_year<=1930
+the-pit__norris-frank__1903,The Pit,"Norris, Frank",,false,1903,openlibrary,https://openlibrary.org/works/OL1794919W,en,pd_basis=pub_year<=1930
+mcteague__norris-frank__1899,McTeague,"Norris, Frank",,false,1899,openlibrary,https://openlibrary.org/works/OL1794911W,en,pd_basis=pub_year<=1930
+the-people-of-the-mist__haggard-h-rider__1894,The People of the Mist,"Haggard, H. Rider",,false,1894,openlibrary,https://openlibrary.org/works/OL17536W,en,pd_basis=pub_year<=1930
+the-evil-shepherd__oppenheim-edward-phillips__1922,The Evil Shepherd,"Oppenheim, Edward Phillips",,false,1922,openlibrary,https://openlibrary.org/works/OL2681032W,en,pd_basis=pub_year<=1930
+il-paradiso__alighieri-dante__1595,Il Paradiso,"Alighieri, Dante",,false,1595,openlibrary,https://openlibrary.org/works/OL93230W,en,pd_basis=pub_year<=1930
+the-merry-wives-of-windsor__shakespeare-william__1602,The Merry Wives of Windsor,"Shakespeare, William",,false,1602,openlibrary,https://openlibrary.org/works/OL361595W,en,pd_basis=pub_year<=1930
+martin-chuzzlewit__dickens-charles__1800,Martin Chuzzlewit,"Dickens, Charles",,false,1800,openlibrary,https://openlibrary.org/works/OL14869242W,en,pd_basis=pub_year<=1930
+the-street-of-seven-stars__rinehart-mary-roberts__1914,The Street of Seven Stars,"Rinehart, Mary Roberts",,false,1914,openlibrary,https://openlibrary.org/works/OL137393W,en,pd_basis=pub_year<=1930
+the-problems-of-philosophy__russell-bertrand__1900,The Problems of Philosophy,"Russell, Bertrand",,false,1900,openlibrary,https://openlibrary.org/works/OL1088577W,en,pd_basis=pub_year<=1930
+the-enchanted-island-of-yew__baum-l-frank__1903,The Enchanted Island of Yew,"Baum, L. Frank",,false,1903,openlibrary,https://openlibrary.org/works/OL262388W,en,pd_basis=pub_year<=1930
+manon-lescaut__prevost-abbe__1734,Manon Lescaut,"Prévost, Abbé",,false,1734,openlibrary,https://openlibrary.org/works/OL1132652W,en,pd_basis=pub_year<=1930
+dracula-sign-of-four__collins-anne__1897,Dracula / Sign of Four,"Collins, Anne",,false,1897,openlibrary,https://openlibrary.org/works/OL14930024W,en,pd_basis=pub_year<=1930
+through-the-magic-door__doyle-arthur-conan__1907,Through the Magic Door,"Doyle, Arthur Conan",,false,1907,openlibrary,https://openlibrary.org/works/OL262572W,en,pd_basis=pub_year<=1930
+the-raven__poe-edgar-allan__1845,The Raven,"Poe, Edgar Allan",,false,1845,openlibrary,https://openlibrary.org/works/OL41081W,en,pd_basis=pub_year<=1930
+brown-alumni-monthly__university-brown__1900,Brown alumni monthly,"University, Brown",,false,1900,openlibrary,https://openlibrary.org/works/OL16822924W,en,pd_basis=pub_year<=1930
+wildfire__grey-zane__1916,Wildfire,"Grey, Zane",,false,1916,openlibrary,https://openlibrary.org/works/OL485558W,en,pd_basis=pub_year<=1930
+what-katy-did__coolidge-susan__1873,What Katy Did,"Coolidge, Susan",,false,1873,openlibrary,https://openlibrary.org/works/OL5114586W,en,pd_basis=pub_year<=1930
+the-casebook-of-sherlock-holmes__doyle-arthur-conan__1927,The Case-Book of Sherlock Holmes,"Doyle, Arthur Conan",,false,1927,openlibrary,https://openlibrary.org/works/OL262426W,en,pd_basis=pub_year<=1930
+heidi__johanna-spyri__1880,Heidi,"Johanna, Spyri,",,false,1880,openlibrary,https://openlibrary.org/works/OL28815175W,en,pd_basis=pub_year<=1930
+the-young-buglers__henty-g-a__1880,The Young Buglers,"Henty, G. A.",,false,1880,openlibrary,https://openlibrary.org/works/OL1794677W,en,pd_basis=pub_year<=1930
+kilmeny-of-the-orchard__montgomery-lucy-maud__1910,Kilmeny of the orchard,"Montgomery, Lucy Maud",,false,1910,openlibrary,https://openlibrary.org/works/OL77785W,en,pd_basis=pub_year<=1930
+the-seawolf__london-jack__1900,The Sea-Wolf,"London, Jack",,false,1900,openlibrary,https://openlibrary.org/works/OL144824W,en,pd_basis=pub_year<=1930
+memoirs-of-fanny-hill__cleland-john__1749,Memoirs of Fanny Hill,"Cleland, John",,false,1749,openlibrary,https://openlibrary.org/works/OL848436W,en,pd_basis=pub_year<=1930
+the-wouldbegoods__nesbit-edith__1901,The Wouldbegoods,"Nesbit, Edith",,false,1901,openlibrary,https://openlibrary.org/works/OL99543W,en,pd_basis=pub_year<=1930
+hudibras__butler-samuel__1662,Hudibras,"Butler, Samuel",,false,1662,openlibrary,https://openlibrary.org/works/OL3159983W,en,pd_basis=pub_year<=1930
+rights-of-man__paine-thomas__1791,Rights of Man,"Paine, Thomas",,false,1791,openlibrary,https://openlibrary.org/works/OL60359W,en,pd_basis=pub_year<=1930
+the-private-memoirs-and-confessions-of-a-justified-sinner-with-a-detail-of-curious-traditionary-facts-and-other-evidence-by-the-editor__hogg-james__1824,"The Private Memoirs and Confessions of A Justified Sinner (With A Detail of Curious Traditionary Facts, And Other Evidence, By The Editor)","Hogg, James",,false,1824,openlibrary,https://openlibrary.org/works/OL240077W,en,pd_basis=pub_year<=1930
+the-haunted-hotel__collins-wilkie__1878,The Haunted Hotel,"Collins, Wilkie",,false,1878,openlibrary,https://openlibrary.org/works/OL176025W,en,pd_basis=pub_year<=1930
+helen-of-troy__lang-andrew__1882,Helen of Troy,"Lang, Andrew",,false,1882,openlibrary,https://openlibrary.org/works/OL415234W,en,pd_basis=pub_year<=1930
+poems__tennyson-alfred-lord__1827,Poems,"Tennyson, Alfred Lord",,false,1827,openlibrary,https://openlibrary.org/works/OL15097239W,en,pd_basis=pub_year<=1930
+nada-the-lily__haggard-h-rider__1890,Nada the Lily,"Haggard, H. Rider",,false,1890,openlibrary,https://openlibrary.org/works/OL17525W,en,pd_basis=pub_year<=1930
+after-london__jefferies-richard__1885,After London,"Jefferies, Richard",,false,1885,openlibrary,https://openlibrary.org/works/OL1176822W,en,pd_basis=pub_year<=1930
+david-balfour__stevenson-robert-louis__1883,David Balfour,"Stevenson, Robert Louis",,false,1883,openlibrary,https://openlibrary.org/works/OL24163W,en,pd_basis=pub_year<=1930
+le-roman-du-masque-de-fer__dumas-alexandre__1600,Le roman du masque de fer,"Dumas, Alexandre",,false,1600,openlibrary,https://openlibrary.org/works/OL36371W,en,pd_basis=pub_year<=1930
+women-and-economics__gilman-charlotte-perkins__1898,Women and economics,"Gilman, Charlotte Perkins",,false,1898,openlibrary,https://openlibrary.org/works/OL2772026W,en,pd_basis=pub_year<=1930
+charlotte-temple__rowson-mrs-susanna-haswell__1794,Charlotte Temple,"Rowson, Mrs. Susanna (Haswell)",,false,1794,openlibrary,https://openlibrary.org/works/OL1487362W,en,pd_basis=pub_year<=1930
+les-lettres-de-mon-moulin__daudet-alphonse__1869,Les lettres de mon moulin,"Daudet, Alphonse",,false,1869,openlibrary,https://openlibrary.org/works/OL942495W,en,pd_basis=pub_year<=1930
+tom-sawyer-detective__twain-mark__1897,"Tom Sawyer, Detective","Twain, Mark",,false,1897,openlibrary,https://openlibrary.org/works/OL54147W,en,pd_basis=pub_year<=1930
+the-ancient-allen__haggard-h-rider__1920,The Ancient Allen,"Haggard, H. Rider",,false,1920,openlibrary,https://openlibrary.org/works/OL17438W,en,pd_basis=pub_year<=1930
+acres-of-diamonds__conwell-russell-herman__1901,Acres of diamonds,"Conwell, Russell Herman",,false,1901,openlibrary,https://openlibrary.org/works/OL3920712W,en,pd_basis=pub_year<=1930
+the-last-days-of-pompeii__lytton-edward-bulwer-lytton-baron__1800,The Last Days of Pompeii,"Lytton, Edward Bulwer Lytton, Baron",,false,1800,openlibrary,https://openlibrary.org/works/OL61867W,en,pd_basis=pub_year<=1930
+the-lone-wolf__vance-louis-joseph__1914,The Lone Wolf,"Vance, Louis Joseph",,false,1914,openlibrary,https://openlibrary.org/works/OL7562583W,en,pd_basis=pub_year<=1930
+main-street__lewis-sinclair__1634,MAIN STREET,"Lewis, Sinclair",,false,1634,openlibrary,https://openlibrary.org/works/OL51117W,en,pd_basis=pub_year<=1930
+emilys-quest__montgomery-lucy-maud__1756,Emily's quest,"Montgomery, Lucy Maud",,false,1756,openlibrary,https://openlibrary.org/works/OL77778W,en,pd_basis=pub_year<=1930
+to-the-last-man__grey-zane__1921,To the Last Man,"Grey, Zane",,false,1921,openlibrary,https://openlibrary.org/works/OL485543W,en,pd_basis=pub_year<=1930
+murder-on-the-links__christie-agatha__1923,Murder on the Links,"Christie, Agatha",,false,1923,openlibrary,https://openlibrary.org/works/OL472073W,en,pd_basis=pub_year<=1930
+the-pink-fairy-book__lang-andrew__1897,The Pink Fairy Book,"Lang, Andrew",,false,1897,openlibrary,https://openlibrary.org/works/OL1088846W,en,pd_basis=pub_year<=1930
+the-ivory-child__haggard-h-rider__1916,The Ivory Child,"Haggard, H. Rider",,false,1916,openlibrary,https://openlibrary.org/works/OL17515W,en,pd_basis=pub_year<=1930

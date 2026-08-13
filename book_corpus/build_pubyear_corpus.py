@@ -148,8 +148,14 @@ def build_row(doc):
     if looks_institutional(author_raw):
         return None, "institutional author"
 
+    # book_id is the shared join key across all three source batches. The Gutenberg and
+    # death-year batches slugify the "Last, First" display form (e.g. austen-jane), so we
+    # must slug from that SAME string here -- not the raw "First Last" -- or the key won't
+    # line up and cross-batch joins break. (Per PR #2 review; the data-contracts.md example
+    # frankenstein__mary-shelley__1818 should be updated to the Last-First form to match.)
+    author_display = to_last_first(author_raw)
     title_slug = slugify(title)
-    author_slug = slugify(author_raw)
+    author_slug = slugify(author_display)
     if not title_slug or not author_slug:
         return None, "empty slug after cleaning"
 
@@ -157,7 +163,7 @@ def build_row(doc):
     row = {
         "book_id": book_id,
         "title": title,
-        "author": to_last_first(author_raw),
+        "author": author_display,
         "author_death_year": "",            # unknown here; do not guess (death-year batch fills this)
         "author_death_year_disputed": "false",
         "publication_year": year,
@@ -179,14 +185,18 @@ def main():
     parser.add_argument("--out", default=default_out, help="output CSV path")
     args = parser.parse_args()
 
-    seen_ids = set()
-    rows = []
-    dropped = {}  # reason -> count
+    by_ta = {}          # (title_lower, author_lower) -> row : dedups the same work
+    seen_book_ids = {}  # book_id -> ta_key : guards against colliding ids
+    dropped = {}        # reason -> count
+    multi_year = 0      # same title+author returned with a different first_publish_year
     page = 1
+
+    def bump(reason):
+        dropped[reason] = dropped.get(reason, 0) + 1
 
     print(f"Target: {args.target} clean rows. Query: first_publish_year:[1500 TO {PD_PUBYEAR_CUTOFF}], English, by editions.\n")
 
-    while len(rows) < args.target and page <= args.max_pages:
+    while len(by_ta) < args.target and page <= args.max_pages:
         try:
             data = fetch_page(page, args.per_page)
         except Exception as e:
@@ -198,25 +208,47 @@ def main():
             print(f"  page {page}: no more results.")
             break
 
-        kept_this_page = 0
+        kept_before = len(by_ta)
         for doc in docs:
-            if len(rows) >= args.target:
+            if len(by_ta) >= args.target:
                 break
             row, reason = build_row(doc)
             if row is None:
-                dropped[reason] = dropped.get(reason, 0) + 1
+                bump(reason)
                 continue
-            if row["book_id"] in seen_ids:
-                dropped["duplicate book_id"] = dropped.get("duplicate book_id", 0) + 1
-                continue
-            seen_ids.add(row["book_id"])
-            rows.append(row)
-            kept_this_page += 1
 
-        print(f"  page {page}: {len(docs)} docs -> kept {kept_this_page} (total {len(rows)})")
+            ta_key = (row["title"].strip().lower(), row["author"].strip().lower())
+            if ta_key in by_ta:
+                # Same work returned again. Open Library sometimes reports two different
+                # first_publish_year values for one work -- keep the later (more plausible)
+                # one and flag it for manual review rather than emitting two book_ids.
+                existing = by_ta[ta_key]
+                new_y, old_y = int(row["publication_year"]), int(existing["publication_year"])
+                if new_y != old_y:
+                    multi_year += 1
+                    winner = row if new_y > old_y else existing
+                    if ";multi_year_dedup_review" not in winner["notes"]:
+                        winner["notes"] += ";multi_year_dedup_review"
+                    if winner is row:  # later year won -> swap it in
+                        seen_book_ids.pop(existing["book_id"], None)
+                        by_ta[ta_key] = row
+                        seen_book_ids[row["book_id"]] = ta_key
+                bump("duplicate title+author (same work)")
+                continue
+
+            if row["book_id"] in seen_book_ids:
+                bump("duplicate book_id (different work)")
+                continue
+
+            by_ta[ta_key] = row
+            seen_book_ids[row["book_id"]] = ta_key
+
+        print(f"  page {page}: {len(docs)} docs -> +{len(by_ta) - kept_before} (total {len(by_ta)})")
         page += 1
-        if len(rows) < args.target:
+        if len(by_ta) < args.target:
             time.sleep(args.sleep)
+
+    rows = list(by_ta.values())
 
     # Write output
     out_path = os.path.abspath(args.out)
@@ -227,6 +259,9 @@ def main():
         writer.writerows(rows)
 
     print(f"\nWrote {len(rows)} rows -> {out_path}")
+    if multi_year:
+        print(f"Resolved {multi_year} same-work rows with conflicting years "
+              f"(kept later year, flagged notes=multi_year_dedup_review).")
     if dropped:
         print("Dropped during cleaning:")
         for reason, n in sorted(dropped.items(), key=lambda kv: -kv[1]):
