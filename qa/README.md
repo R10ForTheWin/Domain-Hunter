@@ -23,12 +23,32 @@ From the repo root, no dependencies beyond the standard library:
 python3 qa/validate_contracts.py
 ```
 
-```bash
-python3 -m unittest discover -s qa -t qa
-```
-
 Exit code is 0 on pass and 1 on failure, so it can gate a merge. `--strict` turns warnings into
 failures.
+
+Tests use `pytest`, the project-wide runner established in PR #9:
+
+```bash
+pytest qa/
+```
+
+They are `unittest.TestCase` classes, so `pytest` collects them without any adapter. Do not reach
+for `python -m unittest discover` — `CLAUDE.md` rules it out project-wide, because it silently
+collects zero tests from pytest-style suites and hard-crashes on directories that aren't packages.
+
+### Heads-up for whoever merges this
+
+PR #9 pins `testpaths = ["pd_verification/tests", "pd_calendar/scripts"]` in `pyproject.toml`.
+That is an allowlist, so **a bare `pytest` from the repo root will not collect this directory**:
+
+```
+with PR #9's testpaths:   104 passed     <- qa/'s 21 tests silently skipped
+with testpaths removed:   125 passed     <- everything collected
+```
+
+Either add `"qa"` to `testpaths`, or drop the line entirely (verified: without it, pytest collects
+nothing from `.venv` or `site/`, since its default `norecursedirs` skips dot-directories). Until
+one of those happens, run `pytest qa/` explicitly. Raised on PR #9.
 
 ## What it checks
 

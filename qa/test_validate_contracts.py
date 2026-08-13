@@ -7,9 +7,13 @@ actually reached a pull request in this project and asserts the validator would
 have caught it. A checker nobody has seen fail is indistinguishable from one
 that always passes.
 
-Run from the repo root:
+Run from the repo root with the project-wide runner (PR #9):
 
-    python3 -m unittest discover -s qa -t qa
+    pytest qa/
+
+These are unittest.TestCase classes, so pytest collects them with no adapter. Note
+that a bare `pytest` will NOT reach this directory while PR #9's testpaths allowlist
+is in place -- see qa/README.md.
 """
 from __future__ import annotations
 

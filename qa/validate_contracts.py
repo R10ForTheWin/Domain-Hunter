@@ -13,6 +13,10 @@ so it can gate a merge:
     python3 qa/validate_contracts.py
     python3 qa/validate_contracts.py --strict     # warnings become failures
 
+Its own tests run under pytest, the project-wide runner:
+
+    pytest qa/
+
 WHAT IT CHECKS
 --------------
   header      every required column present, in any order
