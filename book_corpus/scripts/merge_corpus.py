@@ -54,6 +54,26 @@ def slugify(text: str) -> str:
     return text or "unknown"
 
 
+def normalize_author(name: str) -> str:
+    """Contract requires 'Last, First' -- the three source batches didn't
+    agree (Gutenberg/Wikidata already gave 'Last, First'; the pub-year
+    batch gave 'First Last'), so 908 rows were one format and 1,856 were
+    the other, with 99 authors appearing as both and getting treated as
+    two different people by anything that groups on author. Normalize
+    everyone to the same format instead of trusting whatever the source
+    happened to use.
+    """
+    name = name.strip()
+    if "," in name:
+        return name  # already "Last, First" (or "Last, First Jr." etc.)
+    parts = name.split()
+    if len(parts) < 2:
+        return name  # single-token name (e.g. "Homer", "Voltaire") -- nothing to reorder
+    last = parts[-1]
+    first = " ".join(parts[:-1])
+    return f"{last}, {first}"
+
+
 def read_csv(path: Path) -> list[dict]:
     with path.open(newline="", encoding="utf-8") as f:
         return list(csv.DictReader(f))
@@ -140,9 +160,13 @@ def main():
     print(f"Death-year: {len(deathyear)} rows", file=sys.stderr)
     print(f"Pub-year (local-fixed): {len(pubyear)} rows (was {len(pubyear_raw)} before dedup)", file=sys.stderr)
 
+    all_rows = gutenberg + deathyear + pubyear
+    for r in all_rows:
+        r["author"] = normalize_author(r["author"])
+
     from collections import defaultdict
     groups = defaultdict(list)
-    for r in gutenberg + deathyear + pubyear:
+    for r in all_rows:
         key = (r["title"].strip().lower(), r["author"].strip().lower())
         groups[key].append(r)
 
@@ -164,9 +188,15 @@ def main():
         pub_year = int(r["publication_year"])
         gap_after = pub_year - death_year
         gap_before = death_year - pub_year
-        if gap_after > 50 or gap_before > 100:
+        # Per Ross's branch audit (ISSUE-3): any publication_year after the
+        # author's death is treated as a reprint/collected-edition date
+        # misrecorded as the original -- not just large gaps. This field
+        # determines the actual PD date for pre-1978 works, so a wrong
+        # value here is a contract violation, not just untidy metadata.
+        if gap_after > 0 or gap_before > 100:
             reason = (
-                f"more than 50 years after death ({death_year})" if gap_after > 50
+                f"after author's death ({death_year}) -- publication_year must be "
+                f"the original publication, not a reprint/collected edition (audit ISSUE-3)" if gap_after > 0
                 else f"more than 100 years before death ({death_year}), implausible for a single lifetime"
             )
             r["notes"] += f"; publication year ({pub_year}) discarded post-merge as implausible ({reason}); needs manual research"
