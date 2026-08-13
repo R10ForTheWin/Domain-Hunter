@@ -114,6 +114,33 @@ def _prompt(text: str) -> str:
     return input(text).strip()
 
 
+_LOOKUP_MODE_ALIASES = {
+    "1": "id", "id": "id", "gutenberg id": "id", "project gutenberg id": "id",
+    "2": "search", "title": "search", "search": "search",
+    "3": "manual", "manual": "manual", "skip": "manual",
+}
+
+
+def _prompt_lookup_mode() -> str:
+    """Ask how to look up the book. Only 'id', 'search', or 'manual' are ever
+    returned -- anything unrecognized re-prompts instead of silently falling
+    through to an empty book (see pd_verification/README.md incident notes:
+    typing 'title' at the old id/search/manual prompt used to skip both
+    branches and evaluate a blank book with no error)."""
+    while True:
+        raw = _prompt(
+            "How do you want to look up this book?\n"
+            "  [1] By Project Gutenberg ID (if you already know it)\n"
+            "  [2] By title -- searches Project Gutenberg\n"
+            "  [3] Skip Gutenberg -- enter the book's details yourself\n"
+            "Choice [1/2/3]: "
+        ).strip().lower()
+        mode = _LOOKUP_MODE_ALIASES.get(raw)
+        if mode is not None:
+            return mode
+        print(f"  '{raw}' isn't one of the options -- enter 1, 2, or 3.\n")
+
+
 def _prompt_optional_int(text: str) -> Optional[int]:
     raw = _prompt(text)
     if raw == "":
@@ -210,8 +237,7 @@ def _ask_for_missing_field(book: BookInput, missing_entry: str) -> bool:
 def run_interactive() -> None:
     print_intro()
 
-    mode = _prompt("Look up by Project Gutenberg ID, search Gutenberg by title, "
-                    "or enter manually? [id/search/manual]: ").strip().lower()
+    mode = _prompt_lookup_mode()
 
     book_id: Optional[str] = None
     title = ""
