@@ -8,6 +8,7 @@ one as just an index.
 |---|---|---|
 | `book_corpus.csv` | Package 3 (Book Corpus) | Packages 1, 2, 4 |
 | `pd_calendar.csv` | Package 1 (PD Calendar) | — (standalone report) |
+| `pd_verification_inputs.csv` | Package 2 (PD Verification) | Package 2 (own supplementary legal fields, e.g. country of first publication, renewal status) |
 | `pd_verification.csv` | Package 2 (PD Verification) | Package 5 |
 | `studio_scores.csv` | Package 4 (Studio Scoring) | Package 5 |
 | `shortlist.csv` | Package 5 (Shortlist) | — (final output) |
