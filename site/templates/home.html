@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Domain Huntress">
+<meta name="theme-color" content="#0d6b7a">
+<link rel="apple-touch-icon" href="{{ url_for('static', filename='apple-touch-icon.png') }}">
+<link rel="icon" type="image/png" href="{{ url_for('static', filename='apple-touch-icon.png') }}">
+<title>Domain Huntress</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body { height: 100%; }
+  body { background: #0d6b7a; overflow: hidden; }
+
+  /* Full-bleed video -- the whole screen IS the artwork, edge to edge,
+     no separate boxed-off section. Logo and buttons float on top of it
+     as transparent-PNG overlays instead of living in their own bands. */
+  .hero { position: relative; width: 100%; height: 100vh; height: 100dvh; overflow: hidden; }
+  .hero video {
+    position: absolute; inset: 0;
+    width: 100%; height: 100%;
+    object-fit: cover; object-position: center 35%;
+  }
+
+  .logo-overlay {
+    position: absolute;
+    top: max(10px, env(safe-area-inset-top));
+    left: 0; right: 0;
+    display: flex; justify-content: center;
+    z-index: 2;
+  }
+  .wordmark {
+    max-width: min(230px, 56vw);
+    width: 100%; height: auto;
+    filter: drop-shadow(0 3px 6px rgba(0,0,0,0.5));
+  }
+  .status-link {
+    position: absolute;
+    top: max(12px, env(safe-area-inset-top));
+    right: 10px;
+    z-index: 3;
+    font-size: 10px;
+    color: #faf6ec;
+    text-decoration: none;
+    background: rgba(0,0,0,0.35);
+    padding: 4px 9px;
+    border-radius: 12px;
+    border: 1px solid rgba(255,255,255,0.4);
+  }
+
+  .button-overlay {
+    position: absolute;
+    bottom: max(10px, env(safe-area-inset-bottom));
+    left: 0; right: 0;
+    display: flex; flex-direction: column;
+    gap: 5px;
+    padding: 0 16px;
+    z-index: 2;
+  }
+  .cta-btn { display: block; line-height: 0; transition: transform 0.15s ease; }
+  .cta-btn:hover { transform: translate(-2px, -3px); }
+  .cta-btn img { width: 100%; height: auto; display: block; filter: drop-shadow(0 2px 5px rgba(0,0,0,0.4)); }
+</style>
+</head>
+<body>
+
+<div class="hero">
+  <video autoplay muted loop playsinline poster="{{ url_for('static', filename='poster-archer.png') }}">
+    <source src="{{ url_for('static', filename='logo-animation-textless.mp4') }}" type="video/mp4">
+  </video>
+
+  <div class="logo-overlay">
+    <img class="wordmark" src="{{ url_for('static', filename='logo-wordmark.png') }}" alt="Domain Huntress — Public-Domain Adaptation Scout">
+  </div>
+  <a class="status-link" href="{{ url_for('status') }}">Status →</a>
+
+  <div class="button-overlay">
+    <a class="cta-btn" href="{{ url_for('producers') }}">
+      <img src="{{ url_for('static', filename='btn-producer.png') }}" alt="I'm a Producer — check if a book is public domain">
+    </a>
+    <a class="cta-btn" href="{{ url_for('networks') }}">
+      <img src="{{ url_for('static', filename='btn-network.png') }}" alt="I'm a Network — find PD books for your mandate">
+    </a>
+    <a class="cta-btn" href="{{ url_for('forward_looking') }}">
+      <img src="{{ url_for('static', filename='btn-forward.png') }}" alt="Looking Forward 5 Years — what enters public domain next">
+    </a>
+  </div>
+</div>
+
+</body>
+</html>

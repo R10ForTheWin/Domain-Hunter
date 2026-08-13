@@ -1,6 +1,6 @@
 # Package 1 — Forward-Looking PD Calendar
 
-**Owner:** Teammate (phone ending 9302) · Branch suggestion: `yourname-pd-calendar`
+**Owner:** Ross · Branch suggestion: `ross-pd-calendar`
 
 ## Goal
 

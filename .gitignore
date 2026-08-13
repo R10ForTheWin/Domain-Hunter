@@ -10,3 +10,8 @@ venv/
 # editors
 .vscode/
 .idea/
+
+# site/data/ is a local-only data snapshot used for `railway up` CLI deploys
+# (which only upload site/'s own contents, not ../data/) -- not a source of
+# truth, never commit it, see site/README.md
+site/data/
