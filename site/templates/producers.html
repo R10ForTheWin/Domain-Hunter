@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Producers — Domain Huntress</title>
+<style>
+  :root {
+    --teal: #0d6b7a; --teal-dark: #0a4f5a; --gold: #e8b93f; --red: #d8482f;
+    --cream: #faf6ec; --ink: #1a1a1a;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    font-family: -apple-system, "Helvetica Neue", Arial, sans-serif;
+    color: var(--ink);
+    background: var(--teal);
+    background-image: radial-gradient(rgba(255,255,255,0.10) 1px, transparent 1px);
+    background-size: 14px 14px;
+  }
+  header { text-align: center; padding: 30px 20px 18px 20px; position: relative; }
+  .back-link {
+    position: absolute; top: 18px; left: 20px;
+    font-size: 12px; color: var(--cream); text-decoration: none;
+    background: rgba(0,0,0,0.25); padding: 5px 12px; border-radius: 12px;
+    border: 1px solid rgba(255,255,255,0.4);
+  }
+  header h1 { color: var(--cream); font-size: 22px; margin: 8px 0 2px 0; }
+  header p { color: var(--cream); opacity: 0.85; font-size: 13px; margin: 0; }
+  main { max-width: 760px; margin: 0 auto; padding: 0 20px 60px 20px; }
+  .card {
+    background: var(--cream);
+    border: 3px solid var(--ink);
+    border-radius: 14px;
+    padding: 22px 26px;
+    margin-bottom: 24px;
+    box-shadow: 6px 6px 0 rgba(0,0,0,0.25);
+  }
+  form { display: flex; gap: 10px; margin: 10px 0 6px 0; flex-wrap: wrap; }
+  input[type=text] {
+    flex: 1;
+    min-width: 200px;
+    padding: 10px 14px;
+    border: 3px solid var(--ink);
+    border-radius: 10px;
+    font-size: 15px;
+  }
+  button {
+    background: var(--gold);
+    border: 3px solid var(--ink);
+    border-radius: 10px;
+    padding: 10px 22px;
+    font-weight: 800;
+    text-transform: uppercase;
+    font-size: 13px;
+    cursor: pointer;
+  }
+  button:hover { background: var(--red); color: var(--cream); }
+  table { width: 100%; border-collapse: collapse; font-size: 13.5px; margin-top: 14px; }
+  th, td { text-align: left; padding: 8px 10px; border-bottom: 1px solid #e2dcc8; }
+  th { color: var(--teal-dark); font-size: 11px; text-transform: uppercase; letter-spacing: 0.03em; }
+  .disclaimer {
+    font-size: 12px;
+    color: #6b5f3f;
+    background: #f3ecd4;
+    border: 2px solid #d8c98a;
+    border-radius: 8px;
+    padding: 10px 14px;
+    margin-top: 16px;
+  }
+  .empty { color: #777; font-style: italic; }
+</style>
+</head>
+<body>
+
+<header>
+  <a href="{{ url_for('home') }}" class="back-link">← Home</a>
+  <h1>Check a Book's Public-Domain Status</h1>
+  <p>For producers scouting adaptable titles</p>
+</header>
+
+<main>
+  <div class="card">
+    <form method="get">
+      <input type="text" name="q" value="{{ query }}" placeholder="Enter a book title, e.g. &quot;Dracula&quot;" autofocus>
+      <button type="submit">Search</button>
+    </form>
+
+    {% if query %}
+      {% if results %}
+        <table>
+          <tr><th>Title</th><th>Author</th><th>Death Yr</th><th>Pub Yr</th><th>Source</th></tr>
+          {% for b in results %}
+          <tr>
+            <td>{{ b.title }}</td>
+            <td>{{ b.author }}</td>
+            <td>{{ b.author_death_year or "—" }}</td>
+            <td>{{ b.publication_year or "—" }}</td>
+            <td>{{ b.source }}</td>
+          </tr>
+          {% endfor %}
+        </table>
+      {% else %}
+        <p class="empty">No matches in our candidate corpus for "{{ query }}".</p>
+      {% endif %}
+      <div class="disclaimer">
+        This shows what's in our candidate corpus, sourced from Project Gutenberg, Open Library,
+        and Wikidata — it is <strong>not yet an independently verified legal determination</strong>.
+        The dedicated PD Verification agent (which applies the actual U.S. copyright rules and
+        flags anything uncertain) is still in development. Treat this as a research starting
+        point, not a final answer.
+      </div>
+    {% endif %}
+  </div>
+</main>
+
+</body>
+</html>

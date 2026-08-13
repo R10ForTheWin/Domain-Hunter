@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Networks — Domain Huntress</title>
+<style>
+  :root {
+    --teal: #0d6b7a; --teal-dark: #0a4f5a; --gold: #e8b93f; --red: #d8482f;
+    --cream: #faf6ec; --ink: #1a1a1a;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    font-family: -apple-system, "Helvetica Neue", Arial, sans-serif;
+    color: var(--ink);
+    background: var(--teal);
+    background-image: radial-gradient(rgba(255,255,255,0.10) 1px, transparent 1px);
+    background-size: 14px 14px;
+  }
+  header { text-align: center; padding: 30px 20px 18px 20px; position: relative; }
+  .back-link {
+    position: absolute; top: 18px; left: 20px;
+    font-size: 12px; color: var(--cream); text-decoration: none;
+    background: rgba(0,0,0,0.25); padding: 5px 12px; border-radius: 12px;
+    border: 1px solid rgba(255,255,255,0.4);
+  }
+  header h1 { color: var(--cream); font-size: 22px; margin: 8px 0 2px 0; }
+  header p { color: var(--cream); opacity: 0.85; font-size: 13px; margin: 0; }
+  main { max-width: 700px; margin: 0 auto; padding: 0 20px 60px 20px; }
+  .card {
+    background: var(--cream);
+    border: 3px solid var(--ink);
+    border-radius: 14px;
+    padding: 26px 28px;
+    box-shadow: 6px 6px 0 rgba(0,0,0,0.25);
+  }
+  .badge {
+    display: inline-block;
+    background: var(--red);
+    color: var(--cream);
+    font-size: 11px;
+    font-weight: 800;
+    text-transform: uppercase;
+    padding: 5px 14px;
+    border-radius: 20px;
+    border: 2px solid var(--ink);
+    margin-bottom: 14px;
+  }
+  ul { padding-left: 20px; }
+  li { margin: 6px 0; }
+  fieldset {
+    margin-top: 20px;
+    border: 2px dashed #cfc6a5;
+    border-radius: 10px;
+    padding: 16px;
+    opacity: 0.6;
+  }
+  label { display: block; font-size: 12px; font-weight: 700; margin: 10px 0 4px 0; text-transform: uppercase; }
+  input, select { width: 100%; padding: 8px 10px; border: 2px solid var(--ink); border-radius: 8px; font-size: 14px; }
+</style>
+</head>
+<body>
+
+<header>
+  <a href="{{ url_for('home') }}" class="back-link">← Home</a>
+  <h1>Find Public-Domain Books for Your Mandate</h1>
+  <p>For networks &amp; studios scouting adaptable IP</p>
+</header>
+
+<main>
+  <div class="card">
+    <span class="badge">Coming soon</span>
+    <p>This will let you submit your creative mandate — genre, tone, franchise potential,
+    budget/scale, audience — and see which public-domain books in our corpus score well against
+    it.</p>
+    <p style="margin-top:10px;">It depends on the <strong>Studio Mandate Research &amp; Scoring</strong>
+    package, which is still in development — that's the piece that researches an actual target
+    studio's acquisition patterns and turns it into an evidence-based, weighted rubric. Until
+    that exists, there's no real scoring to show here rather than a placeholder built on made-up
+    weights.</p>
+
+    <fieldset disabled>
+      <label>Target studio / network</label>
+      <input type="text" placeholder="e.g. A24, Netflix, Amazon MGM...">
+      <label>Genre</label>
+      <input type="text" placeholder="e.g. gothic horror, adventure...">
+      <label>Franchise potential</label>
+      <select><option>Low</option><option>Medium</option><option>High</option></select>
+      <label style="margin-top:16px;"><input type="checkbox" style="width:auto;display:inline;"> Notify me when this is ready</label>
+    </fieldset>
+  </div>
+</main>
+
+</body>
+</html>

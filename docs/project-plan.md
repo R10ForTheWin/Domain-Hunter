@@ -47,7 +47,7 @@ stays accurate. The separate logo task was randomly drawn from the two lighter-w
 (Packages 1 and 5).
 
 ### Package 1 — Forward-Looking PD Calendar (5-Year Horizon)
-**Owner:** Teammate (phone ending 9302) · **Folder:** [`pd_calendar/`](../pd_calendar/)
+**Owner:** Ross · **Folder:** [`pd_calendar/`](../pd_calendar/)
 
 Goal: for each of the next 5 January 1sts, produce a list of authors (and their works) whose U.S.
 copyright protection expires, using the life-of-author + 70-years rule.
@@ -58,7 +58,7 @@ copyright protection expires, using the life-of-author + 70-years rule.
 - Output: a simple table/report — Year → Authors entering PD → Notable works
 
 ### Package 2 — PD Verification Agent
-**Owner:** Teammate (phone ending 8253) · **Folder:** [`pd_verification/`](../pd_verification/)
+**Owner:** Jason Brown · **Folder:** [`pd_verification/`](../pd_verification/)
 
 Goal: build the independent check that confirms — or rejects — a specific book's public-domain
 claim before it's allowed anywhere near the shortlist.
@@ -112,9 +112,13 @@ Goal: keep the repo usable, review everyone's work, and make sure the pieces act
 - Maintain `CLAUDE.md` as the shared project brief everyone's Claude reads
 - Spot-check each package's output before it's merged
 - Run point on overall strategy — including hearing pushback and adjusting course
+- **Added 2026-08-12:** build and deploy a live demo site (`site/`) for presenting the project to
+  class — matches how DJ's other projects (Artie, Reggie) get demoed, as a real deployed URL
+  rather than a slide deck. Shows pipeline status and corpus stats now; wires in real PD
+  verification, scoring, and shortlist results as those packages land.
 
 ### Additional assignment — Domain-Hunter logo
-**Owner:** Teammate (phone ending 9302)
+**Owner:** Ross
 
 Randomly selected from the two lighter-workload packages (1 and 5). Create a simple project logo
 and upload it to the shared GitHub repository so it's available for the final shortlist/report.
