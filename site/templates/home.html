@@ -3,9 +3,6 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-<!-- These only take effect once added to the iOS home screen and launched
-     from that icon -- Safari's URL bar can't be hidden while browsing a
-     normal link in a tab, no meta tag overrides that. -->
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="Domain Huntress">
@@ -14,120 +11,73 @@
 <link rel="icon" type="image/png" href="{{ url_for('static', filename='apple-touch-icon.png') }}">
 <title>Domain Huntress</title>
 <style>
-  :root {
-    --teal: #0d6b7a;
-    --gold: #e8b93f;
-    --red: #d8482f;
-    --cream: #faf6ec;
-    --ink: #1a1a1a;
-  }
   * { box-sizing: border-box; margin: 0; padding: 0; }
   html, body { height: 100%; }
-  body {
-    font-family: -apple-system, "Helvetica Neue", Arial, sans-serif;
-    background: var(--teal);
-    background-image: radial-gradient(rgba(255,255,255,0.10) 1px, transparent 1px);
-    background-size: 14px 14px;
+  body { background: #0d6b7a; overflow: hidden; }
+
+  /* Full-bleed video -- the whole screen IS the artwork, edge to edge,
+     no separate boxed-off section. Logo and buttons float on top of it
+     as transparent-PNG overlays instead of living in their own bands. */
+  .hero { position: relative; width: 100%; height: 100vh; height: 100dvh; overflow: hidden; }
+  .hero video {
+    position: absolute; inset: 0;
+    width: 100%; height: 100%;
+    object-fit: cover; object-position: center 35%;
   }
 
-  /* Single-screen budget, deliberately: logo (fixed), character art
-     (flexible, fills whatever's left), buttons (fixed -- now that the
-     button PNGs are cropped to their real ~3.3:1 pill shape instead of
-     the padded 1536x1024 canvas they came in as, 3 of them plus a logo
-     comfortably leave real room for the art instead of crushing it. */
-  .page {
-    display: flex;
-    flex-direction: column;
-    min-height: 100vh;
-    min-height: 100dvh;
-    max-width: 480px;
-    margin: 0 auto;
-    padding: max(10px, env(safe-area-inset-top)) 18px max(10px, env(safe-area-inset-bottom)) 18px;
-  }
-
-  .logo-row {
-    flex: 0 0 auto;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    position: relative;
-    padding-bottom: 6px;
+  .logo-overlay {
+    position: absolute;
+    top: max(10px, env(safe-area-inset-top));
+    left: 0; right: 0;
+    display: flex; justify-content: center;
+    z-index: 2;
   }
   .wordmark {
-    max-width: min(260px, 62vw);
-    width: 100%;
-    height: auto;
-    filter: drop-shadow(0 4px 8px rgba(0,0,0,0.35));
+    max-width: min(230px, 56vw);
+    width: 100%; height: auto;
+    filter: drop-shadow(0 3px 6px rgba(0,0,0,0.5));
   }
   .status-link {
     position: absolute;
-    top: 2px;
-    right: 0;
+    top: max(12px, env(safe-area-inset-top));
+    right: 10px;
+    z-index: 3;
     font-size: 10px;
-    color: var(--cream);
+    color: #faf6ec;
     text-decoration: none;
-    white-space: nowrap;
-    background: rgba(0,0,0,0.25);
+    background: rgba(0,0,0,0.35);
     padding: 4px 9px;
     border-radius: 12px;
     border: 1px solid rgba(255,255,255,0.4);
   }
 
-  /* Character art fills whatever vertical space is left after the logo
-     and buttons take theirs -- deliberately cropped (object-fit:cover)
-     to match the reference mockup's contained framing, rather than
-     showing the full natural video frame. */
-  .art-row {
-    flex: 1 1 auto;
-    min-height: max(280px, 40vh);
-    overflow: hidden;
-    position: relative;
-  }
-  .art-row video {
+  .button-overlay {
     position: absolute;
-    inset: 0;
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    object-position: center 30%;
+    bottom: max(10px, env(safe-area-inset-bottom));
+    left: 0; right: 0;
+    display: flex; flex-direction: column;
+    gap: 5px;
+    padding: 0 16px;
+    z-index: 2;
   }
-
-  .button-col {
-    flex: 0 0 auto;
-    display: flex;
-    flex-direction: column;
-    gap: 7px;
-    padding-top: 8px;
-  }
-  .cta-btn {
-    display: block;
-    line-height: 0;
-    transition: transform 0.15s ease;
-  }
+  .cta-btn { display: block; line-height: 0; transition: transform 0.15s ease; }
   .cta-btn:hover { transform: translate(-2px, -3px); }
-  .cta-btn img {
-    width: 100%;
-    height: auto;
-    display: block;
-  }
+  .cta-btn img { width: 100%; height: auto; display: block; filter: drop-shadow(0 2px 5px rgba(0,0,0,0.4)); }
 </style>
 </head>
 <body>
 
-<div class="page">
+<div class="hero">
+  <video autoplay muted loop playsinline poster="{{ url_for('static', filename='poster-archer.png') }}">
+    <source src="{{ url_for('static', filename='logo-animation-textless.mp4') }}" type="video/mp4">
+  </video>
 
-  <div class="logo-row">
+  <div class="logo-overlay">
     <img class="wordmark" src="{{ url_for('static', filename='logo-wordmark.png') }}" alt="Domain Huntress — Public-Domain Adaptation Scout">
-    <a class="status-link" href="{{ url_for('status') }}">Status →</a>
   </div>
+  <a class="status-link" href="{{ url_for('status') }}">Status →</a>
 
-  <div class="art-row">
-    <video autoplay muted loop playsinline poster="{{ url_for('static', filename='poster-archer.png') }}">
-      <source src="{{ url_for('static', filename='logo-animation-textless.mp4') }}" type="video/mp4">
-    </video>
-  </div>
-
-  <div class="button-col">
+  <div class="button-overlay">
     <a class="cta-btn" href="{{ url_for('producers') }}">
       <img src="{{ url_for('static', filename='btn-producer.png') }}" alt="I'm a Producer — check if a book is public domain">
     </a>
@@ -138,7 +88,6 @@
       <img src="{{ url_for('static', filename='btn-forward.png') }}" alt="Looking Forward 5 Years — what enters public domain next">
     </a>
   </div>
-
 </div>
 
 </body>
