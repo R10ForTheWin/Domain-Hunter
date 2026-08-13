@@ -109,5 +109,10 @@ def networks():
     return render_template("networks.html")
 
 
+@app.route("/forward-looking")
+def forward_looking():
+    return render_template("forward_looking.html")
+
+
 if __name__ == "__main__":
     app.run(debug=True, port=5050)

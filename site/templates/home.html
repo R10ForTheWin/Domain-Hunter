@@ -3,6 +3,15 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<!-- These only take effect once added to the iOS home screen and launched
+     from that icon -- Safari's URL bar can't be hidden while browsing a
+     normal link in a tab, no meta tag overrides that. -->
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Domain Huntress">
+<meta name="theme-color" content="#0d6b7a">
+<link rel="apple-touch-icon" href="{{ url_for('static', filename='apple-touch-icon.png') }}">
+<link rel="icon" type="image/png" href="{{ url_for('static', filename='apple-touch-icon.png') }}">
 <title>Domain Huntress</title>
 <style>
   :root {
@@ -13,164 +22,119 @@
     --ink: #1a1a1a;
   }
   * { box-sizing: border-box; margin: 0; padding: 0; }
-  html, body { height: 100%; }
   body {
     font-family: -apple-system, "Helvetica Neue", Arial, sans-serif;
-    background: var(--teal);
-  }
-  .hero {
-    position: relative;
-    width: 100%;
-    /* dvh accounts for mobile browser chrome correctly; vh is a fallback
-       for browsers that don't support it -- without dvh the bottom button
-       was getting clipped behind Safari's address/tab bar on iPhone */
-    height: 100vh;
-    height: 100dvh;
-    min-height: 480px;
-    overflow: hidden;
     background: var(--teal);
     background-image: radial-gradient(rgba(255,255,255,0.10) 1px, transparent 1px);
     background-size: 14px 14px;
   }
-  .hero video {
-    position: absolute;
-    inset: 0;
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    object-position: center center;
-  }
-  /* The source video is native portrait (720x1280, ~9:16) -- already
-     close to a phone's own proportions. No reason to force-crop it into
-     a fixed-height box on mobile: just let it render at its natural
-     size, full frame, nothing hidden. The hero's height on mobile comes
-     from the video itself instead of a fixed 100dvh. */
-  @media (max-width: 700px) {
-    .hero {
-      height: auto;
-      min-height: 0;
-    }
-    .hero video {
-      position: static;
-      display: block;
-      width: 100%;
-      height: auto;
-      aspect-ratio: 9 / 16;
-    }
+
+  /* Simple stacked document flow -- logo, then character art, then
+     buttons -- deliberately NOT forced into a fixed viewport height.
+     A rigid single-screen layout kept fighting the actual size of the
+     asset images and either crushing or clipping content; letting the
+     page be exactly as tall as its content needs and scroll if
+     necessary is far more robust than re-tuning flex/height tricks
+     against images whose proportions we don't fully control. */
+  .page {
+    max-width: 480px;
+    margin: 0 auto;
+    padding: max(14px, env(safe-area-inset-top)) 20px max(20px, env(safe-area-inset-bottom)) 20px;
   }
 
-  /* Logo composited directly onto the video -- no separate panel behind
-     it, since the PNG already has its own transparent background */
-  .wordmark-wrap {
-    position: absolute;
-    top: 0; left: 0; right: 0;
+  .logo-row {
     display: flex;
     justify-content: center;
-    padding: max(14px, env(safe-area-inset-top)) 70px 0 20px;
-    z-index: 2;
+    align-items: center;
+    position: relative;
+    padding-bottom: 6px;
   }
   .wordmark {
-    max-width: 300px;
-    width: 62%;
-    filter: drop-shadow(0 5px 10px rgba(0,0,0,0.55));
+    /* Percentage width on a flex item (with no explicit flex-basis) can
+       fail to resolve correctly and fall back toward intrinsic size --
+       use a vw-based cap instead, which resolves against the viewport,
+       not the ambiguous flex container. */
+    max-width: min(320px, 74vw);
+    width: 100%;
+    height: auto;
+    filter: drop-shadow(0 4px 8px rgba(0,0,0,0.35));
   }
   .status-link {
     position: absolute;
-    top: 14px;
-    right: 12px;
-    z-index: 3;
+    top: 4px;
+    right: 0;
     font-size: 10px;
     color: var(--cream);
     text-decoration: none;
     white-space: nowrap;
-    background: rgba(0,0,0,0.4);
+    background: rgba(0,0,0,0.25);
     padding: 5px 10px;
     border-radius: 12px;
     border: 1px solid rgba(255,255,255,0.4);
   }
 
-  .hero-bottom {
-    position: absolute;
-    bottom: 0; left: 0; right: 0;
-    display: flex;
-    justify-content: center;
-    gap: 14px;
-    flex-wrap: wrap;
-    padding: 20px 16px max(24px, env(safe-area-inset-bottom)) 16px;
-    z-index: 2;
-    background: linear-gradient(to top, rgba(0,0,0,0.6), transparent);
-  }
-  /* Force a single stacked column below this width rather than relying on
-     flex-wrap's own width math -- on a real iPhone the two buttons were
-     staying on one row and overflowing past the right edge instead of
-     wrapping. */
-  @media (max-width: 500px) {
-    .hero-bottom { flex-direction: column; align-items: stretch; }
-    .cta-btn { max-width: none; width: 100%; }
-  }
-  .cta-btn {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    text-decoration: none;
-    color: var(--ink);
-    background: var(--gold);
-    border: 4px solid var(--ink);
-    border-radius: 16px;
-    padding: 14px 22px;
-    min-width: 200px;
-    flex: 1 1 200px;
-    max-width: 280px;
-    box-shadow: 5px 5px 0 rgba(0,0,0,0.4);
-    transition: transform 0.15s ease, box-shadow 0.15s ease;
+  /* Character art at its natural aspect ratio -- always fully visible,
+     nothing cropped, regardless of where the animation is in its loop. */
+  .art-row {
+    width: 100%;
+    line-height: 0;
     text-align: center;
   }
-  .cta-btn:hover {
-    transform: translate(-2px, -4px);
-    box-shadow: 7px 9px 0 rgba(0,0,0,0.4);
+  .art-row video {
+    width: 100%;
+    max-width: 380px;
+    height: auto;
+    display: inline-block;
   }
-  .cta-btn.red {
-    background: var(--red);
-    color: var(--cream);
+
+  .button-col {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    padding-top: 12px;
+    max-width: 380px;
+    margin: 0 auto;
   }
-  .cta-btn .cta-title {
-    font-size: 15px;
-    font-weight: 800;
-    text-transform: uppercase;
-    letter-spacing: 0.03em;
+  .cta-btn {
+    display: block;
+    line-height: 0;
+    transition: transform 0.15s ease;
   }
-  .cta-btn .cta-sub {
-    font-size: 11.5px;
-    margin-top: 4px;
-    font-weight: 500;
-    opacity: 0.85;
+  .cta-btn:hover { transform: translate(-2px, -3px); }
+  .cta-btn img {
+    width: 100%;
+    height: auto;
+    display: block;
   }
 </style>
 </head>
 <body>
 
-<div class="hero">
-  <video autoplay muted loop playsinline poster="{{ url_for('static', filename='poster-archer.png') }}">
-    <source src="{{ url_for('static', filename='logo-animation-textless.mp4') }}" type="video/mp4">
-  </video>
+<div class="page">
 
-  <a class="status-link" href="{{ url_for('status') }}">Status →</a>
-
-  <div class="wordmark-wrap">
+  <div class="logo-row">
     <img class="wordmark" src="{{ url_for('static', filename='logo-wordmark.png') }}" alt="Domain Huntress — Public-Domain Adaptation Scout">
+    <a class="status-link" href="{{ url_for('status') }}">Status →</a>
   </div>
 
-  <div class="hero-bottom">
+  <div class="art-row">
+    <video autoplay muted loop playsinline poster="{{ url_for('static', filename='poster-archer.png') }}">
+      <source src="{{ url_for('static', filename='logo-animation-textless.mp4') }}" type="video/mp4">
+    </video>
+  </div>
+
+  <div class="button-col">
     <a class="cta-btn" href="{{ url_for('producers') }}">
-      <span class="cta-title">I'm a Producer</span>
-      <span class="cta-sub">Check if a book is public domain</span>
+      <img src="{{ url_for('static', filename='btn-producer.png') }}" alt="I'm a Producer — check if a book is public domain">
     </a>
-    <a class="cta-btn red" href="{{ url_for('networks') }}">
-      <span class="cta-title">I'm a Network</span>
-      <span class="cta-sub">Find PD books for your mandate</span>
+    <a class="cta-btn" href="{{ url_for('networks') }}">
+      <img src="{{ url_for('static', filename='btn-network.png') }}" alt="I'm a Network — find PD books for your mandate">
+    </a>
+    <a class="cta-btn" href="{{ url_for('forward_looking') }}">
+      <img src="{{ url_for('static', filename='btn-forward.png') }}" alt="Looking Forward 5 Years — what enters public domain next">
     </a>
   </div>
+
 </div>
 
 </body>
