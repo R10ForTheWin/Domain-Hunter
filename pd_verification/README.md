@@ -124,10 +124,14 @@ python -m pd_verification.agent --batch data/book_corpus.csv \
     --out data/pd_verification.csv
 ```
 
-No external dependencies — everything here is Python standard library plus a plain HTTPS call to
-the free [Gutendex](https://gutendex.com) API for Gutenberg metadata (no key needed).
+No external dependencies to run the agent itself — everything here is Python standard library
+plus a plain HTTPS call to the free [Gutendex](https://gutendex.com) API for Gutenberg metadata
+(no key needed). The test suite is pytest-style, so running it needs pytest installed (without
+it, `python -m unittest` silently collects zero tests and reports "OK" — looks like a pass but
+isn't running anything):
 
 ```bash
+pip install -r pd_verification/requirements.txt
 python -m pytest pd_verification/tests/ -v
 ```
 
