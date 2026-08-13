@@ -34,18 +34,42 @@ no other file should reference it.
 
 ## `data/pd_calendar.csv` — Package 1 output (reads `book_corpus.csv`)
 
-One row per (author, PD year) once cross-referenced to actual titles in the corpus.
+One row per **work** (`book_id`), not per author. Under the rule that governs most of this corpus
+the public-domain date comes from *publication*, so a single author can hold several different
+dates — a 1931 title and a 1935 title by the same person are five years apart. An author-grained
+row cannot represent that.
+
+**Which rule governs.** U.S. works published before 1978 run 95 years from publication no matter
+when the author died; only works published 1978 or later use life+70. Measured against the 2,764
+rows of `book_corpus.csv`: `pub+95` governs 2,015 books, `life+70` governs 44. Earlier versions of
+this file and of `pd_calendar/README.md` described the calendar as a life+70 calculation. That is
+the wrong rule for a pre-1978 corpus, and it errs toward declaring free a work that is still in
+copyright — an author who died in 1951 with a book published in 1950 comes out as public domain in
+2022 under life+70, when the real date is 2046.
 
 | column | type | notes |
 |---|---|---|
-| `pd_date` | date `YYYY-01-01` | always January 1st, see project-plan.md §1 |
-| `author` | string | |
-| `author_death_year` | int | |
+| `pd_date` | date `YYYY-01-01` or blank | always January 1st, see project-plan.md §1; blank when the inputs cannot support a date |
 | `book_id` | string or blank | link into `book_corpus.csv`; blank if the author has no title in the corpus yet |
 | `title` | string or blank | denormalized for readability, matches `book_id` if set |
-| `confidence` | `confirmed` / `disputed` | mirrors `author_death_year_disputed` reasoning |
+| `author` | string | |
+| `author_death_year` | int or blank | blank if unknown — do not guess; not read at all when `rule_applied` is `pub+95` |
+| `publication_year` | int or blank | original publication, matching `book_corpus.csv`; governs `pd_date` for pre-1978 works |
+| `rule_applied` | string | which rule produced `pd_date`: `pub+95`, `life+70`, `lifetime-pub-bound`, `unknown` — same convention as `pd_verification.csv` |
+| `confidence` | `confirmed` / `disputed` / `uncertain` | see below |
+| `flags` | string | semicolon-separated, e.g. `renewal_era;foreign_publication` — same convention as `pd_verification.csv` |
 | `source` | string | e.g. `wikidata`, plus a second corroborating source in `notes` |
 | `notes` | string | optional |
+
+**`confidence` values.** `confirmed` — the governing rule applied cleanly to complete inputs.
+`disputed` — sources disagree on an input that the applied rule actually reads; note that a disputed
+death year matters under `life+70` and is irrelevant under `pub+95`, so this is not a straight mirror
+of `author_death_year_disputed`. `uncertain` — the date is not reliable: renewal-era publication
+(1929–1963, where an un-renewed work is already public domain and renewal records are needed to tell),
+possible URAA restoration of a foreign work, or a date inferred rather than computed. Per
+project-plan.md §5, `uncertain` is a required answer rather than a fallback — every book in the
+current five-year window comes out `uncertain`, so a schema without this value cannot express the
+file's actual contents.
 
 ## `data/pd_verification.csv` — Package 2 output (reads `book_corpus.csv`)
 
