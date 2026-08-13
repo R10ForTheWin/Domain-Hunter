@@ -1,0 +1,3 @@
+[tool.pytest.ini_options]
+testpaths = ["pd_verification/tests", "pd_calendar/scripts"]
+python_files = ["test_*.py"]
