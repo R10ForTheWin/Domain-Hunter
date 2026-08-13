@@ -18,8 +18,10 @@ without approval."* Each issue names its owner.
 | ISSUE-5 merge not reproducible | open, now time-critical |
 | ISSUE-6 `__unk` book_ids | open |
 | ISSUE-7 Package 4 mandate + never run | open |
-| ISSUE-8 `studio_scores.csv` gitignored | open, blocker on PR #6 |
-| ISSUE-9 Package 2 tests run zero tests | open |
+| ISSUE-8 `studio_scores.csv` gitignored | **FIXED** (`93fbe84`, Chantell) |
+| ISSUE-9 Package 2 tests run zero tests | **FIXED** (`e2409b1`, DJ) |
+| ISSUE-10 `/producers` 500s on Python 3.9 | open |
+| ISSUE-11 status page contradicts itself | open |
 
 Original branch state (2026-08-12), kept so the figures below can be reproduced:
 
@@ -215,6 +217,9 @@ requires. Two open questions remain:
 
 ## ISSUE-8 — `data/studio_scores.csv` is gitignored, which silently breaks Package 5
 
+**Status: FIXED** in `93fbe84` on `chantell-mandate-scoring`. The ignore line is gone, replaced with a
+comment recording *why* the file must stay committed. Kept here for the record.
+
 **Severity:** blocker · **Owner:** Chantell · **Branch:** `chantell-mandate-scoring` (PR #6)
 
 PR #6 adds three lines to the **repo-root** `.gitignore`:
@@ -262,6 +267,12 @@ a per-run artifact and should stay ignored. One line, and it is worth doing befo
 
 ## ISSUE-9 — Package 2's test suite reports OK while running zero tests
 
+**Status: FIXED** in `e2409b1` by DJ — added `pd_verification/requirements.txt` (`pytest>=7.0`) plus a
+README note. Verified: installing per that manifest and running `pytest pd_verification/tests/`
+gives **65 passed**. Note the trap itself remains — `python -m unittest` on the same files still
+reports "Ran 0 tests ... OK" — so it is fixed for anyone who reads the README and still misleading
+for anyone running unittest from habit.
+
 **Severity:** high · **Owner:** Jason + DJ · **Branch:** now on `dj-development` (`ed022ca`)
 
 `pd_verification/tests/` contains 65 test functions across four files. They are written
@@ -302,6 +313,83 @@ Either is fine; the current state — where the command that appears to pass run
 **Related:** this is exactly what check 6 in `docs/evaluation-spec.md` is for. A test suite that
 silently collects zero tests is indistinguishable from one that passes, and only an explicit
 assertion about the collected count tells them apart.
+
+---
+
+## ISSUE-10 — `/producers` returns a 500 on Python 3.9 when a lookup times out
+
+**Severity:** high (live on `main`, user-facing) · **Owner:** Jason ·
+**File:** `pd_verification/gutenberg.py:38`
+
+Found by running the site locally and using the corpus search on the Producer page. The request
+died with an unhandled `socket.timeout` and Flask returned a 500:
+
+```
+site/app.py:131                      validator_result = _check_book(...)
+pd_verification/public_status.py:104 result = lookup.locate_book(identifier_type, query)
+pd_verification/lookup.py:93         gutenberg_matches = gutenberg.search(query, limit=5)
+pd_verification/gutenberg.py:36      urllib.request.urlopen(request, timeout=_TIMEOUT_SECONDS)
+→ socket.timeout: The read operation timed out
+```
+
+**The error handling is designed correctly and still has a hole.** `_get()` wraps network failures
+in `GutenbergLookupError`, and `lookup.py:119` catches that and degrades gracefully. The problem is
+which exceptions the tuple actually covers:
+
+```python
+except (urllib.error.URLError, urllib.error.HTTPError, TimeoutError) as exc:
+```
+
+`socket.timeout` only became an alias for `TimeoutError` in **Python 3.10**. On 3.9 it is an
+`OSError` subclass and not a `TimeoutError`, so it slips past this clause, never becomes a
+`GutenbergLookupError`, and `lookup.py:119` never sees it. Measured on this machine:
+
+```
+python 3.9.6
+socket.timeout is TimeoutError:            False
+issubclass(socket.timeout, TimeoutError):  False
+issubclass(socket.timeout, OSError):       True
+```
+
+So the code is correct on 3.10+ and 500s on 3.9 — and 3.9.6 is the system Python that ships with
+macOS Command Line Tools, which is what a teammate cloning the repo is most likely running. It is
+also the exact failure a flaky network produces in a live demo, with a 10-second wait first
+(`_TIMEOUT_SECONDS = 10`).
+
+**Fix:** catch `OSError` instead of the three-item tuple. `URLError`, `HTTPError`, `TimeoutError`
+and `socket.timeout` are all `OSError` subclasses, so one word covers every case on every version:
+
+```python
+except OSError as exc:
+    raise GutenbergLookupError(f"Could not reach Gutendex ({url}): {exc}") from exc
+```
+
+Worth checking `pd_verification/openlibrary.py` for the same pattern.
+
+**Not a security issue.** The Werkzeug traceback in the screenshot appeared because the site was
+run locally via `python site/app.py`, which hits `app.run(debug=True)`. `site/railway.json` starts
+the deployed app under gunicorn, so production never exposes the debugger.
+
+---
+
+## ISSUE-11 — the status page contradicts itself
+
+**Severity:** medium (demo-visible) · **Owner:** DJ · **File:** `site/app.py`
+
+`STAGES` is hand-maintained and is now wrong about four of six stages:
+
+| stage | page says | actual |
+|---|---|---|
+| 1 PD Calendar | `not_started` | merged to `main`; PR #8 open |
+| 2 PD Verification | `not_started` | merged; its validator runs on `/producers` |
+| 4 Studio Scoring | `not_started` | PR #6 open |
+| 5 Shortlist | `not_started` | PR #7 open |
+
+The page reports Package 2 as not started while rendering Package 2's own validator, and reports
+Package 1 as not started while displaying 2,630 corpus rows. `site/app.py` already notes the list
+is manual because "there's no automated way to know 'is Chantell done with scoring yet'" — but the
+`data/` files are a decent proxy: `pd_calendar.csv` exists, `pd_verification.csv` exists, and
+deriving status from that would keep the page honest without anyone maintaining it.
 
 ---
 
