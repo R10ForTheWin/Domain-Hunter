@@ -14,13 +14,14 @@ reads or writes.
 ## Package map
 | Folder | Package | Owner |
 |---|---|---|
-| `pd_calendar/` | 1 — Forward-Looking PD Calendar | Teammate (…9302) |
-| `pd_verification/` | 2 — PD Verification Agent | Teammate (…8253) |
+| `pd_calendar/` | 1 — Forward-Looking PD Calendar | Ross |
+| `pd_verification/` | 2 — PD Verification Agent | Jason Brown |
 | `book_corpus/` | 3 — Book Corpus & Data Pipeline | Radoslav Raychev |
 | `studio_scoring/` | 4 — Studio Mandate Research & Scoring | Chantell Ferrell |
 | `shortlist_output/` | 5 — Shortlist & Output Formatting | Luis R. |
 | `data/` | shared interchange files (see `docs/data-contracts.md`) | — |
-| `assets/logo/` | project logo | Teammate (…9302) |
+| `assets/logo/` | project logo | Ross |
+| `site/` | live class-demo site (deployed dashboard) | DJ (Package 6) |
 
 Each package folder has its own `README.md` with that package's exact goal, bullets, inputs, and
 outputs — start there.
