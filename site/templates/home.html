@@ -22,7 +22,7 @@
     --ink: #1a1a1a;
   }
   * { box-sizing: border-box; margin: 0; padding: 0; }
-  html, body { height: 100%; overflow: hidden; }
+  html, body { height: 100%; }
   body {
     font-family: -apple-system, "Helvetica Neue", Arial, sans-serif;
     background: var(--teal);
@@ -38,8 +38,8 @@
   .page {
     display: flex;
     flex-direction: column;
-    height: 100vh;
-    height: 100dvh;
+    min-height: 100vh;
+    min-height: 100dvh;
     max-width: 480px;
     margin: 0 auto;
     padding: max(10px, env(safe-area-inset-top)) 18px max(10px, env(safe-area-inset-bottom)) 18px;
@@ -79,7 +79,7 @@
      showing the full natural video frame. */
   .art-row {
     flex: 1 1 auto;
-    min-height: 60px;
+    min-height: max(230px, 30vh);
     border-radius: 14px;
     overflow: hidden;
     position: relative;
