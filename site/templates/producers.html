@@ -3,266 +3,144 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Producers — Domain Huntress</title>
+<title>Check a Book — Domain Huntress</title>
 <style>
-  :root {
-    --teal: #0d6b7a; --teal-dark: #0a4f5a; --gold: #e8b93f; --red: #d8482f;
-    --cream: #faf6ec; --ink: #1a1a1a;
-  }
-  * { box-sizing: border-box; }
+  :root { --teal:#0d6b7a; --gold:#e8b93f; --red:#d8482f; --cream:#faf6ec; --ink:#1a1a1a; }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
   body {
-    margin: 0;
     font-family: -apple-system, "Helvetica Neue", Arial, sans-serif;
-    color: var(--ink);
     background: var(--teal);
     background-image: radial-gradient(rgba(255,255,255,0.10) 1px, transparent 1px);
     background-size: 14px 14px;
+    min-height: 100vh;
   }
-  header { text-align: center; padding: 30px 20px 18px 20px; position: relative; }
+  .page { max-width: 480px; margin: 0 auto; padding: 18px 20px 40px 20px; }
   .back-link {
-    position: absolute; top: 18px; left: 20px;
-    font-size: 12px; color: var(--cream); text-decoration: none;
+    display: inline-block; font-size: 11px; color: var(--cream); text-decoration: none;
     background: rgba(0,0,0,0.25); padding: 5px 12px; border-radius: 12px;
-    border: 1px solid rgba(255,255,255,0.4);
+    border: 1px solid rgba(255,255,255,0.4); margin-bottom: 10px;
   }
-  header h1 { color: var(--cream); font-size: 22px; margin: 8px 0 2px 0; }
-  header p { color: var(--cream); opacity: 0.85; font-size: 13px; margin: 0; }
-  main { max-width: 760px; margin: 0 auto; padding: 0 20px 60px 20px; }
-  .card {
+  .logo { display: block; max-width: 300px; width: 80%; margin: 0 auto 10px auto; }
+  .burst { display: block; max-width: 340px; width: 95%; margin: 0 auto 18px auto; }
+
+  form { display: flex; flex-direction: column; gap: 12px; }
+  .field-row { display: flex; align-items: center; gap: 10px; }
+  .field-icon { width: 46px; height: 46px; flex: 0 0 auto; object-fit: contain; }
+  .field-box {
+    flex: 1 1 auto;
     background: var(--cream);
+    background-image: radial-gradient(rgba(0,0,0,0.06) 1px, transparent 1px);
+    background-size: 8px 8px;
     border: 3px solid var(--ink);
     border-radius: 14px;
-    padding: 22px 26px;
-    margin-bottom: 24px;
-    box-shadow: 6px 6px 0 rgba(0,0,0,0.25);
+    padding: 8px 12px;
   }
-  form { display: flex; gap: 10px; margin: 10px 0 6px 0; flex-wrap: wrap; }
-  input[type=text] {
-    flex: 1;
-    min-width: 200px;
-    padding: 10px 14px;
-    border: 3px solid var(--ink);
-    border-radius: 10px;
-    font-size: 15px;
+  .field-box label {
+    display: block; font-size: 11px; font-weight: 800; letter-spacing: 0.03em;
+    text-transform: uppercase; margin-bottom: 2px;
   }
-  button {
-    background: var(--gold);
-    border: 3px solid var(--ink);
-    border-radius: 10px;
-    padding: 10px 22px;
-    font-weight: 800;
-    text-transform: uppercase;
-    font-size: 13px;
-    cursor: pointer;
-    box-shadow: 3px 3px 0 rgba(0,0,0,0.25);
-    transition: transform 0.1s ease, box-shadow 0.1s ease;
+  .field-box input {
+    width: 100%; border: none; background: transparent; font-size: 15px;
+    font-family: inherit; outline: none;
   }
-  button:hover { background: var(--red); color: var(--cream); }
-  button:active { transform: translate(2px, 2px); box-shadow: 1px 1px 0 rgba(0,0,0,0.25); }
-  table { width: 100%; border-collapse: collapse; font-size: 13.5px; margin-top: 14px; }
-  th, td { text-align: left; padding: 8px 10px; border-bottom: 1px solid #e2dcc8; }
-  th { color: var(--teal-dark); font-size: 11px; text-transform: uppercase; letter-spacing: 0.03em; }
-  .disclaimer {
-    font-size: 12px;
-    color: #6b5f3f;
-    background: #f3ecd4;
-    border: 2px solid #d8c98a;
-    border-radius: 8px;
-    padding: 10px 14px;
-    margin-top: 16px;
-  }
-  .empty { color: #777; font-style: italic; }
 
-  /* --- Validator card ---------------------------------------------------
-     Applies assets/style/STYLE_GUIDE.md's pop-art direction (halftone dots,
-     starburst accents, red-orange "impact" title lettering, bold black
-     outlines) the same way the rest of the site expresses it: in CSS, not
-     as reused button-PNG pixels -- the three existing button graphics
-     (assets/Buttons/) are baked-in labels + art on a non-isolatable
-     background, so they can't be cleanly cropped for a new, differently-
-     labeled button without redrawing. This card gets the same motifs by a
-     different, redraw-free route. */
-  .card.pop {
-    background-color: var(--cream);
-    background-image: radial-gradient(rgba(232,185,63,0.4) 1.5px, transparent 1.5px);
-    background-size: 12px 12px;
+  .submit-btn {
+    display: block; width: 70%; max-width: 260px; margin: 6px auto 0 auto;
+    border: none; background: none; padding: 0; cursor: pointer;
   }
-  .comic-heading {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    margin: 0 0 14px 0;
-    font-size: 22px;
-    font-weight: 900;
-    font-style: italic;
-    text-transform: uppercase;
-    letter-spacing: 0.01em;
-    color: var(--red);
-    text-shadow:
-      -2px -2px 0 var(--ink), 2px -2px 0 var(--ink),
-      -2px  2px 0 var(--ink), 2px  2px 0 var(--ink),
-      3px 3px 0 rgba(0,0,0,0.25);
-  }
-  /* Starburst accent -- two overlapping black-outlined gold squares, one
-     rotated 45deg, same "energy burst behind the focal element" motif as
-     the real button art's sparkle. Pure CSS, no image asset needed. */
-  .burst {
-    position: relative;
-    flex: 0 0 auto;
-    width: 30px;
-    height: 30px;
-  }
-  .burst::before, .burst::after {
-    content: "";
-    position: absolute;
-    inset: 0;
-    background: var(--gold);
-    border: 3px solid var(--ink);
-    border-radius: 3px;
-  }
-  .burst::after { transform: rotate(45deg); }
-  .check-row { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+  .submit-btn img { width: 100%; display: block; filter: drop-shadow(0 3px 6px rgba(0,0,0,0.35)); }
+  .submit-btn:hover img { transform: translateY(-2px); }
 
-  .type-picker { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 10px; }
-  .type-picker input[type=radio] { position: absolute; opacity: 0; width: 0; height: 0; }
-  .type-picker label {
-    background: var(--cream);
-    border: 3px solid var(--ink);
-    border-radius: 10px;
-    padding: 8px 16px;
-    font-weight: 800;
-    text-transform: uppercase;
-    font-size: 12px;
-    cursor: pointer;
-    box-shadow: 3px 3px 0 rgba(0,0,0,0.25);
-    transition: transform 0.1s ease;
+  .results-header { display: block; max-width: 260px; width: 80%; margin: 26px auto 12px auto; }
+  .result-panel { position: relative; margin: 0 auto; max-width: 380px; }
+  .result-panel img { width: 100%; display: block; }
+  .result-text {
+    position: absolute; inset: 0;
+    display: flex; align-items: center;
+    padding: 0 20px 0 78px;
+    font-size: 15px; font-weight: 700; line-height: 1.25;
   }
-  .type-picker input[type=radio]:checked + label {
-    background: var(--gold);
-    transform: translate(1px, 1px);
-    box-shadow: 2px 2px 0 rgba(0,0,0,0.25);
+  .result-generic {
+    background: var(--cream); border: 3px solid var(--ink); border-radius: 14px;
+    padding: 16px 18px; font-size: 14px; font-weight: 600; text-align: center;
   }
-  .type-picker input[type=radio]:focus-visible + label { outline: 2px solid var(--teal-dark); outline-offset: 2px; }
-
-  .verdict {
-    margin-top: 16px;
-    padding: 16px 20px;
-    border: 3px solid var(--ink);
-    border-radius: 12px;
-    font-size: 17px;
-    font-weight: 800;
-    box-shadow: 6px 6px 0 rgba(0,0,0,0.2);
-  }
-  .verdict.public { background: #d9f0d3; color: #205c1a; }
-  .verdict.private { background: #f7dede; color: #8a2418; }
-  .verdict.unclear { background: #f3ecd4; color: #6b5f3f; }
-  .verdict.not-found, .verdict.problem { background: #e9e9e9; color: #3a3a3a; }
-  .verdict-meta { font-weight: 400; font-size: 13px; margin-top: 8px; opacity: 0.85; }
-  .verdict-meta summary { cursor: pointer; font-weight: 700; }
-  .verdict-meta dl { margin: 8px 0 0 0; }
-  .verdict-meta dt { font-weight: 700; margin-top: 6px; }
-  .verdict-meta dd { margin: 0 0 0 0; }
 </style>
 </head>
 <body>
-
-<header>
+<div class="page">
   <a href="{{ url_for('home') }}" class="back-link">← Home</a>
-  <h1>Check a Book's Public-Domain Status</h1>
-  <p>For producers scouting adaptable titles</p>
-</header>
 
-<main>
-  <div class="card pop">
-    <h2 class="comic-heading"><span class="burst" aria-hidden="true"></span> Public Domain Validator</h2>
-    <form method="get">
-      <div class="type-picker">
-        {% for type_value, type_label in [
-            ("book_name", "Book Name"), ("isbn", "ISBN"),
-            ("gutenberg_id", "Gutenberg #"), ("oclc", "OCLC #")] %}
-        <input type="radio" id="type-{{ type_value }}" name="identifier_type" value="{{ type_value }}"
-               {% if identifier_type == type_value %}checked{% endif %}>
-        <label for="type-{{ type_value }}">{{ type_label }}</label>
-        {% endfor %}
-      </div>
-      <div class="check-row">
-        <input type="text" name="value" value="{{ identifier_value }}"
-               placeholder="Enter the value for the identifier picked above" autofocus>
-        <button type="submit">Check</button>
-      </div>
-    </form>
+  <img class="logo" src="{{ url_for('static', filename='producer/01_logo_domain_huntress.png') }}" alt="Domain Huntress — Book Status Checker">
+  <img class="burst" src="{{ url_for('static', filename='producer/02_check_a_book_burst.png') }}" alt="Check a book!">
 
-    {% if not validator_available %}
-      <div class="verdict problem">The validator isn't available on this deploy.</div>
-    {% elif validator_result %}
-      {% set s = validator_result.status %}
-      <div class="verdict {{ 'public' if s == 'found_confirmed'
-                              else 'private' if s == 'found_not_confirmed'
-                              else 'unclear' if s == 'found_uncertain'
-                              else 'not-found' if s in ('not_found', 'ambiguous')
-                              else 'problem' }}">
-        {{ validator_result.message }}
+  <form method="get">
+    <div class="field-row">
+      <img class="field-icon" src="{{ url_for('static', filename='producer/06_icon_book.png') }}" alt="">
+      <div class="field-box">
+        <label>Book name</label>
+        <input type="text" name="book_name" value="{{ identifier_value if identifier_type == 'book_name' else '' }}" placeholder="Enter book name...">
       </div>
-      {% if validator_result.title %}
-      <details class="verdict-meta">
-        <summary>Why</summary>
-        <dl>
-          <dt>Book</dt><dd>{{ validator_result.title }} — {{ validator_result.author }}</dd>
-          <dt>Rule applied</dt><dd>{{ validator_result.rule_applied }}</dd>
-          <dt>Reasoning</dt><dd>{{ validator_result.reasoning }}</dd>
-          {% if validator_result.flags %}
-          <dt>Flags</dt><dd>{{ validator_result.flags | join(", ") }}</dd>
-          {% endif %}
-          {% if validator_result.missing_fields %}
-          <dt>Missing</dt><dd>{{ validator_result.missing_fields | join("; ") }}</dd>
-          {% endif %}
-        </dl>
-      </details>
-      {% endif %}
-    {% endif %}
-
-    <div class="disclaimer">
-      Not legal advice. This applies a conservative, code-only reading of U.S. copyright-duration
-      law and is deliberately biased toward "unclear" over a guessed answer. Before relying on a
-      "Public as of" result for an actual production, get a human with real copyright-law
-      expertise to independently verify it — see
-      <a href="https://github.com/R10ForTheWin/Domain-Hunter/tree/main/pd_verification">pd_verification/README.md</a>
-      for exactly what this engine does and doesn't model.
     </div>
-  </div>
-
-  <div class="card">
-    <h2 style="margin-top:0; font-size:16px; color: var(--teal-dark);">Browse the Candidate Corpus</h2>
-    <form method="get">
-      <input type="text" name="q" value="{{ query }}" placeholder="Enter a book title, e.g. &quot;Dracula&quot;">
-      <button type="submit">Search</button>
-    </form>
-
-    {% if query %}
-      {% if results %}
-        <table>
-          <tr><th>Title</th><th>Author</th><th>Death Yr</th><th>Pub Yr</th><th>Source</th></tr>
-          {% for b in results %}
-          <tr>
-            <td>{{ b.title }}</td>
-            <td>{{ b.author }}</td>
-            <td>{{ b.author_death_year or "—" }}</td>
-            <td>{{ b.publication_year or "—" }}</td>
-            <td>{{ b.source }}</td>
-          </tr>
-          {% endfor %}
-        </table>
-      {% else %}
-        <p class="empty">No matches in our candidate corpus for "{{ query }}".</p>
-      {% endif %}
-      <div class="disclaimer">
-        This shows what's in our candidate corpus, sourced from Project Gutenberg, Open Library,
-        and Wikidata — it's a research starting point (browsing, not a determination). Use the
-        validator above for a real public-domain determination on a specific book.
+    <div class="field-row">
+      <img class="field-icon" src="{{ url_for('static', filename='producer/07_icon_isbn.png') }}" alt="">
+      <div class="field-box">
+        <label>ISBN number</label>
+        <input type="text" name="isbn" value="{{ identifier_value if identifier_type == 'isbn' else '' }}" placeholder="Enter ISBN number...">
       </div>
-    {% endif %}
-  </div>
-</main>
+    </div>
+    <div class="field-row">
+      <img class="field-icon" src="{{ url_for('static', filename='producer/08_icon_author.png') }}" alt="">
+      <div class="field-box">
+        <label>Gutenberg #</label>
+        <input type="text" name="gutenberg_id" value="{{ identifier_value if identifier_type == 'gutenberg_id' else '' }}" placeholder="Enter Gutenberg ID...">
+      </div>
+    </div>
+    <button class="submit-btn" type="submit">
+      <img src="{{ url_for('static', filename='producer/09_button_check_status.png') }}" alt="Check status!">
+    </button>
+  </form>
 
+  {% if validator_result %}
+  <img class="results-header" src="{{ url_for('static', filename='producer/10_results_header.png') }}" alt="Results">
+
+  {% if validator_result.status == 'found_confirmed' %}
+    <div class="result-panel">
+      <img src="{{ url_for('static', filename='producer/11_result_public_domain_panel.png') }}" alt="">
+      <div class="result-text">{{ validator_result.message }}</div>
+    </div>
+  {% elif validator_result.status == 'found_not_confirmed' %}
+    <div class="result-panel">
+      <img src="{{ url_for('static', filename='producer/12_result_private_panel.png') }}" alt="">
+      <div class="result-text">{{ validator_result.message }}</div>
+    </div>
+  {% elif validator_result.status == 'found_uncertain' %}
+    <div class="result-panel">
+      <img src="{{ url_for('static', filename='producer/13_result_unclear_panel.png') }}" alt="">
+      <div class="result-text">{{ validator_result.message }}</div>
+    </div>
+  {% else %}
+    <div class="result-generic">{{ validator_result.message }}</div>
+  {% endif %}
+  {% endif %}
+
+  {% if not validator_available %}
+  <p style="color:var(--cream); text-align:center; font-size:12px; margin-top:20px; opacity:0.8;">
+    Validator temporarily unavailable on this deploy — corpus search below still works.
+  </p>
+  {% endif %}
+
+  {% if query %}
+    <div class="results-header" style="text-align:center; color:var(--cream); font-weight:800; margin-top:20px;">Corpus matches for "{{ query }}"</div>
+    {% if results %}
+    <div style="background:var(--cream); border:3px solid var(--ink); border-radius:14px; padding:14px; margin-top:8px;">
+      {% for b in results %}
+      <div style="padding:6px 0; border-bottom:1px solid #e2dcc8; font-size:13px;">
+        <strong>{{ b.title }}</strong> — {{ b.author }} ({{ b.publication_year or '?' }})
+      </div>
+      {% endfor %}
+    </div>
+    {% endif %}
+  {% endif %}
+</div>
 </body>
 </html>

@@ -121,14 +121,24 @@ def producers():
         q_lower = query.lower()
         results = [r for r in load_corpus_rows() if q_lower in r["title"].lower()][:25]
 
-    # The actual PD Verification agent (Package 2) -- one button press,
-    # pick an identifier type, get a real "Public as of X" / "Private now
-    # but will be public on X" / "Unclear because ..." answer.
-    identifier_type = request.args.get("identifier_type", "book_name")
-    if identifier_type not in VALIDATOR_IDENTIFIER_TYPES:
-        identifier_type = "book_name"
-    identifier_value = request.args.get("value", "").strip()
-    validator_result = _check_book(identifier_type, identifier_value) if identifier_value else None
+    # The actual PD Verification agent (Package 2) -- three separate
+    # fields on the form (book name / ISBN / Gutenberg #), but the agent
+    # takes one identifier at a time, so use whichever field was actually
+    # filled in.
+    identifier_type, identifier_value = "book_name", ""
+    for field, itype in (("book_name", "book_name"), ("isbn", "isbn"), ("gutenberg_id", "gutenberg_id")):
+        val = request.args.get(field, "").strip()
+        if val:
+            identifier_type, identifier_value = itype, val
+            break
+    validator_result = None
+    if identifier_value:
+        try:
+            validator_result = _check_book(identifier_type, identifier_value)
+        except Exception:
+            # A network hiccup talking to Gutendex/Open Library shouldn't
+            # 500 the whole page -- degrade to an honest error message.
+            validator_result = {"status": "error", "message": "Lookup failed (network issue) -- try again in a moment."}
 
     return render_template(
         "producers.html",
