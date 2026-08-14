@@ -4,15 +4,15 @@ Works entering the U.S. public domain on each of the next 10 January 1sts, as of
 
 Copyright runs through December 31 of its final year, so works do not trickle into the public domain through the year — they all arrive on January 1. See `docs/project-plan.md` §1.
 
-Generated from `data/book_corpus.csv` (2428 rows) by `pd_calendar/scripts/build_calendar.py`.
+Generated from `data/book_corpus.csv` (2414 rows) by `pd_calendar/scripts/build_calendar.py`.
 
 ## Summary
 
 | | count |
 |---|---|
-| Books read | 2428 |
-| Already public domain as of 2026 | 1883 |
-| No determinable date | 281 |
+| Books read | 2414 |
+| Already public domain as of 2026 | 1870 |
+| No determinable date | 280 |
 | Entering in 2027–2036 | 113 |
 | Entering after 2036 | 151 |
 

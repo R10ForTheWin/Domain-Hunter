@@ -4,6 +4,8 @@ The highest-scoring books against the current studio mandate that are **not yet*
 
 A producer who wants one of these can start developing now and be ready to shoot the January they become free.
 
+**Scores from:** `studio_scores.csv`
+
 | | count |
 |---|---|
 | Works crossing a cliff in the window | 113 |
