@@ -96,3 +96,109 @@ title/author vs. obscure) rather than from a mad-lib blank. It keeps a nonzero w
 - `name_recognition` weighted lowest — A24's own history shows it succeeds without pre-existing IP
   recognition, and per the design decision above, this category runs on book metadata rather than
   the live mandate.
+
+## Design decision: scoring is grounded in a plot summary, not just the title string
+
+`book_corpus.csv` has no summary/genre/plot field (see `docs/data-contracts.md`) — only title,
+author, and publication metadata. `scoring_agent.py` requires the model to first state what it
+actually knows about each book's plot, genre, and themes (`book_summary` in the output CSV) before
+scoring any category, rather than pattern-matching on the bare title. If the model doesn't
+confidently recognize a specific title/author, it says so explicitly instead of inventing a plot —
+this matters because most of the corpus is genuinely obscure (not every public-domain book is a
+famous classic like the small hand-picked sample set used for early testing).
+
+This also interacts with a real data-quality bug found in the corpus: ~98 titles are attached to
+the wrong author (e.g. multiple different real authors listed for the same well-known title). The
+prompt tells the model the title is more reliable than the author field when they conflict, so it
+scores the actual known book rather than a false pairing — Radoslav is fixing the underlying data,
+but this makes scoring resilient to whatever attribution noise remains.
+
+### Real summaries where available: the CMU Book Summary Dataset
+
+Ross separately proposed adding a `summary` column to `book_corpus.csv` itself (see
+`docs/data-contracts.md`) — not yet implemented, pending Radoslav's sign-off. In the meantime,
+`build_cmu_cache.py` matches our corpus against the
+[CMU Book Summary Dataset](https://www.cs.cmu.edu/~dbamman/booksummaries.html) (David Bamman and
+Noah Smith, 2013, *"New Alignment Methods for Discriminative Book Summarization"* — 16,559 plot
+summaries extracted from Wikipedia, released under
+[CC BY-SA 3.0](http://creativecommons.org/licenses/by-sa/3.0/us/legalcode)), matching only where
+both the normalized title AND author agree (a false match would poison scoring worse than no
+match — same reasoning as the author-attribution bug above). This matched **311 of 2,630 books
+(11.8%)** as of the current corpus — modest coverage, but concentrated in the more famous titles,
+which are disproportionately the ones likely to actually make the shortlist.
+
+The matched subset is cached at `studio_scoring/cmu_summaries.csv` (committed — small, only our
+books, not the full third-party dataset) and re-attributed here per CC BY-SA: content derived from
+the CMU Book Summary Dataset, sourced from Wikipedia, licensed CC BY-SA 3.0. Re-run
+`build_cmu_cache.py` whenever `book_corpus.csv` changes to refresh the match.
+
+`scoring_agent.py` resolves each book's grounding in this order: (1) `book_corpus.csv`'s own
+`summary` column if/when Radoslav adds it, (2) the CMU cache match, (3) the model's own recalled
+knowledge with an honest "not confidently recognized" fallback (the original design above) — so
+coverage only improves over time and nothing breaks if either upstream source is missing.
+
+## Second mandate intake method: free-form text
+
+The mad-lib (`collect_madlib.py`) is the primary demo mechanic, but it forces a specific
+grammatical shape (a genre noun, a mood adjective, a character noun, a verb, a setting noun) that
+an audience shout-out doesn't always fit naturally. `collect_mandate_freeform.py` is an alternate
+intake: someone types (or the demo host relays) what they're looking for in plain language — e.g.
+*"something dark and twisty about betrayal in a small town"* — and Claude maps that description
+onto the same 5 slots, inferring a specific value for anything not explicitly stated rather than
+leaving it generic. It writes the identical `mandate_live.yaml` shape `collect_madlib.py` does
+(plus `source: freeform` and the original `raw_input` text, for demo narration/audit), so
+`scoring_agent.py` doesn't know or care which intake method produced a given mandate.
+
+## Full corpus run: results and a real failure mode found in production
+
+`data/studio_scores.csv` now holds real output from the full 2,630-book corpus (mandate used: a
+freeform-generated "dark noir thriller / insider / small town" pitch) — **2,524 scored (96%), 106
+failed**. The failures are logged locally but not committed (they're a per-run artifact, not
+shared data); re-running `scoring_agent.py --batch` picks up only the missing book_ids.
+
+### The nested-schema bug (root cause, worth reading before changing `SCORE_TOOL`)
+
+The tool schema originally gave each category a nested object — `genre_fit: {score, reasoning}`.
+Under that shape, Haiku regularly dropped out of JSON partway through a response and emitted a
+different tool-call syntax instead: a category's value would come back as the literal string
+`'\n<parameter name="score">25'`, and **every field after it was lost**. On a 50-book run with
+fully CMU-grounded (longer) prompts, roughly half the responses came back with only 1 of 6
+categories usable.
+
+Two things made this hard to spot. First, it looked like content complexity or truncation, but it
+wasn't either — it hit simple, famous books (Pride and Prejudice, A Christmas Carol), happened in
+both the Batches API and live calls, and raising `max_tokens` from 1024 to 2048 changed nothing.
+Second, early validation was lenient enough that a response with one salvaged category still
+counted as "scored," so a run could report `50 scored, 0 failed` while most rows were nearly empty
+— a false success that masked the problem until the CSV was inspected column by column.
+
+The tell is that the leaked parameter name is a bare `"score"`, which only existed *inside* the
+nested objects. **Flattening the schema to 12 primitive top-level fields**
+(`genre_fit_score`, `genre_fit_reasoning`, …) removed the ambiguity and eliminated the bug: a
+50-book verification run produced 50/50 rows with all 6/6 categories populated, zero placeholders,
+and zero salvaged fields. `build_row()` writes the same CSV either way, so no downstream package
+was affected. The rubric itself (six categories, weights) was never the problem — only the shape
+of the tool call.
+
+Defences kept in place, in case a variant of this recurs: the regex salvage for a malformed score
+string; per-category `None` handling that excludes a missing category from `total_score` and
+renormalizes `weights` over the ones present (so a gap doesn't unfairly tank the total); a
+placeholder for a missing `overall_reasoning` (a nice-to-have summary, not scoring data); and
+`MIN_USABLE_CATEGORIES = 4`, which fails a mostly-empty response loudly instead of shipping a
+`total_score` derived from one or two fields.
+
+Note the committed 2,524-row corpus output predates the flattening but was checked and is clean —
+all rows have 6/6 categories populated. Only 311 of 2,630 books had CMU summaries, so most prompts
+were short and the bug rarely triggered; it surfaced on the demo pool precisely because all 50 of
+those books are grounded.
+
+## Demo pool: `studio_scoring/demo_pool.csv`
+
+Scoring the full 2,630-book corpus live (not `--batch`) takes minutes — too slow for an audience to
+wait through during a live demo, where the mandate itself is generated on the spot from real
+audience input. `demo_pool.csv` is a fixed set of the **50 most well-known books** in the corpus
+(all 50 independently verified as real, notable titles — cross-referenced against the CMU Book
+Summary Dataset, so every one has a genuine Wikipedia-sourced summary, not a guess), for scoring
+live during the actual demo. Tested end-to-end: 50/50 scored, 0 failures, ~28 seconds with
+`--workers 15` — fast enough for a live audience wait. Rebuild by re-selecting from
+`cmu_summaries.csv` if the corpus changes meaningfully.
