@@ -1,177 +1,100 @@
 # Brief for the AI agents working on Domain Huntress
 
-**Who this is for:** the Claude session helping each teammate with their package. You probably know
-your own package well. This is about where the *whole* project stands, and what your human needs to
-do next.
+**Last updated:** 13 Aug 2026, against `dj-development`. **This file is replaced, not appended to** —
+if it contradicts something you remember, this is newer.
 
-**The part that needs you:** your teammate may not know any of this. Several items below are one
-command or one line of code, and they are stalled only because nobody has said them out loud.
-**Raise the item for your package with your human in plain language.** Do not just wait to be asked.
+**Who this is for:** the Claude session helping each teammate. You know your own package. This is
+the project-wide state and what your human needs to do next.
 
-**Where this comes from:** Package 1 (Ross), after merging all six branches locally and running the
-pipeline end to end. Figures are measured, not estimated. It is one person's read, offered for
-correction — if something here is wrong about your package, say so.
+**Raise your package's item with your human in plain language.** Most of what is outstanding is one
+command or one small change, stalled only because nobody said it out loud.
 
 ---
 
-## The bottom line
+## Where the project actually is
 
-**Functional: yes. Convincing: not yet.**
+**The pipeline works end to end on real data.** A full run: 2,251 books → PD verification → scored
+against a live studio mandate → PD-gated shortlist of 10. Every package has shipped working code.
 
-The project's goal is a workflow that screens hundreds of books, scores each for adaptation
-potential against a stated studio mandate, shortlists ten, and has a separate agent independently
-verify the public-domain claim before anything goes on the list.
+**All 14 pull requests are merged** into `dj-development`. There are no open PRs.
 
-Three of those four clauses run today. The fourth — scoring — **has never executed once.** And the
-clause that matters most, independent verification, works correctly but has never had anything to
-catch.
+**The single biggest gap is that `main` is 40 commits behind `dj-development`** — roughly 8,400
+line-insertions. Everything real from the last two days lives on `dj-development`. Anything built
+from `main` is working from a stale snapshot. **Branch from `dj-development`.**
 
-None of this is architecture. The architecture is the part that is already right.
+## What got fixed since the last brief
 
-## What is measured, not asserted
+- **The author-misattribution bug is fixed** (`0d16072`). Books were being attributed to the wrong
+  authors because the corpus builder searched Open Library *by author* and stamped every returned
+  title with the author it searched for. Measured against the CMU corpus, the mismatch rate went
+  **19.0% → 9.2%**, and most of what remains is a false positive in the check itself: *Cosmopolis*
+  is both Bourget (1893) and DeLillo (2003), so a title-based comparison flags a real book as wrong.
+  The corpus went 2,630 → 2,251 rows as bad rows were dropped; titles carrying more than one author
+  went 99 → 26, and the residual is largely legitimate (many poets published a book called *Poems*).
+- **Package 4 has run for real.** `data/studio_scores.csv` exists with 2,523 scored books. That was
+  the one clause of the project's goal that had never executed.
+- **Live scoring is deployed** on `/networks`, with a hard $5 server-side spend cap and rate
+  limiting — so the QR code in the room cannot drain the API budget.
+- **Renewal-era work is underway by two people.** Radoslav shipped a renewal corpus batch (PR #14,
+  merged): `build_corpus_renewal.py` plus 180 renewal-era books. Jason built renewal-status
+  automation on `jason-renewal-automation`.
+- **`/producers` no longer 500s** on a timed-out lookup (the Python 3.9 `socket.timeout` gap).
+- **The status page no longer contradicts itself** — stage states are current.
 
-All six branches merged locally with **zero conflicts**, and the pipeline ran:
+## What still needs doing
 
-```
-2,630 books
-  → Package 2 verification: 1,124 confirmed · 1,504 uncertain · 2 not_confirmed
-  → Package 5 join + PD gate
-  → 10 books, all 8 contract columns present
-```
+### Package 2 — Jason
 
-Four numbers worth knowing:
+**Your renewal automation is built and not merged.** `jason-renewal-automation` has
+`match_renewals.py`, a populated `pd_verification_inputs.csv`, a review queue, and a comparison
+doc — and **no PR has been opened**, so it is invisible to everyone and cannot land. That is the
+highest-value single action available to anyone right now.
 
-| finding | number |
-|---|---|
-| Books the PD gate rejected | **2 of 2,630** |
-| Rows hitting Package 2's renewal-era rules | **0.0%** |
-| Real `studio_scores.csv` files produced, ever | **0** |
-| Fields the scoring agent reads per book | **3** — title, author, publication year |
+### Package 3 — Radoslav
 
-The first two have the same cause: the corpus is sourced from Project Gutenberg and Open Library,
-which only hold works *already* public domain. The corpus is sampled from the answer, so there is
-almost nothing for the verifier to reject. A veto that has never vetoed is indistinguishable from a
-broken one.
+**`language` is `en` on all 2,251 rows.** It is a hardcoded default, not real data — at least 200
+rows have visibly non-English titles (*Bahnwärter Thiel*, *Arsène Lupin contre Herlock Sholmès*).
 
-The third means every shortlist this project has produced — including the ten-book one above — ran
-on synthetic placeholder scores. Not Package 4's fault; it simply has not been run.
+This is not cosmetic. `language` is the only signal either rule engine has for foreign publication,
+and foreign publication is what triggers URAA restoration analysis. That path has **never fired**.
+Foreign works are being assessed as if they were American, which is the unsafe direction — a
+foreign work with no US renewal record may have been *restored*, not freed. Both Gutenberg and Open
+Library expose the real value.
 
-## What is already right — do not break it
+### Package 6 — DJ
 
-Worth stating plainly, because most of the list below is problems:
+**Promote `dj-development` to `main`.** 40 commits, including every fix above. Until that happens,
+anyone branching from `main` inherits bugs that were fixed two days ago.
 
-- **The verification agent's independence is structural, not aspirational.** Package 2 reads only
-  `book_corpus.csv` and cannot see a score. Package 4 reads only `book_corpus.csv` and scores every
-  book regardless of PD status. Package 5 is the only place they meet. Do not "optimise" this by
-  having scoring skip non-PD books — the separation is the point.
-- **The PD gate is correctly implemented.** `pd_status != "confirmed"` is skipped, and a short list
-  is never padded.
-- **Six people built to a written contract on six branches and it merged first try.** That is
-  uncommon and it is why the pipeline works at all.
+### Packages 4 and 5 — Chantell, Luis
 
-## What your human needs to do
+Nothing blocking. Both are merged and working.
 
-Find your package. Raise it with them today.
+## What is still true and worth not breaking
 
-### Package 2 — PD Verification (Jason)
+- **The verification agent's independence is structural.** Package 2 reads only the corpus and
+  cannot see a score. Package 4 scores every book regardless of PD status. Package 5 is the only
+  place they meet. Do not "optimise" this by having scoring skip non-PD books.
+- **The PD gate is correctly implemented** — non-confirmed rows are skipped and a short list is
+  never padded.
+- **`uncertain` is a real answer**, not a hedge (`docs/project-plan.md` §5).
+- **`book_id` is the join key for every package.** Treat it as opaque and stable.
+- **`pytest` from the repo root** is the test runner. `python -m unittest discover` silently
+  collects zero tests from pytest-style suites.
+- **Run `python3 qa/validate_contracts.py` before opening a PR.** It checks schemas, `book_id`
+  integrity, and whether a contract deliverable has been accidentally gitignored.
 
-**`/producers` returns a 500 whenever a lookup times out on Python 3.9.** Live on `main`. Two files,
-same one-word fix:
+## Known limitation worth understanding
 
-- `pd_verification/gutenberg.py:38`
-- `pd_verification/openlibrary.py:47`
+The corpus is sourced from Project Gutenberg and Open Library, which hold works **already** in the
+public domain. So the verification gate rejects almost nothing — it is being handed a rigged deck,
+not malfunctioning. Radoslav's and Jason's renewal work is what changes this: mid-century books
+whose copyright was never renewed are public domain for a reason nobody has checked, and those are
+the books the gate can actually do work on.
 
-Both catch `(URLError, HTTPError, TimeoutError)`. On Python 3.9 — the system Python on macOS, so
-most of the team — `socket.timeout` is **not** a `TimeoutError` subclass, so it escapes every
-handler. Verified: `issubclass(socket.timeout, TimeoutError)` is `False` on 3.9.6, `True` from 3.10.
+## Related
 
-Fix is `except OSError as exc:`. All four existing cases are `OSError` subclasses, so it is a strict
-superset — nothing currently caught stops being caught. Full write-up: ISSUE-10 in
-`docs/branch-audit-2026-08-12.md`.
-
-### Package 3 — Book Corpus (Radoslav)
-
-**Two things.** First, PR #2 reverts `CLAUDE.md`'s package map to `Teammate (…9302)` placeholders
-and deletes the `site/` row — the branch predates DJ's name fix. Rebase or drop that hunk before it
-merges, or it silently undoes real names.
-
-Second, there is a proposal at `docs/renewal-era-corpus-plan.md` (branch `ross-renewal-corpus`) for
-a second, differently-sourced batch: books published 1929–1963, checked against copyright renewal
-records. Most works from that era were never renewed, so a large share are already free and nobody
-has checked which. That is where "books you would not expect to be public domain" live, and it is
-what would give the verification gate something to actually reject. It is a proposal, not a change —
-nothing in `book_corpus/` was touched, and it explicitly does not replace `book_corpus.csv`.
-
-### Package 4 — Studio Scoring (Chantell)
-
-**Run the scoring agent once against the real corpus and commit `data/studio_scores.csv`.** This is
-the single highest-value outstanding action in the project. It is the one clause of the goal that
-has never happened, and everything downstream — the entire shortlist — is unvalidated until it does.
-
-Two things to be aware of when you do:
-
-- The agent scores genre fit, visual/story adaptability, franchise potential and audience fit from
-  **title, author and publication year only**. There is no summary or subject data in the corpus.
-  That caps the ceiling regardless of model quality. PR #8 proposes optional `summary` / `subjects`
-  columns to fix it.
-- The runtime mandate is generated live from audience answers, while the *weights* in
-  `mandate_config.yaml` are genuinely researched. `docs/project-plan.md` §5 asks for a
-  research-supported mandate. That may be the right call for a live demo — it just wants to be a
-  deliberate decision rather than something noticed on the day.
-
-### Package 5 — Shortlist (Luis)
-
-**You are unblocked.** The `.gitignore` problem that would have made `data/studio_scores.csv`
-uncommittable was fixed in `93fbe84`. PR #7 is waiting on review, not on you.
-
-Your builder is verified working: it read real `pd_verification.csv` output, enforced the PD gate,
-capped at ten, and emitted all eight contract columns on the first try, against a Package 2 it had
-never been in the same directory as.
-
-### Package 6 — Infra / QA (DJ)
-
-**Six PRs are open and half the pipeline is not on `dj-development`.** `studio_scoring/` and
-`shortlist_output/` have zero `.py` files there, so the integration branch cannot run end to end —
-even though the code works, as the local dry run proved.
-
-Open: **#2** Radoslav · **#6** Chantell · **#7** Luis · **#8** Ross (calendar) · **#9** Jason
-(pytest) · **#10** Ross (contract validator).
-
-Two smaller ones: `STAGES` in `site/app.py` still reports Packages 1 and 2 as `not_started` while
-the site renders Package 2's own validator and 2,630 corpus rows (ISSUE-11). And Jason has a
-`.github/workflows/tests.yml` he could not push for lack of `workflow` token scope — it needs
-someone with that scope.
-
-**One ordering trap:** when PR #2 merges, `fix_rado_pubyear_batch()` in `merge_corpus.py` must be
-deleted in the same commit. It compensates for a bug Radoslav already fixed at source, so after #2
-it corrects already-correct data and `book_id` values shift — and `book_id` is the join key for
-every package. ISSUE-5.
-
-## The three things that close the gap
-
-1. **Run Package 4 once for real.** A command someone has to actually type.
-2. **Merge #6 and #7.** DJ's button.
-3. **Give the gate something to reject.** The renewal-era corpus, or at minimum a handful of seeded
-   in-copyright titles so the demo has a moment where a high-scoring book is thrown off the list on
-   legal grounds.
-
-## Ground rules that keep mattering
-
-- **`uncertain` is a real answer, not a hedge.** `docs/project-plan.md` §5. Every guess this project
-  has avoided has turned out to be the right call.
-- **`book_id` is the join key for every package.** Changing its format breaks referential integrity
-  everywhere. See ISSUE-5 for what that costs.
-- **Do not rewrite another package's code without their sign-off.** `CLAUDE.md`. Report it to your
-  human and let them raise it — that is how every issue in the audit got fixed.
-- **Run `python3 qa/validate_contracts.py` before opening a PR** (currently PR #10). It checks
-  schemas, `book_id` integrity, and whether a contract deliverable has been accidentally gitignored.
-- **`pytest` from the repo root** is the project-wide test runner. `python -m unittest discover`
-  silently reports zero tests for pytest-style suites — it looked like a pass while running nothing
-  for the whole of Package 2.
-
-## Related reading
-
-- `docs/branch-audit-2026-08-12.md` — eleven numbered issues with reproduction steps and owners
-- `docs/evaluation-spec.md` — six checks nothing currently performs; still unowned
-- `docs/renewal-era-corpus-plan.md` (branch `ross-renewal-corpus`) — the corpus proposal
+- `docs/renewal-era-corpus.md` — Radoslav's renewal corpus
+- `docs/renewal-automation-jason-vs-ross.md` — Jason's approach comparison
 - `docs/data-contracts.md` — the interface every package writes to
+- `docs/evaluation-spec.md` — six checks nothing currently performs; still unowned
