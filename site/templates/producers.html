@@ -69,6 +69,12 @@
      own text block below the banner instead. */
   .result-panel { margin: 0 auto 10px auto; max-width: 380px; }
   .result-panel img { width: 100%; display: block; }
+  .result-book {
+    max-width: 380px; margin: 0 auto 10px auto; text-align: center;
+    font-size: 16px; font-weight: 800; color: var(--cream);
+    text-shadow: 0 2px 4px rgba(0,0,0,0.5);
+  }
+  .result-book .author { font-weight: 500; opacity: 0.85; }
   .result-message {
     max-width: 380px; margin: 0 auto;
     background: var(--cream); border: 3px solid var(--ink); border-radius: 14px;
@@ -159,16 +165,25 @@
   <img class="results-header" src="{{ url_for('static', filename='producer/10_results_header.png') }}" alt="Results">
 
   {% if validator_result.status == 'found_confirmed' %}
+    {% if validator_result.title %}
+    <div class="result-book">{{ validator_result.title }}<br><span class="author">{{ validator_result.author }}</span></div>
+    {% endif %}
     <div class="result-panel">
       <img src="{{ url_for('static', filename='producer/11_result_public_domain_panel.png') }}" alt="Public domain">
     </div>
     <div class="result-message">{{ validator_result.message }}</div>
   {% elif validator_result.status == 'found_not_confirmed' %}
+    {% if validator_result.title %}
+    <div class="result-book">{{ validator_result.title }}<br><span class="author">{{ validator_result.author }}</span></div>
+    {% endif %}
     <div class="result-panel">
       <img src="{{ url_for('static', filename='producer/12_result_private_panel.png') }}" alt="Still private">
     </div>
     <div class="result-message">{{ validator_result.message }}</div>
   {% elif validator_result.status == 'found_uncertain' %}
+    {% if validator_result.title %}
+    <div class="result-book">{{ validator_result.title }}<br><span class="author">{{ validator_result.author }}</span></div>
+    {% endif %}
     <div class="result-panel">
       <img src="{{ url_for('static', filename='producer/13_result_unclear_panel.png') }}" alt="Unclear">
     </div>

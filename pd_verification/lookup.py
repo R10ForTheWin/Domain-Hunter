@@ -10,13 +10,22 @@ silently picking one.
 from __future__ import annotations
 
 from dataclasses import dataclass
+from pathlib import Path
 from typing import Any, Dict, List, Optional, Tuple
 
 from . import gutenberg, io_csv, openlibrary
 
 IDENTIFIER_TYPES = ("book_name", "isbn", "gutenberg_id", "oclc")
 
-_LOCAL_CORPUS_PATH = "data/book_corpus.csv"
+# Absolute, not a bare relative "data/book_corpus.csv": this module gets
+# bundled into site/pd_verification/ for a CLI Railway deploy (a sibling of
+# site/data/), so __file__'s parent.parent lands on the right data/ in both
+# a normal repo checkout (pd_verification/ and data/ as siblings of repo
+# root) and the bundled deploy shape -- unlike a CWD-relative path, which
+# happened to work in production (gunicorn's CWD is site/) but silently
+# fell through to the network on any other CWD, defeating the point of
+# checking locally first.
+_LOCAL_CORPUS_PATH = str(Path(__file__).resolve().parent.parent / "data" / "book_corpus.csv")
 
 
 def _local_corpus_match(query: str) -> Optional[Dict[str, Any]]:
