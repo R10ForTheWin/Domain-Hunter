@@ -79,6 +79,8 @@
     flex: 0 0 auto; font-weight: 900; background: var(--gold);
     border: 2px solid var(--ink); border-radius: 8px; padding: 1px 8px;
   }
+  .score-title.placeholder, .score-value.placeholder { opacity: 0.35; }
+  .score-value.placeholder { background: #e6ddc0; }
   .score-why { font-size: 12px; line-height: 1.45; margin: 3px 0 0 30px; opacity: 0.8; }
 
   .tabs { display: flex; gap: 6px; margin: 14px 0 4px 0; }
@@ -167,7 +169,20 @@
   </div>
 
   {% if mandate %}
-  {% if top_scores %}
+  {% if live_available and not live_mandate and not live_error %}
+  <div class="card">
+    <div class="mandate-studio">Top matches</div>
+    <p class="note">Fill in the mandate above and hit <strong>Find your match</strong> — this list
+    fills in with your real results once you submit.</p>
+    {% for n in range(1, 11) %}
+    <div class="score-row">
+      <span class="score-rank">{{ n }}</span>
+      <span class="score-title placeholder">—</span>
+      <span class="score-value placeholder">—</span>
+    </div>
+    {% endfor %}
+  </div>
+  {% elif top_scores %}
   <div class="card">
     <div class="mandate-studio">Top matches</div>
     {% if live_mandate %}
