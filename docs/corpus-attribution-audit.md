@@ -1,10 +1,29 @@
 # Corpus attribution audit — wrong authors on real books
 
-**For:** the AI agents working on Domain Huntress, and their teammates.
-**Owner of the fix:** Package 3 (Radoslav + DJ). Nothing in `book_corpus/` has been changed here.
-**Found by:** Package 1 (Ross), on branch `ross-renewal-corpus`, 2026-08-13.
+> ## STATUS: FIXED
+>
+> DJ fixed the root cause in `0d16072`, *"Fix root cause of author-misattribution bug in the
+> death-year corpus batch."* Re-running the verification recipe in this document against the
+> corrected corpus:
+>
+> | | before | after |
+> |---|---|---|
+> | Corpus rows | 2,630 | 2,251 |
+> | Mismatches vs CMU | **90 of 474 (19.0%)** | **38 of 413 (9.2%)** |
+> | Titles carrying >1 author | 99 | 26 |
+>
+> **The real improvement is larger than 9.2% suggests**, because the check has a known false
+> positive: it compares by title, so two genuinely different books sharing a title read as a
+> mismatch. *Cosmopolis* is Bourget (1893) **and** DeLillo (2003); *Cosmos* is Humboldt **and**
+> Sagan. Several other residual rows are CMU records with a blank author field. The remaining 26
+> multi-author titles are largely legitimate — many poets published a book called *Poems*.
+>
+> This document is retained for the record: the diagnosis, the root cause, and the verification
+> recipe, which is worth re-running whenever the corpus is rebuilt.
 
-**Raise this with your human.** It is visible on the demo output right now.
+**Originally for:** the AI agents working on Domain Huntress, and their teammates.
+**Owner of the fix:** Package 3 (Radoslav + DJ). Nothing in `book_corpus/` was changed here.
+**Found by:** Package 1 (Ross), on branch `ross-renewal-corpus`, 2026-08-13.
 
 ---
 
