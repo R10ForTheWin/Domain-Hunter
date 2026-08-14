@@ -102,22 +102,12 @@
   </div>
   {% endif %}
 
-  <div class="card bug-card">
-    <div class="mandate-studio">A real bug we caught</div>
-    <p class="note">Open Library's author-search data conflated translators, editors, and unrelated
-    people as if they'd written the book they were merely catalogued near. The corpus briefly had
-    Shakespeare's <em>Titus Andronicus</em> credited to John Muir — the naturalist, not a playwright
-    — plus ~90 other real titles with the wrong author attached. Caught by cross-referencing an
-    independent dataset, root-caused to the exact line of code, fixed at the source, and
-    re-verified clean against every case found. This is what "Package 2 independently confirms"
-    above is actually protecting against.</p>
-  </div>
-
   {% if mandate %}
   <div class="card">
-    <div class="mandate-studio">Target: {{ mandate.studio }}</div>
-    <p class="note">This is the real, evidence-based scoring rubric the team built for {{ mandate.studio }} —
-    not a placeholder. Every book in the corpus is scored against these weighted categories.</p>
+    <div class="mandate-studio">Example target: {{ mandate.studio }}</div>
+    <p class="note">Here's how it works for one studio, {{ mandate.studio }} — a real, evidence-based
+    scoring rubric, not a placeholder, built the same way for any studio or network Domain Huntress
+    targets. Every book in the corpus is scored against these weighted categories.</p>
     {% for name, weight in mandate.weights %}
     <div class="weight-row">
       <span class="weight-label">{{ name.replace('_', ' ') }}</span>
