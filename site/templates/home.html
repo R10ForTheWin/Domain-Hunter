@@ -57,34 +57,27 @@
     width: 100%; height: auto;
     filter: drop-shadow(0 3px 6px rgba(0,0,0,0.5));
   }
-  .hood-link {
-    position: absolute;
-    top: max(14px, env(safe-area-inset-top));
-    right: 12px;
-    z-index: 3;
-    font-size: 15px;
-    font-weight: 800;
-    color: #1a1a1a;
-    text-decoration: none;
-    background: #e8b93f;
-    padding: 9px 18px;
-    border-radius: 16px;
-    border: 2px solid #1a1a1a;
-    box-shadow: 3px 3px 0 rgba(0,0,0,0.3);
-  }
-
   .button-overlay {
     position: absolute;
     bottom: max(10px, env(safe-area-inset-bottom));
     left: 0; right: 0;
-    display: flex; flex-direction: column; align-items: center;
-    gap: 5px;
+    display: grid; grid-template-columns: 1fr 1fr;
+    gap: 8px 10px;
+    max-width: 400px; margin: 0 auto;
     padding: 0 16px;
     z-index: 2;
   }
-  .cta-btn { display: block; line-height: 0; transition: transform 0.15s ease; width: 50%; max-width: 190px; }
+  .cta-btn { display: block; line-height: 0; transition: transform 0.15s ease; width: 100%; }
   .cta-btn:hover { transform: translate(-2px, -3px); }
   .cta-btn img { width: 100%; height: auto; display: block; filter: drop-shadow(0 2px 5px rgba(0,0,0,0.4)); }
+  .cta-btn.hood-btn {
+    display: flex; align-items: center; justify-content: center;
+    background: #e8b93f; color: #1a1a1a; text-decoration: none;
+    font-weight: 800; font-size: 13px; text-align: center;
+    border: 2px solid #1a1a1a; border-radius: 12px;
+    box-shadow: 3px 3px 0 rgba(0,0,0,0.3);
+    padding: 8px 6px;
+  }
 
   /* Desktop-only: a scannable QR code so a class watching on a projector
      can pull the same site up on their own phone. Hidden on mobile --
@@ -139,7 +132,6 @@
   <div class="logo-overlay">
     <img class="wordmark" src="{{ url_for('static', filename='logo-wordmark.png') }}" alt="Domain Huntress — Public-Domain Adaptation Scout">
   </div>
-  <a class="hood-link" href="{{ url_for('under_the_hood') }}">Under the Hood →</a>
 
   <div class="qr-panel">
     <img src="{{ url_for('static', filename='qr-code.png') }}" alt="Scan to open Domain Huntress on your phone">
@@ -156,6 +148,7 @@
     <a class="cta-btn" href="{{ url_for('forward_looking') }}">
       <img src="{{ url_for('static', filename='btn-forward.png') }}" alt="Looking Forward 5 Years — what enters public domain next">
     </a>
+    <a class="cta-btn hood-btn" href="{{ url_for('under_the_hood') }}">Under the Hood →</a>
   </div>
 </div>
 
