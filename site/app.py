@@ -100,7 +100,11 @@ def load_mandate_config():
     file is a simple flat "key: value" + one nested "weights:" block, so a
     real YAML dependency isn't worth adding just for this one read-only file.
     """
-    path = REPO_ROOT / "studio_scoring" / "mandate_config.yaml"
+    # Same "railway up only uploads site/'s own contents" reality as
+    # DATA_DIR above -- studio_scoring/ is a sibling of site/, so it never
+    # ships in a CLI deploy unless a local copy is bundled into site/ too.
+    _local = Path(__file__).resolve().parent / "studio_scoring" / "mandate_config.yaml"
+    path = _local if _local.exists() else REPO_ROOT / "studio_scoring" / "mandate_config.yaml"
     if not path.exists():
         return None
 
