@@ -35,7 +35,12 @@ def _get(url: str) -> Dict[str, Any]:
     try:
         with urllib.request.urlopen(request, timeout=_TIMEOUT_SECONDS) as response:
             body = response.read()
-    except (urllib.error.URLError, urllib.error.HTTPError, TimeoutError) as exc:
+    except OSError as exc:
+        # Not (URLError, HTTPError, TimeoutError): on Python 3.9, socket.timeout
+        # is an OSError subclass but NOT a TimeoutError subclass (that alias
+        # was only added in 3.10), so a timeout escaped this handler entirely
+        # on 3.9 -- the system Python on macOS. OSError is a strict superset
+        # of all four previously-caught types.
         raise GutenbergLookupError(f"Could not reach Gutendex ({url}): {exc}") from exc
     try:
         return json.loads(body)
