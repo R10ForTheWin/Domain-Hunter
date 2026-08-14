@@ -201,7 +201,7 @@
   {% endif %}
 
   {% if query %}
-    <div id="results" class="results-header" style="text-align:center; color:var(--cream); font-weight:800; margin-top:20px;">Corpus matches for "{{ query }}"</div>
+    <div id="corpus-results-header" class="results-header" style="text-align:center; color:var(--cream); font-weight:800; margin-top:20px;">Corpus matches for "{{ query }}"</div>
     {% if results %}
     <div style="background:var(--cream); border:3px solid var(--ink); border-radius:14px; padding:14px; margin-top:8px;">
       {% for b in results %}
@@ -250,11 +250,16 @@
   var form = document.querySelector('form');
   var overlay = document.getElementById('loading-overlay');
   var orNote = document.querySelector('.or-note');
+  var oldResults = document.getElementById('results');
   if (form && overlay) {
     form.addEventListener('submit', function (e) {
       e.preventDefault();
       form.style.display = 'none';
       if (orNote) { orNote.style.display = 'none'; }
+      // A previous search's result/error panel would otherwise sit there,
+      // visible underneath the new loading spinner, looking like it
+      // belongs to the search that's still running.
+      if (oldResults) { oldResults.style.display = 'none'; }
       overlay.classList.add('active');
       var params = new URLSearchParams(new FormData(form));
       var url = window.location.pathname + '?' + params.toString();
