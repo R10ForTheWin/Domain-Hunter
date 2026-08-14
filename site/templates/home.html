@@ -76,9 +76,24 @@
     padding: 0 16px;
     z-index: 2;
   }
-  .cta-btn { display: block; line-height: 0; transition: transform 0.15s ease; width: 100%; }
+  /* The four button images come from different art sources with different
+     native aspect ratios (the "Under the Hood" banner in particular is
+     much taller relative to its width than the other three). Rendering
+     each at width:100% height:auto let that mismatch show through as
+     uneven row heights. Fixing every button to the same aspect-ratio box
+     with object-fit:contain keeps all four the same height regardless of
+     what shape the underlying artwork is. */
+  .cta-btn {
+    display: flex; align-items: center; justify-content: center;
+    aspect-ratio: 3.6; width: 100%;
+    transition: transform 0.15s ease;
+  }
   .cta-btn:hover { transform: translate(-2px, -3px); }
-  .cta-btn img { width: 100%; height: auto; display: block; filter: drop-shadow(0 2px 5px rgba(0,0,0,0.4)); }
+  .cta-btn img {
+    max-width: 100%; max-height: 100%; width: auto; height: auto;
+    object-fit: contain; display: block;
+    filter: drop-shadow(0 2px 5px rgba(0,0,0,0.4));
+  }
 
   /* Desktop-only: a scannable QR code so a class watching on a projector
      can pull the same site up on their own phone. Hidden on mobile --
