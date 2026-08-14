@@ -18,10 +18,11 @@
     margin: 0;
     font-family: -apple-system, "Helvetica Neue", Arial, sans-serif;
     color: var(--ink);
-    background: var(--teal);
-    background-image:
-      radial-gradient(rgba(255,255,255,0.10) 1px, transparent 1px);
-    background-size: 14px 14px;
+    background: var(--teal) url("{{ url_for('static', filename='bg-portrait.jpg') }}") center top / cover no-repeat fixed;
+    min-height: 100vh;
+  }
+  @media (min-width: 701px) {
+    body { background-image: url("{{ url_for('static', filename='bg-landscape.jpg') }}"); }
   }
   header {
     text-align: center;

@@ -1,0 +1,15 @@
+book_id,title,author,author_death_year,author_death_year_disputed,publication_year,source,source_url,language,notes
+frankenstein__mary-shelley__1818,Frankenstein,"Shelley, Mary",1851,false,1818,gutenberg,https://www.gutenberg.org/ebooks/84,en,
+dracula__bram-stoker__1897,Dracula,"Stoker, Bram",1912,false,1897,gutenberg,https://www.gutenberg.org/ebooks/345,en,
+the-picture-of-dorian-gray__oscar-wilde__1890,The Picture of Dorian Gray,"Wilde, Oscar",1900,false,1890,gutenberg,https://www.gutenberg.org/ebooks/174,en,
+the-adventures-of-sherlock-holmes__arthur-conan-doyle__1892,The Adventures of Sherlock Holmes,"Doyle, Arthur Conan",1930,false,1892,gutenberg,https://www.gutenberg.org/ebooks/1661,en,
+the-time-machine__h-g-wells__1895,The Time Machine,"Wells, H. G.",1946,false,1895,gutenberg,https://www.gutenberg.org/ebooks/35,en,
+the-call-of-the-wild__jack-london__1903,The Call of the Wild,"London, Jack",1916,false,1903,gutenberg,https://www.gutenberg.org/ebooks/215,en,
+peter-pan__j-m-barrie__1911,Peter Pan,"Barrie, J. M.",1937,false,1911,gutenberg,https://www.gutenberg.org/ebooks/16,en,
+a-christmas-carol__charles-dickens__1843,A Christmas Carol,"Dickens, Charles",1870,false,1843,gutenberg,https://www.gutenberg.org/ebooks/46,en,
+pride-and-prejudice__jane-austen__1813,Pride and Prejudice,"Austen, Jane",1817,false,1813,gutenberg,https://www.gutenberg.org/ebooks/1342,en,
+moby-dick__herman-melville__1851,Moby-Dick,"Melville, Herman",1891,false,1851,gutenberg,https://www.gutenberg.org/ebooks/2701,en,
+the-great-gatsby__f-scott-fitzgerald__1925,The Great Gatsby,"Fitzgerald, F. Scott",1940,false,1925,gutenberg,https://www.gutenberg.org/ebooks/64317,en,entered US public domain 2021
+the-sun-also-rises__ernest-hemingway__1926,The Sun Also Rises,"Hemingway, Ernest",1961,false,1926,other,https://example.org/sun-also-rises,en,renewal-era title
+winnie-the-pooh__a-a-milne__1926,Winnie-the-Pooh,"Milne, A. A.",1956,true,1926,other,https://example.org/winnie-the-pooh,en,death-year sourcing needs a second corroboration
+the-metamorphosis__franz-kafka__1915,The Metamorphosis,"Kafka, Franz",1924,false,1915,gutenberg,https://www.gutenberg.org/ebooks/5200,en,
