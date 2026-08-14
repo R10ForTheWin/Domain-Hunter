@@ -57,6 +57,15 @@
   }
   .step-body { font-size: 13px; line-height: 1.5; }
   .step-body strong { font-weight: 800; }
+  .funnel-row {
+    display: flex; align-items: baseline; gap: 10px; margin: 8px 0 0 0;
+    padding: 6px 0; border-bottom: 1px solid rgba(0,0,0,0.08);
+  }
+  .funnel-row:last-child { border-bottom: none; }
+  .funnel-n { font-size: 22px; font-weight: 900; font-style: italic; color: var(--red); flex: 0 0 auto; min-width: 60px; }
+  .funnel-label { font-size: 13px; font-weight: 600; }
+  .bug-card { border-color: var(--red); }
+  .bug-card .note { margin-top: 6px; }
 </style>
 </head>
 <body>
@@ -73,9 +82,35 @@
 
   <div class="card">
     <div class="mandate-studio">How a book makes the list</div>
-    <div class="step"><span class="step-n">1</span><span class="step-body"><strong>Package 2</strong> independently confirms public-domain status — no exceptions, no guessing. A book that can't be confirmed never reaches scoring.</span></div>
-    <div class="step"><span class="step-n">2</span><span class="step-body"><strong>Package 4</strong> scores every confirmed book against a studio's creative mandate.</span></div>
-    <div class="step"><span class="step-n">3</span><span class="step-body"><strong>Package 5</strong> joins both, ranks by score, and caps the result at ten.</span></div>
+    <div class="step"><span class="step-n">1</span><span class="step-body"><strong>Package 3</strong> screens candidate public-domain books into the corpus — this is the "BOOKS" station in the loop above.</span></div>
+    <div class="step"><span class="step-n">2</span><span class="step-body"><strong>Package 2</strong> independently confirms public-domain status — no exceptions, no guessing. A book that can't be confirmed never reaches scoring.</span></div>
+    <div class="step"><span class="step-n">3</span><span class="step-body"><strong>Package 4</strong> scores every confirmed book against a studio's creative mandate.</span></div>
+    <div class="step"><span class="step-n">4</span><span class="step-body"><strong>Package 5</strong> joins both, ranks by score, and caps the result at ten.</span></div>
+  </div>
+
+  {% if funnel %}
+  <div class="card">
+    <div class="mandate-studio">By the numbers</div>
+    <div class="funnel-row"><span class="funnel-n">{{ "{:,}".format(funnel.total_books) }}</span><span class="funnel-label">books screened</span></div>
+    <div class="funnel-row"><span class="funnel-n">{{ "{:,}".format(funnel.confirmed) }}</span><span class="funnel-label">confirmed public domain</span></div>
+    {% if funnel.confirmed_and_scored %}
+    <div class="funnel-row"><span class="funnel-n">{{ "{:,}".format(funnel.confirmed_and_scored) }}</span><span class="funnel-label">confirmed <em>and</em> scored</span></div>
+    {% endif %}
+    {% if funnel.shortlisted %}
+    <div class="funnel-row"><span class="funnel-n">{{ funnel.shortlisted }}</span><span class="funnel-label">made the final shortlist</span></div>
+    {% endif %}
+  </div>
+  {% endif %}
+
+  <div class="card bug-card">
+    <div class="mandate-studio">A real bug we caught</div>
+    <p class="note">Open Library's author-search data conflated translators, editors, and unrelated
+    people as if they'd written the book they were merely catalogued near. The corpus briefly had
+    Shakespeare's <em>Titus Andronicus</em> credited to John Muir — the naturalist, not a playwright
+    — plus ~90 other real titles with the wrong author attached. Caught by cross-referencing an
+    independent dataset, root-caused to the exact line of code, fixed at the source, and
+    re-verified clean against every case found. This is what "Package 2 independently confirms"
+    above is actually protecting against.</p>
   </div>
 
   {% if mandate %}

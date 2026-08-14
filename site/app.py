@@ -128,6 +128,46 @@ def load_shortlist():
         return list(csv.DictReader(f))
 
 
+def load_pipeline_funnel_stats():
+    """Real, live-computed counts for the /under-the-hood "by the numbers"
+    strip -- reads the same committed files the rest of the site does,
+    so these numbers can never drift out of sync with what's actually
+    shipped. Mirrors shortlist_output/build_shortlist.py's own join logic
+    for the "confirmed & scored" figure rather than hardcoding it.
+    """
+    corpus_path = DATA_DIR / "book_corpus.csv"
+    verification_path = DATA_DIR / "pd_verification.csv"
+    scores_path = DATA_DIR / "studio_scores.csv"
+    shortlist_path = DATA_DIR / "shortlist.csv"
+    if not corpus_path.exists() or not verification_path.exists():
+        return None
+
+    with corpus_path.open(newline="", encoding="utf-8") as f:
+        total_books = sum(1 for _ in csv.DictReader(f))
+
+    with verification_path.open(newline="", encoding="utf-8") as f:
+        verification_rows = list(csv.DictReader(f))
+    confirmed_ids = {r["book_id"] for r in verification_rows if r.get("pd_status") == "confirmed"}
+
+    confirmed_and_scored = None
+    if scores_path.exists():
+        with scores_path.open(newline="", encoding="utf-8") as f:
+            scored_ids = {r["book_id"] for r in csv.DictReader(f)}
+        confirmed_and_scored = len(confirmed_ids & scored_ids)
+
+    shortlisted = None
+    if shortlist_path.exists():
+        with shortlist_path.open(newline="", encoding="utf-8") as f:
+            shortlisted = sum(1 for _ in csv.DictReader(f))
+
+    return {
+        "total_books": total_books,
+        "confirmed": len(confirmed_ids),
+        "confirmed_and_scored": confirmed_and_scored,
+        "shortlisted": shortlisted,
+    }
+
+
 def _score(row):
     try:
         return float(row.get("total_score") or 0)
@@ -648,7 +688,11 @@ def networks():
 
 @app.route("/under-the-hood")
 def under_the_hood():
-    return render_template("under_the_hood.html", mandate=load_mandate_config())
+    return render_template(
+        "under_the_hood.html",
+        mandate=load_mandate_config(),
+        funnel=load_pipeline_funnel_stats(),
+    )
 
 
 @app.route("/forward-looking")
