@@ -48,7 +48,17 @@
        instead of the dotted background pattern. min-height keeps the
        image covering the full screen without constraining content that's
        taller than one screen. */
-    body { min-height: 100vh; min-height: 100dvh; }
+    /* The hero video/poster is a 9:16 portrait asset; modern iPhone
+       viewports are notably taller than 9:16, so at width:100% the
+       rendered video is inherently shorter than the screen -- that gap
+       below it is unavoidable without cropping the video (which risks
+       the iOS object-fit unreliability noted above). What made it look
+       like a hard bar wasn't the gap itself, it was a color mismatch: the
+       video's own bottom edge is a dark teal vignette, but bg-portrait.jpg
+       showed a much brighter blue at that scroll position. Overriding the
+       fallback to the video's own measured edge color turns the gap into
+       a smooth continuation instead of a visible seam. */
+    body { min-height: 100vh; min-height: 100dvh; background: #23747f; }
     .hero { height: auto; overflow: visible; }
     .hero video { position: static; width: 100%; height: auto; display: block; }
   }
