@@ -43,11 +43,11 @@ except ImportError:
 # there's no automated way to know "is Chantell done with scoring yet", so
 # this just needs updating as packages land. Keep it short and factual.
 STAGES = [
-    {"n": 1, "name": "Forward-Looking PD Calendar", "owner": "Ross", "status": "not_started"},
-    {"n": 2, "name": "PD Verification Agent", "owner": "Jason Brown", "status": "not_started"},
+    {"n": 1, "name": "Forward-Looking PD Calendar", "owner": "Ross", "status": "done"},
+    {"n": 2, "name": "PD Verification Agent", "owner": "Jason Brown", "status": "done"},
     {"n": 3, "name": "Book Corpus & Data Pipeline", "owner": "Radoslav Raychev", "status": "done"},
-    {"n": 4, "name": "Studio Mandate Research & Scoring", "owner": "Chantell Ferrell", "status": "not_started"},
-    {"n": 5, "name": "Shortlist & Output", "owner": "Luis R.", "status": "not_started"},
+    {"n": 4, "name": "Studio Mandate Research & Scoring", "owner": "Chantell Ferrell", "status": "ongoing"},
+    {"n": 5, "name": "Shortlist & Output", "owner": "Luis R.", "status": "ongoing"},
     {"n": 6, "name": "Infra, QA & Docs", "owner": "DJ", "status": "ongoing"},
 ]
 
@@ -93,6 +93,58 @@ def load_shortlist():
         return None
     with path.open(newline="", encoding="utf-8") as f:
         return list(csv.DictReader(f))
+
+
+def load_mandate_config():
+    """Tiny hand-rolled parser for studio_scoring/mandate_config.yaml -- the
+    file is a simple flat "key: value" + one nested "weights:" block, so a
+    real YAML dependency isn't worth adding just for this one read-only file.
+    """
+    path = REPO_ROOT / "studio_scoring" / "mandate_config.yaml"
+    if not path.exists():
+        return None
+
+    studio = None
+    weights = {}
+    in_weights = False
+    for line in path.read_text(encoding="utf-8").splitlines():
+        stripped = line.split("#", 1)[0].rstrip()
+        if not stripped.strip():
+            continue
+        if stripped.startswith("studio:"):
+            studio = stripped.split(":", 1)[1].strip().strip('"')
+        elif stripped.strip() == "weights:":
+            in_weights = True
+        elif in_weights and line.startswith((" ", "\t")) and ":" in stripped:
+            key, val = stripped.split(":", 1)
+            try:
+                weights[key.strip()] = float(val.strip())
+            except ValueError:
+                pass
+        elif in_weights and not line.startswith((" ", "\t")):
+            in_weights = False
+
+    if not studio:
+        return None
+    return {"studio": studio, "weights": sorted(weights.items(), key=lambda kv: -kv[1])}
+
+
+def load_pd_calendar():
+    path = DATA_DIR / "pd_calendar.csv"
+    if not path.exists():
+        return None
+    with path.open(newline="", encoding="utf-8") as f:
+        rows = list(csv.DictReader(f))
+    if not rows:
+        return None
+
+    by_year = {}
+    for r in rows:
+        year = (r.get("pd_date") or "")[:4]
+        if not year:
+            continue
+        by_year.setdefault(year, []).append(r)
+    return sorted(by_year.items())
 
 
 @app.route("/")
@@ -153,12 +205,15 @@ def producers():
 
 @app.route("/networks")
 def networks():
-    return render_template("networks.html")
+    mandate = load_mandate_config()
+    scores_exist = (DATA_DIR / "studio_scores.csv").exists()
+    return render_template("networks.html", mandate=mandate, scores_exist=scores_exist)
 
 
 @app.route("/forward-looking")
 def forward_looking():
-    return render_template("forward_looking.html")
+    calendar_by_year = load_pd_calendar()
+    return render_template("forward_looking.html", calendar_by_year=calendar_by_year)
 
 
 if __name__ == "__main__":
