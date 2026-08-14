@@ -86,8 +86,9 @@
   .tabs { display: flex; gap: 6px; margin: 14px 0 4px 0; }
   .tab-btn {
     flex: 1 1 0; padding: 8px 6px; font: inherit; font-size: 12px; font-weight: 800;
-    text-transform: uppercase; cursor: pointer; background: #e6ddc0;
+    text-transform: uppercase; cursor: pointer; background: #e6ddc0; color: var(--ink);
     border: 2px solid var(--ink); border-radius: 8px;
+    -webkit-appearance: none; appearance: none;
   }
   .tab-btn.active { background: var(--gold); }
   .tab-panel { display: none; }
@@ -147,7 +148,7 @@
       {% for key in blank_keys %}
       <label>{{ key.lower() }}</label>
       <input type="text" name="{{ key }}"
-             value="{{ live_mandate.blanks[key] if live_mandate and live_mandate.source == 'madlib' else '' }}"
+             value="{{ live_mandate.blanks[key] if live_mandate and live_mandate.source == 'madlib' else request.form.get(key, '') }}"
              placeholder="{{ {'GENRE':'heist, horror, comedy...','ADJECTIVE':'unsettling, crazy, tender...','CHARACTER':'outsider, final girl, retiree...','VERB':'escapes, haunts, survives...','SETTING':'small town, space station...'}[key] }}">
       {% endfor %}
       <button type="submit" class="go">Find your match</button>
@@ -157,7 +158,7 @@
       <input type="hidden" name="method" value="freeform">
       <label>describe what you're looking for</label>
       <textarea name="freeform_text" rows="3"
-        placeholder="a quirky funny comedy where a prissy girl takes on the big city">{{ live_mandate.raw_input if live_mandate and live_mandate.raw_input else '' }}</textarea>
+        placeholder="a quirky funny comedy where a prissy girl takes on the big city">{{ live_mandate.raw_input if live_mandate and live_mandate.raw_input else request.form.get('freeform_text', '') }}</textarea>
       <button type="submit" class="go">Find your match</button>
     </form>
     {% else %}
