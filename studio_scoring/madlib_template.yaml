@@ -1,0 +1,26 @@
+# Machine-readable version of the mad-lib template documented in mandate_brief.md.
+# collect_madlib.py reads this to know what to prompt for and how to assemble the sentence.
+
+sentence: "A {ADJECTIVE} {GENRE} where a {CHARACTER} {VERB} at/in a {SETTING}."
+
+blanks:
+  - key: GENRE
+    part_of_speech: noun
+    prompt: "Shout out a genre (e.g. heist, coming-of-age, horror):"
+    rubric_category: genre_fit
+  - key: ADJECTIVE
+    part_of_speech: adjective
+    prompt: "Shout out an adjective / mood (e.g. unsettling, surreal, tender):"
+    rubric_category: visual_story_adaptability
+  - key: CHARACTER
+    part_of_speech: noun
+    prompt: "Shout out a type of character (e.g. outsider, con artist, final girl):"
+    rubric_category: audience_fit
+  - key: VERB
+    part_of_speech: verb
+    prompt: "Shout out a verb, present tense (e.g. escapes, haunts, transforms):"
+    rubric_category: franchise_potential
+  - key: SETTING
+    part_of_speech: noun (place)
+    prompt: "Shout out a setting (e.g. boarding school, space station, small town):"
+    rubric_category: budget_scale_fit

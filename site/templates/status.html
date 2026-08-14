@@ -18,10 +18,11 @@
     margin: 0;
     font-family: -apple-system, "Helvetica Neue", Arial, sans-serif;
     color: var(--ink);
-    background: var(--teal);
-    background-image:
-      radial-gradient(rgba(255,255,255,0.10) 1px, transparent 1px);
-    background-size: 14px 14px;
+    background: var(--teal) url("{{ url_for('static', filename='bg-portrait.jpg') }}") center top / cover no-repeat;
+    min-height: 100vh;
+  }
+  @media (min-width: 701px) {
+    body { background-image: url("{{ url_for('static', filename='bg-landscape.jpg') }}"); }
   }
   header {
     text-align: center;
@@ -176,6 +177,12 @@
     {% else %}
       <p class="empty">No corpus data yet.</p>
     {% endif %}
+  </div>
+
+  <div class="card">
+    <h2>Live Scoring Budget</h2>
+    <p>${{ "%.2f"|format(live_scoring_spend) }} spent of ${{ "%.2f"|format(live_scoring_cap) }} cap
+    {% if live_scoring_spend >= live_scoring_cap %}<strong style="color:#d8482f"> — CAP HIT, live scoring is blocked</strong>{% endif %}</p>
   </div>
 
   <div class="card">

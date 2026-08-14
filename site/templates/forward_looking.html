@@ -14,73 +14,106 @@
     margin: 0;
     font-family: -apple-system, "Helvetica Neue", Arial, sans-serif;
     color: var(--ink);
-    background: var(--teal);
-    background-image: radial-gradient(rgba(255,255,255,0.10) 1px, transparent 1px);
-    background-size: 14px 14px;
+    background: var(--teal) url("{{ url_for('static', filename='bg-portrait.jpg') }}") center top / cover no-repeat;
+    min-height: 100vh;
   }
-  header { text-align: center; padding: 30px 20px 18px 20px; position: relative; }
+  @media (min-width: 701px) {
+    body { background-image: url("{{ url_for('static', filename='bg-landscape.jpg') }}"); }
+  }
+  .page { max-width: 520px; margin: 0 auto; padding: 18px 20px 40px 20px; }
   .back-link {
-    position: absolute; top: 18px; left: 20px;
-    font-size: 12px; color: var(--cream); text-decoration: none;
+    display: inline-block; font-size: 11px; color: var(--cream); text-decoration: none;
     background: rgba(0,0,0,0.25); padding: 5px 12px; border-radius: 12px;
-    border: 1px solid rgba(255,255,255,0.4);
+    border: 1px solid rgba(255,255,255,0.4); margin-bottom: 10px;
   }
-  header h1 { color: var(--cream); font-size: 22px; margin: 8px 0 2px 0; }
-  header p { color: var(--cream); opacity: 0.85; font-size: 13px; margin: 0; }
-  main { max-width: 700px; margin: 0 auto; padding: 0 20px 60px 20px; }
-  .card {
+  .logo { display: block; max-width: 300px; width: 80%; margin: 0 auto 10px auto; }
+  .burst {
+    display: block; margin: 0 auto 18px auto; max-width: 380px; width: 95%;
+    background: var(--red); color: var(--cream); text-align: center;
+    font-weight: 900; font-style: italic; font-size: 19px; letter-spacing: 0.01em;
+    padding: 12px 18px; border: 4px solid var(--ink); border-radius: 16px;
+    box-shadow: 5px 5px 0 rgba(0,0,0,0.3);
+    text-transform: uppercase;
+  }
+
+  .intro {
     background: var(--cream);
     border: 3px solid var(--ink);
     border-radius: 14px;
-    padding: 26px 28px;
-    box-shadow: 6px 6px 0 rgba(0,0,0,0.25);
+    padding: 14px 18px;
+    margin-bottom: 18px;
+    box-shadow: 5px 5px 0 rgba(0,0,0,0.25);
+    font-size: 12.5px;
+    line-height: 1.5;
   }
-  .badge {
-    display: inline-block;
-    background: var(--red);
-    color: var(--cream);
-    font-size: 11px;
-    font-weight: 800;
-    text-transform: uppercase;
-    padding: 5px 14px;
-    border-radius: 20px;
-    border: 2px solid var(--ink);
+
+  .year-card {
+    background: var(--cream);
+    border: 3px solid var(--ink);
+    border-radius: 14px;
     margin-bottom: 14px;
+    box-shadow: 5px 5px 0 rgba(0,0,0,0.25);
+    overflow: hidden;
   }
-  table { width: 100%; border-collapse: collapse; margin-top: 16px; font-size: 13.5px; opacity: 0.55; }
-  th, td { text-align: left; padding: 8px 10px; border-bottom: 1px solid #e2dcc8; }
-  th { color: var(--teal-dark); font-size: 11px; text-transform: uppercase; }
+  .year-header {
+    background: var(--gold);
+    border-bottom: 3px solid var(--ink);
+    padding: 8px 16px;
+    display: flex; align-items: baseline; justify-content: space-between;
+  }
+  .year-header .year { font-size: 20px; font-weight: 900; font-style: italic; }
+  .year-header .count { font-size: 11px; font-weight: 700; }
+  .work-row { padding: 8px 16px; border-bottom: 1px solid #e2dcc8; font-size: 12.5px; }
+  .work-row:last-child { border-bottom: none; }
+  .work-title { font-weight: 700; }
+  .work-meta { color: #6b6355; font-size: 11px; margin-top: 1px; }
+  .flag {
+    display: inline-block; font-size: 9.5px; font-weight: 800; text-transform: uppercase;
+    background: #f3ecd4; border: 1px solid #d8c98a; color: #8a7328;
+    padding: 1px 6px; border-radius: 8px; margin-left: 4px;
+  }
+  .more-note { padding: 8px 16px; font-size: 11px; font-style: italic; color: #6b6355; }
 </style>
 </head>
 <body>
-
-<header>
+<div class="page">
   <a href="{{ url_for('home') }}" class="back-link">← Home</a>
-  <h1>What Enters Public Domain Next</h1>
-  <p>A 5-year forward look, so you can prepare before the fact</p>
-</header>
 
-<main>
-  <div class="card">
-    <span class="badge">Coming soon</span>
-    <p>Under U.S. copyright law, protection runs through December 31st of the year an author's
-    term ends — so works don't trickle into the public domain, they all drop on a single date:
-    January 1st. This page will show, for each of the next 5 January 1sts, which authors' works
-    cross that line and which titles from our corpus that actually affects.</p>
-    <p style="margin-top:10px;">It depends on the <strong>Forward-Looking PD Calendar</strong>
-    package — reliable author death-year research (life + 70 years), cross-referenced against the
-    book corpus so the output is real titles, not just names. Still in development.</p>
+  <img class="logo" src="{{ url_for('static', filename='logo-wordmark.png') }}" alt="Domain Huntress">
+  <div class="burst">What's Coming Next</div>
 
-    <table>
-      <tr><th>Year</th><th>Authors entering PD</th><th>Notable works</th></tr>
-      <tr><td>2027</td><td>—</td><td>—</td></tr>
-      <tr><td>2028</td><td>—</td><td>—</td></tr>
-      <tr><td>2029</td><td>—</td><td>—</td></tr>
-      <tr><td>2030</td><td>—</td><td>—</td></tr>
-      <tr><td>2031</td><td>—</td><td>—</td></tr>
-    </table>
+  <div class="intro">
+    Under U.S. copyright law, protection runs through December 31st of the year an author's term
+    ends — so works don't trickle into the public domain, they all drop on a single date:
+    <strong>January 1st</strong>. Below is the real, researched calendar for the next 5 of those
+    dates, built from the actual book corpus by the PD Calendar package.
   </div>
-</main>
 
+  {% if calendar_by_year %}
+    {% for year, entries in calendar_by_year %}
+    <div class="year-card">
+      <div class="year-header">
+        <span class="year">Jan 1, {{ year }}</span>
+        <span class="count">{{ entries|length }} work{{ 's' if entries|length != 1 else '' }}</span>
+      </div>
+      {% for e in entries[:5] %}
+      <div class="work-row">
+        <div class="work-title">{{ e.title }}</div>
+        <div class="work-meta">{{ e.author }} · {{ e.rule_applied }}</div>
+      </div>
+      {% endfor %}
+      {% if entries|length > 5 %}
+      <div class="more-note">+ {{ entries|length - 5 }} more entering this year</div>
+      {% endif %}
+    </div>
+    {% endfor %}
+  {% else %}
+    <div class="intro">
+      <strong>Coming soon</strong> — this depends on the Forward-Looking PD Calendar package,
+      cross-referenced against the book corpus so the output is real titles, not just names.
+      Still in development.
+    </div>
+  {% endif %}
+</div>
 </body>
 </html>

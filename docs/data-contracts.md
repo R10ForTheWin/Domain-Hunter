@@ -11,11 +11,19 @@ can read/write them with nothing more than Python's stdlib `csv` module. They li
 
 Every file that references a book uses the same `book_id`, minted by **Package 3** (Book Corpus).
 Format: `slugified-title__slugified-author__pub-year`, lowercase, spaces → hyphens, no punctuation.
+The author slug is taken from the `Last, First` form used in the `author` column, so the surname
+comes first.
 
-Example: `frankenstein__mary-shelley__1818`
+Example: `frankenstein__shelley-mary__1818`
+
+When `publication_year` is unknown or blank, the year segment is the literal `unk` rather than a
+number — e.g. `the-hucksters__wakeman-frederic__unk`. The merge blanks any `publication_year` it
+finds implausible (a value after the author's death, treated as a reprint date — see the
+`publication_year` note below), which is why a large share of rows carry `__unk`.
 
 Package 3 is the source of truth for which `book_id`s exist. If a book isn't in `book_corpus.csv`,
-no other file should reference it.
+no other file should reference it. Treat `book_id` as opaque and stable: don't parse the year back
+out of it, and don't regenerate ids for rows other packages already reference.
 
 ## `data/book_corpus.csv` — Package 3 output → feeds Packages 1, 2, 4
 
@@ -23,14 +31,41 @@ no other file should reference it.
 |---|---|---|
 | `book_id` | string | primary key, see above |
 | `title` | string | |
-| `author` | string | full name, "Last, First" preferred |
+| `author` | string | full name in `Last, First` form — the merge normalizes every batch to this, so it is the actual format, not just "preferred" |
 | `author_death_year` | int or blank | blank if unknown — do not guess |
 | `author_death_year_disputed` | bool (`true`/`false`) | true if sources disagree |
-| `publication_year` | int | original publication, not a reprint edition |
+| `publication_year` | int or blank | original publication, not a reprint edition; the merge blanks any value later than the author's death year (a reprint/collected-edition date misrecorded as the original) rather than record a value known to be wrong |
 | `source` | string | e.g. `gutenberg` |
 | `source_url` | string | link to the catalog entry |
 | `language` | string | ISO code, e.g. `en` |
+| `summary` | string or blank | **proposed, see below** — what the book is actually about |
+| `subjects` | string or blank | **proposed, see below** — semicolon-separated, e.g. `gothic;orphans;revenge` |
 | `notes` | string | free text, optional |
+
+### Proposed: `summary` and `subjects` — needs Package 3's sign-off
+
+*Proposed by Package 1; not yet implemented. Both columns are optional and blank-allowed, so
+adding them breaks nothing that exists today — an existing reader that ignores them keeps working,
+and Package 3 can backfill them incrementally.*
+
+Package 4 scores every book on genre fit, visual/story adaptability, franchise potential, and
+audience fit. The columns above give it a **title, an author, and a year**. Nothing in this file
+says what any book is about, so those four judgments are currently being made from a title string.
+
+That is not a scoring problem, it is a data problem, and it caps how good the shortlist can ever
+be. It also makes the scores unevaluable — you cannot tell a good score from a bad one when the
+input carried no content to reason over (see `docs/evaluation-spec.md`).
+
+Both sources already in use can supply this: Open Library exposes subjects and often a
+description; Project Gutenberg carries subject headings and the full text. Suggested shape —
+
+- `summary` — a few sentences of plot/premise. Provenance goes in `notes`. If it is generated
+  rather than sourced, say so there, so Package 4 knows what it is reasoning over.
+- `subjects` — semicolon-separated controlled terms, lowercase, same delimiter convention as
+  `flags` elsewhere in this document.
+
+Leave both blank rather than inventing content. A blank summary is a known gap; a plausible
+invented one is a silent error that propagates into the shortlist's stated reasoning.
 
 ## `data/pd_calendar.csv` — Package 1 output (reads `book_corpus.csv`)
 
@@ -40,12 +75,12 @@ dates — a 1931 title and a 1935 title by the same person are five years apart.
 row cannot represent that.
 
 **Which rule governs.** U.S. works published before 1978 run 95 years from publication no matter
-when the author died; only works published 1978 or later use life+70. Measured against the 2,764
-rows of `book_corpus.csv`: `pub+95` governs 2,015 books, `life+70` governs 44. Earlier versions of
-this file and of `pd_calendar/README.md` described the calendar as a life+70 calculation. That is
-the wrong rule for a pre-1978 corpus, and it errs toward declaring free a work that is still in
-copyright — an author who died in 1951 with a book published in 1950 comes out as public domain in
-2022 under life+70, when the real date is 2046.
+when the author died; only works published 1978 or later use life+70. Measured against the 2,630
+rows of `book_corpus.csv` as of `ed022ca`: `pub+95` governs 1,597 books, `life+70` governs 9.
+Earlier versions of this file and of `pd_calendar/README.md` described the calendar as a life+70
+calculation. That is the wrong rule for a pre-1978 corpus, and it errs toward declaring free a work
+that is still in copyright — an author who died in 1951 with a book published in 1950 comes out as
+public domain in 2022 under life+70, when the real date is 2046.
 
 | column | type | notes |
 |---|---|---|

@@ -1,0 +1,6 @@
+book_id,title,author,author_death_year,author_death_year_disputed,publication_year,source,source_url,language,notes
+frankenstein__mary-shelley__1818,Frankenstein,"Shelley, Mary",1851,false,1818,gutenberg,https://www.gutenberg.org/ebooks/84,en,Test fixture only — not official Package 3 corpus data.
+dracula__bram-stoker__1897,Dracula,"Stoker, Bram",1912,false,1897,gutenberg,https://www.gutenberg.org/ebooks/345,en,Test fixture only — not official Package 3 corpus data.
+the-picture-of-dorian-gray__oscar-wilde__1890,The Picture of Dorian Gray,"Wilde, Oscar",1900,false,1890,gutenberg,https://www.gutenberg.org/ebooks/174,en,Test fixture only — not official Package 3 corpus data.
+pride-and-prejudice__jane-austen__1813,Pride and Prejudice,"Austen, Jane",1817,false,1813,gutenberg,https://www.gutenberg.org/ebooks/1342,en,Test fixture only — not official Package 3 corpus data.
+the-adventures-of-sherlock-holmes__arthur-conan-doyle__1892,The Adventures of Sherlock Holmes,"Doyle, Arthur Conan",1930,false,1892,gutenberg,https://www.gutenberg.org/ebooks/1661,en,Test fixture only — not official Package 3 corpus data.

@@ -6,14 +6,6 @@ Merges the three Book Corpus batches into the final data/book_corpus.csv:
   - data/book_corpus_deathyear.csv (life+70 batch)
   - data/book_corpus_pubyear.csv (-96 publication-year batch, Rado)
 
-Rado's raw file has two known issues (flagged on PR #2, not yet fixed on his
-branch as of this merge): book_id uses "First Last" slug order instead of the
-"Last, First" order the other two batches use, and a few duplicate
-title+author rows exist with conflicting publication years. Both are
-corrected on a LOCAL COPY here purely so the merge can proceed -- this does
-not touch his branch or his PR. When his fix lands for real, re-running this
-script should produce the same result.
-
 Dedup strategy: group by (title, author) case-insensitively across all three
 sources. Within a group, keep the most complete row and fill in any blank
 fields (author_death_year, publication_year) from whichever other row in the
@@ -79,40 +71,6 @@ def read_csv(path: Path) -> list[dict]:
         return list(csv.DictReader(f))
 
 
-def fix_rado_pubyear_batch(rows: list[dict]) -> list[dict]:
-    """Local-only correction of the two issues flagged on PR #2."""
-    from collections import defaultdict
-
-    groups = defaultdict(list)
-    for r in rows:
-        groups[(r["title"].strip().lower(), r["author"].strip().lower())].append(r)
-
-    fixed = []
-    for (title_key, author_key), group in groups.items():
-        primary = group[0]
-        years = {g["publication_year"] for g in group if g["publication_year"]}
-        if len(years) > 1:
-            # Conflicting publication years across duplicate records for the
-            # same book -- don't guess which is right, blank it and say why.
-            pub_year = ""
-            note_suffix = f"; publication year conflict across duplicate Open Library records ({', '.join(sorted(years))}), blanked pending manual research"
-        else:
-            pub_year = primary["publication_year"]
-            note_suffix = ""
-
-        author_slug = slugify(primary["author"])  # already "Last, First" in this column
-        title_slug = slugify(primary["title"])
-        book_id = f"{title_slug}__{author_slug}__{pub_year or 'unk'}"
-
-        fixed.append({
-            **primary,
-            "book_id": book_id,
-            "publication_year": pub_year,
-            "notes": primary["notes"] + note_suffix,
-        })
-    return fixed
-
-
 def merge_group(rows: list[dict]) -> dict:
     def completeness(r):
         return sum(1 for f in ("author_death_year", "publication_year") if r.get(f))
@@ -153,12 +111,11 @@ def merge_group(rows: list[dict]) -> dict:
 def main():
     gutenberg = read_csv(GUTENBERG_PATH)
     deathyear = read_csv(DEATHYEAR_PATH)
-    pubyear_raw = read_csv(PUBYEAR_PATH)
-    pubyear = fix_rado_pubyear_batch(pubyear_raw)
+    pubyear = read_csv(PUBYEAR_PATH)  # PR #2 merged -- Rado's file is correct as-is now
 
     print(f"Gutenberg: {len(gutenberg)} rows", file=sys.stderr)
     print(f"Death-year: {len(deathyear)} rows", file=sys.stderr)
-    print(f"Pub-year (local-fixed): {len(pubyear)} rows (was {len(pubyear_raw)} before dedup)", file=sys.stderr)
+    print(f"Pub-year: {len(pubyear)} rows", file=sys.stderr)
 
     all_rows = gutenberg + deathyear + pubyear
     for r in all_rows:
@@ -205,6 +162,36 @@ def main():
             implausible_fixed += 1
     if implausible_fixed:
         print(f"Post-merge plausibility pass: blanked {implausible_fixed} implausible publication years", file=sys.stderr)
+
+    # Disputed-authorship filter. The death-year batch queries Open Library
+    # by author name and trusts whatever work titles come back -- but OL
+    # work records list every edition's contributors (translators, editors,
+    # introduction-writers) as if they were candidate "authors" of separate
+    # works. Result: the same real work (same title + same OL source_url)
+    # shows up multiple times attributed to unrelated people (e.g.
+    # "Adventures of Huckleberry Finn" attributed to Twain, but also to
+    # Kipling, Orwell, and 7 others via the same work record). There is no
+    # reliable way to algorithmically pick the correct one from this data
+    # alone -- per the project's own ground rule (mark uncertain rather
+    # than guess), drop every row in a group like this rather than risk
+    # shipping a book under the wrong author's name. Found via real output
+    # inspection: the #1 shortlisted book was "Titus Andronicus" credited
+    # to naturalist John Muir instead of Shakespeare.
+    by_work = defaultdict(list)
+    for r in merged_rows:
+        by_work[(r["title"].strip().lower(), r["source_url"].strip())].append(r)
+    disputed_ids = {
+        r["book_id"]
+        for rows in by_work.values()
+        if len(rows) > 1 and len({r["author"] for r in rows}) > 1
+        for r in rows
+    }
+    if disputed_ids:
+        before = len(merged_rows)
+        merged_rows = [r for r in merged_rows if r["book_id"] not in disputed_ids]
+        print(f"Disputed-authorship filter: dropped {before - len(merged_rows)} rows across "
+              f"{sum(1 for rows in by_work.values() if len(rows) > 1 and len({r['author'] for r in rows}) > 1)} "
+              f"works with conflicting author attributions for the same source record", file=sys.stderr)
 
     # Resolve any book_id collisions (distinct books that happened to slug identically)
     seen_ids = set()
