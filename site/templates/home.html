@@ -114,7 +114,7 @@
 <body>
 
 <div class="hero">
-  <video autoplay muted loop playsinline poster="{{ url_for('static', filename='poster-archer.png') }}">
+  <video id="hero-video" autoplay muted loop playsinline preload="auto" poster="{{ url_for('static', filename='poster-archer.png') }}">
     <source src="{{ url_for('static', filename='logo-animation-desktop.mp4') }}" type="video/mp4" media="(min-width: 701px)">
     <source src="{{ url_for('static', filename='logo-animation-textless.mp4') }}" type="video/mp4">
   </video>
@@ -142,5 +142,26 @@
   </div>
 </div>
 
+<script>
+  // The autoplay/muted/playsinline attributes are usually enough on their
+  // own, but iOS Safari specifically leaves the video paused (poster frame
+  // showing, no visible controls) after two situations those attributes
+  // don't cover: restoring the page from the back-forward cache (tapping
+  // "back" into this page) and the tab/app regaining foreground after being
+  // backgrounded. Both leave .play() as the only way to resume, so retry it
+  // on the events that fire for each case. .catch() is required -- some
+  // browsers reject the promise if autoplay is genuinely blocked (e.g. iOS
+  // Low Power Mode), and that's expected, not an error to surface.
+  (function () {
+    var video = document.getElementById('hero-video');
+    if (!video) return;
+    function tryPlay() { video.play().catch(function () {}); }
+    tryPlay();
+    window.addEventListener('pageshow', tryPlay);
+    document.addEventListener('visibilitychange', function () {
+      if (!document.hidden) tryPlay();
+    });
+  })();
+</script>
 </body>
 </html>

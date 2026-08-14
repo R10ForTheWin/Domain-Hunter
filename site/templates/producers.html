@@ -91,51 +91,17 @@
   }
   .loading-overlay.active { display: flex; }
 
-  /* Thought-bubble "thinking" animation: 3 red dots pop in sequence
-     (left -> center -> right), then the whole cloud does a quick ray-pop
-     followed by a gentle breathe, holds, and loops. Built from DJ's
-     thought-bubble art with the 3 baked-in dots healed out (replaced with
-     sampled cloud-fill color) so these CSS-drawn dots are the only ones
-     visible -- avoids needing separately-exported layers/Lottie.
-     ~1.65s per loop, within the 1.5-1.8s spec. */
+  /* Loading spinner: the orange thinking-swirl art, just spinning. */
   .thinking-graphic {
-    position: relative;
-    width: 150px;
-    animation: cloudPulse 1.65s ease-in-out infinite;
+    width: 110px;
+    animation: swirlSpin 1.4s linear infinite;
     filter: drop-shadow(0 4px 8px rgba(0,0,0,0.35));
   }
   .thinking-graphic img { display: block; width: 100%; height: auto; }
-  .thinking-dot {
-    position: absolute;
-    top: 40.79%;
-    width: 14.6%;
-    aspect-ratio: 1;
-    transform: translate(-50%, -50%) scale(0.7);
-    border-radius: 50%;
-    background: radial-gradient(circle at 35% 30%, #ff8a5c, #ff4d2e 55%, #c2270f 100%);
-    border: 2px solid #1a1a1a;
-    opacity: 0;
-    animation: dotPop 1.65s ease-in-out infinite;
-  }
-  .thinking-dot.dot1 { left: 35.17%; animation-delay: 0s; }
-  .thinking-dot.dot2 { left: 50.58%; animation-delay: 0.15s; }
-  .thinking-dot.dot3 { left: 66.07%; animation-delay: 0.3s; }
 
-  @keyframes dotPop {
-    0%   { opacity: 0; transform: translate(-50%, -50%) scale(0.7); }
-    9%   { opacity: 1; transform: translate(-50%, -60%) scale(1.18); }
-    18%  { opacity: 1; transform: translate(-50%, -50%) scale(1); }
-    73%  { opacity: 1; transform: translate(-50%, -50%) scale(1); }
-    100% { opacity: 1; transform: translate(-50%, -50%) scale(1); }
-  }
-  @keyframes cloudPulse {
-    0%   { transform: scale(1); }
-    27%  { transform: scale(1); }
-    30%  { transform: scale(1.05); }   /* quick ray-pop flash */
-    36%  { transform: scale(1.01); }
-    45%  { transform: scale(1.03); }   /* gentle breathe peak */
-    55%  { transform: scale(1); }
-    100% { transform: scale(1); }
+  @keyframes swirlSpin {
+    from { transform: rotate(0deg); }
+    to   { transform: rotate(360deg); }
   }
 
   .loading-text {
@@ -183,10 +149,7 @@
 
   <div class="loading-overlay" id="loading-overlay">
     <div class="thinking-graphic">
-      <img src="{{ url_for('static', filename='producer/thought-bubble-base.png') }}" alt="">
-      <div class="thinking-dot dot1"></div>
-      <div class="thinking-dot dot2"></div>
-      <div class="thinking-dot dot3"></div>
+      <img src="{{ url_for('static', filename='producer/19_loading_swirl.png') }}" alt="">
     </div>
     <span class="loading-text">Checking the archives&hellip;</span>
   </div>
