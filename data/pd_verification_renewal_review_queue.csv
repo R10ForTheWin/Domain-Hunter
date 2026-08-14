@@ -1,0 +1,21 @@
+book_id,corpus_title,corpus_author,publication_year,candidate_registration_title,candidate_registration_author,regnum,regdate,combined_score,likely_renewed_if_confirmed
+a-lost-lady__cather-willa__1923,A Lost Lady,"Cather, Willa",1923,A lost lady,"Cather, Willa Sibert",A711994,1923-09-14,0.89,True
+a-room-of-one-s-own__woolf-virginia__1929,A Room of One's Own,"Woolf, Virginia",1929,A room of one’s own,"Woolf, Mrs. Virginia (Stephen)",A35679,1929-10-21,0.82,False
+alexander-roman-der-utopie__mann-klaus__1930,"Alexander, roman der Utopie","Mann, Klaus",1930,"Alexander, roman der Utopie, von Klaus Mann.","Mann, Klaus",AF6037,1929-11-01,0.89,True
+all-in-the-day-s-work-an-autobiography__tarbell-ida-m-ida-minerva__1939,All in the Day's Work: An Autobiography,"Tarbell, Ida M. (Ida Minerva)",1939,All in the day’s work; an autobiography.,"Tarbell, Ida M.",A128021,1939-04-18,0.83,False
+correspondance__claudel-paul__1952,Correspondance,"Claudel, Paul",1952,Correspondance.,"Cézanne, Paul",AF38504,1937-12-31,0.83,False
+die-geschwister-von-neapel__werfel-franz__1931,Die Geschwister von Neapel,"Werfel, Franz",1931,"… Die geschwister von Neapel, roman.","Werfel, Franz V.",AF14539,1931-10-15,0.89,True
+last-and-first-men__stapledon-olaf__1930,Last and First Men,"Stapledon, Olaf",1930,Last and first men,"Stapledon, William Olaf",A36110,1931-03-23,0.89,False
+le-ble-en-herbe__colette__1923,Le blé en herbe,Colette,1923,… Le blé en herbe,"Willy, Colette",AF22882,1923-07-12,0.82,True
+mrs-dalloway__woolf-virginia__1925,Mrs. Dalloway,"Woolf, Virginia",1925,Mrs. Dalloway,"Woolf, Mrs. Virginia (Stephen)",A855264,1925-05-14,0.85,True
+poems__millay-edna-st-vincent__1939,Poems,"Millay, Edna St. Vincent",1939,Poems,"Lofgren, Mrs. May (Nixon)",A31387,1930-12-01,0.76,False
+red-love__kollontai-alexandra__1927,Red love,"Kollontai, Alexandra",1927,Red love,"Kollontaĭ, Aleksandra Mikhaĭlovna",A972418,1927-03-28,0.85,False
+science-music__jeans-james-hopwood__1937,Science & music,"Jeans, James Hopwood",1937,Science & music,"Jeans, Sir James",A111342,1937-11-09,0.82,False
+terre-des-hommes__saint-exupery-antoine-de__1936,Terre des hommes,"Saint-Exupéry, Antoine de",1936,Terre des hommes.,"Saint Exupéry, Antoine de",AF42782,1939-02-20,0.88,True
+the-big-four__christie-agatha__1927,The Big Four,"Christie, Agatha",1927,The big four,"Christie, Mrs. Agatha (Miller)",A996830,1927-07-15,0.87,True
+the-libertines__regnier-henri-de__1929,The libertines,"Régnier, Henri de",1929,The libertines,"Régnier, Henri Francois Joseph de",A6133,1929-03-21,0.83,False
+the-mysterious-mr-quin__christie-agatha__1930,The mysterious Mr. Quin,"Christie, Agatha",1930,The mysterious Mr. Quin,"Christie, Mrs. Agatha (Miller)",A22516,1930-04-25,0.87,True
+the-mystery-of-the-blue-train__christie-agatha__1928,The mystery of the Blue Train,"Christie, Agatha",1928,The mystery of the blue train,"Christie, Mrs. Agatha (Miller)",A1082698,1928-07-20,0.87,True
+the-sceptered-flute__naidu-sarojini__1928,The sceptered flute,"Naidu, Sarojini",1928,The sceptred flute,Sarojinī Nāyaḍu,A2238,1928-12-08,0.86,False
+the-story-of-san-michele__munthe-axel__1929,The story of San Michele,"Munthe, Axel",1929,The story of San Michele,"Munthe, Axel Martin Fredrik",A99907,1936-11-03,0.80,True
+to-the-lighthouse__woolf-virginia__1927,To the Lighthouse,"Woolf, Virginia",1927,To the lighthouse,"Woolf, Mrs. Virginia (Stephen)",A109752,1937-09-27,0.85,False
