@@ -112,3 +112,39 @@ the wrong author (e.g. multiple different real authors listed for the same well-
 prompt tells the model the title is more reliable than the author field when they conflict, so it
 scores the actual known book rather than a false pairing — Radoslav is fixing the underlying data,
 but this makes scoring resilient to whatever attribution noise remains.
+
+### Real summaries where available: the CMU Book Summary Dataset
+
+Ross separately proposed adding a `summary` column to `book_corpus.csv` itself (see
+`docs/data-contracts.md`) — not yet implemented, pending Radoslav's sign-off. In the meantime,
+`build_cmu_cache.py` matches our corpus against the
+[CMU Book Summary Dataset](https://www.cs.cmu.edu/~dbamman/booksummaries.html) (David Bamman and
+Noah Smith, 2013, *"New Alignment Methods for Discriminative Book Summarization"* — 16,559 plot
+summaries extracted from Wikipedia, released under
+[CC BY-SA 3.0](http://creativecommons.org/licenses/by-sa/3.0/us/legalcode)), matching only where
+both the normalized title AND author agree (a false match would poison scoring worse than no
+match — same reasoning as the author-attribution bug above). This matched **311 of 2,630 books
+(11.8%)** as of the current corpus — modest coverage, but concentrated in the more famous titles,
+which are disproportionately the ones likely to actually make the shortlist.
+
+The matched subset is cached at `studio_scoring/cmu_summaries.csv` (committed — small, only our
+books, not the full third-party dataset) and re-attributed here per CC BY-SA: content derived from
+the CMU Book Summary Dataset, sourced from Wikipedia, licensed CC BY-SA 3.0. Re-run
+`build_cmu_cache.py` whenever `book_corpus.csv` changes to refresh the match.
+
+`scoring_agent.py` resolves each book's grounding in this order: (1) `book_corpus.csv`'s own
+`summary` column if/when Radoslav adds it, (2) the CMU cache match, (3) the model's own recalled
+knowledge with an honest "not confidently recognized" fallback (the original design above) — so
+coverage only improves over time and nothing breaks if either upstream source is missing.
+
+## Second mandate intake method: free-form text
+
+The mad-lib (`collect_madlib.py`) is the primary demo mechanic, but it forces a specific
+grammatical shape (a genre noun, a mood adjective, a character noun, a verb, a setting noun) that
+an audience shout-out doesn't always fit naturally. `collect_mandate_freeform.py` is an alternate
+intake: someone types (or the demo host relays) what they're looking for in plain language — e.g.
+*"something dark and twisty about betrayal in a small town"* — and Claude maps that description
+onto the same 5 slots, inferring a specific value for anything not explicitly stated rather than
+leaving it generic. It writes the identical `mandate_live.yaml` shape `collect_madlib.py` does
+(plus `source: freeform` and the original `raw_input` text, for demo narration/audit), so
+`scoring_agent.py` doesn't know or care which intake method produced a given mandate.

@@ -81,8 +81,37 @@ SCORE_TOOL = {
 }
 
 
+MAX_SUMMARY_CHARS = 1000  # longer raw summaries (some CMU entries run 20k+ chars) have been
+                          # observed to destabilize the model's structured tool-call output
+
+
+def truncate_summary(summary: str, max_chars: int = MAX_SUMMARY_CHARS) -> str:
+    if len(summary) <= max_chars:
+        return summary
+    cut = summary[:max_chars]
+    last_period = cut.rfind(". ")  # prefer a clean sentence boundary over a mid-word cut
+    if last_period > max_chars * 0.5:
+        cut = cut[: last_period + 1]
+    return cut.strip() + " [truncated]"
+
+
 def build_prompt(book: dict, mandate: dict) -> str:
     blanks = mandate["blanks"]
+    verified_summary = truncate_summary((book.get("summary") or "").strip())
+
+    if verified_summary:
+        grounding = f"""VERIFIED SUMMARY (sourced, not a guess — use this as ground truth for the
+book's actual plot/genre/themes): {verified_summary}
+
+Restate this (in your own words, 1-3 sentences) as book_summary, then score all six categories
+0-100 against it."""
+    else:
+        grounding = """No verified summary is available for this book. First fill in book_summary
+based on what you actually know about this specific book's plot, genre, and themes from its title
+and author — do not guess or invent a plot for a title you don't recognize; say so explicitly
+instead (e.g. "not confidently recognized"). Then score all six categories 0-100 against that
+summary."""
+
     return f"""You are scoring a public-domain book for adaptation potential against a live-generated
 studio mandate for A24.
 
@@ -108,7 +137,7 @@ an obscure title scores low).
 BOOK:
 - Title: {book['title']}
 - Author: {book['author']}
-- Original publication year: {book['publication_year']}
+- Original publication year: {book.get('publication_year', '(unknown)')}
 - Notes: {book.get('notes') or '(none)'}
 
 Known data issue: this corpus has confirmed author-attribution errors (e.g. some titles are
@@ -117,9 +146,9 @@ conflict (e.g. this title is well-known to be written by someone else), trust wh
 the actual book from its title, note the conflict in book_summary, and score based on the real
 book, not a false pairing.
 
-First fill in book_summary based on what you actually know about this book — do not guess or
-invent a plot for a title you don't recognize. Then score all six categories 0-100 against that
-summary and call record_score. Keep every reasoning field to one short, concise sentence — no more."""
+{grounding}
+
+Then call record_score. Keep every reasoning field to one short, concise sentence — no more."""
 
 
 def validate_score_result(result: dict) -> dict:
@@ -303,6 +332,23 @@ def run_batch(client: Anthropic, model: str, remaining: list, mandate: dict, wei
     return failures
 
 
+def load_summary_cache(path: Path) -> dict:
+    if not path.exists():
+        return {}
+    with open(path, newline="", encoding="utf-8") as f:
+        return {row["book_id"]: row["summary"] for row in csv.DictReader(f)}
+
+
+def enrich_with_summaries(books: list, cache: dict) -> None:
+    """Fill in book['summary'] from the CMU cache, but never overwrite a real summary already
+    present in book_corpus.csv itself (once Radoslav's package supplies that column, it wins)."""
+    for book in books:
+        if not (book.get("summary") or "").strip():
+            cached = cache.get(book["book_id"])
+            if cached:
+                book["summary"] = cached
+
+
 def load_done_ids(output_path: Path) -> set:
     if not output_path.exists():
         return set()
@@ -346,6 +392,9 @@ def main():
                               "submitting a new batch — use this if scoring_agent.py crashed "
                               "after submission (see the 'Submitted batch ...' line it printed). "
                               "Only valid with the same --input/--limit as the original run.")
+    parser.add_argument("--summary-cache", default=str(HERE / "cmu_summaries.csv"),
+                         help="book_id -> real summary lookup from build_cmu_cache.py, used to "
+                              "ground scoring instead of the model's own recall where available")
     args = parser.parse_args()
 
     if not os.environ.get("ANTHROPIC_API_KEY"):
@@ -363,6 +412,13 @@ def main():
 
     with open(args.input, newline="", encoding="utf-8") as f:
         books = list(csv.DictReader(f))
+
+    summary_cache = load_summary_cache(Path(args.summary_cache))
+    enrich_with_summaries(books, summary_cache)
+    if summary_cache:
+        grounded = sum(1 for b in books if (b.get("summary") or "").strip())
+        print(f"Summary grounding: {grounded}/{len(books)} books have a verified summary "
+              f"({len(summary_cache)} available in {args.summary_cache}).")
 
     output_path = Path(args.output)
     output_path.parent.mkdir(parents=True, exist_ok=True)
