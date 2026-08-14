@@ -9,6 +9,8 @@ computed from the CSVs already checked into the repo.
 import csv
 import os
 import sys
+import time
+from collections import deque
 from concurrent.futures import ThreadPoolExecutor, as_completed
 from pathlib import Path
 
@@ -189,6 +191,49 @@ def scoring_ready():
         and os.environ.get("ANTHROPIC_API_KEY")
         and _demo_pool_path().exists()
     )
+
+
+# Reachable by anyone who scans the QR code, and each submission is a real
+# Claude API call (a live scoring run over 50 books) -- unlike everything
+# else on this site, this one costs real money per click. These caps bound
+# the worst case (accidental rapid re-click/refresh, or a room full of
+# classmates trying it) rather than trying to be an exact abuse-prevention
+# system. In-memory and per-process: gunicorn runs multiple workers, so the
+# real ceiling is roughly (limit x worker count), not an exact number --
+# fine for a class demo, not a production rate limiter.
+_RATE_LIMIT_WINDOW_SECONDS = 3600
+_RATE_LIMIT_MAX_PER_WINDOW = 40
+_RATE_LIMIT_COOLDOWN_SECONDS = 20
+_recent_submissions = deque()
+_last_submission_by_ip = {}
+
+
+def _client_ip():
+    # Railway sits in front of the app as a reverse proxy, so request.remote_addr
+    # is the proxy's address, not the visitor's -- read the forwarded header instead.
+    forwarded = request.headers.get("X-Forwarded-For", "")
+    return forwarded.split(",")[0].strip() if forwarded else (request.remote_addr or "unknown")
+
+
+def _rate_limit_error():
+    """None if this submission may proceed; otherwise a message to show instead
+    of spending an API call."""
+    now = time.time()
+    ip = _client_ip()
+
+    last = _last_submission_by_ip.get(ip)
+    if last and now - last < _RATE_LIMIT_COOLDOWN_SECONDS:
+        wait = round(_RATE_LIMIT_COOLDOWN_SECONDS - (now - last))
+        return f"Just scored one -- wait {wait}s before trying again."
+
+    while _recent_submissions and now - _recent_submissions[0] > _RATE_LIMIT_WINDOW_SECONDS:
+        _recent_submissions.popleft()
+    if len(_recent_submissions) >= _RATE_LIMIT_MAX_PER_WINDOW:
+        return "Live scoring has hit its demo limit for this hour — check back later, or see the results below."
+
+    _last_submission_by_ip[ip] = now
+    _recent_submissions.append(now)
+    return None
 
 
 def build_mandate_from_form(form):
@@ -389,22 +434,27 @@ def networks():
     scored_count = failed_count = 0
 
     if request.method == "POST" and live:
-        live_mandate, live_error = build_mandate_from_form(request.form)
-        if live_mandate:
-            try:
-                top_scores, scored_count, failed_count = score_demo_pool(live_mandate)
-                if not scored_count:
-                    # Every book failed individually (bad API key, no credit, network down).
-                    # score_demo_pool swallows per-book errors by design, so nothing raised --
-                    # say so plainly instead of rendering an empty results card.
-                    raise RuntimeError(
-                        "no books could be scored — check ANTHROPIC_API_KEY and API credit"
-                    )
-            except Exception as exc:  # noqa: BLE001 - never 500 mid-demo
-                live_error = f"Scoring failed: {exc}"
-                live_mandate, top_scores = None, load_top_scores()
-        else:
+        limit_error = _rate_limit_error()
+        if limit_error:
+            live_error = limit_error
             top_scores = load_top_scores()
+        else:
+            live_mandate, live_error = build_mandate_from_form(request.form)
+            if live_mandate:
+                try:
+                    top_scores, scored_count, failed_count = score_demo_pool(live_mandate)
+                    if not scored_count:
+                        # Every book failed individually (bad API key, no credit, network down).
+                        # score_demo_pool swallows per-book errors by design, so nothing raised --
+                        # say so plainly instead of rendering an empty results card.
+                        raise RuntimeError(
+                            "no books could be scored — check ANTHROPIC_API_KEY and API credit"
+                        )
+                except Exception as exc:  # noqa: BLE001 - never 500 mid-demo
+                    live_error = f"Scoring failed: {exc}"
+                    live_mandate, top_scores = None, load_top_scores()
+            else:
+                top_scores = load_top_scores()
     else:
         top_scores = load_top_scores()
 
