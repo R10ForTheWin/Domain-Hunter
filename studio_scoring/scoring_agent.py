@@ -494,6 +494,11 @@ def main():
                               "instead of live threaded calls — recommended for large runs")
     parser.add_argument("--poll-interval", type=int, default=30,
                          help="seconds between batch status checks (--batch mode only)")
+    parser.add_argument("--fresh", action="store_true",
+                         help="delete any existing output for this --output path before scoring, "
+                              "so every book is re-scored. Use this for a live demo re-run: "
+                              "without it, resume logic sees the previous run's rows and skips "
+                              "every book, producing no new scores.")
     parser.add_argument("--resume-batch", default=None,
                          help="an existing batch ID to resume polling/collecting instead of "
                               "submitting a new batch — use this if scoring_agent.py crashed "
@@ -529,6 +534,13 @@ def main():
 
     output_path = Path(args.output)
     output_path.parent.mkdir(parents=True, exist_ok=True)
+
+    if args.fresh:
+        for stale in (output_path, manifest_path_for(output_path),
+                       output_path.with_name(output_path.stem + "_failures.txt")):
+            if stale.exists():
+                stale.unlink()
+                print(f"--fresh: removed {stale.name}")
 
     done_ids = load_done_ids(output_path)
     remaining = [b for b in books if b["book_id"] not in done_ids]
