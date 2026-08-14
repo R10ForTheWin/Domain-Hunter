@@ -28,8 +28,14 @@ DATA_DIR = _LOCAL_DATA if _LOCAL_DATA.exists() else REPO_ROOT / "data"
 # above applies to importing the sibling pd_verification/ package (Package
 # 2) for the real public-domain validator on the /producers page. Degrade
 # gracefully instead of crashing the whole site if it's missing.
-if str(REPO_ROOT) not in sys.path:
-    sys.path.insert(0, str(REPO_ROOT))
+# This exact gotcha (railway up only uploads site/'s own contents) bit
+# data/ and studio_scoring/ too -- both got a local-bundle fallback:
+# this one never did, so the live validator silently never worked in
+# production until caught by testing the deployed site directly.
+_LOCAL_PD_VERIFICATION = Path(__file__).resolve().parent / "pd_verification"
+_IMPORT_ROOT = _LOCAL_PD_VERIFICATION.parent if _LOCAL_PD_VERIFICATION.exists() else REPO_ROOT
+if str(_IMPORT_ROOT) not in sys.path:
+    sys.path.insert(0, str(_IMPORT_ROOT))
 try:
     from pd_verification.public_status import check_book as _check_book
     VALIDATOR_AVAILABLE = True
