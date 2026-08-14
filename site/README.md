@@ -50,6 +50,39 @@ railway up --detach --no-gitignore
 (Swap `dj-book-corpus` for wherever the current merged corpus lives once PR #3 merges into
 `dj-development`/`main`.)
 
+### Deploying with Package 4's live mandate scoring enabled
+
+`/networks` can build a mandate from audience input and score the 50-book demo set live. That
+needs three things a plain `railway up` doesn't give it, because the CLI only uploads `site/`:
+
+1. **The scoring package bundled into `site/`.** `app.py` checks `site/studio_scoring/` first and
+   falls back to `../studio_scoring/`, same pattern as `data/`. `site/studio_scoring/` is
+   gitignored so it never becomes a stale committed duplicate.
+2. **`anthropic` and `pyyaml`** — already added to `requirements.txt`. Without them the import
+   fails and the page silently falls back to committed results with no live form.
+3. **`ANTHROPIC_API_KEY` set as a Railway variable.** Without it the form is hidden by design
+   rather than shown broken.
+
+```
+cd site
+mkdir -p studio_scoring data
+cp ../studio_scoring/{__init__.py,scoring_agent.py,collect_mandate_freeform.py} studio_scoring/
+cp ../studio_scoring/{mandate_config.yaml,madlib_template.yaml} studio_scoring/
+cp ../studio_scoring/{demo_pool.csv,cmu_summaries.csv} studio_scoring/
+cp ../data/{book_corpus.csv,studio_scores.csv} data/
+railway variables --set ANTHROPIC_API_KEY=sk-ant-...
+railway up --detach --no-gitignore
+```
+
+Two things that will bite otherwise:
+
+- **gunicorn's default 30s timeout kills the request mid-scoring.** A 50-book run is ~28s locally
+  and slower on a small container, so `railway.json` sets `--timeout 180`. Don't lower it.
+- **The form has no auth or rate limiting.** Anyone with the URL can trigger a 50-book run on the
+  key's credit, repeatedly. Set a spend limit in the Anthropic console before deploying, and
+  remove the variable (`railway variables --unset ANTHROPIC_API_KEY`) once the demo is over.
+  Leaving the key hidden and demoing that page from `localhost` avoids this entirely.
+
 ### Moving to GitHub-linked deploys (better long-term)
 
 Right now every update needs a manual `railway up`. Connecting the service to the GitHub repo

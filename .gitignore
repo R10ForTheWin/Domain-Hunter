@@ -25,3 +25,6 @@ data/studio_scores_failures.txt
 # (which only upload site/'s own contents, not ../data/) -- not a source of
 # truth, never commit it, see site/README.md
 site/data/
+# Same reasoning for the studio_scoring/ bundle a `railway up` deploy needs to run Package 4's
+# live scoring: a copy staged at deploy time, never a committed duplicate. See site/README.md.
+site/studio_scoring/
