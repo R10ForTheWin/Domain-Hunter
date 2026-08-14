@@ -15,6 +15,7 @@ import argparse
 import csv
 import json
 import os
+import re
 import sys
 import threading
 import time
@@ -151,10 +152,32 @@ book, not a false pairing.
 Then call record_score. Keep every reasoning field to one short, concise sentence — no more."""
 
 
+# Observed live at scale (~50% of a large batch): forced tool-use occasionally emits a category's
+# value as a raw fragment of a different tool-call syntax, e.g. '\n<parameter name="score">25',
+# instead of {"score": 25, "reasoning": "..."} -- across simple, famous books (Pride and Prejudice,
+# A Christmas Carol), so this isn't about content complexity. Retrying the API call for the whole
+# book only fixes it about half the time and doubles cost/time for no gain the other half.
+# The actual score is sitting right there in the malformed string -- salvage it instead of
+# discarding an otherwise-complete response over one bad field.
+MALFORMED_SCORE_PATTERN = re.compile(r'<parameter\s+name="score"\s*>\s*(-?\d+(?:\.\d+)?)')
+
+
+def salvage_category_field(value):
+    if isinstance(value, str):
+        m = MALFORMED_SCORE_PATTERN.search(value)
+        if m:
+            return {
+                "score": float(m.group(1)),
+                "reasoning": "(not provided — recovered from a malformed model response)",
+            }
+    return value
+
+
 def validate_score_result(result: dict) -> dict:
     """Even with forced tool-use, the model occasionally returns a malformed shape (e.g. a
-    category as a plain string instead of {"score":..., "reasoning":...}). Catch that here so
-    the caller can retry or fail just this one book, instead of crashing on a bad .get/[] access."""
+    category as a plain string instead of {"score":..., "reasoning":...}). Attempt to salvage a
+    recoverable score first; only fail the book if a category is truly unrecoverable, so the
+    caller can retry or fail just this one book instead of crashing on a bad .get/[] access."""
     if not isinstance(result, dict):
         raise ValueError(f"expected a dict, got {type(result).__name__}: {result!r}")
     if not isinstance(result.get("book_summary"), str) or not result["book_summary"].strip():
@@ -162,7 +185,11 @@ def validate_score_result(result: dict) -> dict:
     for cat in ALL_CATEGORIES:
         cat_result = result.get(cat)
         if not isinstance(cat_result, dict) or not isinstance(cat_result.get("score"), (int, float)):
-            raise ValueError(f"malformed '{cat}' field: {cat_result!r}")
+            salvaged = salvage_category_field(cat_result)
+            if isinstance(salvaged, dict) and isinstance(salvaged.get("score"), (int, float)):
+                result[cat] = salvaged
+            else:
+                raise ValueError(f"malformed '{cat}' field: {cat_result!r}")
     if "overall_reasoning" not in result:
         raise ValueError("missing 'overall_reasoning' field")
     return result
@@ -223,6 +250,39 @@ def with_retry(fn, attempts: int = 6, base_delay: int = 10):
                 print(f"  (transient error: {e}; retrying in {delay}s)")
                 time.sleep(delay)
     raise last_error
+
+
+def run_live(client: Anthropic, model: str, books: list, mandate: dict, weights: dict,
+             studio: str, writer, out_file, workers: int, write_lock: threading.Lock,
+             label: str = "scored") -> list:
+    """Score books via live threaded calls (score_book_with_retry already retries transient and
+    malformed-shape failures 3x). Returns list of (book_id, error) failures."""
+    total = len(books)
+    completed = 0
+    failures = []
+
+    def process(book):
+        nonlocal completed
+        try:
+            result = score_book_with_retry(client, model, book, mandate)
+            row = build_row(book, studio, weights, result)
+            with write_lock:
+                writer.writerow(row)
+                out_file.flush()
+                completed += 1
+                print(f"[{completed}/{total}] {label}: {book['title']}")
+        except Exception as e:  # noqa: BLE001 - log and keep going, don't lose the rest of the batch
+            with write_lock:
+                completed += 1
+                failures.append((book["book_id"], str(e)))
+                print(f"[{completed}/{total}] FAILED: {book['title']} ({e})")
+
+    with ThreadPoolExecutor(max_workers=workers) as pool:
+        futures = [pool.submit(process, book) for book in books]
+        for f in as_completed(futures):
+            f.result()  # re-raise unexpected errors from process() itself, if any
+
+    return failures
 
 
 def manifest_path_for(output_path: Path) -> Path:
@@ -438,39 +498,37 @@ def main():
         out_file.flush()
 
     total = len(remaining)
+    write_lock = threading.Lock()
     failures = []
 
     if args.batch:
         try:
             failures = run_batch(client, args.model, remaining, mandate, weights, studio,
                                   writer, out_file, args.poll_interval, args.resume_batch)
+
+            # validate_score_result() already salvages the common malformed-shape case (a category
+            # field as a raw '<parameter name="score">N' string), so most of these are now handled
+            # without any extra API call. What's left here is the rarer case where a field is
+            # malformed in some other, unsalvageable way -- worth one live retry before giving up,
+            # since that's at least a different sample from the model.
+            retryable = [(bid, err) for bid, err in failures if "malformed model response" in err]
+            if retryable:
+                print(f"\n{len(retryable)} batch results failed validation even after salvage — "
+                      f"retrying those live...")
+                book_by_id = {b["book_id"]: b for b in remaining}
+                retry_books = [book_by_id[bid] for bid, _ in retryable if bid in book_by_id]
+                still_failed = run_live(client, args.model, retry_books, mandate, weights, studio,
+                                         writer, out_file, args.workers, write_lock,
+                                         label="recovered")
+                non_retryable = [f for f in failures if "malformed model response" not in f[1]]
+                failures = non_retryable + still_failed
+                print(f"Live retry recovered {len(retryable) - len(still_failed)}/{len(retryable)}.")
         finally:
             out_file.close()
     else:
-        write_lock = threading.Lock()
-        completed = 0
-
-        def process(book):
-            nonlocal completed
-            try:
-                result = score_book_with_retry(client, args.model, book, mandate)
-                row = build_row(book, studio, weights, result)
-                with write_lock:
-                    writer.writerow(row)
-                    out_file.flush()
-                    completed += 1
-                    print(f"[{completed}/{total}] scored: {book['title']}")
-            except Exception as e:  # noqa: BLE001 - log and keep going, don't lose the rest of the batch
-                with write_lock:
-                    completed += 1
-                    failures.append((book["book_id"], str(e)))
-                    print(f"[{completed}/{total}] FAILED: {book['title']} ({e})")
-
         try:
-            with ThreadPoolExecutor(max_workers=args.workers) as pool:
-                futures = [pool.submit(process, book) for book in remaining]
-                for f in as_completed(futures):
-                    f.result()  # re-raise unexpected errors from process() itself, if any
+            failures = run_live(client, args.model, remaining, mandate, weights, studio,
+                                 writer, out_file, args.workers, write_lock)
         finally:
             out_file.close()
 

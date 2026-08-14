@@ -148,3 +148,20 @@ onto the same 5 slots, inferring a specific value for anything not explicitly st
 leaving it generic. It writes the identical `mandate_live.yaml` shape `collect_madlib.py` does
 (plus `source: freeform` and the original `raw_input` text, for demo narration/audit), so
 `scoring_agent.py` doesn't know or care which intake method produced a given mandate.
+
+## Full corpus run: results and a real failure mode found in production
+
+`data/studio_scores.csv` now holds real output from the full 2,630-book corpus (mandate used: a
+freeform-generated "dark noir thriller / insider / small town" pitch) — **2,524 scored (96%), 106
+failed**. The failures are logged locally but not committed (they're a per-run artifact, not
+shared data); re-running `scoring_agent.py --batch` picks up only the missing book_ids.
+
+Worth recording for whoever touches this next: at this scale, forced tool-use on Haiku
+occasionally returns a category's value as a raw fragment of a different tool-call syntax (e.g.
+`'\n<parameter name="score">25'`) instead of `{"score": 25, "reasoning": "..."}`) — observed on
+simple, famous books (Pride and Prejudice, A Christmas Carol), so it isn't about content
+complexity, and it happens in both the Batches API and live calls. Retrying the same call doesn't
+reliably fix it (~50% failure rate persisted across repeated attempts). Since the actual score is
+recoverable from that malformed string, `validate_score_result()` salvages it via regex instead of
+discarding an otherwise-complete response — this eliminated the need for most retries entirely.
+The 106 remaining failures are cases where salvage still couldn't recover a usable score.
