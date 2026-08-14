@@ -1,28 +1,44 @@
 # Forward-Looking Public Domain Calendar
 
-Works entering the U.S. public domain on each of the next 5 January 1sts, as of 2026.
+Works entering the U.S. public domain on each of the next 10 January 1sts, as of 2026.
 
 Copyright runs through December 31 of its final year, so works do not trickle into the public domain through the year — they all arrive on January 1. See `docs/project-plan.md` §1.
 
-Generated from `data/book_corpus.csv` (2630 rows) by `pd_calendar/scripts/build_calendar.py`.
+Generated from `data/book_corpus.csv` (2428 rows) by `pd_calendar/scripts/build_calendar.py`.
 
 ## Summary
 
 | | count |
 |---|---|
-| Books read | 2630 |
-| Already public domain as of 2026 | 2182 |
-| No determinable date | 341 |
-| Entering in 2027–2031 | 34 |
-| Entering after 2031 | 73 |
+| Books read | 2428 |
+| Already public domain as of 2026 | 1883 |
+| No determinable date | 281 |
+| Entering in 2027–2036 | 113 |
+| Entering after 2036 | 151 |
 
 ## January 1, 2027
 
-11 work(s), by author:
+16 work(s), by author:
+
+**Aldrich, Bess Streeter**
+
+- *A White Bird Flying* — published 1931, rule `pub+95-renewed`, confirmed, flags: renewal_confirmed
+
+**Baum, Vicki**
+
+- *Grand Hotel* — published 1931, rule `pub+95-renewed`, confirmed, flags: renewal_confirmed
 
 **Beckmann, Max**
 
 - *Max Beckmann* — published 1931, rule `pub+95`, uncertain, flags: renewal_era
+
+**Buck, Pearl S.**
+
+- *The Good Earth* — published 1931, rule `pub+95-renewed`, confirmed, flags: renewal_confirmed
+
+**Cather, Willa**
+
+- *Shadows on the Rock* — published 1931, rule `pub+95-renewed`, confirmed, flags: renewal_confirmed
 
 **Fallada, Hans**
 
@@ -39,6 +55,10 @@ Generated from `data/book_corpus.csv` (2630 rows) by `pd_calendar/scripts/build_
 **Karlfeldt, Erik Axel**
 
 - *Why Sinclair Lewis got the Nobel prize* — published 1931, rule `pub+95`, uncertain, flags: renewal_era
+
+**Remarque, Erich Maria**
+
+- *The Road Back* — published 1931, rule `pub+95-renewed`, confirmed, flags: renewal_confirmed
 
 **Saint-Exupéry, Antoine de**
 
@@ -66,20 +86,40 @@ Generated from `data/book_corpus.csv` (2630 rows) by `pd_calendar/scripts/build_
 
 ## January 1, 2028
 
-7 work(s), by author:
+12 work(s), by author:
+
+**Buck, Pearl S.**
+
+- *Sons* — published 1932, rule `pub+95-renewed`, confirmed, flags: renewal_confirmed
 
 **Chaliapin, Feodor**
 
-- *Chaliapin, man and mask* — published 1932, rule `pub+95`, uncertain, flags: renewal_era
-- *Maska i dusha* — published 1932, rule `pub+95`, uncertain, flags: renewal_era
+- *Man and Ask* — published 1932, rule `pub+95`, uncertain, flags: renewal_era
+- *man and mask* — published 1932, rule `pub+95`, uncertain, flags: renewal_era
+
+**Deeping, Warwick**
+
+- *Old Wine and New* — published 1932, rule `pub+95-renewed`, confirmed, flags: renewal_confirmed
 
 **Fallada, Hans**
 
 - *Kleiner Mann, was nun?* — published 1932, rule `pub+95`, uncertain, flags: renewal_era
 
+**Glasgow, Ellen**
+
+- *The Sheltered Life* — published 1932, rule `pub+95-renewed`, confirmed, flags: renewal_confirmed
+
+**Mann, Heinrich**
+
+- *Professor Unrat* — published 1932, rule `pub+95`, uncertain, flags: renewal_era
+
 **Marinetti, Filippo Tommaso**
 
 - *Cocina Futurista, La - Una Comida Que Evito El Suicidio* — published 1932, rule `pub+95`, uncertain, flags: renewal_era
+
+**Morgan, Charles Langbridge**
+
+- *The Fountain* — published 1932, rule `pub+95-renewed`, confirmed, flags: renewal_confirmed
 
 **Ripley, H. A. (Harold Austin)**
 
@@ -95,11 +135,24 @@ Generated from `data/book_corpus.csv` (2630 rows) by `pd_calendar/scripts/build_
 
 ## January 1, 2029
 
-7 work(s), by author:
+12 work(s), by author:
 
-**Bunin, Ivan**
+**Allen, Hervey**
 
-- *Short stories* — published 1933, rule `pub+95`, uncertain, flags: renewal_era
+- *Anthony Adverse* — published 1933, rule `pub+95-renewed`, confirmed, flags: renewal_confirmed
+
+**Carroll, Gladys Hasty**
+
+- *As the Earth Turns* — published 1933, rule `pub+95-renewed`, confirmed, flags: renewal_confirmed
+
+**Douglas, Lloyd C.**
+
+- *Forgive Us Our Trespassers* — published 1933, rule `pub+95`, uncertain, flags: renewal_era
+- *Magnificent Obsession* — published 1933, rule `pub+95-renewed`, confirmed, flags: renewal_confirmed
+
+**Galsworthy, John**
+
+- *One More River* — published 1933, rule `pub+95-renewed`, confirmed, flags: renewal_confirmed
 
 **George, David Lloyd**
 
@@ -109,6 +162,10 @@ Generated from `data/book_corpus.csv` (2630 rows) by `pd_calendar/scripts/build_
 **Jensen, Johannes V.**
 
 - *Kongens fald* — published 1933, rule `pub+95`, uncertain, flags: renewal_era
+
+**Lewis, Sinclair**
+
+- *Ann Vickers* — published 1933, rule `pub+95-renewed`, confirmed, flags: renewal_confirmed
 
 **Spengler, Oswald**
 
@@ -124,7 +181,11 @@ Generated from `data/book_corpus.csv` (2630 rows) by `pd_calendar/scripts/build_
 
 ## January 1, 2030
 
-2 work(s), by author:
+6 work(s), by author:
+
+**Barnes, Margaret Ayer**
+
+- *Within This Present* — published 1934, rule `pub+95-renewed`, confirmed, flags: renewal_confirmed
 
 **Dressler, Marie**
 
@@ -134,9 +195,21 @@ Generated from `data/book_corpus.csv` (2630 rows) by `pd_calendar/scripts/build_
 
 - *Mein Weltbild* — published 1934, rule `pub+95`, uncertain, flags: renewal_era
 
+**Lewis, Sinclair**
+
+- *Work of Art* — published 1934, rule `pub+95-renewed`, confirmed, flags: renewal_confirmed
+
+**Miller, Caroline**
+
+- *Lamb in His Bosom* — published 1934, rule `pub+95-renewed`, confirmed, flags: renewal_confirmed
+
+**Young, Stark**
+
+- *So Red the Rose* — published 1934, rule `pub+95-renewed`, confirmed, flags: renewal_confirmed
+
 ## January 1, 2031
 
-7 work(s), by author:
+12 work(s), by author:
 
 **Bose, Subhas Chandra**
 
@@ -146,9 +219,21 @@ Generated from `data/book_corpus.csv` (2630 rows) by `pd_calendar/scripts/build_
 
 - *Notes As Vice President 1928 1929* — published 1935, rule `pub+95`, uncertain, flags: renewal_era
 
+**Douglas, Lloyd C.**
+
+- *Green Light* — published 1935, rule `pub+95-renewed`, confirmed, flags: renewal_confirmed
+
+**Field, Rachel**
+
+- *Time Out of Mind* — published 1935, rule `pub+95-renewed`, confirmed, flags: renewal_confirmed
+
 **Giraudoux, Jean**
 
 - *La guerre de Troie n'aura pas lieu* — published 1935, rule `pub+95`, uncertain, flags: renewal_era
+
+**Glasgow, Ellen**
+
+- *Vein of Iron* — published 1935, rule `pub+95-renewed`, confirmed, flags: renewal_confirmed
 
 **Masaryk, Tomáš Garrigue**
 
@@ -158,6 +243,14 @@ Generated from `data/book_corpus.csv` (2630 rows) by `pd_calendar/scripts/build_
 
 - *Philosophy and living* — published 1935, rule `pub+95`, uncertain, flags: renewal_era
 
+**Werfel, Franz**
+
+- *The Forty Days of Musa Dagh* — published 1935, rule `pub+95-renewed`, confirmed, flags: renewal_confirmed
+
+**Wolfe, Thomas**
+
+- *Of time and the river* — published 1935, rule `pub+95-renewed`, confirmed, flags: renewal_confirmed
+
 **Yogananda, Paramahansa**
 
 - *Whispers from Eternity* — published 1935, rule `pub+95`, uncertain, flags: renewal_era
@@ -166,8 +259,248 @@ Generated from `data/book_corpus.csv` (2630 rows) by `pd_calendar/scripts/build_
 
 - *Midaregami* — published 1935, rule `pub+95`, uncertain, flags: renewal_era
 
+## January 1, 2032
+
+13 work(s), by author:
+
+**Bernanos, Georges**
+
+- *Journal d'un curé de campagne* — published 1936, rule `pub+95`, uncertain, flags: renewal_era
+
+**Carnegie, Dale**
+
+- *How to Win Friends and Influence People* — published 1936, rule `pub+95`, uncertain, flags: renewal_era
+
+**Douglas, Lloyd C.**
+
+- *White Banners* — published 1936, rule `pub+95-renewed`, confirmed, flags: renewal_confirmed
+
+**Edmonds, Walter D.**
+
+- *Drums Along the Mohawk* — published 1936, rule `pub+95-renewed`, confirmed, flags: renewal_confirmed
+
+**Lewis, Sinclair**
+
+- *It Can't Happen Here* — published 1936, rule `pub+95-renewed`, confirmed, flags: renewal_confirmed
+
+**Ley, Robert**
+
+- *Deutschland ist schöner geworden* — published 1936, rule `pub+95`, uncertain, flags: renewal_era
+
+**Machado, Antonio**
+
+- *Juan de Mairena* — published 1936, rule `pub+95`, uncertain, flags: renewal_era
+
+**Mann, Klaus**
+
+- *Mephisto* — published 1936, rule `pub+95`, uncertain, flags: renewal_era
+
+**Mitchell, Margaret**
+
+- *Gone With the Wind* — published 1936, rule `pub+95-renewed`, confirmed, flags: renewal_confirmed
+
+**Morgan, Charles Langbridge**
+
+- *Sparkenbroke* — published 1936, rule `pub+95-renewed`, confirmed, flags: renewal_confirmed
+
+**Saint-Exupéry, Antoine de**
+
+- *Terre des hommes* — published 1936, rule `pub+95`, uncertain, flags: renewal_era
+
+**Santayana, George**
+
+- *The Last Puritan* — published 1936, rule `pub+95-renewed`, confirmed, flags: renewal_confirmed
+
+**Čapek, Karel**
+
+- *Válka s mloky* — published 1936, rule `pub+95`, uncertain, flags: renewal_era
+
+## January 1, 2033
+
+11 work(s), by author:
+
+**Bernanos, Georges**
+
+- *Nouvelle histoire de Mouchette* — published 1937, rule `pub+95`, uncertain, flags: renewal_era
+
+**Blum, Léon**
+
+- *Du mariage* — published 1937, rule `pub+95`, uncertain, flags: renewal_era
+
+**Cronin, A. J.**
+
+- *The Citadel* — published 1937, rule `pub+95-renewed`, confirmed, flags: renewal_confirmed
+
+**Giraudoux, Jean**
+
+- *Electre* — published 1937, rule `pub+95`, uncertain, flags: renewal_era
+
+**Horney, Karen**
+
+- *The neurotic personality of our time* — published 1937, rule `pub+95`, uncertain, flags: renewal_era
+
+**Jeans, James Hopwood**
+
+- *Science & music* — published 1937, rule `pub+95`, uncertain, flags: renewal_era
+
+**Mitchell, Margaret**
+
+- *Gone with the Wind [2/2]* — published 1937, rule `pub+95`, uncertain, flags: renewal_era
+
+**Roberts, Kenneth**
+
+- *Northwest Passage* — published 1937, rule `pub+95-renewed`, confirmed, flags: renewal_confirmed
+
+**Stapledon, Olaf**
+
+- *Star Maker* — published 1937, rule `pub+95`, uncertain, flags: renewal_era
+
+**Wolfe, Thomas**
+
+- *The Web and the Rock* — published 1937, rule `pub+95`, uncertain, flags: renewal_era
+
+**Woolf, Virginia**
+
+- *The Years* — published 1937, rule `pub+95-renewed`, confirmed, flags: renewal_confirmed
+
+## January 1, 2034
+
+10 work(s), by author:
+
+**Azaña, Manuel**
+
+- *Speech delivered by Don Manuel Azaña, President of the Spanish Republic, in Barcelona City Hall on July 18 1938* — published 1938, rule `pub+95`, uncertain, flags: renewal_era
+
+**Brinton, Crane**
+
+- *The anatomy of revolution* — published 1938, rule `pub+95`, uncertain, flags: renewal_era
+
+**Field, Rachel**
+
+- *All This, and Heaven Too* — published 1938, rule `pub+95-renewed`, confirmed, flags: renewal_confirmed
+
+**Horváth, Ödön von**
+
+- *Jugend ohne Gott* — published 1938, rule `pub+95`, uncertain, flags: renewal_era
+
+**Huizinga, Johan**
+
+- *Homo Ludens* — published 1938, rule `pub+95`, uncertain, flags: renewal_era
+
+**Lange, Christian Lous**
+
+- *Imperialism and peace* — published 1938, rule `pub+95`, uncertain, flags: renewal_era
+
+**Maurier, Daphne du**
+
+- *Rebecca* — published 1938, rule `pub+95-renewed`, confirmed, flags: renewal_confirmed
+
+**Orwell, George**
+
+- *Homage to Catalonia* — published 1938, rule `pub+95`, uncertain, flags: renewal_era
+
+**Rawlings, Marjorie Kinnan**
+
+- *The Yearling* — published 1938, rule `pub+95-renewed`, confirmed, flags: renewal_confirmed
+
+**Roth, Joseph**
+
+- *Die Kapuzinergruft. Roman* — published 1938, rule `pub+95`, uncertain, flags: renewal_era
+
+## January 1, 2035
+
+13 work(s), by author:
+
+**Alekhine, Alexander**
+
+- *My best games of chess 1924-1937* — published 1939, rule `pub+95`, uncertain, flags: renewal_era
+
+**Azaña, Manuel**
+
+- *La velada en Benicarló* — published 1939, rule `pub+95`, uncertain, flags: renewal_era
+
+**Douglas, Lloyd C.**
+
+- *Disputed Passage* — published 1939, rule `pub+95-renewed`, confirmed, flags: renewal_confirmed
+
+**Gasset, José Ortega y**
+
+- *Estudios sobre el amor* — published 1939, rule `pub+95`, uncertain, flags: renewal_era
+
+**Gide, André**
+
+- *The journals of André Gide, 1889-1949* — published 1939, rule `pub+95`, uncertain, flags: renewal_era
+
+**Horney, Karen**
+
+- *New ways in psychoanalysis* — published 1939, rule `pub+95`, uncertain, flags: renewal_era
+
+**Marquand, John P.**
+
+- *Wickford Point* — published 1939, rule `pub+95`, uncertain, flags: renewal_era
+
+**Millay, Edna St. Vincent**
+
+- *Poems* — published 1939, rule `pub+95`, uncertain, flags: renewal_era
+
+**Salten, Felix**
+
+- *Bambi's Children* — published 1939, rule `pub+95`, uncertain, flags: renewal_era
+
+**Steinbeck, John**
+
+- *The Grapes of Wrath* — published 1939, rule `pub+95-renewed`, confirmed, flags: renewal_confirmed
+
+**Tarbell, Ida M. (Ida Minerva)**
+
+- *All in the Day's Work: An Autobiography* — published 1939, rule `pub+95`, uncertain, flags: renewal_era
+
+**Tuwim, Julian**
+
+- *Locomotive, The turnip, The birds' broadcast* — published 1939, rule `pub+95`, uncertain, flags: renewal_era
+
+**Vance, Ethel**
+
+- *Escape* — published 1939, rule `pub+95-renewed`, confirmed, flags: renewal_confirmed
+
+## January 1, 2036
+
+8 work(s), by author:
+
+**Asch, Sholem**
+
+- *The Nazarene* — published 1940, rule `pub+95-renewed`, confirmed, flags: renewal_confirmed
+
+**Hemingway, Ernest**
+
+- *For Whom the Bell Tolls* — published 1940, rule `pub+95-renewed`, confirmed, flags: renewal_confirmed
+
+**Llewellyn, Richard**
+
+- *How Green Was My Valley* — published 1940, rule `pub+95-renewed`, confirmed, flags: renewal_confirmed
+
+**Mannheim, Karl**
+
+- *Man and society in an age of reconstruction* — published 1940, rule `pub+95`, uncertain, flags: renewal_era
+
+**Mason, F. Van Wyck**
+
+- *Stars on the Sea* — published 1940, rule `pub+95-renewed`, confirmed, flags: renewal_confirmed
+
+**Morley, Christopher**
+
+- *Kitty Foyle* — published 1940, rule `pub+95-renewed`, confirmed, flags: renewal_confirmed
+
+**Struther, Jan**
+
+- *Mrs. Miniver* — published 1940, rule `pub+95-renewed`, confirmed, flags: renewal_confirmed
+
+**Valéry, Paul**
+
+- *Cimetière marin* — published 1940, rule `pub+95`, uncertain, flags: renewal_era
+
 ## Reading the confidence column
 
-34 of the 34 works above are marked `uncertain`. That is a required answer under `docs/project-plan.md` §5, not a hedge: a renewal-era work may already be public domain if its copyright was never renewed, and a foreign work may have been restored by the URAA. Neither can be settled from the columns `book_corpus.csv` currently carries.
+69 of the 113 works above are marked `uncertain`. That is a required answer under `docs/project-plan.md` §5, not a hedge: a renewal-era work may already be public domain if its copyright was never renewed, and a foreign work may have been restored by the URAA. Neither can be settled from the columns `book_corpus.csv` currently carries.
 
 Do not treat any date here as cleared for use. Package 2 (`pd_verification/`) is the agent that confirms a specific book's public-domain claim; this file only says when a term is scheduled to end.

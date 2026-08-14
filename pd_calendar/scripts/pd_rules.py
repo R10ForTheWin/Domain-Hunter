@@ -92,6 +92,10 @@ _ENTERS_YEAR_AFTER = 1
 RENEWAL_ERA_START = 1923
 RENEWAL_ERA_END = 1963
 
+# The initial term under the 1909 Act. A work that was never renewed fell into
+# the public domain after these years, not after PUBLISHED_TERM.
+RENEWAL_TERM_YEARS = 28
+
 # 17 U.S.C. 303: works created before 1978 but first published in this window
 # stay protected through at least Dec 31 2047.
 SECTION_303_START = 1978
@@ -141,12 +145,28 @@ def public_domain_term(
     as_of_year: int,
     language: str = "en",
     death_year_disputed: bool = False,
+    renewal_filed: bool | None = None,
 ) -> Term:
     """Determine when a work enters the U.S. public domain.
 
     `as_of_year` is required rather than read from the system clock so results
     are reproducible and testable -- a calendar that silently changes answers
     depending on the day it was run is not reviewable.
+
+    `renewal_filed` is the fact this module otherwise cannot know, sourced from
+    the Stanford Copyright Renewal Database via
+    `data/pd_verification_inputs_renewal.csv`. For a renewal-era work it is the
+    difference between a real date and a hedge:
+
+        True   the copyright WAS renewed, so the full 95-year term ran and the
+               pub+95 date is the actual date, not merely the latest possible one
+        False  it was never renewed, so the work fell into the public domain
+               decades ago and does not belong on a forward calendar at all
+        None   not looked up -- unchanged behaviour, still uncertain
+
+    Leave it None rather than passing False for "no renewal record found". A miss
+    is only ever "not found", never "not renewed" -- see
+    docs/dataset-linkage-analysis.md for why that distinction matters.
     """
     flags: list[str] = []
 
@@ -161,7 +181,9 @@ def public_domain_term(
     if publication_year >= CURRENT_TERM_START:
         return _life_plus_seventy(publication_year, death_year, flags, death_year_disputed)
 
-    return _publication_plus_ninety_five(publication_year, death_year, flags, as_of_year)
+    return _publication_plus_ninety_five(
+        publication_year, death_year, flags, as_of_year, renewal_filed
+    )
 
 
 def _publication_plus_ninety_five(
@@ -169,11 +191,45 @@ def _publication_plus_ninety_five(
     death_year: int | None,
     flags: list[str],
     as_of_year: int,
+    renewal_filed: bool | None = None,
 ) -> Term:
     """The rule that governs almost everything in this corpus."""
     pd_year = publication_year + PUBLISHED_TERM + _ENTERS_YEAR_AFTER
+    in_renewal_era = RENEWAL_ERA_START <= publication_year <= RENEWAL_ERA_END
 
-    if RENEWAL_ERA_START <= publication_year <= RENEWAL_ERA_END:
+    # A renewal record settles the one question this rule cannot answer itself.
+    if in_renewal_era and renewal_filed is False:
+        # Never renewed -> the term lapsed in its 28th year, so the work has been
+        # public domain since long before pub+95. It does not belong on a forward
+        # calendar; report the historical date and let callers filter it out.
+        flags.append("renewal_not_filed")
+        lapsed = publication_year + RENEWAL_TERM_YEARS + _ENTERS_YEAR_AFTER
+        return Term(
+            lapsed,
+            "renewal-era-not-renewed",
+            CONFIRMED,
+            tuple(flags),
+            f"Published {publication_year} in the renewal era and the copyright was never renewed,"
+            f" so the term lapsed after its initial {RENEWAL_TERM_YEARS} years and the work entered"
+            f" the public domain on Jan 1 {lapsed} — not the {pd_year} that pub+95 would imply.",
+        )
+
+    if in_renewal_era and renewal_filed is True:
+        # Renewed -> the full 95-year term ran, so pub+95 is the real date rather
+        # than an upper bound. This is the case that turns an `uncertain` row into
+        # a date somebody can plan around.
+        flags.append("renewal_confirmed")
+        confidence = UNCERTAIN if "foreign_publication" in flags else CONFIRMED
+        reasoning = (
+            f"Published {publication_year} and the copyright renewal is on record, so the full"
+            f" {PUBLISHED_TERM}-year term ran and the work enters the public domain on Jan 1"
+            f" {pd_year}. Renewal verified against the Stanford Copyright Renewal Database."
+        )
+        if confidence is UNCERTAIN:
+            reasoning += " Non-English work, so URAA restoration may still apply."
+        return Term(pd_year, "pub+95-renewed", confidence, tuple(flags), reasoning)
+
+    if in_renewal_era:
         flags.append("renewal_era")
     if death_year is not None and publication_year > death_year:
         # Either a genuine posthumous publication or, more often in this corpus,
