@@ -96,3 +96,19 @@ title/author vs. obscure) rather than from a mad-lib blank. It keeps a nonzero w
 - `name_recognition` weighted lowest — A24's own history shows it succeeds without pre-existing IP
   recognition, and per the design decision above, this category runs on book metadata rather than
   the live mandate.
+
+## Design decision: scoring is grounded in a plot summary, not just the title string
+
+`book_corpus.csv` has no summary/genre/plot field (see `docs/data-contracts.md`) — only title,
+author, and publication metadata. `scoring_agent.py` requires the model to first state what it
+actually knows about each book's plot, genre, and themes (`book_summary` in the output CSV) before
+scoring any category, rather than pattern-matching on the bare title. If the model doesn't
+confidently recognize a specific title/author, it says so explicitly instead of inventing a plot —
+this matters because most of the corpus is genuinely obscure (not every public-domain book is a
+famous classic like the small hand-picked sample set used for early testing).
+
+This also interacts with a real data-quality bug found in the corpus: ~98 titles are attached to
+the wrong author (e.g. multiple different real authors listed for the same well-known title). The
+prompt tells the model the title is more reliable than the author field when they conflict, so it
+scores the actual known book rather than a false pairing — Radoslav is fixing the underlying data,
+but this makes scoring resilient to whatever attribution noise remains.

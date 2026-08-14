@@ -35,7 +35,7 @@ MADLIB_CATEGORIES = [
 ]
 ALL_CATEGORIES = MADLIB_CATEGORIES + ["name_recognition"]
 
-FIELDNAMES = ["book_id", "studio", "total_score", "reasoning"] + [
+FIELDNAMES = ["book_id", "studio", "total_score", "reasoning", "book_summary"] + [
     f"{cat}_{suffix}" for cat in ALL_CATEGORIES for suffix in ("score", "reasoning")
 ]
 
@@ -45,6 +45,15 @@ SCORE_TOOL = {
     "input_schema": {
         "type": "object",
         "properties": {
+            "book_summary": {
+                "type": "string",
+                "description": "What you actually know about this specific book's plot, genre, and "
+                                "themes, based on its title and author — 1-3 sentences. If you don't "
+                                "confidently recognize this exact title/author, say so explicitly "
+                                "(e.g. 'not confidently recognized') instead of guessing or inventing "
+                                "a plot. All scores below must be based on this summary, not the bare "
+                                "title string.",
+            },
             **{
                 cat: {
                     "type": "object",
@@ -67,7 +76,7 @@ SCORE_TOOL = {
                 "description": "One concise sentence summarizing the book's overall fit against the mandate.",
             },
         },
-        "required": ALL_CATEGORIES + ["overall_reasoning"],
+        "required": ["book_summary"] + ALL_CATEGORIES + ["overall_reasoning"],
     },
 }
 
@@ -102,8 +111,15 @@ BOOK:
 - Original publication year: {book['publication_year']}
 - Notes: {book.get('notes') or '(none)'}
 
-Score all six categories 0-100 and call record_score. Keep every reasoning field to one short,
-concise sentence — no more."""
+Known data issue: this corpus has confirmed author-attribution errors (e.g. some titles are
+attached to the wrong author). The title is more reliable than the author field — if they seem to
+conflict (e.g. this title is well-known to be written by someone else), trust what you know about
+the actual book from its title, note the conflict in book_summary, and score based on the real
+book, not a false pairing.
+
+First fill in book_summary based on what you actually know about this book — do not guess or
+invent a plot for a title you don't recognize. Then score all six categories 0-100 against that
+summary and call record_score. Keep every reasoning field to one short, concise sentence — no more."""
 
 
 def validate_score_result(result: dict) -> dict:
@@ -112,6 +128,8 @@ def validate_score_result(result: dict) -> dict:
     the caller can retry or fail just this one book, instead of crashing on a bad .get/[] access."""
     if not isinstance(result, dict):
         raise ValueError(f"expected a dict, got {type(result).__name__}: {result!r}")
+    if not isinstance(result.get("book_summary"), str) or not result["book_summary"].strip():
+        raise ValueError(f"missing or empty 'book_summary' field: {result.get('book_summary')!r}")
     for cat in ALL_CATEGORIES:
         cat_result = result.get(cat)
         if not isinstance(cat_result, dict) or not isinstance(cat_result.get("score"), (int, float)):
@@ -154,6 +172,7 @@ def build_row(book: dict, studio: str, weights: dict, result: dict) -> dict:
         "studio": studio,
         "total_score": round(total, 2),
         "reasoning": clean_text(result["overall_reasoning"]),
+        "book_summary": clean_text(result["book_summary"]),
     }
     for cat in ALL_CATEGORIES:
         row[f"{cat}_score"] = result[cat]["score"]
