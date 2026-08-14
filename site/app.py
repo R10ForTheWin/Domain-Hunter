@@ -7,8 +7,12 @@ a dashboard for showing the project to class. No database -- everything is
 computed from the CSVs already checked into the repo.
 """
 import csv
+import os
 import sys
+from concurrent.futures import ThreadPoolExecutor, as_completed
 from pathlib import Path
+
+SCORING_MODEL = "claude-haiku-4-5-20251001"
 
 from flask import Flask, render_template, request
 
@@ -44,6 +48,22 @@ except ImportError:
 
     def _check_book(*_args, **_kwargs):
         return {"status": "error", "message": "The validator isn't available on this deploy."}
+
+# Same sibling-import situation for studio_scoring/ (Package 4), used by the live mandate demo
+# on /networks. Needs ANTHROPIC_API_KEY in the server environment to actually score -- absent
+# that, the page falls back to showing the committed results instead of offering the live form.
+_LOCAL_STUDIO_SCORING = Path(__file__).resolve().parent / "studio_scoring"
+_SCORING_ROOT = _LOCAL_STUDIO_SCORING.parent if _LOCAL_STUDIO_SCORING.exists() else REPO_ROOT
+if str(_SCORING_ROOT) not in sys.path:
+    sys.path.insert(0, str(_SCORING_ROOT))
+try:
+    from studio_scoring import scoring_agent as _scoring
+    from studio_scoring import collect_mandate_freeform as _freeform
+    SCORING_AVAILABLE = True
+except ImportError:
+    _scoring = None
+    _freeform = None
+    SCORING_AVAILABLE = False
 
 # Stage status is maintained by hand here (mirrors the team status update) --
 # there's no automated way to know "is Chantell done with scoring yet", so
@@ -99,6 +119,138 @@ def load_shortlist():
         return None
     with path.open(newline="", encoding="utf-8") as f:
         return list(csv.DictReader(f))
+
+
+def load_top_scores(limit=10):
+    """Highest-scoring books from Package 4's scoring run, for /networks.
+
+    studio_scores.csv holds a score per book_id but not the title/author, so
+    this joins against book_corpus.csv the same way Package 5 does. Returns
+    None when there is no scoring output yet, so the page can say so plainly
+    rather than rendering an empty table.
+    """
+    # Prefer a live-demo run (the 50-book demo_pool.csv, scored on stage against whatever
+    # mandate the audience just generated) over the full-corpus batch run. Falls back to the
+    # full run so the page still shows real results when no demo has been run.
+    demo_path = DATA_DIR / "studio_scores_demo.csv"
+    path = demo_path if demo_path.exists() else DATA_DIR / "studio_scores.csv"
+    if not path.exists():
+        return None
+    with path.open(newline="", encoding="utf-8") as f:
+        rows = list(csv.DictReader(f))
+    if not rows:
+        return None
+
+    def _score(row):
+        try:
+            return float(row.get("total_score") or 0)
+        except (TypeError, ValueError):
+            return 0.0
+
+    corpus = {b.get("book_id"): b for b in load_corpus_rows()}
+    rows.sort(key=_score, reverse=True)
+    top = []
+    for row in rows[:limit]:
+        book = corpus.get(row.get("book_id"), {})
+        top.append({
+            "title": book.get("title") or row.get("book_id", ""),
+            "author": book.get("author", ""),
+            "score": round(_score(row)),
+            "reasoning": row.get("reasoning", ""),
+        })
+    return top
+
+
+def _demo_pool_path():
+    local = Path(__file__).resolve().parent / "studio_scoring" / "demo_pool.csv"
+    return local if local.exists() else REPO_ROOT / "studio_scoring" / "demo_pool.csv"
+
+
+def scoring_ready():
+    """Live scoring needs the package importable, an API key, and the demo pool present."""
+    return bool(
+        SCORING_AVAILABLE
+        and os.environ.get("ANTHROPIC_API_KEY")
+        and _demo_pool_path().exists()
+    )
+
+
+def build_mandate_from_form(form):
+    """Turn either intake method's form input into the mandate shape scoring_agent expects.
+
+    Mad-lib needs no model call (the five blanks are already the answers); free-form needs one
+    quick call to map prose onto the same five slots. Returns (mandate, error_message).
+    """
+    template_path = _demo_pool_path().parent / "madlib_template.yaml"
+    template = _scoring.yaml.safe_load(template_path.read_text(encoding="utf-8"))
+    method = form.get("method", "madlib")
+
+    if method == "freeform":
+        text = (form.get("freeform_text") or "").strip()
+        if not text:
+            return None, "Describe what you're looking for first."
+        try:
+            client = _scoring.Anthropic()
+            blanks = _freeform.validate_blanks(
+                _freeform.extract_blanks(client, SCORING_MODEL, text)
+            )
+        except Exception as exc:  # noqa: BLE001 - surface any API/parse failure to the page
+            return None, f"Couldn't read that mandate: {exc}"
+        raw_input_text = text
+    else:
+        blanks = {k: (form.get(k) or "").strip() for k in _freeform.BLANK_KEYS}
+        missing = [k for k, v in blanks.items() if not v]
+        if missing:
+            return None, "Fill in all five blanks: " + ", ".join(m.lower() for m in missing)
+        raw_input_text = None
+
+    return {
+        "sentence": template["sentence"].format(**blanks),
+        "blanks": blanks,
+        "source": method,
+        "raw_input": raw_input_text,
+    }, None
+
+
+def score_demo_pool(mandate, limit=10):
+    """Score the 50-book demo pool against a live mandate and return the top matches.
+
+    Deliberately in-memory rather than writing a CSV: this is a live demo path, and the
+    scoring agent's resume logic would otherwise skip every book on a second run.
+    """
+    with _demo_pool_path().open(newline="", encoding="utf-8") as f:
+        books = list(csv.DictReader(f))
+    cache = _scoring.load_summary_cache(_demo_pool_path().parent / "cmu_summaries.csv")
+    _scoring.enrich_with_summaries(books, cache)
+
+    cfg = load_mandate_config() or {"studio": "A24", "weights": []}
+    weights = dict(cfg["weights"])
+    client = _scoring.Anthropic()
+
+    rows, failures = [], 0
+    with ThreadPoolExecutor(max_workers=15) as pool:
+        futures = {
+            pool.submit(_scoring.score_book_with_retry, client, SCORING_MODEL, book, mandate): book
+            for book in books
+        }
+        for fut in as_completed(futures):
+            book = futures[fut]
+            try:
+                rows.append(_scoring.build_row(book, cfg["studio"], weights, fut.result()))
+            except Exception:  # noqa: BLE001 - one bad book shouldn't sink the demo
+                failures += 1
+
+    titles = {b["book_id"]: b for b in books}
+    rows.sort(key=lambda r: r.get("total_score") or 0, reverse=True)
+    top = [
+        {
+            "title": titles.get(r["book_id"], {}).get("title") or r["book_id"],
+            "score": round(float(r.get("total_score") or 0)),
+            "reasoning": r.get("reasoning", ""),
+        }
+        for r in rows[:limit]
+    ]
+    return top, len(rows), failures
 
 
 def load_mandate_config():
@@ -213,11 +365,48 @@ def producers():
     )
 
 
-@app.route("/networks")
+@app.route("/networks", methods=["GET", "POST"])
 def networks():
     mandate = load_mandate_config()
-    scores_exist = (DATA_DIR / "studio_scores.csv").exists()
-    return render_template("networks.html", mandate=mandate, scores_exist=scores_exist)
+    live = scoring_ready()
+    live_mandate = live_error = None
+    scored_count = failed_count = 0
+
+    if request.method == "POST" and live:
+        live_mandate, live_error = build_mandate_from_form(request.form)
+        if live_mandate:
+            try:
+                top_scores, scored_count, failed_count = score_demo_pool(live_mandate)
+                if not scored_count:
+                    # Every book failed individually (bad API key, no credit, network down).
+                    # score_demo_pool swallows per-book errors by design, so nothing raised --
+                    # say so plainly instead of rendering an empty results card.
+                    raise RuntimeError(
+                        "no books could be scored — check ANTHROPIC_API_KEY and API credit"
+                    )
+            except Exception as exc:  # noqa: BLE001 - never 500 mid-demo
+                live_error = f"Scoring failed: {exc}"
+                live_mandate, top_scores = None, load_top_scores()
+        else:
+            top_scores = load_top_scores()
+    else:
+        top_scores = load_top_scores()
+
+    return render_template(
+        "networks.html",
+        mandate=mandate,
+        # Keyed off rows actually loaded, not just a file existing -- an empty or
+        # unreadable file shouldn't make the page claim scores are ready.
+        scores_exist=bool(top_scores),
+        top_scores=top_scores,
+        is_demo_run=bool(live_mandate),
+        live_available=live,
+        live_mandate=live_mandate,
+        live_error=live_error,
+        scored_count=scored_count,
+        failed_count=failed_count,
+        blank_keys=_freeform.BLANK_KEYS if SCORING_AVAILABLE else [],
+    )
 
 
 @app.route("/forward-looking")
