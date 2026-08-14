@@ -85,7 +85,7 @@
   <div class="intro">
     Under U.S. copyright law, protection runs through December 31st of the year an author's term
     ends — so works don't trickle into the public domain, they all drop on a single date:
-    <strong>January 1st</strong>. Below is the real, researched calendar for the next 5 of those
+    <strong>January 1st</strong>. Below is the real, researched calendar for the next 10 of those
     dates, built from the actual book corpus by the PD Calendar package.
   </div>
 
@@ -96,15 +96,13 @@
         <span class="year">Jan 1, {{ year }}</span>
         <span class="count">{{ entries|length }} work{{ 's' if entries|length != 1 else '' }}</span>
       </div>
-      {% for e in entries[:5] %}
+      {% for e in entries[:8] %}
       <div class="work-row">
         <div class="work-title">{{ e.title }}</div>
         <div class="work-meta">{{ e.author }} · {{ e.rule_applied }}</div>
       </div>
       {% endfor %}
-      {% if entries|length > 5 %}
-      <div class="more-note">+ {{ entries|length - 5 }} more entering this year</div>
-      {% endif %}
+      {% if entries|length > 8 %}<div class="more-note">+ {{ entries|length - 8 }} more entering this year</div>{% endif %}
     </div>
     {% endfor %}
   {% else %}

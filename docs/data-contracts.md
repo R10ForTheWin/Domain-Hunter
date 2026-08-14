@@ -106,6 +106,34 @@ project-plan.md §5, `uncertain` is a required answer rather than a fallback —
 current five-year window comes out `uncertain`, so a schema without this value cannot express the
 file's actual contents.
 
+## `data/pd_forecast.csv` — Package 1 output (reads `pd_calendar.csv` + `studio_scores.csv`)
+
+The mandate-aware forecast, a.k.a. Agent 3. Where `pd_calendar.csv` lists everything crossing a
+cliff, this ranks the ones **worth waiting for**: highest-scoring against the current studio
+mandate, capped at 10 titles across a 10-year horizon.
+
+Produced by `pd_calendar/scripts/build_forecast.py`. If `studio_scores.csv` is absent the script
+exits 0 without writing — "Package 4 hasn't scored yet" is a normal state, not an error.
+
+| column | type | notes |
+|---|---|---|
+| `rank` | int 1–10 | best mandate fit first; ties broken by the sooner `pd_date` |
+| `pd_date` | date `YYYY-01-01` | from `pd_calendar.csv` |
+| `book_id` | string | |
+| `title` | string | |
+| `author` | string | |
+| `publication_year` | int or blank | |
+| `total_score` | float | from `studio_scores.csv` |
+| `score_reasoning` | string | from `studio_scores.csv`, so the mandate rationale travels with the row |
+| `confidence` | `confirmed` / `disputed` / `uncertain` | from `pd_calendar.csv` — see below |
+| `rule_applied` | string | from `pd_calendar.csv` |
+| `flags` | string | semicolon-separated, from `pd_calendar.csv` |
+| `years_away` | int | `pd_date` year minus the year the forecast was generated |
+
+**A row is a scheduled term expiry, not cleared rights.** `confirmed` means a copyright renewal is
+on record, so the full 95-year term is running and the date is solid. Anything else is the *latest
+possible* date. Package 2 confirms a specific claim; this only says when a term is scheduled to end.
+
 ## `data/pd_verification.csv` — Package 2 output (reads `book_corpus.csv`)
 
 One row per `book_id`. This file is produced **independently** of Package 4 — it must never take
