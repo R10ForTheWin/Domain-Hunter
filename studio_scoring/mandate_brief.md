@@ -165,3 +165,23 @@ reliably fix it (~50% failure rate persisted across repeated attempts). Since th
 recoverable from that malformed string, `validate_score_result()` salvages it via regex instead of
 discarding an otherwise-complete response — this eliminated the need for most retries entirely.
 The 106 remaining failures are cases where salvage still couldn't recover a usable score.
+
+Two related failure shapes turned up later, both now handled the same way (fix what's fixable,
+otherwise drop just that one field and keep the rest of the response, only failing the whole book
+if nothing usable is left): a category can come back `None` (nothing to salvage — excluded from
+`total_score`, and `weights` renormalized over whatever categories are present, so a missing score
+doesn't unfairly tank the total); and `overall_reasoning` can come back `None` almost as often as a
+category does, especially on longer, fully CMU-grounded prompts (60% missing in one 50-book test
+where every book had a verified summary) — since it's a nice-to-have summary rather than scoring
+data, a missing one falls back to a placeholder string instead of failing the book.
+
+## Demo pool: `studio_scoring/demo_pool.csv`
+
+Scoring the full 2,630-book corpus live (not `--batch`) takes minutes — too slow for an audience to
+wait through during a live demo, where the mandate itself is generated on the spot from real
+audience input. `demo_pool.csv` is a fixed set of the **50 most well-known books** in the corpus
+(all 50 independently verified as real, notable titles — cross-referenced against the CMU Book
+Summary Dataset, so every one has a genuine Wikipedia-sourced summary, not a guess), for scoring
+live during the actual demo. Tested end-to-end: 50/50 scored, 0 failures, ~28 seconds with
+`--workers 15` — fast enough for a live audience wait. Rebuild by re-selecting from
+`cmu_summaries.csv` if the corpus changes meaningfully.

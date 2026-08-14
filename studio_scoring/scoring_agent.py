@@ -174,24 +174,36 @@ def salvage_category_field(value):
 
 
 def validate_score_result(result: dict) -> dict:
-    """Even with forced tool-use, the model occasionally returns a malformed shape (e.g. a
-    category as a plain string instead of {"score":..., "reasoning":...}). Attempt to salvage a
-    recoverable score first; only fail the book if a category is truly unrecoverable, so the
-    caller can retry or fail just this one book instead of crashing on a bad .get/[] access."""
+    """Even with forced tool-use, the model occasionally returns a malformed shape: a category as
+    a raw string fragment (salvageable, see above) or, separately, entirely missing/None (not
+    salvageable -- there's no data to recover). Rather than discarding an otherwise-good response
+    over one missing category, mark it as None and exclude it from the weighted score in
+    build_row(); only fail the whole book if every category came back unusable."""
     if not isinstance(result, dict):
         raise ValueError(f"expected a dict, got {type(result).__name__}: {result!r}")
     if not isinstance(result.get("book_summary"), str) or not result["book_summary"].strip():
         raise ValueError(f"missing or empty 'book_summary' field: {result.get('book_summary')!r}")
+    # overall_reasoning goes missing/None almost as often as a category does (observed: ~60% on
+    # fully CMU-grounded prompts, likely from prompt length). It's a nice-to-have summary, not
+    # load-bearing data like a score -- fall back to None + a placeholder in build_row rather than
+    # failing the whole book over one missing text field.
+    if not isinstance(result.get("overall_reasoning"), str) or not result["overall_reasoning"].strip():
+        result["overall_reasoning"] = None
+
+    any_usable = False
     for cat in ALL_CATEGORIES:
         cat_result = result.get(cat)
-        if not isinstance(cat_result, dict) or not isinstance(cat_result.get("score"), (int, float)):
-            salvaged = salvage_category_field(cat_result)
-            if isinstance(salvaged, dict) and isinstance(salvaged.get("score"), (int, float)):
-                result[cat] = salvaged
-            else:
-                raise ValueError(f"malformed '{cat}' field: {cat_result!r}")
-    if "overall_reasoning" not in result:
-        raise ValueError("missing 'overall_reasoning' field")
+        if isinstance(cat_result, dict) and isinstance(cat_result.get("score"), (int, float)):
+            any_usable = True
+            continue
+        salvaged = salvage_category_field(cat_result)
+        if isinstance(salvaged, dict) and isinstance(salvaged.get("score"), (int, float)):
+            result[cat] = salvaged
+            any_usable = True
+        else:
+            result[cat] = None  # genuinely missing/unrecoverable, not a hard failure on its own
+    if not any_usable:
+        raise ValueError("no categories were scored (all missing or unrecoverable)")
     return result
 
 
@@ -222,17 +234,30 @@ def score_book_with_retry(client: Anthropic, model: str, book: dict, mandate: di
 
 
 def build_row(book: dict, studio: str, weights: dict, result: dict) -> dict:
-    total = sum(weights[cat] * result[cat]["score"] for cat in ALL_CATEGORIES)
+    # A category can be None (validate_score_result gave up salvaging it) -- exclude it from the
+    # weighted average and renormalize over whatever categories are actually present, rather than
+    # silently treating a missing score as 0 (which would unfairly tank the total).
+    present = [cat for cat in ALL_CATEGORIES if result.get(cat) is not None]
+    weight_sum = sum(weights[cat] for cat in present)
+    total = sum(weights[cat] * result[cat]["score"] for cat in present) / weight_sum
+    overall_reasoning = (
+        clean_text(result["overall_reasoning"]) if result.get("overall_reasoning") is not None
+        else "(overall reasoning not provided by model — see per-category reasoning columns)"
+    )
     row = {
         "book_id": book["book_id"],
         "studio": studio,
         "total_score": round(total, 2),
-        "reasoning": clean_text(result["overall_reasoning"]),
+        "reasoning": overall_reasoning,
         "book_summary": clean_text(result["book_summary"]),
     }
     for cat in ALL_CATEGORIES:
-        row[f"{cat}_score"] = result[cat]["score"]
-        row[f"{cat}_reasoning"] = clean_text(result[cat]["reasoning"])
+        if result.get(cat) is not None:
+            row[f"{cat}_score"] = result[cat]["score"]
+            row[f"{cat}_reasoning"] = clean_text(result[cat]["reasoning"])
+        else:
+            row[f"{cat}_score"] = ""
+            row[f"{cat}_reasoning"] = "(not provided by model)"
     return row
 
 
