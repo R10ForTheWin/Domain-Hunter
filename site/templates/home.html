@@ -13,7 +13,13 @@
 <style>
   * { box-sizing: border-box; margin: 0; padding: 0; }
   html, body { height: 100%; }
-  body { background: #0d6b7a; overflow: hidden; }
+  body {
+    background: #0d6b7a url("{{ url_for('static', filename='bg-portrait.jpg') }}") center / cover no-repeat;
+    overflow: hidden;
+  }
+  @media (min-width: 701px) {
+    body { background-image: url("{{ url_for('static', filename='bg-landscape.jpg') }}"); }
+  }
 
   /* Full-bleed video -- the whole screen IS the artwork, edge to edge,
      no separate boxed-off section. Logo and buttons float on top of it
@@ -23,6 +29,15 @@
     position: absolute; inset: 0;
     width: 100%; height: 100%;
     object-fit: cover; object-position: center 35%;
+  }
+  /* The video's native ratio (9:16) is wider than a typical iPhone
+     screen (9:19.5) -- object-fit:cover was cropping the sides to fill
+     height, cutting the bow tip off the right edge. Below the desktop
+     breakpoint, show the full frame uncropped instead (letterboxed on
+     the halftone background art rather than guessing at a crop/zoom
+     that happens to keep everything in frame). */
+  @media (max-width: 700px) {
+    .hero video { object-fit: contain; object-position: center center; }
   }
 
   .logo-overlay {
