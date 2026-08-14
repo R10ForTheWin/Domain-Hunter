@@ -496,7 +496,15 @@ def load_pd_calendar(curated=True):
         return None
 
     if curated:
-        rows = [r for r in rows if r.get("book_id") in CURATED_CALENDAR_BOOK_IDS]
+        # A row qualifies either because Package 1 verified its date against a
+        # copyright renewal record, or because it is on the hand-picked list
+        # below. The allowlist predates the renewal data and stays as a manual
+        # override -- nothing previously curated in is dropped.
+        rows = [
+            r for r in rows
+            if r.get("confidence") == "confirmed"
+            or r.get("book_id") in CURATED_CALENDAR_BOOK_IDS
+        ]
         for r in rows:
             override = CURATED_CALENDAR_TITLE_OVERRIDES.get(r.get("book_id"))
             if override:
