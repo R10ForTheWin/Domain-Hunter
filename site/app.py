@@ -101,6 +101,42 @@ def load_shortlist():
         return list(csv.DictReader(f))
 
 
+def load_top_scores(limit=10):
+    """Highest-scoring books from Package 4's scoring run, for /networks.
+
+    studio_scores.csv holds a score per book_id but not the title/author, so
+    this joins against book_corpus.csv the same way Package 5 does. Returns
+    None when there is no scoring output yet, so the page can say so plainly
+    rather than rendering an empty table.
+    """
+    path = DATA_DIR / "studio_scores.csv"
+    if not path.exists():
+        return None
+    with path.open(newline="", encoding="utf-8") as f:
+        rows = list(csv.DictReader(f))
+    if not rows:
+        return None
+
+    def _score(row):
+        try:
+            return float(row.get("total_score") or 0)
+        except (TypeError, ValueError):
+            return 0.0
+
+    corpus = {b.get("book_id"): b for b in load_corpus_rows()}
+    rows.sort(key=_score, reverse=True)
+    top = []
+    for row in rows[:limit]:
+        book = corpus.get(row.get("book_id"), {})
+        top.append({
+            "title": book.get("title") or row.get("book_id", ""),
+            "author": book.get("author", ""),
+            "score": round(_score(row)),
+            "reasoning": row.get("reasoning", ""),
+        })
+    return top
+
+
 def load_mandate_config():
     """Tiny hand-rolled parser for studio_scoring/mandate_config.yaml -- the
     file is a simple flat "key: value" + one nested "weights:" block, so a
@@ -216,8 +252,15 @@ def producers():
 @app.route("/networks")
 def networks():
     mandate = load_mandate_config()
-    scores_exist = (DATA_DIR / "studio_scores.csv").exists()
-    return render_template("networks.html", mandate=mandate, scores_exist=scores_exist)
+    top_scores = load_top_scores()
+    # Keyed off rows actually loaded, not just the file existing -- an empty
+    # or unreadable file shouldn't make the page claim scores are ready.
+    return render_template(
+        "networks.html",
+        mandate=mandate,
+        scores_exist=bool(top_scores),
+        top_scores=top_scores,
+    )
 
 
 @app.route("/forward-looking")

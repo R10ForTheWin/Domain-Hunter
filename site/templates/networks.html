@@ -71,6 +71,16 @@
 
   p.note { font-size: 13px; line-height: 1.5; margin: 10px 0 0 0; }
 
+  .score-row { display: flex; align-items: baseline; gap: 8px; margin: 12px 0 0 0; font-size: 13.5px; }
+  .score-rank { flex: 0 0 22px; font-weight: 900; font-style: italic; color: var(--red); }
+  .score-title { flex: 1 1 auto; font-weight: 700; }
+  .score-title em { font-weight: 400; font-style: normal; opacity: 0.7; }
+  .score-value {
+    flex: 0 0 auto; font-weight: 900; background: var(--gold);
+    border: 2px solid var(--ink); border-radius: 8px; padding: 1px 8px;
+  }
+  .score-why { font-size: 12px; line-height: 1.45; margin: 3px 0 0 30px; opacity: 0.8; }
+
   fieldset {
     margin-top: 16px; border: 2px dashed #cfc6a5; border-radius: 10px;
     padding: 14px; opacity: 0.55;
@@ -96,8 +106,7 @@
     </span>
     <div class="mandate-studio">Target: {{ mandate.studio }}</div>
     <p class="note">This is the real, evidence-based scoring rubric the team built for {{ mandate.studio }} —
-    not a placeholder. Each book in the corpus gets scored against these weighted categories once
-    the scoring agent runs.</p>
+    not a placeholder. Every book in the corpus is scored against these weighted categories.</p>
     {% for name, weight in mandate.weights %}
     <div class="weight-row">
       <span class="weight-label">{{ name.replace('_', ' ') }}</span>
@@ -110,6 +119,26 @@
     yet — so there's no real score list to show below. Check back soon.</p>
     {% endif %}
   </div>
+
+  {% if top_scores %}
+  <div class="card">
+    <div class="mandate-studio">Top matches</div>
+    <p class="note">Real output from the scoring agent, highest-scoring first. Scores are
+    <strong>relative to one specific creative mandate</strong> — the agent is re-run per mandate,
+    so a different brief produces a different ranking. This run used a sample noir-thriller
+    mandate.</p>
+    {% for book in top_scores %}
+    <div class="score-row">
+      <span class="score-rank">{{ loop.index }}</span>
+      {# Author deliberately not shown: book_corpus.csv has ~98 titles attached to the wrong
+         author (Package 3 is fixing it), and this list would put those errors on screen. #}
+      <span class="score-title">{{ book.title }}</span>
+      <span class="score-value">{{ book.score }}</span>
+    </div>
+    {% if book.reasoning %}<p class="score-why">{{ book.reasoning }}</p>{% endif %}
+    {% endfor %}
+  </div>
+  {% endif %}
   {% else %}
   <div class="card">
     <span class="badge pending">Coming soon</span>
