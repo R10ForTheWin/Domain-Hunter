@@ -32,7 +32,7 @@
 
   form { display: flex; flex-direction: column; gap: 12px; }
   .field-row { display: flex; align-items: center; gap: 10px; }
-  .field-icon { width: 68px; height: 68px; flex: 0 0 auto; object-fit: contain; }
+  .field-icon { width: 92px; height: 92px; flex: 0 0 auto; object-fit: contain; }
   .field-box {
     flex: 1 1 auto;
     background: var(--cream);
@@ -184,13 +184,24 @@
 
 <script>
   // Results render below the fold on both mobile and desktop -- jump to
-  // them automatically on load instead of making the user scroll to find
-  // out the page actually responded to their search. 'auto' (not the
-  // non-standard 'instant') is the spec-correct way to get a non-smooth
-  // jump that every browser, including iOS Safari, actually honors.
-  var results = document.getElementById('results');
-  if (results) {
-    results.scrollIntoView({ behavior: 'auto', block: 'start' });
+  // them automatically instead of making the user scroll to find out the
+  // page actually responded. 'auto' (not the non-standard 'instant') is
+  // the spec-correct value every browser, including iOS Safari, honors.
+  // Must wait for the 'load' event, not run inline at parse time: this
+  // script runs (via document.write) before the result images below it
+  // have finished loading, so scrollIntoView was measuring the page's
+  // height BEFORE those images added their own height -- landing above
+  // where #results ends up once everything finishes loading in.
+  function scrollToResults() {
+    var results = document.getElementById('results');
+    if (results) {
+      results.scrollIntoView({ behavior: 'auto', block: 'start' });
+    }
+  }
+  if (document.readyState === 'complete') {
+    scrollToResults();
+  } else {
+    window.addEventListener('load', scrollToResults);
   }
 
   // A plain <form method="get"> triggers a full page navigation on
