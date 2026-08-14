@@ -128,53 +128,6 @@
   <img class="logo" src="{{ url_for('static', filename='logo-wordmark.png') }}" alt="Domain Huntress">
   <div class="burst">Find Your Match!</div>
 
-  {% if mandate %}
-  <div class="card">
-    <span class="badge {{ 'live' if scores_exist else 'pending' }}">
-      {{ 'Scores ready' if scores_exist else 'Mandate built — scoring not run yet' }}
-    </span>
-    <div class="mandate-studio">Target: {{ mandate.studio }}</div>
-    {% if not scores_exist %}
-    <p class="note">The scoring rubric is built, but it hasn't been run against the real
-    2,630-book corpus yet — so there's no real score list to show below. Check back soon.</p>
-    {% endif %}
-  </div>
-
-  {% if top_scores %}
-  <div class="card">
-    <div class="mandate-studio">Top matches</div>
-    {% if live_mandate %}
-    <p class="live-sentence">{{ live_mandate.sentence }}</p>
-    <p class="note">Scored {{ scored_count }} of the 50 demo books against that mandate just
-    now{% if failed_count %} ({{ failed_count }} didn't return a usable score){% endif %}.</p>
-    {% endif %}
-    <p class="note">Real output from the scoring agent, highest-scoring first.
-    {% if not is_demo_run %}Every book here was independently confirmed public domain by
-    Package 2 before it was ever scored — no exceptions.{% endif %} Scores are
-    <strong>relative to one specific creative mandate</strong> — the agent is re-run per mandate,
-    so a different brief produces a different ranking.
-    {% if is_demo_run %}Scored live against the 50-book demo set.
-    {% else %}From a sample noir-thriller mandate run across the full corpus.{% endif %}</p>
-    {% for book in top_scores %}
-    <div class="score-row">
-      <span class="score-rank">{{ loop.index }}</span>
-      {# Author deliberately not shown: book_corpus.csv has ~98 titles attached to the wrong
-         author (Package 3 is fixing it), and this list would put those errors on screen. #}
-      <span class="score-title">{{ book.title }}</span>
-      <span class="score-value">{{ book.score }}</span>
-    </div>
-    {% if book.reasoning %}<p class="score-why">{{ book.reasoning }}</p>{% endif %}
-    {% endfor %}
-  </div>
-  {% endif %}
-  {% else %}
-  <div class="card">
-    <span class="badge pending">Coming soon</span>
-    <p class="note">This will let you submit your creative mandate and see which public-domain
-    books score well against it. Still in development.</p>
-  </div>
-  {% endif %}
-
   <div class="card">
     <div class="mandate-studio">Build a mandate</div>
     {% if live_available %}
@@ -209,9 +162,45 @@
     {% else %}
     <p class="note">The live mandate builder runs on this page when the scoring package and an
     API key are available in the server environment. It isn't on this deploy, so the results
-    above are from the committed scoring run rather than a live one.</p>
+    below are from the committed scoring run rather than a live one.</p>
     {% endif %}
   </div>
+
+  {% if mandate %}
+  {% if top_scores %}
+  <div class="card">
+    <div class="mandate-studio">Top matches</div>
+    {% if live_mandate %}
+    <p class="live-sentence">{{ live_mandate.sentence }}</p>
+    <p class="note">Scored {{ scored_count }} of the 50 demo books against that mandate just
+    now{% if failed_count %} ({{ failed_count }} didn't return a usable score){% endif %}.</p>
+    {% endif %}
+    <p class="note">Real output from the scoring agent, highest-scoring first.
+    {% if not is_demo_run %}Every book here was independently confirmed public domain by
+    Package 2 before it was ever scored — no exceptions.{% endif %} Scores are
+    <strong>relative to one specific creative mandate</strong> — the agent is re-run per mandate,
+    so a different brief produces a different ranking.
+    {% if is_demo_run %}Scored live against the 50-book demo set.
+    {% else %}From a sample noir-thriller mandate run across the full corpus.{% endif %}</p>
+    {% for book in top_scores %}
+    <div class="score-row">
+      <span class="score-rank">{{ loop.index }}</span>
+      {# Author deliberately not shown: book_corpus.csv has ~98 titles attached to the wrong
+         author (Package 3 is fixing it), and this list would put those errors on screen. #}
+      <span class="score-title">{{ book.title }}</span>
+      <span class="score-value">{{ book.score }}</span>
+    </div>
+    {% if book.reasoning %}<p class="score-why">{{ book.reasoning }}</p>{% endif %}
+    {% endfor %}
+  </div>
+  {% endif %}
+  {% else %}
+  <div class="card">
+    <span class="badge pending">Coming soon</span>
+    <p class="note">This will let you submit your creative mandate and see which public-domain
+    books score well against it. Still in development.</p>
+  </div>
+  {% endif %}
 </div>
 
 <script>
