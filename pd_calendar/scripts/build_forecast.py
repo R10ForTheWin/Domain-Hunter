@@ -145,8 +145,25 @@ def build_rows(calendar: list[dict], scores: dict, cliffs: list[int], limit: int
     return rows, funnel
 
 
+def read_mandate_label(path: Path | None) -> str:
+    """The mandate sentence a forecast was ranked against, if one is on hand.
+
+    A forecast is only meaningful relative to one mandate. When two are produced
+    they must be distinguishable, so the report states which it used rather than
+    leaving the reader to infer it from the ranking.
+    """
+    if not path or not path.exists():
+        return ""
+    try:
+        import yaml  # optional; absent is fine
+        data = yaml.safe_load(path.read_text(encoding="utf-8")) or {}
+        return str(data.get("sentence") or data.get("text") or "").strip()
+    except Exception:  # noqa: BLE001 - a label is a nicety, never a failure
+        return ""
+
+
 def write_report(path: Path, rows: list[dict], funnel: dict, cliffs: list[int],
-                 as_of_year: int) -> None:
+                 as_of_year: int, mandate: str = "", sources: list | None = None) -> None:
     lines = [
         "# Public Domain Forecast",
         "",
@@ -156,6 +173,12 @@ def write_report(path: Path, rows: list[dict], funnel: dict, cliffs: list[int],
         "A producer who wants one of these can start developing now and be ready to shoot the "
         "January they become free.",
         "",
+    ]
+    if mandate:
+        lines += [f"**Mandate ranked against:** *{mandate}*", ""]
+    if sources:
+        lines += [f"**Scores from:** `{'`, `'.join(sources)}`", ""]
+    lines += [
         "| | count |",
         "|---|---|",
         f"| Works crossing a cliff in the window | {funnel['in_window']} |",
@@ -219,6 +242,8 @@ def main(argv=None) -> int:
     p.add_argument("--limit", type=int, default=DEFAULT_LIMIT)
     p.add_argument("--horizon", type=int, default=DEFAULT_HORIZON)
     p.add_argument("--as-of-year", type=int, default=None)
+    p.add_argument("--mandate", type=Path, default=REPO_ROOT / "studio_scoring" / "mandate_live.yaml",
+                   help="mandate_live.yaml, used only to label the report")
     args = p.parse_args(argv)
 
     if not args.calendar.exists():
@@ -256,7 +281,9 @@ def main(argv=None) -> int:
         w = csv.DictWriter(f, fieldnames=FIELDNAMES)
         w.writeheader()
         w.writerows(rows)
-    write_report(args.report, rows, funnel, cliffs, as_of)
+    write_report(args.report, rows, funnel, cliffs, as_of,
+                 mandate=read_mandate_label(args.mandate),
+                 sources=[p.name for p in present])
 
     print(f"Score sources: {', '.join(p.name for p in present)}", file=sys.stderr)
     print(f"Calendar entries in {cliffs[0]}-{cliffs[-1]}: {funnel['in_window']}", file=sys.stderr)
