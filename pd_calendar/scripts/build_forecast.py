@@ -54,7 +54,14 @@ REPO_ROOT = Path(__file__).resolve().parent.parent.parent
 DATA_DIR = REPO_ROOT / "data"
 
 CALENDAR_PATH = DATA_DIR / "pd_calendar.csv"
-SCORES_PATH = DATA_DIR / "studio_scores.csv"
+# Package 4 scores the main corpus; the renewal-era batch is a separate corpus
+# file and can be scored into its own output rather than appended to Chantell's.
+# Same pattern as the calendar's renewal sources: read whatever exists, never
+# require one file to be rewritten to accommodate another.
+SCORES_PATHS = [
+    DATA_DIR / "studio_scores.csv",
+    DATA_DIR / "studio_scores_renewal.csv",
+]
 CSV_OUT_PATH = DATA_DIR / "pd_forecast.csv"
 REPORT_OUT_PATH = DATA_DIR / "pd_forecast.md"
 
@@ -205,7 +212,8 @@ def write_report(path: Path, rows: list[dict], funnel: dict, cliffs: list[int],
 def main(argv=None) -> int:
     p = argparse.ArgumentParser(description="Rank forthcoming public-domain books by mandate fit")
     p.add_argument("--calendar", type=Path, default=CALENDAR_PATH)
-    p.add_argument("--scores", type=Path, default=SCORES_PATH)
+    p.add_argument("--scores", type=Path, nargs="*", default=SCORES_PATHS,
+                   help="score files keyed by book_id; all present files are merged")
     p.add_argument("--output", type=Path, default=CSV_OUT_PATH)
     p.add_argument("--report", type=Path, default=REPORT_OUT_PATH)
     p.add_argument("--limit", type=int, default=DEFAULT_LIMIT)
@@ -217,9 +225,11 @@ def main(argv=None) -> int:
         print(f"error: {args.calendar} not found — run build_calendar.py first", file=sys.stderr)
         return 1
 
-    if not args.scores.exists():
+    present = [p for p in args.scores if p.exists()]
+    if not present:
+        names = ", ".join(str(p) for p in args.scores)
         print(
-            f"No forecast written: {args.scores} not found.\n"
+            f"No forecast written: none of {names} found.\n"
             "  Package 4 has not scored this corpus on this branch. The forecast needs scores to\n"
             "  rank by; the calendar itself is unaffected.",
             file=sys.stderr,
@@ -227,7 +237,11 @@ def main(argv=None) -> int:
         return 0
 
     calendar = read_csv(args.calendar)
-    scores = {r["book_id"]: r for r in read_csv(args.scores) if r.get("book_id")}
+    scores: dict = {}
+    for path in present:
+        for r in read_csv(path):
+            if r.get("book_id"):
+                scores.setdefault(r["book_id"], r)
 
     as_of = args.as_of_year
     if as_of is None:
@@ -244,6 +258,7 @@ def main(argv=None) -> int:
         w.writerows(rows)
     write_report(args.report, rows, funnel, cliffs, as_of)
 
+    print(f"Score sources: {', '.join(p.name for p in present)}", file=sys.stderr)
     print(f"Calendar entries in {cliffs[0]}-{cliffs[-1]}: {funnel['in_window']}", file=sys.stderr)
     print(f"  scored by Package 4: {funnel['scored']}   unscored: {funnel['unscored']}", file=sys.stderr)
     print(f"  reported: {funnel['reported']}   ranked out: {funnel['dropped']}", file=sys.stderr)
