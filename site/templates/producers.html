@@ -23,6 +23,10 @@
   }
   .logo { display: block; max-width: 300px; width: 80%; margin: 0 auto 10px auto; }
   .burst { display: block; max-width: 340px; width: 95%; margin: 0 auto 18px auto; }
+  .or-note {
+    text-align: center; color: var(--cream); font-size: 12.5px; font-weight: 700;
+    margin: 0 0 12px 0; text-shadow: 0 1px 3px rgba(0,0,0,0.5);
+  }
 
   form { display: flex; flex-direction: column; gap: 12px; }
   .field-row { display: flex; align-items: center; gap: 10px; }
@@ -65,6 +69,29 @@
     background: var(--cream); border: 3px solid var(--ink); border-radius: 14px;
     padding: 16px 18px; font-size: 14px; font-weight: 600; text-align: center;
   }
+
+  /* Loading state: hidden by default, shown by JS the instant the form is
+     submitted. A normal GET form does a full page reload, so this only
+     needs to cover the gap between "submit clicked" and "new page arrives"
+     -- no need to hide it again, the reload replaces it automatically. */
+  .loading-overlay {
+    display: none;
+    flex-direction: column; align-items: center; justify-content: center;
+    gap: 14px;
+    padding: 40px 20px;
+  }
+  .loading-overlay.active { display: flex; }
+  .loading-spinner {
+    width: 90px; height: 90px;
+    animation: spin 1.1s linear infinite;
+    filter: drop-shadow(0 3px 6px rgba(0,0,0,0.4));
+  }
+  @keyframes spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+  .loading-text {
+    color: var(--cream); font-weight: 900; font-style: italic; font-size: 16px;
+    text-transform: uppercase; letter-spacing: 0.03em;
+    text-shadow: 0 2px 4px rgba(0,0,0,0.5);
+  }
 </style>
 </head>
 <body>
@@ -73,6 +100,8 @@
 
   <img class="logo" src="{{ url_for('static', filename='logo-wordmark.png') }}" alt="Domain Huntress — Book Status Checker">
   <img class="burst" src="{{ url_for('static', filename='producer/02_check_a_book_burst.png') }}" alt="Check a book!">
+
+  <p class="or-note">Just fill in <strong>one</strong> of these — whichever you have on hand</p>
 
   <form method="get">
     <div class="field-row">
@@ -96,12 +125,18 @@
         <input type="text" name="gutenberg_id" value="{{ identifier_value if identifier_type == 'gutenberg_id' else '' }}" placeholder="Enter Gutenberg ID...">
       </div>
     </div>
-    <button class="submit-btn" type="submit">
+    <button class="submit-btn" type="submit" id="submit-btn">
       <img src="{{ url_for('static', filename='producer/09_button_check_status.png') }}" alt="Check status!">
     </button>
   </form>
 
+  <div class="loading-overlay" id="loading-overlay">
+    <img class="loading-spinner" src="{{ url_for('static', filename='producer/18_decorative_red_burst.png') }}" alt="">
+    <span class="loading-text">Checking the archives&hellip;</span>
+  </div>
+
   {% if validator_result %}
+  <div id="results">
   <img class="results-header" src="{{ url_for('static', filename='producer/10_results_header.png') }}" alt="Results">
 
   {% if validator_result.status == 'found_confirmed' %}
@@ -122,6 +157,7 @@
   {% else %}
     <div class="result-generic">{{ validator_result.message }}</div>
   {% endif %}
+  </div>
   {% endif %}
 
   {% if not validator_available %}
@@ -131,7 +167,7 @@
   {% endif %}
 
   {% if query %}
-    <div class="results-header" style="text-align:center; color:var(--cream); font-weight:800; margin-top:20px;">Corpus matches for "{{ query }}"</div>
+    <div id="results" class="results-header" style="text-align:center; color:var(--cream); font-weight:800; margin-top:20px;">Corpus matches for "{{ query }}"</div>
     {% if results %}
     <div style="background:var(--cream); border:3px solid var(--ink); border-radius:14px; padding:14px; margin-top:8px;">
       {% for b in results %}
@@ -143,5 +179,28 @@
     {% endif %}
   {% endif %}
 </div>
+
+<script>
+  // Results render below the fold on both mobile and desktop -- jump to
+  // them automatically on load instead of making the user scroll to find
+  // out the page actually responded to their search.
+  var results = document.getElementById('results');
+  if (results) {
+    results.scrollIntoView({ behavior: 'instant', block: 'start' });
+  }
+
+  // This is a plain GET form -- submitting it triggers a full page reload,
+  // so there's no AJAX response to hook. Show the loading state the
+  // instant submit fires; the browser's own navigation replaces the whole
+  // page once the new one arrives, so there's nothing to hide afterward.
+  var form = document.querySelector('form');
+  var overlay = document.getElementById('loading-overlay');
+  if (form && overlay) {
+    form.addEventListener('submit', function () {
+      form.style.display = 'none';
+      overlay.classList.add('active');
+    });
+  }
+</script>
 </body>
 </html>
