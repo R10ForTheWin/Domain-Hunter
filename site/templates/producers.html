@@ -24,13 +24,15 @@
   .logo { display: block; max-width: 300px; width: 80%; margin: 0 auto 10px auto; }
   .burst { display: block; max-width: 340px; width: 95%; margin: 0 auto 18px auto; }
   .or-note {
-    text-align: center; color: var(--cream); font-size: 12.5px; font-weight: 700;
-    margin: 0 0 12px 0; text-shadow: 0 1px 3px rgba(0,0,0,0.5);
+    display: block; width: fit-content; margin: 0 auto 14px auto;
+    text-align: center; color: var(--ink); font-size: 12.5px; font-weight: 700;
+    background: var(--cream); border: 2px solid var(--ink); border-radius: 20px;
+    padding: 6px 16px;
   }
 
   form { display: flex; flex-direction: column; gap: 12px; }
   .field-row { display: flex; align-items: center; gap: 10px; }
-  .field-icon { width: 46px; height: 46px; flex: 0 0 auto; object-fit: contain; }
+  .field-icon { width: 68px; height: 68px; flex: 0 0 auto; object-fit: contain; }
   .field-box {
     flex: 1 1 auto;
     background: var(--cream);
@@ -183,22 +185,47 @@
 <script>
   // Results render below the fold on both mobile and desktop -- jump to
   // them automatically on load instead of making the user scroll to find
-  // out the page actually responded to their search.
+  // out the page actually responded to their search. 'auto' (not the
+  // non-standard 'instant') is the spec-correct way to get a non-smooth
+  // jump that every browser, including iOS Safari, actually honors.
   var results = document.getElementById('results');
   if (results) {
-    results.scrollIntoView({ behavior: 'instant', block: 'start' });
+    results.scrollIntoView({ behavior: 'auto', block: 'start' });
   }
 
-  // This is a plain GET form -- submitting it triggers a full page reload,
-  // so there's no AJAX response to hook. Show the loading state the
-  // instant submit fires; the browser's own navigation replaces the whole
-  // page once the new one arrives, so there's nothing to hide afterward.
+  // A plain <form method="get"> triggers a full page navigation on
+  // submit -- browsers are not obligated to paint a DOM change made in
+  // the 'submit' handler before tearing down the page for that
+  // navigation, so the loading spinner could show for 0ms depending on
+  // the browser/device (this is what DJ hit: no spinner ever appeared,
+  // even though the request demonstrably took several seconds before
+  // timing out). Fetching the same URL from JS instead guarantees the
+  // spinner is on-screen before any network activity starts, since nothing
+  // is navigating away yet -- then swap the whole document for the
+  // response once it arrives. document.write's fresh document runs this
+  // same script again, which reliably scrolls to #results at that point.
   var form = document.querySelector('form');
   var overlay = document.getElementById('loading-overlay');
   if (form && overlay) {
-    form.addEventListener('submit', function () {
+    form.addEventListener('submit', function (e) {
+      e.preventDefault();
       form.style.display = 'none';
       overlay.classList.add('active');
+      var params = new URLSearchParams(new FormData(form));
+      var url = window.location.pathname + '?' + params.toString();
+      fetch(url)
+        .then(function (resp) { return resp.text(); })
+        .then(function (html) {
+          document.open();
+          document.write(html);
+          document.close();
+        })
+        .catch(function () {
+          // The fetch() call itself failed (not a lookup error -- those
+          // render as a normal page from the server) -- fall back to a
+          // real navigation rather than leaving the spinner stuck forever.
+          window.location.href = url;
+        });
     });
   }
 </script>
