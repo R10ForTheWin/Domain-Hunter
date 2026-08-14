@@ -37,6 +37,22 @@ outputs — start there.
 - Test changes before committing.
 - Never commit passwords, API keys, secrets, or credentials.
 
+## Testing
+Run the **full** test suite from the repo root with:
+```bash
+pytest
+```
+This is the only supported way to run tests project-wide — it picks up every package's tests
+regardless of whether they're written as plain pytest functions (e.g. `pd_verification/`) or as
+`unittest.TestCase` classes (e.g. `pd_calendar/`). **Do not use `python -m unittest discover`** —
+it silently reports 0 tests collected for anything pytest-style, and separately hard-crashes
+entering `pd_calendar/scripts/` (`ImportError: Start directory is not importable`, since that
+folder isn't a Python package). Fixing the latter means changing `pd_calendar/scripts/`'s import
+style, which touches Ross's code — get his sign-off before doing that; in the meantime, `pytest`
+sidesteps the issue entirely and is the supported command. `pyproject.toml` at the repo root pins
+the configuration above —
+don't remove it.
+
 ## Git Workflow
 1. Start from the latest `main` branch.
 2. Work on your own branch, named `yourname-packagename` (e.g. `luis-shortlist`).

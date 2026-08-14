@@ -9,10 +9,11 @@
   * { box-sizing: border-box; margin: 0; padding: 0; }
   body {
     font-family: -apple-system, "Helvetica Neue", Arial, sans-serif;
-    background: var(--teal);
-    background-image: radial-gradient(rgba(255,255,255,0.10) 1px, transparent 1px);
-    background-size: 14px 14px;
+    background: var(--teal) url("{{ url_for('static', filename='bg-portrait.jpg') }}") center top / cover no-repeat fixed;
     min-height: 100vh;
+  }
+  @media (min-width: 701px) {
+    body { background-image: url("{{ url_for('static', filename='bg-landscape.jpg') }}"); }
   }
   .page { max-width: 480px; margin: 0 auto; padding: 18px 20px 40px 20px; }
   .back-link {

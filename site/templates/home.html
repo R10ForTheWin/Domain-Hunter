@@ -13,7 +13,13 @@
 <style>
   * { box-sizing: border-box; margin: 0; padding: 0; }
   html, body { height: 100%; }
-  body { background: #0d6b7a; overflow: hidden; }
+  body {
+    background: #0d6b7a url("{{ url_for('static', filename='bg-portrait.jpg') }}") center / cover no-repeat;
+    overflow: hidden;
+  }
+  @media (min-width: 701px) {
+    body { background-image: url("{{ url_for('static', filename='bg-landscape.jpg') }}"); }
+  }
 
   /* Full-bleed video -- the whole screen IS the artwork, edge to edge,
      no separate boxed-off section. Logo and buttons float on top of it
@@ -23,6 +29,20 @@
     position: absolute; inset: 0;
     width: 100%; height: 100%;
     object-fit: cover; object-position: center 35%;
+  }
+  /* object-fit:contain on <video> is unreliable on iOS Safari specifically
+     (confirmed: correct and cropping-free in a Chromium engine at the same
+     viewport width, but still cropped on a real iPhone even after a hard
+     refresh) -- rather than keep fighting a WebKit-specific quirk, drop the
+     object-fit approach for mobile entirely. The video goes back to normal
+     document flow at its own natural size (width 100%, height auto), which
+     cannot crop in any browser since there's no fit/crop math involved at
+     all -- the tradeoff is losing the true full-bleed edge-to-edge look on
+     mobile in favor of the video's whole frame always being visible. */
+  @media (max-width: 700px) {
+    html, body { height: auto; overflow-y: auto; }
+    .hero { height: auto; overflow: visible; }
+    .hero video { position: static; width: 100%; height: auto; display: block; }
   }
 
   .logo-overlay {

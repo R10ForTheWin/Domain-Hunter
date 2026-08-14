@@ -1,0 +1,15 @@
+book_id,pd_status,reasoning,rule_applied,flags,verified_date
+frankenstein__mary-shelley__1818,confirmed,Published 1818 and author died 1851; well past any US term.,life+70,,2026-08-11
+dracula__bram-stoker__1897,confirmed,Published 1897; pre-1929 US publication is public domain.,pre-1929,,2026-08-11
+the-picture-of-dorian-gray__oscar-wilde__1890,confirmed,Published 1890; pre-1929 US publication is public domain.,pre-1929,,2026-08-11
+the-adventures-of-sherlock-holmes__arthur-conan-doyle__1892,confirmed,Published 1892; pre-1929 US publication is public domain.,pre-1929,,2026-08-11
+the-time-machine__h-g-wells__1895,confirmed,Published 1895; pre-1929 US publication is public domain.,pre-1929,,2026-08-11
+the-call-of-the-wild__jack-london__1903,confirmed,Published 1903; pre-1929 US publication is public domain.,pre-1929,,2026-08-11
+peter-pan__j-m-barrie__1911,confirmed,Published 1911; pre-1929 US publication is public domain.,pre-1929,,2026-08-11
+a-christmas-carol__charles-dickens__1843,confirmed,Published 1843; pre-1929 US publication is public domain.,pre-1929,,2026-08-11
+pride-and-prejudice__jane-austen__1813,confirmed,Published 1813; pre-1929 US publication is public domain.,pre-1929,,2026-08-11
+moby-dick__herman-melville__1851,confirmed,Published 1851; pre-1929 US publication is public domain.,pre-1929,,2026-08-11
+the-great-gatsby__f-scott-fitzgerald__1925,confirmed,Published 1925; entered US public domain on 2021-01-01.,pre-1929,,2026-08-11
+the-sun-also-rises__ernest-hemingway__1926,not_confirmed,Published 1926 but renewal-era status for this edition not cleared; treat as still protected until proven.,renewal-era-1929-1963,renewal_era,2026-08-11
+winnie-the-pooh__a-a-milne__1926,uncertain,Author death year flagged as disputed; cannot confirm term without a second corroborating source.,life+70,disputed_death_year,2026-08-11
+the-wonderful-wizard-of-oz__l-frank-baum__1900,confirmed,Published 1900; pre-1929 US publication is public domain.,pre-1929,,2026-08-11
