@@ -40,6 +40,13 @@ FIELDNAMES = ["book_id", "studio", "total_score", "reasoning", "book_summary"] +
     f"{cat}_{suffix}" for cat in ALL_CATEGORIES for suffix in ("score", "reasoning")
 ]
 
+# The schema is deliberately FLAT (12 primitive fields, not 6 nested {score, reasoning} objects).
+# With the nested shape, Haiku frequently dropped out of JSON partway through and emitted a
+# different tool-call syntax instead -- a category's value would come back as the literal string
+# '\n<parameter name="score">25' and every field after it was lost, leaving 1/6 categories usable
+# on roughly half of a 50-book run. Note the leaked parameter name is a bare "score", which only
+# existed *inside* the nested objects. Flattening removes that ambiguity entirely; the CSV written
+# by build_row() is unchanged either way, so nothing downstream is affected.
 SCORE_TOOL = {
     "name": "record_score",
     "description": "Record the A24 studio-fit score for one book, one sub-score per rubric category.",
@@ -56,19 +63,17 @@ SCORE_TOOL = {
                                 "title string.",
             },
             **{
-                cat: {
-                    "type": "object",
-                    "properties": {
-                        "score": {
-                            "type": "number",
-                            "description": "0-100 fit score for this category",
-                        },
-                        "reasoning": {
-                            "type": "string",
-                            "description": "One short sentence on why this score. Be concise.",
-                        },
-                    },
-                    "required": ["score", "reasoning"],
+                f"{cat}_score": {
+                    "type": "number",
+                    "description": f"0-100 fit score for {cat.replace('_', ' ')}",
+                }
+                for cat in ALL_CATEGORIES
+            },
+            **{
+                f"{cat}_reasoning": {
+                    "type": "string",
+                    "description": f"One short sentence on why {cat.replace('_', ' ')} scored that "
+                                    f"way. Be concise.",
                 }
                 for cat in ALL_CATEGORIES
             },
@@ -77,7 +82,12 @@ SCORE_TOOL = {
                 "description": "One concise sentence summarizing the book's overall fit against the mandate.",
             },
         },
-        "required": ["book_summary"] + ALL_CATEGORIES + ["overall_reasoning"],
+        "required": (
+            ["book_summary"]
+            + [f"{cat}_score" for cat in ALL_CATEGORIES]
+            + [f"{cat}_reasoning" for cat in ALL_CATEGORIES]
+            + ["overall_reasoning"]
+        ),
     },
 }
 
@@ -173,44 +183,56 @@ def salvage_category_field(value):
     return value
 
 
+MIN_USABLE_CATEGORIES = 4  # of 6 -- below this, treat as a bad response worth retrying rather
+                           # than silently shipping a "total_score" based on 1-2 categories
+
+
 def validate_score_result(result: dict) -> dict:
-    """Even with forced tool-use, the model occasionally returns a malformed shape: a category as
-    a raw string fragment (salvageable, see above) or, separately, entirely missing/None (not
-    salvageable -- there's no data to recover). Rather than discarding an otherwise-good response
-    over one missing category, mark it as None and exclude it from the weighted score in
-    build_row(); only fail the whole book if every category came back unusable."""
+    """Reads the flat tool-call shape ({cat}_score / {cat}_reasoning) and normalizes it into the
+    internal {cat: {"score", "reasoning"}} form the rest of this module expects.
+
+    A category that is missing or unusable becomes None and is excluded from the weighted score
+    (see build_row's renormalization) rather than failing the whole book; MIN_USABLE_CATEGORIES
+    enforces a floor so a mostly-empty response triggers a retry instead of shipping a
+    total_score built from one or two fields. The salvage path is kept as a defensive measure for
+    the malformed-string case that motivated flattening the schema in the first place."""
     if not isinstance(result, dict):
         raise ValueError(f"expected a dict, got {type(result).__name__}: {result!r}")
     if not isinstance(result.get("book_summary"), str) or not result["book_summary"].strip():
         raise ValueError(f"missing or empty 'book_summary' field: {result.get('book_summary')!r}")
-    # overall_reasoning goes missing/None almost as often as a category does (observed: ~60% on
-    # fully CMU-grounded prompts, likely from prompt length). It's a nice-to-have summary, not
-    # load-bearing data like a score -- fall back to None + a placeholder in build_row rather than
-    # failing the whole book over one missing text field.
+    # overall_reasoning is a nice-to-have summary, not load-bearing scoring data -- fall back to
+    # None + a placeholder in build_row rather than failing the whole book over one missing field.
     if not isinstance(result.get("overall_reasoning"), str) or not result["overall_reasoning"].strip():
         result["overall_reasoning"] = None
 
-    any_usable = False
+    usable_count = 0
     for cat in ALL_CATEGORIES:
-        cat_result = result.get(cat)
-        if isinstance(cat_result, dict) and isinstance(cat_result.get("score"), (int, float)):
-            any_usable = True
-            continue
-        salvaged = salvage_category_field(cat_result)
-        if isinstance(salvaged, dict) and isinstance(salvaged.get("score"), (int, float)):
-            result[cat] = salvaged
-            any_usable = True
-        else:
-            result[cat] = None  # genuinely missing/unrecoverable, not a hard failure on its own
-    if not any_usable:
-        raise ValueError("no categories were scored (all missing or unrecoverable)")
+        score = result.get(f"{cat}_score")
+        reasoning = result.get(f"{cat}_reasoning")
+        if not isinstance(score, (int, float)):
+            salvaged = salvage_category_field(score)
+            if isinstance(salvaged, dict) and isinstance(salvaged.get("score"), (int, float)):
+                score, reasoning = salvaged["score"], salvaged["reasoning"]
+            else:
+                result[cat] = None
+                continue
+        if not isinstance(reasoning, str) or not reasoning.strip():
+            reasoning = "(not provided by model)"
+        result[cat] = {"score": score, "reasoning": reasoning}
+        usable_count += 1
+
+    if usable_count < MIN_USABLE_CATEGORIES:
+        raise ValueError(
+            f"only {usable_count}/{len(ALL_CATEGORIES)} categories usable "
+            f"(need >= {MIN_USABLE_CATEGORIES}) -- response looks truncated/degraded"
+        )
     return result
 
 
 def score_book(client: Anthropic, model: str, book: dict, mandate: dict) -> dict:
     response = client.messages.create(
         model=model,
-        max_tokens=1024,
+        max_tokens=2048,
         tools=[SCORE_TOOL],
         tool_choice={"type": "tool", "name": "record_score"},
         messages=[{"role": "user", "content": build_prompt(book, mandate)}],
@@ -362,7 +384,7 @@ def run_batch(client: Anthropic, model: str, remaining: list, mandate: dict, wei
                 "custom_id": cid,
                 "params": {
                     "model": model,
-                    "max_tokens": 1024,
+                    "max_tokens": 2048,
                     "tools": [SCORE_TOOL],
                     "tool_choice": {"type": "tool", "name": "record_score"},
                     "messages": [{"role": "user", "content": build_prompt(book, mandate)}],

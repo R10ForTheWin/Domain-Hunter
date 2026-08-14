@@ -156,24 +156,41 @@ freeform-generated "dark noir thriller / insider / small town" pitch) — **2,52
 failed**. The failures are logged locally but not committed (they're a per-run artifact, not
 shared data); re-running `scoring_agent.py --batch` picks up only the missing book_ids.
 
-Worth recording for whoever touches this next: at this scale, forced tool-use on Haiku
-occasionally returns a category's value as a raw fragment of a different tool-call syntax (e.g.
-`'\n<parameter name="score">25'`) instead of `{"score": 25, "reasoning": "..."}`) — observed on
-simple, famous books (Pride and Prejudice, A Christmas Carol), so it isn't about content
-complexity, and it happens in both the Batches API and live calls. Retrying the same call doesn't
-reliably fix it (~50% failure rate persisted across repeated attempts). Since the actual score is
-recoverable from that malformed string, `validate_score_result()` salvages it via regex instead of
-discarding an otherwise-complete response — this eliminated the need for most retries entirely.
-The 106 remaining failures are cases where salvage still couldn't recover a usable score.
+### The nested-schema bug (root cause, worth reading before changing `SCORE_TOOL`)
 
-Two related failure shapes turned up later, both now handled the same way (fix what's fixable,
-otherwise drop just that one field and keep the rest of the response, only failing the whole book
-if nothing usable is left): a category can come back `None` (nothing to salvage — excluded from
-`total_score`, and `weights` renormalized over whatever categories are present, so a missing score
-doesn't unfairly tank the total); and `overall_reasoning` can come back `None` almost as often as a
-category does, especially on longer, fully CMU-grounded prompts (60% missing in one 50-book test
-where every book had a verified summary) — since it's a nice-to-have summary rather than scoring
-data, a missing one falls back to a placeholder string instead of failing the book.
+The tool schema originally gave each category a nested object — `genre_fit: {score, reasoning}`.
+Under that shape, Haiku regularly dropped out of JSON partway through a response and emitted a
+different tool-call syntax instead: a category's value would come back as the literal string
+`'\n<parameter name="score">25'`, and **every field after it was lost**. On a 50-book run with
+fully CMU-grounded (longer) prompts, roughly half the responses came back with only 1 of 6
+categories usable.
+
+Two things made this hard to spot. First, it looked like content complexity or truncation, but it
+wasn't either — it hit simple, famous books (Pride and Prejudice, A Christmas Carol), happened in
+both the Batches API and live calls, and raising `max_tokens` from 1024 to 2048 changed nothing.
+Second, early validation was lenient enough that a response with one salvaged category still
+counted as "scored," so a run could report `50 scored, 0 failed` while most rows were nearly empty
+— a false success that masked the problem until the CSV was inspected column by column.
+
+The tell is that the leaked parameter name is a bare `"score"`, which only existed *inside* the
+nested objects. **Flattening the schema to 12 primitive top-level fields**
+(`genre_fit_score`, `genre_fit_reasoning`, …) removed the ambiguity and eliminated the bug: a
+50-book verification run produced 50/50 rows with all 6/6 categories populated, zero placeholders,
+and zero salvaged fields. `build_row()` writes the same CSV either way, so no downstream package
+was affected. The rubric itself (six categories, weights) was never the problem — only the shape
+of the tool call.
+
+Defences kept in place, in case a variant of this recurs: the regex salvage for a malformed score
+string; per-category `None` handling that excludes a missing category from `total_score` and
+renormalizes `weights` over the ones present (so a gap doesn't unfairly tank the total); a
+placeholder for a missing `overall_reasoning` (a nice-to-have summary, not scoring data); and
+`MIN_USABLE_CATEGORIES = 4`, which fails a mostly-empty response loudly instead of shipping a
+`total_score` derived from one or two fields.
+
+Note the committed 2,524-row corpus output predates the flattening but was checked and is clean —
+all rows have 6/6 categories populated. Only 311 of 2,630 books had CMU summaries, so most prompts
+were short and the bug rarely triggered; it surfaced on the demo pool precisely because all 50 of
+those books are grounded.
 
 ## Demo pool: `studio_scoring/demo_pool.csv`
 
