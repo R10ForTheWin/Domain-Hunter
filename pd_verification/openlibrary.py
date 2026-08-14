@@ -20,6 +20,7 @@ from __future__ import annotations
 
 import json
 import re
+import time
 import urllib.error
 import urllib.parse
 import urllib.request
@@ -28,7 +29,11 @@ from typing import Any, Dict, List, Optional
 _BOOKS_URL = "https://openlibrary.org/api/books"
 _SEARCH_URL = "https://openlibrary.org/search.json"
 _AUTHOR_URL_TEMPLATE = "https://openlibrary.org{author_key}.json"
-_TIMEOUT_SECONDS = 10
+# See gutenberg.py's _get() for why these were shortened from (10s, 3, 1.5s):
+# a 34.5s worst-case silent stall is bad live in front of a class.
+_TIMEOUT_SECONDS = 5
+_MAX_ATTEMPTS = 2
+_RETRY_DELAY_SECONDS = 1
 _YEAR_RE = re.compile(r"(1[5-9]\d{2}|20\d{2})")  # a bare 4-digit year, 1500-2099
 
 
@@ -41,16 +46,23 @@ class OpenLibraryLookupError(Exception):
 
 def _get(url: str) -> Any:
     request = urllib.request.Request(url, headers={"User-Agent": "domain-hunter-pd-verification/1.0"})
-    try:
-        with urllib.request.urlopen(request, timeout=_TIMEOUT_SECONDS) as response:
-            body = response.read()
-    except OSError as exc:
-        # Not (URLError, HTTPError, TimeoutError): on Python 3.9, socket.timeout
-        # is an OSError subclass but NOT a TimeoutError subclass (that alias
-        # was only added in 3.10), so a timeout escaped this handler entirely
-        # on 3.9 -- the system Python on macOS. OSError is a strict superset
-        # of all four previously-caught types.
-        raise OpenLibraryLookupError(f"Could not reach Open Library ({url}): {exc}") from exc
+    last_exc: Optional[OSError] = None
+    for attempt in range(_MAX_ATTEMPTS):
+        try:
+            with urllib.request.urlopen(request, timeout=_TIMEOUT_SECONDS) as response:
+                body = response.read()
+            break
+        except OSError as exc:
+            # Not (URLError, HTTPError, TimeoutError): on Python 3.9, socket.timeout
+            # is an OSError subclass but NOT a TimeoutError subclass (that alias
+            # was only added in 3.10), so a timeout escaped this handler entirely
+            # on 3.9 -- the system Python on macOS. OSError is a strict superset
+            # of all four previously-caught types.
+            last_exc = exc
+            if attempt < _MAX_ATTEMPTS - 1:
+                time.sleep(_RETRY_DELAY_SECONDS * (attempt + 1))
+    else:
+        raise OpenLibraryLookupError(f"Could not reach Open Library ({url}): {last_exc}") from last_exc
     try:
         return json.loads(body)
     except json.JSONDecodeError as exc:

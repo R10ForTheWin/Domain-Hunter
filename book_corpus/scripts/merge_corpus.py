@@ -163,6 +163,36 @@ def main():
     if implausible_fixed:
         print(f"Post-merge plausibility pass: blanked {implausible_fixed} implausible publication years", file=sys.stderr)
 
+    # Disputed-authorship filter. The death-year batch queries Open Library
+    # by author name and trusts whatever work titles come back -- but OL
+    # work records list every edition's contributors (translators, editors,
+    # introduction-writers) as if they were candidate "authors" of separate
+    # works. Result: the same real work (same title + same OL source_url)
+    # shows up multiple times attributed to unrelated people (e.g.
+    # "Adventures of Huckleberry Finn" attributed to Twain, but also to
+    # Kipling, Orwell, and 7 others via the same work record). There is no
+    # reliable way to algorithmically pick the correct one from this data
+    # alone -- per the project's own ground rule (mark uncertain rather
+    # than guess), drop every row in a group like this rather than risk
+    # shipping a book under the wrong author's name. Found via real output
+    # inspection: the #1 shortlisted book was "Titus Andronicus" credited
+    # to naturalist John Muir instead of Shakespeare.
+    by_work = defaultdict(list)
+    for r in merged_rows:
+        by_work[(r["title"].strip().lower(), r["source_url"].strip())].append(r)
+    disputed_ids = {
+        r["book_id"]
+        for rows in by_work.values()
+        if len(rows) > 1 and len({r["author"] for r in rows}) > 1
+        for r in rows
+    }
+    if disputed_ids:
+        before = len(merged_rows)
+        merged_rows = [r for r in merged_rows if r["book_id"] not in disputed_ids]
+        print(f"Disputed-authorship filter: dropped {before - len(merged_rows)} rows across "
+              f"{sum(1 for rows in by_work.values() if len(rows) > 1 and len({r['author'] for r in rows}) > 1)} "
+              f"works with conflicting author attributions for the same source record", file=sys.stderr)
+
     # Resolve any book_id collisions (distinct books that happened to slug identically)
     seen_ids = set()
     for r in merged_rows:

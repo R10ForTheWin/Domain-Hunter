@@ -15,6 +15,7 @@ import argparse
 import csv
 import json
 import os
+import re
 import sys
 import threading
 import time
@@ -35,30 +36,44 @@ MADLIB_CATEGORIES = [
 ]
 ALL_CATEGORIES = MADLIB_CATEGORIES + ["name_recognition"]
 
-FIELDNAMES = ["book_id", "studio", "total_score", "reasoning"] + [
+FIELDNAMES = ["book_id", "studio", "total_score", "reasoning", "book_summary"] + [
     f"{cat}_{suffix}" for cat in ALL_CATEGORIES for suffix in ("score", "reasoning")
 ]
 
+# The schema is deliberately FLAT (12 primitive fields, not 6 nested {score, reasoning} objects).
+# With the nested shape, Haiku frequently dropped out of JSON partway through and emitted a
+# different tool-call syntax instead -- a category's value would come back as the literal string
+# '\n<parameter name="score">25' and every field after it was lost, leaving 1/6 categories usable
+# on roughly half of a 50-book run. Note the leaked parameter name is a bare "score", which only
+# existed *inside* the nested objects. Flattening removes that ambiguity entirely; the CSV written
+# by build_row() is unchanged either way, so nothing downstream is affected.
 SCORE_TOOL = {
     "name": "record_score",
     "description": "Record the A24 studio-fit score for one book, one sub-score per rubric category.",
     "input_schema": {
         "type": "object",
         "properties": {
+            "book_summary": {
+                "type": "string",
+                "description": "What you actually know about this specific book's plot, genre, and "
+                                "themes, based on its title and author — 1-3 sentences. If you don't "
+                                "confidently recognize this exact title/author, say so explicitly "
+                                "(e.g. 'not confidently recognized') instead of guessing or inventing "
+                                "a plot. All scores below must be based on this summary, not the bare "
+                                "title string.",
+            },
             **{
-                cat: {
-                    "type": "object",
-                    "properties": {
-                        "score": {
-                            "type": "number",
-                            "description": "0-100 fit score for this category",
-                        },
-                        "reasoning": {
-                            "type": "string",
-                            "description": "One short sentence on why this score. Be concise.",
-                        },
-                    },
-                    "required": ["score", "reasoning"],
+                f"{cat}_score": {
+                    "type": "number",
+                    "description": f"0-100 fit score for {cat.replace('_', ' ')}",
+                }
+                for cat in ALL_CATEGORIES
+            },
+            **{
+                f"{cat}_reasoning": {
+                    "type": "string",
+                    "description": f"One short sentence on why {cat.replace('_', ' ')} scored that "
+                                    f"way. Be concise.",
                 }
                 for cat in ALL_CATEGORIES
             },
@@ -67,13 +82,47 @@ SCORE_TOOL = {
                 "description": "One concise sentence summarizing the book's overall fit against the mandate.",
             },
         },
-        "required": ALL_CATEGORIES + ["overall_reasoning"],
+        "required": (
+            ["book_summary"]
+            + [f"{cat}_score" for cat in ALL_CATEGORIES]
+            + [f"{cat}_reasoning" for cat in ALL_CATEGORIES]
+            + ["overall_reasoning"]
+        ),
     },
 }
 
 
+MAX_SUMMARY_CHARS = 1000  # longer raw summaries (some CMU entries run 20k+ chars) have been
+                          # observed to destabilize the model's structured tool-call output
+
+
+def truncate_summary(summary: str, max_chars: int = MAX_SUMMARY_CHARS) -> str:
+    if len(summary) <= max_chars:
+        return summary
+    cut = summary[:max_chars]
+    last_period = cut.rfind(". ")  # prefer a clean sentence boundary over a mid-word cut
+    if last_period > max_chars * 0.5:
+        cut = cut[: last_period + 1]
+    return cut.strip() + " [truncated]"
+
+
 def build_prompt(book: dict, mandate: dict) -> str:
     blanks = mandate["blanks"]
+    verified_summary = truncate_summary((book.get("summary") or "").strip())
+
+    if verified_summary:
+        grounding = f"""VERIFIED SUMMARY (sourced, not a guess — use this as ground truth for the
+book's actual plot/genre/themes): {verified_summary}
+
+Restate this (in your own words, 1-3 sentences) as book_summary, then score all six categories
+0-100 against it."""
+    else:
+        grounding = """No verified summary is available for this book. First fill in book_summary
+based on what you actually know about this specific book's plot, genre, and themes from its title
+and author — do not guess or invent a plot for a title you don't recognize; say so explicitly
+instead (e.g. "not confidently recognized"). Then score all six categories 0-100 against that
+summary."""
+
     return f"""You are scoring a public-domain book for adaptation potential against a live-generated
 studio mandate for A24.
 
@@ -99,39 +148,108 @@ an obscure title scores low).
 BOOK:
 - Title: {book['title']}
 - Author: {book['author']}
-- Original publication year: {book['publication_year']}
+- Original publication year: {book.get('publication_year', '(unknown)')}
 - Notes: {book.get('notes') or '(none)'}
 
-Score all six categories 0-100 and call record_score. Keep every reasoning field to one short,
-concise sentence — no more."""
+Known data issue: this corpus has confirmed author-attribution errors (e.g. some titles are
+attached to the wrong author). The title is more reliable than the author field — if they seem to
+conflict (e.g. this title is well-known to be written by someone else), trust what you know about
+the actual book from its title, note the conflict in book_summary, and score based on the real
+book, not a false pairing.
+
+{grounding}
+
+Then call record_score. Keep every reasoning field to one short, concise sentence — no more."""
+
+
+# Observed live at scale (~50% of a large batch): forced tool-use occasionally emits a category's
+# value as a raw fragment of a different tool-call syntax, e.g. '\n<parameter name="score">25',
+# instead of {"score": 25, "reasoning": "..."} -- across simple, famous books (Pride and Prejudice,
+# A Christmas Carol), so this isn't about content complexity. Retrying the API call for the whole
+# book only fixes it about half the time and doubles cost/time for no gain the other half.
+# The actual score is sitting right there in the malformed string -- salvage it instead of
+# discarding an otherwise-complete response over one bad field.
+MALFORMED_SCORE_PATTERN = re.compile(r'<parameter\s+name="score"\s*>\s*(-?\d+(?:\.\d+)?)')
+
+
+def salvage_category_field(value):
+    if isinstance(value, str):
+        m = MALFORMED_SCORE_PATTERN.search(value)
+        if m:
+            return {
+                "score": float(m.group(1)),
+                "reasoning": "(not provided — recovered from a malformed model response)",
+            }
+    return value
+
+
+MIN_USABLE_CATEGORIES = 4  # of 6 -- below this, treat as a bad response worth retrying rather
+                           # than silently shipping a "total_score" based on 1-2 categories
 
 
 def validate_score_result(result: dict) -> dict:
-    """Even with forced tool-use, the model occasionally returns a malformed shape (e.g. a
-    category as a plain string instead of {"score":..., "reasoning":...}). Catch that here so
-    the caller can retry or fail just this one book, instead of crashing on a bad .get/[] access."""
+    """Reads the flat tool-call shape ({cat}_score / {cat}_reasoning) and normalizes it into the
+    internal {cat: {"score", "reasoning"}} form the rest of this module expects.
+
+    A category that is missing or unusable becomes None and is excluded from the weighted score
+    (see build_row's renormalization) rather than failing the whole book; MIN_USABLE_CATEGORIES
+    enforces a floor so a mostly-empty response triggers a retry instead of shipping a
+    total_score built from one or two fields. The salvage path is kept as a defensive measure for
+    the malformed-string case that motivated flattening the schema in the first place."""
     if not isinstance(result, dict):
         raise ValueError(f"expected a dict, got {type(result).__name__}: {result!r}")
+    if not isinstance(result.get("book_summary"), str) or not result["book_summary"].strip():
+        raise ValueError(f"missing or empty 'book_summary' field: {result.get('book_summary')!r}")
+    # overall_reasoning is a nice-to-have summary, not load-bearing scoring data -- fall back to
+    # None + a placeholder in build_row rather than failing the whole book over one missing field.
+    if not isinstance(result.get("overall_reasoning"), str) or not result["overall_reasoning"].strip():
+        result["overall_reasoning"] = None
+
+    usable_count = 0
     for cat in ALL_CATEGORIES:
-        cat_result = result.get(cat)
-        if not isinstance(cat_result, dict) or not isinstance(cat_result.get("score"), (int, float)):
-            raise ValueError(f"malformed '{cat}' field: {cat_result!r}")
-    if "overall_reasoning" not in result:
-        raise ValueError("missing 'overall_reasoning' field")
+        score = result.get(f"{cat}_score")
+        reasoning = result.get(f"{cat}_reasoning")
+        if not isinstance(score, (int, float)):
+            salvaged = salvage_category_field(score)
+            if isinstance(salvaged, dict) and isinstance(salvaged.get("score"), (int, float)):
+                score, reasoning = salvaged["score"], salvaged["reasoning"]
+            else:
+                result[cat] = None
+                continue
+        if not isinstance(reasoning, str) or not reasoning.strip():
+            reasoning = "(not provided by model)"
+        result[cat] = {"score": score, "reasoning": reasoning}
+        usable_count += 1
+
+    if usable_count < MIN_USABLE_CATEGORIES:
+        raise ValueError(
+            f"only {usable_count}/{len(ALL_CATEGORIES)} categories usable "
+            f"(need >= {MIN_USABLE_CATEGORIES}) -- response looks truncated/degraded"
+        )
     return result
 
 
 def score_book(client: Anthropic, model: str, book: dict, mandate: dict) -> dict:
     response = client.messages.create(
         model=model,
-        max_tokens=1024,
+        max_tokens=2048,
         tools=[SCORE_TOOL],
         tool_choice={"type": "tool", "name": "record_score"},
         messages=[{"role": "user", "content": build_prompt(book, mandate)}],
     )
     for block in response.content:
         if block.type == "tool_use":
-            return validate_score_result(block.input)
+            result = validate_score_result(block.input)
+            # Real token counts from the API response, not an estimate -- stashed under a
+            # leading-underscore key so build_row() (which reads specific keys only, never
+            # spreads the dict) and the CSV schema are both untouched by this. Consumers that
+            # want cost tracking (site/app.py's live-demo budget cap) read it explicitly;
+            # everyone else can ignore it.
+            result["_usage"] = {
+                "input_tokens": response.usage.input_tokens,
+                "output_tokens": response.usage.output_tokens,
+            }
+            return result
     raise RuntimeError(f"No tool_use block in response for {book['book_id']}")
 
 
@@ -148,16 +266,30 @@ def score_book_with_retry(client: Anthropic, model: str, book: dict, mandate: di
 
 
 def build_row(book: dict, studio: str, weights: dict, result: dict) -> dict:
-    total = sum(weights[cat] * result[cat]["score"] for cat in ALL_CATEGORIES)
+    # A category can be None (validate_score_result gave up salvaging it) -- exclude it from the
+    # weighted average and renormalize over whatever categories are actually present, rather than
+    # silently treating a missing score as 0 (which would unfairly tank the total).
+    present = [cat for cat in ALL_CATEGORIES if result.get(cat) is not None]
+    weight_sum = sum(weights[cat] for cat in present)
+    total = sum(weights[cat] * result[cat]["score"] for cat in present) / weight_sum
+    overall_reasoning = (
+        clean_text(result["overall_reasoning"]) if result.get("overall_reasoning") is not None
+        else "(overall reasoning not provided by model — see per-category reasoning columns)"
+    )
     row = {
         "book_id": book["book_id"],
         "studio": studio,
         "total_score": round(total, 2),
-        "reasoning": clean_text(result["overall_reasoning"]),
+        "reasoning": overall_reasoning,
+        "book_summary": clean_text(result["book_summary"]),
     }
     for cat in ALL_CATEGORIES:
-        row[f"{cat}_score"] = result[cat]["score"]
-        row[f"{cat}_reasoning"] = clean_text(result[cat]["reasoning"])
+        if result.get(cat) is not None:
+            row[f"{cat}_score"] = result[cat]["score"]
+            row[f"{cat}_reasoning"] = clean_text(result[cat]["reasoning"])
+        else:
+            row[f"{cat}_score"] = ""
+            row[f"{cat}_reasoning"] = "(not provided by model)"
     return row
 
 
@@ -175,6 +307,39 @@ def with_retry(fn, attempts: int = 6, base_delay: int = 10):
                 print(f"  (transient error: {e}; retrying in {delay}s)")
                 time.sleep(delay)
     raise last_error
+
+
+def run_live(client: Anthropic, model: str, books: list, mandate: dict, weights: dict,
+             studio: str, writer, out_file, workers: int, write_lock: threading.Lock,
+             label: str = "scored") -> list:
+    """Score books via live threaded calls (score_book_with_retry already retries transient and
+    malformed-shape failures 3x). Returns list of (book_id, error) failures."""
+    total = len(books)
+    completed = 0
+    failures = []
+
+    def process(book):
+        nonlocal completed
+        try:
+            result = score_book_with_retry(client, model, book, mandate)
+            row = build_row(book, studio, weights, result)
+            with write_lock:
+                writer.writerow(row)
+                out_file.flush()
+                completed += 1
+                print(f"[{completed}/{total}] {label}: {book['title']}")
+        except Exception as e:  # noqa: BLE001 - log and keep going, don't lose the rest of the batch
+            with write_lock:
+                completed += 1
+                failures.append((book["book_id"], str(e)))
+                print(f"[{completed}/{total}] FAILED: {book['title']} ({e})")
+
+    with ThreadPoolExecutor(max_workers=workers) as pool:
+        futures = [pool.submit(process, book) for book in books]
+        for f in as_completed(futures):
+            f.result()  # re-raise unexpected errors from process() itself, if any
+
+    return failures
 
 
 def manifest_path_for(output_path: Path) -> Path:
@@ -229,7 +394,7 @@ def run_batch(client: Anthropic, model: str, remaining: list, mandate: dict, wei
                 "custom_id": cid,
                 "params": {
                     "model": model,
-                    "max_tokens": 1024,
+                    "max_tokens": 2048,
                     "tools": [SCORE_TOOL],
                     "tool_choice": {"type": "tool", "name": "record_score"},
                     "messages": [{"role": "user", "content": build_prompt(book, mandate)}],
@@ -284,6 +449,23 @@ def run_batch(client: Anthropic, model: str, remaining: list, mandate: dict, wei
     return failures
 
 
+def load_summary_cache(path: Path) -> dict:
+    if not path.exists():
+        return {}
+    with open(path, newline="", encoding="utf-8") as f:
+        return {row["book_id"]: row["summary"] for row in csv.DictReader(f)}
+
+
+def enrich_with_summaries(books: list, cache: dict) -> None:
+    """Fill in book['summary'] from the CMU cache, but never overwrite a real summary already
+    present in book_corpus.csv itself (once Radoslav's package supplies that column, it wins)."""
+    for book in books:
+        if not (book.get("summary") or "").strip():
+            cached = cache.get(book["book_id"])
+            if cached:
+                book["summary"] = cached
+
+
 def load_done_ids(output_path: Path) -> set:
     if not output_path.exists():
         return set()
@@ -322,11 +504,19 @@ def main():
                               "instead of live threaded calls — recommended for large runs")
     parser.add_argument("--poll-interval", type=int, default=30,
                          help="seconds between batch status checks (--batch mode only)")
+    parser.add_argument("--fresh", action="store_true",
+                         help="delete any existing output for this --output path before scoring, "
+                              "so every book is re-scored. Use this for a live demo re-run: "
+                              "without it, resume logic sees the previous run's rows and skips "
+                              "every book, producing no new scores.")
     parser.add_argument("--resume-batch", default=None,
                          help="an existing batch ID to resume polling/collecting instead of "
                               "submitting a new batch — use this if scoring_agent.py crashed "
                               "after submission (see the 'Submitted batch ...' line it printed). "
                               "Only valid with the same --input/--limit as the original run.")
+    parser.add_argument("--summary-cache", default=str(HERE / "cmu_summaries.csv"),
+                         help="book_id -> real summary lookup from build_cmu_cache.py, used to "
+                              "ground scoring instead of the model's own recall where available")
     args = parser.parse_args()
 
     if not os.environ.get("ANTHROPIC_API_KEY"):
@@ -345,8 +535,22 @@ def main():
     with open(args.input, newline="", encoding="utf-8") as f:
         books = list(csv.DictReader(f))
 
+    summary_cache = load_summary_cache(Path(args.summary_cache))
+    enrich_with_summaries(books, summary_cache)
+    if summary_cache:
+        grounded = sum(1 for b in books if (b.get("summary") or "").strip())
+        print(f"Summary grounding: {grounded}/{len(books)} books have a verified summary "
+              f"({len(summary_cache)} available in {args.summary_cache}).")
+
     output_path = Path(args.output)
     output_path.parent.mkdir(parents=True, exist_ok=True)
+
+    if args.fresh:
+        for stale in (output_path, manifest_path_for(output_path),
+                       output_path.with_name(output_path.stem + "_failures.txt")):
+            if stale.exists():
+                stale.unlink()
+                print(f"--fresh: removed {stale.name}")
 
     done_ids = load_done_ids(output_path)
     remaining = [b for b in books if b["book_id"] not in done_ids]
@@ -363,39 +567,37 @@ def main():
         out_file.flush()
 
     total = len(remaining)
+    write_lock = threading.Lock()
     failures = []
 
     if args.batch:
         try:
             failures = run_batch(client, args.model, remaining, mandate, weights, studio,
                                   writer, out_file, args.poll_interval, args.resume_batch)
+
+            # validate_score_result() already salvages the common malformed-shape case (a category
+            # field as a raw '<parameter name="score">N' string), so most of these are now handled
+            # without any extra API call. What's left here is the rarer case where a field is
+            # malformed in some other, unsalvageable way -- worth one live retry before giving up,
+            # since that's at least a different sample from the model.
+            retryable = [(bid, err) for bid, err in failures if "malformed model response" in err]
+            if retryable:
+                print(f"\n{len(retryable)} batch results failed validation even after salvage — "
+                      f"retrying those live...")
+                book_by_id = {b["book_id"]: b for b in remaining}
+                retry_books = [book_by_id[bid] for bid, _ in retryable if bid in book_by_id]
+                still_failed = run_live(client, args.model, retry_books, mandate, weights, studio,
+                                         writer, out_file, args.workers, write_lock,
+                                         label="recovered")
+                non_retryable = [f for f in failures if "malformed model response" not in f[1]]
+                failures = non_retryable + still_failed
+                print(f"Live retry recovered {len(retryable) - len(still_failed)}/{len(retryable)}.")
         finally:
             out_file.close()
     else:
-        write_lock = threading.Lock()
-        completed = 0
-
-        def process(book):
-            nonlocal completed
-            try:
-                result = score_book_with_retry(client, args.model, book, mandate)
-                row = build_row(book, studio, weights, result)
-                with write_lock:
-                    writer.writerow(row)
-                    out_file.flush()
-                    completed += 1
-                    print(f"[{completed}/{total}] scored: {book['title']}")
-            except Exception as e:  # noqa: BLE001 - log and keep going, don't lose the rest of the batch
-                with write_lock:
-                    completed += 1
-                    failures.append((book["book_id"], str(e)))
-                    print(f"[{completed}/{total}] FAILED: {book['title']} ({e})")
-
         try:
-            with ThreadPoolExecutor(max_workers=args.workers) as pool:
-                futures = [pool.submit(process, book) for book in remaining]
-                for f in as_completed(futures):
-                    f.result()  # re-raise unexpected errors from process() itself, if any
+            failures = run_live(client, args.model, remaining, mandate, weights, studio,
+                                 writer, out_file, args.workers, write_lock)
         finally:
             out_file.close()
 

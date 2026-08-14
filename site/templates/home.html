@@ -70,6 +70,19 @@
     border-radius: 12px;
     border: 1px solid rgba(255,255,255,0.4);
   }
+  .hood-link {
+    position: absolute;
+    top: max(38px, calc(env(safe-area-inset-top) + 26px));
+    right: 10px;
+    z-index: 3;
+    font-size: 8.5px;
+    color: rgba(250,246,236,0.8);
+    text-decoration: none;
+    background: rgba(0,0,0,0.25);
+    padding: 3px 8px;
+    border-radius: 10px;
+    border: 1px solid rgba(255,255,255,0.3);
+  }
 
   .button-overlay {
     position: absolute;
@@ -83,20 +96,67 @@
   .cta-btn { display: block; line-height: 0; transition: transform 0.15s ease; width: 50%; max-width: 190px; }
   .cta-btn:hover { transform: translate(-2px, -3px); }
   .cta-btn img { width: 100%; height: auto; display: block; filter: drop-shadow(0 2px 5px rgba(0,0,0,0.4)); }
+
+  /* Desktop-only: a scannable QR code so a class watching on a projector
+     can pull the same site up on their own phone. Hidden on mobile --
+     no point showing someone on their phone a QR code to their own page. */
+  .qr-panel {
+    display: none;
+    position: absolute;
+    left: 16px; bottom: 16px;
+    z-index: 3;
+    width: 132px;
+    background: #faf6ec;
+    border: 3px solid #1a1a1a;
+    border-radius: 12px;
+    padding: 12px 12px 10px 12px;
+    box-shadow: 4px 4px 0 rgba(0,0,0,0.3);
+    text-align: center;
+  }
+  .qr-panel img { display: block; width: 100%; height: auto; }
+  .qr-panel span {
+    display: block; margin-top: 8px; padding: 0 2px; font-size: 9.5px; font-weight: 800;
+    line-height: 1.35; text-transform: uppercase; letter-spacing: 0.03em; color: #1a1a1a;
+    font-family: -apple-system, "Helvetica Neue", Arial, sans-serif;
+  }
+  @media (min-width: 701px) {
+    .qr-panel { display: block; }
+  }
 </style>
 </head>
 <body>
 
 <div class="hero">
-  <video autoplay muted loop playsinline poster="{{ url_for('static', filename='poster-archer.png') }}">
+  <video id="hero-video" autoplay muted loop playsinline preload="auto"
+         poster="{{ url_for('static', filename='poster-archer.png') }}"
+         data-poster-desktop="{{ url_for('static', filename='poster-archer-desktop.png') }}">
     <source src="{{ url_for('static', filename='logo-animation-desktop.mp4') }}" type="video/mp4" media="(min-width: 701px)">
     <source src="{{ url_for('static', filename='logo-animation-textless.mp4') }}" type="video/mp4">
   </video>
+  <script>
+    // poster-archer.png is a portrait mobile crop; on a wide viewport,
+    // object-fit:cover stretches it into a tight, zoomed-in crop until the
+    // video itself takes over. Swap to a proper widescreen poster frame
+    // (pulled from the desktop video itself) before that first paint, so
+    // any autoplay delay never shows the mobile crop on a wide screen.
+    (function () {
+      var v = document.getElementById('hero-video');
+      if (v && window.matchMedia('(min-width: 701px)').matches) {
+        v.poster = v.dataset.posterDesktop;
+      }
+    })();
+  </script>
 
   <div class="logo-overlay">
     <img class="wordmark" src="{{ url_for('static', filename='logo-wordmark.png') }}" alt="Domain Huntress — Public-Domain Adaptation Scout">
   </div>
   <a class="status-link" href="{{ url_for('status') }}">Status →</a>
+  <a class="hood-link" href="{{ url_for('under_the_hood') }}">Under the hood →</a>
+
+  <div class="qr-panel">
+    <img src="{{ url_for('static', filename='qr-code.png') }}" alt="Scan to open Domain Huntress on your phone">
+    <span>Scan to launch on phone</span>
+  </div>
 
   <div class="button-overlay">
     <a class="cta-btn" href="{{ url_for('producers') }}">
@@ -111,5 +171,26 @@
   </div>
 </div>
 
+<script>
+  // The autoplay/muted/playsinline attributes are usually enough on their
+  // own, but iOS Safari specifically leaves the video paused (poster frame
+  // showing, no visible controls) after two situations those attributes
+  // don't cover: restoring the page from the back-forward cache (tapping
+  // "back" into this page) and the tab/app regaining foreground after being
+  // backgrounded. Both leave .play() as the only way to resume, so retry it
+  // on the events that fire for each case. .catch() is required -- some
+  // browsers reject the promise if autoplay is genuinely blocked (e.g. iOS
+  // Low Power Mode), and that's expected, not an error to surface.
+  (function () {
+    var video = document.getElementById('hero-video');
+    if (!video) return;
+    function tryPlay() { video.play().catch(function () {}); }
+    tryPlay();
+    window.addEventListener('pageshow', tryPlay);
+    document.addEventListener('visibilitychange', function () {
+      if (!document.hidden) tryPlay();
+    });
+  })();
+</script>
 </body>
 </html>

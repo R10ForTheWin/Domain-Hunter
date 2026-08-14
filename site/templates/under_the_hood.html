@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Under the Hood — Domain Huntress</title>
+<style>
+  :root {
+    --teal: #0d6b7a; --teal-dark: #0a4f5a; --gold: #e8b93f; --red: #d8482f;
+    --cream: #faf6ec; --ink: #1a1a1a;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    font-family: -apple-system, "Helvetica Neue", Arial, sans-serif;
+    color: var(--ink);
+    background: var(--teal) url("{{ url_for('static', filename='bg-portrait.jpg') }}") center top / cover no-repeat;
+    min-height: 100vh;
+  }
+  @media (min-width: 701px) {
+    body { background-image: url("{{ url_for('static', filename='bg-landscape.jpg') }}"); }
+  }
+  .page { max-width: 480px; margin: 0 auto; padding: 18px 20px 40px 20px; }
+  .back-link {
+    display: inline-block; font-size: 11px; color: var(--cream); text-decoration: none;
+    background: rgba(0,0,0,0.25); padding: 5px 12px; border-radius: 12px;
+    border: 1px solid rgba(255,255,255,0.4); margin-bottom: 10px;
+  }
+  .logo { display: block; max-width: 300px; width: 80%; margin: 0 auto 10px auto; }
+  .burst {
+    display: block; margin: 0 auto 18px auto; max-width: 340px; width: 95%;
+    background: var(--gold); color: var(--ink); text-align: center;
+    font-weight: 900; font-style: italic; font-size: 22px; letter-spacing: 0.01em;
+    padding: 14px 20px; border: 4px solid var(--ink); border-radius: 16px;
+    box-shadow: 5px 5px 0 rgba(0,0,0,0.3);
+    text-transform: uppercase;
+  }
+  .card {
+    background: var(--cream);
+    background-image: radial-gradient(rgba(0,0,0,0.05) 1px, transparent 1px);
+    background-size: 8px 8px;
+    border: 3px solid var(--ink);
+    border-radius: 14px;
+    padding: 18px 20px;
+    margin-bottom: 16px;
+    box-shadow: 5px 5px 0 rgba(0,0,0,0.25);
+  }
+  .mandate-studio {
+    font-size: 24px; font-weight: 900; font-style: italic; margin: 2px 0 12px 0;
+  }
+  .weight-row { display: flex; align-items: center; gap: 8px; margin: 6px 0; font-size: 12.5px; }
+  .weight-label { flex: 0 0 150px; font-weight: 700; text-transform: capitalize; }
+  .weight-bar-track { display: block; flex: 1 1 auto; background: #e6ddc0; border: 2px solid var(--ink); border-radius: 8px; height: 14px; overflow: hidden; }
+  .weight-bar-fill { display: block; height: 100%; background: var(--red); }
+  .weight-pct { flex: 0 0 34px; text-align: right; font-weight: 800; }
+  p.note { font-size: 13px; line-height: 1.5; margin: 10px 0 0 0; }
+  .step { display: flex; gap: 10px; align-items: baseline; margin: 10px 0 0 0; }
+  .step-n {
+    flex: 0 0 22px; font-weight: 900; font-style: italic; color: var(--red); font-size: 15px;
+  }
+  .step-body { font-size: 13px; line-height: 1.5; }
+  .step-body strong { font-weight: 800; }
+</style>
+</head>
+<body>
+<div class="page">
+  <a href="{{ url_for('home') }}" class="back-link">← Home</a>
+
+  <img class="logo" src="{{ url_for('static', filename='logo-wordmark.png') }}" alt="Domain Huntress">
+  <div class="burst">Under the Hood</div>
+
+  <div class="card">
+    <div class="mandate-studio">How a book makes the list</div>
+    <div class="step"><span class="step-n">1</span><span class="step-body"><strong>Package 2</strong> independently confirms public-domain status — no exceptions, no guessing. A book that can't be confirmed never reaches scoring.</span></div>
+    <div class="step"><span class="step-n">2</span><span class="step-body"><strong>Package 4</strong> scores every confirmed book against a studio's creative mandate.</span></div>
+    <div class="step"><span class="step-n">3</span><span class="step-body"><strong>Package 5</strong> joins both, ranks by score, and caps the result at ten.</span></div>
+  </div>
+
+  {% if mandate %}
+  <div class="card">
+    <div class="mandate-studio">Target: {{ mandate.studio }}</div>
+    <p class="note">This is the real, evidence-based scoring rubric the team built for {{ mandate.studio }} —
+    not a placeholder. Every book in the corpus is scored against these weighted categories.</p>
+    {% for name, weight in mandate.weights %}
+    <div class="weight-row">
+      <span class="weight-label">{{ name.replace('_', ' ') }}</span>
+      <span class="weight-bar-track"><span class="weight-bar-fill" style="width:{{ (weight*100)|round|int }}%"></span></span>
+      <span class="weight-pct">{{ (weight*100)|round|int }}%</span>
+    </div>
+    {% endfor %}
+  </div>
+  {% endif %}
+</div>
+</body>
+</html>

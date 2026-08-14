@@ -14,85 +14,231 @@
     margin: 0;
     font-family: -apple-system, "Helvetica Neue", Arial, sans-serif;
     color: var(--ink);
-    background: var(--teal) url("{{ url_for('static', filename='bg-portrait.jpg') }}") center top / cover no-repeat fixed;
+    background: var(--teal) url("{{ url_for('static', filename='bg-portrait.jpg') }}") center top / cover no-repeat;
     min-height: 100vh;
   }
   @media (min-width: 701px) {
     body { background-image: url("{{ url_for('static', filename='bg-landscape.jpg') }}"); }
   }
-  header { text-align: center; padding: 30px 20px 18px 20px; position: relative; }
+  .page { max-width: 480px; margin: 0 auto; padding: 18px 20px 40px 20px; }
   .back-link {
-    position: absolute; top: 18px; left: 20px;
-    font-size: 12px; color: var(--cream); text-decoration: none;
+    display: inline-block; font-size: 11px; color: var(--cream); text-decoration: none;
     background: rgba(0,0,0,0.25); padding: 5px 12px; border-radius: 12px;
-    border: 1px solid rgba(255,255,255,0.4);
+    border: 1px solid rgba(255,255,255,0.4); margin-bottom: 10px;
   }
-  header h1 { color: var(--cream); font-size: 22px; margin: 8px 0 2px 0; }
-  header p { color: var(--cream); opacity: 0.85; font-size: 13px; margin: 0; }
-  main { max-width: 700px; margin: 0 auto; padding: 0 20px 60px 20px; }
+  .logo { display: block; max-width: 300px; width: 80%; margin: 0 auto 10px auto; }
+  .burst {
+    display: block; margin: 0 auto 18px auto; max-width: 340px; width: 95%;
+    background: var(--gold); color: var(--ink); text-align: center;
+    font-weight: 900; font-style: italic; font-size: 22px; letter-spacing: 0.01em;
+    padding: 14px 20px; border: 4px solid var(--ink); border-radius: 16px;
+    box-shadow: 5px 5px 0 rgba(0,0,0,0.3);
+    text-transform: uppercase;
+  }
+
   .card {
     background: var(--cream);
+    background-image: radial-gradient(rgba(0,0,0,0.05) 1px, transparent 1px);
+    background-size: 8px 8px;
     border: 3px solid var(--ink);
     border-radius: 14px;
-    padding: 26px 28px;
-    box-shadow: 6px 6px 0 rgba(0,0,0,0.25);
+    padding: 18px 20px;
+    margin-bottom: 16px;
+    box-shadow: 5px 5px 0 rgba(0,0,0,0.25);
   }
   .badge {
     display: inline-block;
-    background: var(--red);
-    color: var(--cream);
-    font-size: 11px;
+    font-size: 10px;
     font-weight: 800;
     text-transform: uppercase;
-    padding: 5px 14px;
+    letter-spacing: 0.03em;
+    padding: 4px 12px;
     border-radius: 20px;
     border: 2px solid var(--ink);
-    margin-bottom: 14px;
+    margin-bottom: 10px;
   }
-  ul { padding-left: 20px; }
-  li { margin: 6px 0; }
+  .badge.live { background: #b7e0a8; }
+  .badge.pending { background: var(--gold); }
+
+  .mandate-studio {
+    font-size: 24px; font-weight: 900; font-style: italic; margin: 2px 0 12px 0;
+  }
+  .weight-row { display: flex; align-items: center; gap: 8px; margin: 6px 0; font-size: 12.5px; }
+  .weight-label { flex: 0 0 150px; font-weight: 700; text-transform: capitalize; }
+  .weight-bar-track { display: block; flex: 1 1 auto; background: #e6ddc0; border: 2px solid var(--ink); border-radius: 8px; height: 14px; overflow: hidden; }
+  .weight-bar-fill { display: block; height: 100%; background: var(--red); }
+  .weight-pct { flex: 0 0 34px; text-align: right; font-weight: 800; }
+
+  p.note { font-size: 13px; line-height: 1.5; margin: 10px 0 0 0; }
+
+  .score-row { display: flex; align-items: baseline; gap: 8px; margin: 12px 0 0 0; font-size: 13.5px; }
+  .score-rank { flex: 0 0 22px; font-weight: 900; font-style: italic; color: var(--red); }
+  .score-title { flex: 1 1 auto; font-weight: 700; }
+  .score-title em { font-weight: 400; font-style: normal; opacity: 0.7; }
+  .score-value {
+    flex: 0 0 auto; font-weight: 900; background: var(--gold);
+    border: 2px solid var(--ink); border-radius: 8px; padding: 1px 8px;
+  }
+  .score-title.placeholder, .score-value.placeholder { opacity: 0.35; }
+  .score-value.placeholder { background: #e6ddc0; }
+  .score-why { font-size: 12px; line-height: 1.45; margin: 3px 0 0 30px; opacity: 0.8; }
+
+  .tabs { display: flex; gap: 6px; margin: 14px 0 4px 0; }
+  .tab-btn {
+    flex: 1 1 0; padding: 8px 6px; font: inherit; font-size: 12px; font-weight: 800;
+    text-transform: uppercase; cursor: pointer; background: #e6ddc0;
+    border: 2px solid var(--ink); border-radius: 8px;
+  }
+  .tab-btn.active { background: var(--gold); }
+  .tab-panel { display: none; }
+  .tab-panel.active { display: block; }
+  textarea {
+    width: 100%; padding: 8px 10px; border: 2px solid var(--ink); border-radius: 8px;
+    font: inherit; font-size: 14px; background: var(--cream); resize: vertical;
+  }
+  .go {
+    width: 100%; margin-top: 14px; padding: 11px; font: inherit; font-size: 15px;
+    font-weight: 900; font-style: italic; cursor: pointer; background: var(--red);
+    color: #fff; border: 2px solid var(--ink); border-radius: 10px;
+  }
+  .go:disabled { opacity: 0.6; cursor: wait; }
+  .err {
+    font-size: 13px; font-weight: 700; margin: 10px 0 0 0; padding: 8px 10px;
+    background: #ffd9d4; border: 2px solid var(--ink); border-radius: 8px;
+  }
+  .live-sentence {
+    font-size: 15px; font-weight: 800; font-style: italic; margin: 8px 0 0 0;
+    padding: 10px 12px; background: var(--gold);
+    border: 2px solid var(--ink); border-radius: 10px;
+  }
+
   fieldset {
-    margin-top: 20px;
-    border: 2px dashed #cfc6a5;
-    border-radius: 10px;
-    padding: 16px;
-    opacity: 0.6;
+    margin-top: 16px; border: 2px dashed #cfc6a5; border-radius: 10px;
+    padding: 14px; opacity: 0.55;
   }
-  label { display: block; font-size: 12px; font-weight: 700; margin: 10px 0 4px 0; text-transform: uppercase; }
-  input, select { width: 100%; padding: 8px 10px; border: 2px solid var(--ink); border-radius: 8px; font-size: 14px; }
+  label { display: block; font-size: 11px; font-weight: 800; margin: 8px 0 3px 0; text-transform: uppercase; }
+  input, select {
+    width: 100%; padding: 8px 10px; border: 2px solid var(--ink); border-radius: 8px; font-size: 14px;
+    font-family: inherit; background: var(--cream);
+  }
 </style>
 </head>
 <body>
-
-<header>
+<div class="page">
   <a href="{{ url_for('home') }}" class="back-link">← Home</a>
-  <h1>Find Public-Domain Books for Your Mandate</h1>
-  <p>For networks &amp; studios scouting adaptable IP</p>
-</header>
 
-<main>
+  <img class="logo" src="{{ url_for('static', filename='logo-wordmark.png') }}" alt="Domain Huntress">
+
   <div class="card">
-    <span class="badge">Coming soon</span>
-    <p>This will let you submit your creative mandate — genre, tone, franchise potential,
-    budget/scale, audience — and see which public-domain books in our corpus score well against
-    it.</p>
-    <p style="margin-top:10px;">It depends on the <strong>Studio Mandate Research &amp; Scoring</strong>
-    package, which is still in development — that's the piece that researches an actual target
-    studio's acquisition patterns and turns it into an evidence-based, weighted rubric. Until
-    that exists, there's no real scoring to show here rather than a placeholder built on made-up
-    weights.</p>
+    <div class="mandate-studio">Build a mandate</div>
+    {% if live_available %}
+    <p class="note">Two ways in — fill the blanks, or just describe it. Either way we score all
+    50 books in the demo set against it live. Takes about 30 seconds.</p>
 
-    <fieldset disabled>
-      <label>Target studio / network</label>
-      <input type="text" placeholder="e.g. A24, Netflix, Amazon MGM...">
-      <label>Genre</label>
-      <input type="text" placeholder="e.g. gothic horror, adventure...">
-      <label>Franchise potential</label>
-      <select><option>Low</option><option>Medium</option><option>High</option></select>
-      <label style="margin-top:16px;"><input type="checkbox" style="width:auto;display:inline;"> Notify me when this is ready</label>
-    </fieldset>
+    {% if live_error %}<p class="err">{{ live_error }}</p>{% endif %}
+
+    <div class="tabs">
+      <button type="button" class="tab-btn active" data-tab="madlib">Mad-lib</button>
+      <button type="button" class="tab-btn" data-tab="freeform">In your own words</button>
+    </div>
+
+    <form method="post" id="madlib" class="tab-panel active">
+      <input type="hidden" name="method" value="madlib">
+      {% for key in blank_keys %}
+      <label>{{ key.lower() }}</label>
+      <input type="text" name="{{ key }}"
+             value="{{ live_mandate.blanks[key] if live_mandate and live_mandate.source == 'madlib' else '' }}"
+             placeholder="{{ {'GENRE':'heist, horror, comedy...','ADJECTIVE':'unsettling, crazy, tender...','CHARACTER':'outsider, final girl, retiree...','VERB':'escapes, haunts, survives...','SETTING':'small town, space station...'}[key] }}">
+      {% endfor %}
+      <button type="submit" class="go">Find your match</button>
+    </form>
+
+    <form method="post" id="freeform" class="tab-panel">
+      <input type="hidden" name="method" value="freeform">
+      <label>describe what you're looking for</label>
+      <textarea name="freeform_text" rows="3"
+        placeholder="a quirky funny comedy where a prissy girl takes on the big city">{{ live_mandate.raw_input if live_mandate and live_mandate.raw_input else '' }}</textarea>
+      <button type="submit" class="go">Find your match</button>
+    </form>
+    {% else %}
+    <p class="note">The live mandate builder runs on this page when the scoring package and an
+    API key are available in the server environment. It isn't on this deploy, so the results
+    below are from the committed scoring run rather than a live one.</p>
+    {% endif %}
   </div>
-</main>
 
+  {% if mandate %}
+  {% if live_available and not live_mandate and not live_error %}
+  <div class="card">
+    <div class="mandate-studio">Top matches</div>
+    <p class="note">Fill in the mandate above and hit <strong>Find your match</strong> — this list
+    fills in with your real results once you submit.</p>
+    {% for n in range(1, 11) %}
+    <div class="score-row">
+      <span class="score-rank">{{ n }}</span>
+      <span class="score-title placeholder">—</span>
+      <span class="score-value placeholder">—</span>
+    </div>
+    {% endfor %}
+  </div>
+  {% elif top_scores %}
+  <div class="card">
+    <div class="mandate-studio">Top matches</div>
+    {% if live_mandate %}
+    <p class="live-sentence">{{ live_mandate.sentence }}</p>
+    <p class="note">Scored {{ scored_count }} of the 50 demo books against that mandate just
+    now{% if failed_count %} ({{ failed_count }} didn't return a usable score){% endif %}.</p>
+    {% endif %}
+    <p class="note">Real output from the scoring agent, highest-scoring first.
+    {% if not is_demo_run %}Every book here was independently confirmed public domain by
+    Package 2 before it was ever scored — no exceptions.{% endif %} Scores are
+    <strong>relative to one specific creative mandate</strong> — the agent is re-run per mandate,
+    so a different brief produces a different ranking.
+    {% if is_demo_run %}Scored live against the 50-book demo set.
+    {% else %}From a sample noir-thriller mandate run across the full corpus.{% endif %}</p>
+    {% for book in top_scores %}
+    <div class="score-row">
+      <span class="score-rank">{{ loop.index }}</span>
+      {# Author deliberately not shown: book_corpus.csv has ~98 titles attached to the wrong
+         author (Package 3 is fixing it), and this list would put those errors on screen. #}
+      <span class="score-title">{{ book.title }}</span>
+      <span class="score-value">{{ book.score }}</span>
+    </div>
+    {% if book.reasoning %}<p class="score-why">{{ book.reasoning }}</p>{% endif %}
+    {% endfor %}
+  </div>
+  {% endif %}
+  {% else %}
+  <div class="card">
+    <span class="badge pending">Coming soon</span>
+    <p class="note">This will let you submit your creative mandate and see which public-domain
+    books score well against it. Still in development.</p>
+  </div>
+  {% endif %}
+</div>
+
+<script>
+  // Tab switching between the two intake methods.
+  document.querySelectorAll('.tab-btn').forEach(function (btn) {
+    btn.addEventListener('click', function () {
+      var target = btn.dataset.tab;
+      document.querySelectorAll('.tab-btn').forEach(function (b) {
+        b.classList.toggle('active', b === btn);
+      });
+      document.querySelectorAll('.tab-panel').forEach(function (p) {
+        p.classList.toggle('active', p.id === target);
+      });
+    });
+  });
+
+  // Scoring 50 books takes ~30s. Without feedback the page just sits there and people
+  // click again, firing a second run -- so disable the button and say what's happening.
+  document.querySelectorAll('form').forEach(function (form) {
+    form.addEventListener('submit', function () {
+      var btn = form.querySelector('.go');
+      if (btn) { btn.disabled = true; btn.textContent = 'Scoring 50 books… ~30 seconds'; }
+    });
+  });
+</script>
 </body>
 </html>

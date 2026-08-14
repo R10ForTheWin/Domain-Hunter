@@ -103,7 +103,23 @@ def fetch_authors(target_count: int) -> list[dict]:
     return authors
 
 
+def _normalize_name_for_match(name: str) -> str:
+    # Open Library's author_name entries and Wikidata's author labels don't
+    # always agree on formatting ("Mark Twain" vs "Twain, Mark", accents,
+    # middle initials) -- compare on the sorted set of significant name
+    # tokens rather than exact string equality, which survives reordering
+    # and minor punctuation differences without being so loose it accepts a
+    # different person.
+    text = unicodedata.normalize("NFKD", name).encode("ascii", "ignore").decode("ascii").lower()
+    tokens = re.findall(r"[a-z]+", text)
+    return frozenset(t for t in tokens if len(t) > 1)  # drop bare initials
+
+
 def fetch_author_works(author_name: str, limit: int) -> list[dict]:
+    # Search casts a wide net (over-fetch, then filter to the real author
+    # below) since a chunk of results for any query get dropped by the
+    # author-match check -- fields:key requested at a higher limit than
+    # WORKS_PER_AUTHOR would return if every match were kept.
     try:
         resp = get_with_retry(
             OPENLIBRARY_URL,
@@ -111,15 +127,33 @@ def fetch_author_works(author_name: str, limit: int) -> list[dict]:
                 "author": author_name,
                 "language": "eng",
                 "sort": "editions",
-                "fields": "title,first_publish_year,edition_count,key",
-                "limit": limit,
+                "fields": "title,first_publish_year,edition_count,key,author_name",
+                "limit": max(limit * 5, 15),
             },
             headers=HEADERS,
             timeout=20,
         )
     except requests.RequestException:
         return []
-    return resp.json().get("docs", [])
+    docs = resp.json().get("docs", [])
+
+    # Open Library's author search is full-text and fuzzy: it returns works
+    # that mention, are about, were translated/introduced by, or simply got
+    # mis-catalogued under the searched name -- not just works actually
+    # written by them. Verified via real output inspection (audit by Ross,
+    # docs/corpus-attribution-audit.md): "Twelfth Night" came back attached
+    # to a search for Henry Ford; "Adventures of Huckleberry Finn" attached
+    # to 10 authors who aren't Twain. Only keep a result if the searched
+    # author's name is actually present in the work's own author_name list.
+    wanted = _normalize_name_for_match(author_name)
+    kept = []
+    for d in docs:
+        candidate_names = d.get("author_name") or []
+        if any(_normalize_name_for_match(c) == wanted for c in candidate_names):
+            kept.append(d)
+        if len(kept) >= limit:
+            break
+    return kept
 
 
 def build_book_id(title: str, author: str, pub_year: str, used_ids: set[str]) -> str:

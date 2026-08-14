@@ -41,6 +41,7 @@ def main():
     out = {
         "sentence": sentence,
         "blanks": answers,
+        "source": "madlib",
     }
     Path(args.output).write_text(yaml.safe_dump(out, sort_keys=False))
     print(f"Saved to {args.output}")

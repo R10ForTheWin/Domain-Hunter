@@ -1,2 +1,7 @@
 flask==3.1.0
 gunicorn==23.0.0
+# Package 4's live mandate scoring on /networks imports studio_scoring/, which needs these.
+# Without them the import fails, SCORING_AVAILABLE is False, and the page quietly falls back
+# to committed results with no live form -- which looks fine but isn't what's wanted on a deploy.
+anthropic>=0.40.0
+pyyaml>=6.0

@@ -9,7 +9,7 @@
   * { box-sizing: border-box; margin: 0; padding: 0; }
   body {
     font-family: -apple-system, "Helvetica Neue", Arial, sans-serif;
-    background: var(--teal) url("{{ url_for('static', filename='bg-portrait.jpg') }}") center top / cover no-repeat fixed;
+    background: var(--teal) url("{{ url_for('static', filename='bg-portrait.jpg') }}") center top / cover no-repeat;
     min-height: 100vh;
   }
   @media (min-width: 701px) {
@@ -23,10 +23,16 @@
   }
   .logo { display: block; max-width: 300px; width: 80%; margin: 0 auto 10px auto; }
   .burst { display: block; max-width: 340px; width: 95%; margin: 0 auto 18px auto; }
+  .or-note {
+    display: block; width: fit-content; margin: 0 auto 14px auto;
+    text-align: center; color: var(--ink); font-size: 12.5px; font-weight: 700;
+    background: var(--cream); border: 2px solid var(--ink); border-radius: 20px;
+    padding: 6px 16px;
+  }
 
   form { display: flex; flex-direction: column; gap: 12px; }
   .field-row { display: flex; align-items: center; gap: 10px; }
-  .field-icon { width: 46px; height: 46px; flex: 0 0 auto; object-fit: contain; }
+  .field-icon { width: 92px; height: 92px; flex: 0 0 auto; object-fit: contain; }
   .field-box {
     flex: 1 1 auto;
     background: var(--cream);
@@ -53,17 +59,61 @@
   .submit-btn:hover img { transform: translateY(-2px); }
 
   .results-header { display: block; max-width: 260px; width: 80%; margin: 26px auto 12px auto; }
-  .result-panel { position: relative; margin: 0 auto; max-width: 380px; }
+  /* The 3 panel images (11/12/13) are complete banners with their own
+     baked-in generic label ("YES, THIS IS PUBLIC DOMAIN" / "NO, THIS IS
+     PRIVATE, BUT WILL BE PD ON [example date]" / "UNCLEAR") -- they are
+     NOT badges meant to have dynamic text overlaid on top (that was the
+     original, wrong approach: the badge only occupies part of the image
+     in some banners but not others, so a fixed text-overlay offset broke
+     differently per banner). The real per-book message renders as its
+     own text block below the banner instead. */
+  .result-panel { margin: 0 auto 10px auto; max-width: 380px; }
   .result-panel img { width: 100%; display: block; }
-  .result-text {
-    position: absolute; inset: 0;
-    display: flex; align-items: center;
-    padding: 0 20px 0 78px;
-    font-size: 15px; font-weight: 700; line-height: 1.25;
+  .result-book {
+    max-width: 380px; margin: 0 auto 10px auto; text-align: center;
+    font-size: 16px; font-weight: 800; color: var(--cream);
+    text-shadow: 0 2px 4px rgba(0,0,0,0.5);
+  }
+  .result-book .author { font-weight: 500; opacity: 0.85; }
+  .result-message {
+    max-width: 380px; margin: 0 auto;
+    background: var(--cream); border: 3px solid var(--ink); border-radius: 14px;
+    padding: 14px 18px; font-size: 14px; font-weight: 600; line-height: 1.4; text-align: center;
   }
   .result-generic {
     background: var(--cream); border: 3px solid var(--ink); border-radius: 14px;
     padding: 16px 18px; font-size: 14px; font-weight: 600; text-align: center;
+  }
+
+  /* Loading state: hidden by default, shown by JS the instant the form is
+     submitted. A normal GET form does a full page reload, so this only
+     needs to cover the gap between "submit clicked" and "new page arrives"
+     -- no need to hide it again, the reload replaces it automatically. */
+  .loading-overlay {
+    display: none;
+    flex-direction: column; align-items: center; justify-content: center;
+    gap: 14px;
+    padding: 40px 20px;
+  }
+  .loading-overlay.active { display: flex; }
+
+  /* Loading spinner: the orange thinking-swirl art, just spinning. */
+  .thinking-graphic {
+    width: 110px;
+    animation: swirlSpin 1.4s linear infinite;
+    filter: drop-shadow(0 4px 8px rgba(0,0,0,0.35));
+  }
+  .thinking-graphic img { display: block; width: 100%; height: auto; }
+
+  @keyframes swirlSpin {
+    from { transform: rotate(0deg); }
+    to   { transform: rotate(360deg); }
+  }
+
+  .loading-text {
+    color: var(--cream); font-weight: 900; font-style: italic; font-size: 16px;
+    text-transform: uppercase; letter-spacing: 0.03em;
+    text-shadow: 0 2px 4px rgba(0,0,0,0.5);
   }
 </style>
 </head>
@@ -71,8 +121,10 @@
 <div class="page">
   <a href="{{ url_for('home') }}" class="back-link">← Home</a>
 
-  <img class="logo" src="{{ url_for('static', filename='producer/01_logo_domain_huntress.png') }}" alt="Domain Huntress — Book Status Checker">
+  <img class="logo" src="{{ url_for('static', filename='logo-wordmark.png') }}" alt="Domain Huntress — Book Status Checker">
   <img class="burst" src="{{ url_for('static', filename='producer/02_check_a_book_burst.png') }}" alt="Check a book!">
+
+  <p class="or-note">Just fill in <strong>one</strong> of these — whichever you have on hand</p>
 
   <form method="get">
     <div class="field-row">
@@ -96,32 +148,50 @@
         <input type="text" name="gutenberg_id" value="{{ identifier_value if identifier_type == 'gutenberg_id' else '' }}" placeholder="Enter Gutenberg ID...">
       </div>
     </div>
-    <button class="submit-btn" type="submit">
+    <button class="submit-btn" type="submit" id="submit-btn">
       <img src="{{ url_for('static', filename='producer/09_button_check_status.png') }}" alt="Check status!">
     </button>
   </form>
 
+  <div class="loading-overlay" id="loading-overlay">
+    <div class="thinking-graphic">
+      <img src="{{ url_for('static', filename='producer/19_loading_swirl.png') }}" alt="">
+    </div>
+    <span class="loading-text">Checking the archives&hellip;</span>
+  </div>
+
   {% if validator_result %}
+  <div id="results">
   <img class="results-header" src="{{ url_for('static', filename='producer/10_results_header.png') }}" alt="Results">
 
   {% if validator_result.status == 'found_confirmed' %}
+    {% if validator_result.title %}
+    <div class="result-book">{{ validator_result.title }}<br><span class="author">{{ validator_result.author }}</span></div>
+    {% endif %}
     <div class="result-panel">
-      <img src="{{ url_for('static', filename='producer/11_result_public_domain_panel.png') }}" alt="">
-      <div class="result-text">{{ validator_result.message }}</div>
+      <img src="{{ url_for('static', filename='producer/11_result_public_domain_panel.png') }}" alt="Public domain">
     </div>
+    <div class="result-message">{{ validator_result.message }}</div>
   {% elif validator_result.status == 'found_not_confirmed' %}
+    {% if validator_result.title %}
+    <div class="result-book">{{ validator_result.title }}<br><span class="author">{{ validator_result.author }}</span></div>
+    {% endif %}
     <div class="result-panel">
-      <img src="{{ url_for('static', filename='producer/12_result_private_panel.png') }}" alt="">
-      <div class="result-text">{{ validator_result.message }}</div>
+      <img src="{{ url_for('static', filename='producer/12_result_private_panel.png') }}" alt="Still private">
     </div>
+    <div class="result-message">{{ validator_result.message }}</div>
   {% elif validator_result.status == 'found_uncertain' %}
+    {% if validator_result.title %}
+    <div class="result-book">{{ validator_result.title }}<br><span class="author">{{ validator_result.author }}</span></div>
+    {% endif %}
     <div class="result-panel">
-      <img src="{{ url_for('static', filename='producer/13_result_unclear_panel.png') }}" alt="">
-      <div class="result-text">{{ validator_result.message }}</div>
+      <img src="{{ url_for('static', filename='producer/13_result_unclear_panel.png') }}" alt="Unclear">
     </div>
+    <div class="result-message">{{ validator_result.message }}</div>
   {% else %}
     <div class="result-generic">{{ validator_result.message }}</div>
   {% endif %}
+  </div>
   {% endif %}
 
   {% if not validator_available %}
@@ -131,7 +201,7 @@
   {% endif %}
 
   {% if query %}
-    <div class="results-header" style="text-align:center; color:var(--cream); font-weight:800; margin-top:20px;">Corpus matches for "{{ query }}"</div>
+    <div id="results" class="results-header" style="text-align:center; color:var(--cream); font-weight:800; margin-top:20px;">Corpus matches for "{{ query }}"</div>
     {% if results %}
     <div style="background:var(--cream); border:3px solid var(--ink); border-radius:14px; padding:14px; margin-top:8px;">
       {% for b in results %}
@@ -143,5 +213,64 @@
     {% endif %}
   {% endif %}
 </div>
+
+<script>
+  // Results render below the fold on both mobile and desktop -- jump to
+  // them automatically instead of making the user scroll to find out the
+  // page actually responded. 'auto' (not the non-standard 'instant') is
+  // the spec-correct value every browser, including iOS Safari, honors.
+  // Must wait for the 'load' event, not run inline at parse time: this
+  // script runs (via document.write) before the result images below it
+  // have finished loading, so scrollIntoView was measuring the page's
+  // height BEFORE those images added their own height -- landing above
+  // where #results ends up once everything finishes loading in.
+  function scrollToResults() {
+    var results = document.getElementById('results');
+    if (results) {
+      results.scrollIntoView({ behavior: 'auto', block: 'start' });
+    }
+  }
+  if (document.readyState === 'complete') {
+    scrollToResults();
+  } else {
+    window.addEventListener('load', scrollToResults);
+  }
+
+  // A plain <form method="get"> triggers a full page navigation on
+  // submit -- browsers are not obligated to paint a DOM change made in
+  // the 'submit' handler before tearing down the page for that
+  // navigation, so the loading spinner could show for 0ms depending on
+  // the browser/device (this is what DJ hit: no spinner ever appeared,
+  // even though the request demonstrably took several seconds before
+  // timing out). Fetching the same URL from JS instead guarantees the
+  // spinner is on-screen before any network activity starts, since nothing
+  // is navigating away yet -- then swap the whole document for the
+  // response once it arrives. document.write's fresh document runs this
+  // same script again, which reliably scrolls to #results at that point.
+  var form = document.querySelector('form');
+  var overlay = document.getElementById('loading-overlay');
+  if (form && overlay) {
+    form.addEventListener('submit', function (e) {
+      e.preventDefault();
+      form.style.display = 'none';
+      overlay.classList.add('active');
+      var params = new URLSearchParams(new FormData(form));
+      var url = window.location.pathname + '?' + params.toString();
+      fetch(url)
+        .then(function (resp) { return resp.text(); })
+        .then(function (html) {
+          document.open();
+          document.write(html);
+          document.close();
+        })
+        .catch(function () {
+          // The fetch() call itself failed (not a lookup error -- those
+          // render as a normal page from the server) -- fall back to a
+          // real navigation rather than leaving the spinner stuck forever.
+          window.location.href = url;
+        });
+    });
+  }
+</script>
 </body>
 </html>
