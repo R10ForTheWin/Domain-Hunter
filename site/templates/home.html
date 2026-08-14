@@ -41,6 +41,14 @@
      mobile in favor of the video's whole frame always being visible. */
   @media (max-width: 700px) {
     html, body { height: auto; overflow-y: auto; }
+    /* height:auto above (needed so the video isn't force-stretched) means
+       body is only as tall as its content -- shorter than the actual
+       viewport whenever the video's natural aspect ratio doesn't fill it,
+       leaving the plain background-color fallback visible below the image
+       instead of the dotted background pattern. min-height keeps the
+       image covering the full screen without constraining content that's
+       taller than one screen. */
+    body { min-height: 100vh; min-height: 100dvh; }
     .hero { height: auto; overflow: visible; }
     .hero video { position: static; width: 100%; height: auto; display: block; }
   }

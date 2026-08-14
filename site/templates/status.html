@@ -181,8 +181,12 @@
 
   <div class="card">
     <h2>Live Scoring Budget</h2>
-    <p>${{ "%.2f"|format(live_scoring_spend) }} spent of ${{ "%.2f"|format(live_scoring_cap) }} cap
+    <p>${{ "%.2f"|format(live_scoring_spend) }} spent of ${{ "%.2f"|format(live_scoring_cap) }} currently-open cap
+    (${{ "%.2f"|format(live_scoring_full_cap) }} total)
     {% if live_scoring_spend >= live_scoring_cap %}<strong style="color:#d8482f"> — CAP HIT, live scoring is blocked</strong>{% endif %}</p>
+    {% if live_scoring_cap < live_scoring_full_cap %}
+    <p style="opacity:0.75">${{ "%.2f"|format(live_scoring_full_cap - live_scoring_cap) }} held in reserve until 6:30pm today.</p>
+    {% endif %}
   </div>
 
   <div class="card">
