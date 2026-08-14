@@ -65,7 +65,15 @@ CORPUS_PATH = DATA_DIR / "book_corpus.csv"
 # book_corpus.csv, and Package 2 ships the Stanford renewal lookups alongside it.
 # Both are optional: absent, the calendar behaves exactly as before.
 EXTRA_CORPUS_PATH = DATA_DIR / "book_corpus_renewal.csv"
-RENEWAL_INPUTS_PATH = DATA_DIR / "pd_verification_inputs_renewal.csv"
+# Two teammates answered "was this renewed?" independently against different
+# sources, and both write the same `renewal_filed` column. The calendar consumes
+# whichever exist -- it does not care who produced the fact, only that it is
+# sourced and recorded. Reading both makes the two efforts complementary rather
+# than competing, and surfaces any book where they disagree.
+RENEWAL_INPUTS_PATHS = [
+    DATA_DIR / "pd_verification_inputs.csv",          # Package 2 (Jason) — NYPL CCE
+    DATA_DIR / "pd_verification_inputs_renewal.csv",  # Package 3 (Radoslav) — Stanford CRD
+]
 CSV_OUT_PATH = DATA_DIR / "pd_calendar.csv"
 REPORT_OUT_PATH = DATA_DIR / "pd_calendar.md"
 
@@ -107,16 +115,37 @@ def parse_tribool(value: str | None) -> bool | None:
     return True if raw == "true" else False if raw == "false" else None
 
 
-def read_renewals(path: Path) -> dict:
-    """book_id -> renewal_filed, from Package 2's Stanford lookups."""
-    if not path.exists():
-        return {}
-    with path.open(newline="", encoding="utf-8") as f:
-        return {
-            r["book_id"]: parse_tribool(r.get("renewal_filed"))
-            for r in csv.DictReader(f)
-            if r.get("book_id")
-        }
+def read_renewals(paths: list) -> tuple:
+    """book_id -> renewal_filed, merged across every renewal source present.
+
+    Returns (lookups, conflicts, sources_used). A conflict is a book two sources
+    disagree about; those are dropped rather than arbitrated, because a
+    disagreement between two independent lookups is exactly the case where
+    guessing is worst. They are reported so a human can settle them.
+    """
+    per_source: dict = {}
+    for path in paths:
+        if not path.exists():
+            continue
+        with path.open(newline="", encoding="utf-8") as f:
+            per_source[path.name] = {
+                r["book_id"]: parse_tribool(r.get("renewal_filed"))
+                for r in csv.DictReader(f)
+                if r.get("book_id")
+            }
+
+    merged: dict = {}
+    conflicts: list = []
+    for name, rows in per_source.items():
+        for book_id, value in rows.items():
+            if value is None:
+                continue
+            if book_id in merged and merged[book_id] != value:
+                conflicts.append(book_id)
+                merged[book_id] = None  # disagreement -> unknown, never a guess
+            elif book_id not in merged:
+                merged[book_id] = value
+    return {k: v for k, v in merged.items() if v is not None}, conflicts, list(per_source)
 
 
 def read_corpus(path: Path) -> list[dict]:
@@ -280,8 +309,8 @@ def main(argv: list[str] | None = None) -> int:
     parser.add_argument("--input", type=Path, default=CORPUS_PATH)
     parser.add_argument("--extra-corpus", type=Path, default=EXTRA_CORPUS_PATH,
                         help="second corpus batch to include (default: the renewal-era batch)")
-    parser.add_argument("--renewal-inputs", type=Path, default=RENEWAL_INPUTS_PATH,
-                        help="Stanford renewal lookups keyed by book_id")
+    parser.add_argument("--renewal-inputs", type=Path, nargs="*", default=RENEWAL_INPUTS_PATHS,
+                        help="renewal lookups keyed by book_id; all present files are merged")
     parser.add_argument("--no-extras", action="store_true",
                         help="ignore the extra corpus and renewal data; main corpus only")
     parser.add_argument("--output", type=Path, default=CSV_OUT_PATH)
@@ -309,6 +338,8 @@ def main(argv: list[str] | None = None) -> int:
 
     rows = read_corpus(args.input)
     renewals: dict = {}
+    conflicts: list = []
+    sources: list = []
     extra_used = 0
     # Only fold in the repo's extra batches when reading the repo's own corpus.
     # Pointing --input at some other file should mean "read that file", not
@@ -321,7 +352,7 @@ def main(argv: list[str] | None = None) -> int:
             extras = [r for r in read_corpus(args.extra_corpus) if r.get("book_id") not in seen]
             rows += extras
             extra_used = len(extras)
-        renewals = read_renewals(args.renewal_inputs)
+        renewals, conflicts, sources = read_renewals(args.renewal_inputs)
 
     entries = evaluate_corpus(rows, args.as_of_year, renewals)
     cliffs = next_cliffs(args.as_of_year, args.horizon)
@@ -338,8 +369,14 @@ def main(argv: list[str] | None = None) -> int:
     if renewals:
         resolved = sum(1 for _, t in entries if "renewal_confirmed" in t.flags)
         lapsed = sum(1 for _, t in entries if "renewal_not_filed" in t.flags)
+        print(f"  renewal sources: {', '.join(sources)}", file=sys.stderr)
         print(f"  renewal lookups applied: {len(renewals)}"
               f" -> {resolved} confirmed, {lapsed} never renewed", file=sys.stderr)
+        if conflicts:
+            print(f"  !! {len(conflicts)} book(s) the sources DISAGREE on — left unknown:",
+                  file=sys.stderr)
+            for b in conflicts[:5]:
+                print(f"       {b}", file=sys.stderr)
     print(f"  already public domain as of {args.as_of_year}: {funnel['already_pd']}", file=sys.stderr)
     print(f"  no determinable date:                    {funnel['undetermined']}", file=sys.stderr)
     print(f"  entering {cliffs[0]}-{cliffs[-1]}:                        {funnel['in_window']}", file=sys.stderr)
