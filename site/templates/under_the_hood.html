@@ -45,6 +45,10 @@
     margin-bottom: 16px;
     box-shadow: 5px 5px 0 rgba(0,0,0,0.25);
   }
+  .loop-video {
+    display: block; width: 100%; border: 3px solid var(--ink); border-radius: 14px;
+    margin-bottom: 16px; box-shadow: 5px 5px 0 rgba(0,0,0,0.25);
+  }
   .mandate-studio {
     font-size: 24px; font-weight: 900; font-style: italic; margin: 2px 0 12px 0;
   }
@@ -69,6 +73,11 @@
   <img class="logo" src="{{ url_for('static', filename='logo-wordmark.png') }}" alt="Domain Huntress">
   <div class="burst">Under the Hood</div>
 
+  <video class="loop-video" autoplay muted loop playsinline preload="auto"
+         poster="{{ url_for('static', filename='poster-archer.png') }}">
+    <source src="{{ url_for('static', filename='under-the-hood-loop.mp4') }}" type="video/mp4">
+  </video>
+
   <div class="card">
     <div class="mandate-studio">How a book makes the list</div>
     <div class="step"><span class="step-n">1</span><span class="step-body"><strong>Package 2</strong> independently confirms public-domain status — no exceptions, no guessing. A book that can't be confirmed never reaches scoring.</span></div>
@@ -91,5 +100,21 @@
   </div>
   {% endif %}
 </div>
+
+<script>
+  // Same iOS Safari fix as the home page hero video: autoplay/muted/
+  // playsinline alone don't resume playback after a bfcache restore
+  // (tapping back into the page) or the tab regaining foreground.
+  (function () {
+    var video = document.querySelector('.loop-video');
+    if (!video) return;
+    function tryPlay() { video.play().catch(function () {}); }
+    tryPlay();
+    window.addEventListener('pageshow', tryPlay);
+    document.addEventListener('visibilitychange', function () {
+      if (!document.hidden) tryPlay();
+    });
+  })();
+</script>
 </body>
 </html>
