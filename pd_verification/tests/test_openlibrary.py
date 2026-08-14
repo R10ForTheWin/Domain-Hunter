@@ -106,3 +106,21 @@ def test_search_by_title_returns_normalized_results(monkeypatch):
 def test_search_by_title_empty_results(monkeypatch):
     monkeypatch.setattr(openlibrary, "_get", lambda url: {"docs": []})
     assert openlibrary.search_by_title("zzzznonexistentzzzz") == []
+
+
+def test_get_wraps_bare_oserror_not_just_urllib_types(monkeypatch):
+    # Regression test for ISSUE-10 (branch-audit-2026-08-12.md): on Python
+    # 3.9, socket.timeout is an OSError subclass but NOT a TimeoutError
+    # subclass (that alias was only added in 3.10). A handler written as
+    # `except (URLError, HTTPError, TimeoutError)` therefore let a real
+    # timeout on 3.9 escape uncaught and 500 the /producers route. This
+    # simulates that gap directly with a bare OSError -- neither a URLError,
+    # an HTTPError, nor a TimeoutError -- which must still be caught.
+    def _raise(*a, **k):
+        raise OSError("simulated socket.timeout-shaped failure, pre-3.10 style")
+    monkeypatch.setattr(openlibrary.urllib.request, "urlopen", _raise)
+    try:
+        openlibrary._get("https://openlibrary.org/isbn/0000000000.json")
+        assert False, "expected OpenLibraryLookupError -- bare OSError must not escape"
+    except openlibrary.OpenLibraryLookupError:
+        pass
