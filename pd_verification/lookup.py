@@ -12,9 +12,45 @@ from __future__ import annotations
 from dataclasses import dataclass
 from typing import Any, Dict, List, Optional, Tuple
 
-from . import gutenberg, openlibrary
+from . import gutenberg, io_csv, openlibrary
 
 IDENTIFIER_TYPES = ("book_name", "isbn", "gutenberg_id", "oclc")
+
+_LOCAL_CORPUS_PATH = "data/book_corpus.csv"
+
+
+def _local_corpus_match(query: str) -> Optional[Dict[str, Any]]:
+    """Exact-title match against the team's own, already-vetted
+    book_corpus.csv, checked before ever touching the network. A well-known
+    classic that's already in our corpus (the common case in a demo) then
+    resolves instantly and doesn't depend on Gutendex/Open Library being up
+    or fast -- both have been observed flaky live. Falls through to the live
+    lookups on any miss (partial title, not yet in the corpus), so nothing
+    is lost, just the common case gets faster and more reliable.
+    """
+    try:
+        rows = io_csv.read_book_corpus(_LOCAL_CORPUS_PATH)
+    except OSError:
+        return None
+    target = query.strip().lower()
+    if not target:
+        return None
+    for row in rows:
+        if (row.get("title") or "").strip().lower() == target:
+            death_year = row.get("author_death_year")
+            pub_year = row.get("publication_year")
+            return {
+                "source": "local_corpus",
+                "source_id": row.get("book_id"),
+                "title": row.get("title"),
+                "authors": [{
+                    "name": row.get("author"),
+                    "birth_year": None,
+                    "death_year": int(death_year) if death_year else None,
+                }],
+                "publication_year": int(pub_year) if pub_year else None,
+            }
+    return None
 
 
 @dataclass
@@ -90,6 +126,10 @@ def locate_book(identifier_type: str, query: str) -> LookupResult:
             return LookupResult("found", book=found)
 
         # identifier_type == "book_name"
+        local_match = _local_corpus_match(query)
+        if local_match is not None:
+            return LookupResult("found", book=local_match)
+
         gutenberg_matches = gutenberg.search(query, limit=5)
         if len(gutenberg_matches) == 1:
             return LookupResult("found", book=gutenberg_matches[0])

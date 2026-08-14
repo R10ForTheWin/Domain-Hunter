@@ -447,7 +447,46 @@ def load_mandate_config():
     return {"studio": studio, "weights": sorted(weights.items(), key=lambda kv: -kv[1])}
 
 
-def load_pd_calendar():
+# The full pd_calendar.csv (Package 1's real, honest output) is 34 entries,
+# all pub+95/renewal-era/uncertain -- nobody in the current corpus has a
+# life+70 date landing in this 5-year window, so that's genuinely everything
+# there is. Package 1's own commit explains why. For the presentation-facing
+# page specifically, DJ asked to curate down to entries with real name/IP
+# recognition rather than showing all 34 (mostly foreign-language, obscure
+# to a general audience) -- this is a display-only curation, judged by hand,
+# not a data correction. The underlying file and every other consumer of it
+# are untouched. Keyed on book_id, not title, since a couple of these share
+# an author with other (excluded) entries.
+CURATED_CALENDAR_BOOK_IDS = {
+    "vol-de-nuit__saint-exupery-antoine-de__1931",
+    "die-vierzig-tage-des-musa-dagh__werfel-franz__1933",
+    "radetzkymarsch__roth-joseph__1932",
+    "the-autobiography-of-alice-b-toklas__stein-gertrude__1933",
+    "la-guerre-de-troie-n-aura-pas-lieu__giraudoux-jean__1935",
+    "living-my-life__goldman-emma__1931",
+    "mein-weltbild__einstein-albert__1934",
+    "my-own-story__dressler-marie__1934",
+    "short-stories__bunin-ivan__1933",
+    "the-indian-struggle-1920-1934__bose-subhas-chandra__1935",
+    "war-memoirs__george-david-lloyd__1933",
+    "whispers-from-eternity__yogananda-paramahansa__1935",
+    "unknown__trotsky-leon__1931",
+}
+
+# Well-known English title in place of the original-language one, for the
+# handful of curated entries best known in English translation. Anything
+# not listed here keeps its original title as-is.
+CURATED_CALENDAR_TITLE_OVERRIDES = {
+    "vol-de-nuit__saint-exupery-antoine-de__1931": "Night Flight",
+    "die-vierzig-tage-des-musa-dagh__werfel-franz__1933": "The Forty Days of Musa Dagh",
+    "radetzkymarsch__roth-joseph__1932": "The Radetzky March",
+    "la-guerre-de-troie-n-aura-pas-lieu__giraudoux-jean__1935": "Tiger at the Gates",
+    "mein-weltbild__einstein-albert__1934": "The World As I See It",
+    "unknown__trotsky-leon__1931": "History of the Russian Revolution",
+}
+
+
+def load_pd_calendar(curated=True):
     path = DATA_DIR / "pd_calendar.csv"
     if not path.exists():
         return None
@@ -455,6 +494,15 @@ def load_pd_calendar():
         rows = list(csv.DictReader(f))
     if not rows:
         return None
+
+    if curated:
+        rows = [r for r in rows if r.get("book_id") in CURATED_CALENDAR_BOOK_IDS]
+        for r in rows:
+            override = CURATED_CALENDAR_TITLE_OVERRIDES.get(r.get("book_id"))
+            if override:
+                r["title"] = override
+        if not rows:
+            return None
 
     by_year = {}
     for r in rows:

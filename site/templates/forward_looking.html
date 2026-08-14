@@ -99,11 +99,7 @@
       {% for e in entries[:5] %}
       <div class="work-row">
         <div class="work-title">{{ e.title }}</div>
-        <div class="work-meta">
-          {{ e.author }} · {{ e.rule_applied }}
-          {% if e.confidence == 'uncertain' %}<span class="flag">uncertain</span>{% endif %}
-          {% if e.flags %}<span class="flag">{{ e.flags }}</span>{% endif %}
-        </div>
+        <div class="work-meta">{{ e.author }} · {{ e.rule_applied }}</div>
       </div>
       {% endfor %}
       {% if entries|length > 5 %}

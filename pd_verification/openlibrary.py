@@ -29,9 +29,11 @@ from typing import Any, Dict, List, Optional
 _BOOKS_URL = "https://openlibrary.org/api/books"
 _SEARCH_URL = "https://openlibrary.org/search.json"
 _AUTHOR_URL_TEMPLATE = "https://openlibrary.org{author_key}.json"
-_TIMEOUT_SECONDS = 10
-_MAX_ATTEMPTS = 3
-_RETRY_DELAY_SECONDS = 1.5
+# See gutenberg.py's _get() for why these were shortened from (10s, 3, 1.5s):
+# a 34.5s worst-case silent stall is bad live in front of a class.
+_TIMEOUT_SECONDS = 5
+_MAX_ATTEMPTS = 2
+_RETRY_DELAY_SECONDS = 1
 _YEAR_RE = re.compile(r"(1[5-9]\d{2}|20\d{2})")  # a bare 4-digit year, 1500-2099
 
 

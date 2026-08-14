@@ -21,9 +21,14 @@ import urllib.request
 from typing import Any, Dict, List, Optional
 
 _BASE_URL = "https://gutendex.com/books"
-_TIMEOUT_SECONDS = 10
-_MAX_ATTEMPTS = 3
-_RETRY_DELAY_SECONDS = 1.5
+# Shortened from (10s, 3 attempts, 1.5s backoff) -- that combination has a
+# 34.5s worst case before giving up, which is a long silent stall live in
+# front of a class if Gutendex is having a bad moment (observed happening).
+# One retry at a shorter timeout still absorbs a genuine transient blip
+# without making a real outage feel like the page is frozen.
+_TIMEOUT_SECONDS = 5
+_MAX_ATTEMPTS = 2
+_RETRY_DELAY_SECONDS = 1
 
 
 class GutenbergLookupError(Exception):
