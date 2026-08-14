@@ -27,14 +27,7 @@
     border: 1px solid rgba(255,255,255,0.4); margin-bottom: 10px;
   }
   .logo { display: block; max-width: 300px; width: 80%; margin: 0 auto 10px auto; }
-  .burst {
-    display: block; margin: 0 auto 18px auto; max-width: 340px; width: 95%;
-    background: var(--gold); color: var(--ink); text-align: center;
-    font-weight: 900; font-style: italic; font-size: 22px; letter-spacing: 0.01em;
-    padding: 14px 20px; border: 4px solid var(--ink); border-radius: 16px;
-    box-shadow: 5px 5px 0 rgba(0,0,0,0.3);
-    text-transform: uppercase;
-  }
+  .burst-banner { display: block; margin: 0 auto 18px auto; max-width: 340px; width: 95%; height: auto; }
   .card {
     background: var(--cream);
     background-image: radial-gradient(rgba(0,0,0,0.05) 1px, transparent 1px);
@@ -71,7 +64,7 @@
   <a href="{{ url_for('home') }}" class="back-link">← Home</a>
 
   <img class="logo" src="{{ url_for('static', filename='logo-wordmark.png') }}" alt="Domain Huntress">
-  <div class="burst">Under the Hood</div>
+  <img class="burst-banner" src="{{ url_for('static', filename='under-the-hood-banner.png') }}" alt="Under the Hood">
 
   <video class="loop-video" autoplay muted loop playsinline preload="auto"
          poster="{{ url_for('static', filename='poster-archer.png') }}">
