@@ -70,6 +70,7 @@
     bottom: max(10px, env(safe-area-inset-bottom));
     left: 0; right: 0;
     display: grid; grid-template-columns: 1fr 1fr;
+    align-items: center;
     gap: 8px 10px;
     max-width: 400px; margin: 0 auto;
     padding: 0 16px;
@@ -78,14 +79,6 @@
   .cta-btn { display: block; line-height: 0; transition: transform 0.15s ease; width: 100%; }
   .cta-btn:hover { transform: translate(-2px, -3px); }
   .cta-btn img { width: 100%; height: auto; display: block; filter: drop-shadow(0 2px 5px rgba(0,0,0,0.4)); }
-  .cta-btn.hood-btn {
-    display: flex; align-items: center; justify-content: center;
-    background: #e8b93f; color: #1a1a1a; text-decoration: none;
-    font-weight: 800; font-size: 13px; text-align: center;
-    border: 2px solid #1a1a1a; border-radius: 12px;
-    box-shadow: 3px 3px 0 rgba(0,0,0,0.3);
-    padding: 8px 6px;
-  }
 
   /* Desktop-only: a scannable QR code so a class watching on a projector
      can pull the same site up on their own phone. Hidden on mobile --
@@ -156,7 +149,9 @@
     <a class="cta-btn" href="{{ url_for('forward_looking') }}">
       <img src="{{ url_for('static', filename='btn-forward.png') }}" alt="Looking Forward 5 Years — what enters public domain next">
     </a>
-    <a class="cta-btn hood-btn" href="{{ url_for('under_the_hood') }}">Under the Hood →</a>
+    <a class="cta-btn" href="{{ url_for('under_the_hood') }}">
+      <img src="{{ url_for('static', filename='under-the-hood-banner.png') }}" alt="Under the Hood — see how the pipeline works">
+    </a>
   </div>
 </div>
 
