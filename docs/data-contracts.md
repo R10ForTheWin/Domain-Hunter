@@ -11,11 +11,19 @@ can read/write them with nothing more than Python's stdlib `csv` module. They li
 
 Every file that references a book uses the same `book_id`, minted by **Package 3** (Book Corpus).
 Format: `slugified-title__slugified-author__pub-year`, lowercase, spaces → hyphens, no punctuation.
+The author slug is taken from the `Last, First` form used in the `author` column, so the surname
+comes first.
 
-Example: `frankenstein__mary-shelley__1818`
+Example: `frankenstein__shelley-mary__1818`
+
+When `publication_year` is unknown or blank, the year segment is the literal `unk` rather than a
+number — e.g. `the-hucksters__wakeman-frederic__unk`. The merge blanks any `publication_year` it
+finds implausible (a value after the author's death, treated as a reprint date — see the
+`publication_year` note below), which is why a large share of rows carry `__unk`.
 
 Package 3 is the source of truth for which `book_id`s exist. If a book isn't in `book_corpus.csv`,
-no other file should reference it.
+no other file should reference it. Treat `book_id` as opaque and stable: don't parse the year back
+out of it, and don't regenerate ids for rows other packages already reference.
 
 ## `data/book_corpus.csv` — Package 3 output → feeds Packages 1, 2, 4
 
@@ -23,10 +31,10 @@ no other file should reference it.
 |---|---|---|
 | `book_id` | string | primary key, see above |
 | `title` | string | |
-| `author` | string | full name, "Last, First" preferred |
+| `author` | string | full name in `Last, First` form — the merge normalizes every batch to this, so it is the actual format, not just "preferred" |
 | `author_death_year` | int or blank | blank if unknown — do not guess |
 | `author_death_year_disputed` | bool (`true`/`false`) | true if sources disagree |
-| `publication_year` | int | original publication, not a reprint edition |
+| `publication_year` | int or blank | original publication, not a reprint edition; the merge blanks any value later than the author's death year (a reprint/collected-edition date misrecorded as the original) rather than record a value known to be wrong |
 | `source` | string | e.g. `gutenberg` |
 | `source_url` | string | link to the catalog entry |
 | `language` | string | ISO code, e.g. `en` |
