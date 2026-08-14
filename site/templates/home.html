@@ -70,6 +70,19 @@
     border-radius: 12px;
     border: 1px solid rgba(255,255,255,0.4);
   }
+  .hood-link {
+    position: absolute;
+    top: max(38px, calc(env(safe-area-inset-top) + 26px));
+    right: 10px;
+    z-index: 3;
+    font-size: 8.5px;
+    color: rgba(250,246,236,0.8);
+    text-decoration: none;
+    background: rgba(0,0,0,0.25);
+    padding: 3px 8px;
+    border-radius: 10px;
+    border: 1px solid rgba(255,255,255,0.3);
+  }
 
   .button-overlay {
     position: absolute;
@@ -114,15 +127,31 @@
 <body>
 
 <div class="hero">
-  <video id="hero-video" autoplay muted loop playsinline preload="auto" poster="{{ url_for('static', filename='poster-archer.png') }}">
+  <video id="hero-video" autoplay muted loop playsinline preload="auto"
+         poster="{{ url_for('static', filename='poster-archer.png') }}"
+         data-poster-desktop="{{ url_for('static', filename='poster-archer-desktop.png') }}">
     <source src="{{ url_for('static', filename='logo-animation-desktop.mp4') }}" type="video/mp4" media="(min-width: 701px)">
     <source src="{{ url_for('static', filename='logo-animation-textless.mp4') }}" type="video/mp4">
   </video>
+  <script>
+    // poster-archer.png is a portrait mobile crop; on a wide viewport,
+    // object-fit:cover stretches it into a tight, zoomed-in crop until the
+    // video itself takes over. Swap to a proper widescreen poster frame
+    // (pulled from the desktop video itself) before that first paint, so
+    // any autoplay delay never shows the mobile crop on a wide screen.
+    (function () {
+      var v = document.getElementById('hero-video');
+      if (v && window.matchMedia('(min-width: 701px)').matches) {
+        v.poster = v.dataset.posterDesktop;
+      }
+    })();
+  </script>
 
   <div class="logo-overlay">
     <img class="wordmark" src="{{ url_for('static', filename='logo-wordmark.png') }}" alt="Domain Huntress — Public-Domain Adaptation Scout">
   </div>
   <a class="status-link" href="{{ url_for('status') }}">Status →</a>
+  <a class="hood-link" href="{{ url_for('under_the_hood') }}">Under the hood →</a>
 
   <div class="qr-panel">
     <img src="{{ url_for('static', filename='qr-code.png') }}" alt="Scan to open Domain Huntress on your phone">

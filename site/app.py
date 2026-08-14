@@ -121,44 +121,60 @@ def load_shortlist():
         return list(csv.DictReader(f))
 
 
-def load_top_scores(limit=10):
-    """Highest-scoring books from Package 4's scoring run, for /networks.
+def _score(row):
+    try:
+        return float(row.get("total_score") or 0)
+    except (TypeError, ValueError):
+        return 0.0
 
-    studio_scores.csv holds a score per book_id but not the title/author, so
-    this joins against book_corpus.csv the same way Package 5 does. Returns
-    None when there is no scoring output yet, so the page can say so plainly
-    rather than rendering an empty table.
+
+def load_top_scores(limit=10):
+    """The real top matches for /networks: Package 5's shortlist.csv, which
+    only includes books Package 2 independently confirmed public domain
+    (the project's own ground rule -- "only PD-confirmed books eligible, no
+    exceptions"). Returns None when there is no shortlist yet, so the page
+    can say so plainly rather than rendering an empty table.
     """
-    # Prefer a live-demo run (the 50-book demo_pool.csv, scored on stage against whatever
-    # mandate the audience just generated) over the full-corpus batch run. Falls back to the
-    # full run so the page still shows real results when no demo has been run.
+    # A one-off terminal demo run (scoring_agent.py written to this path by
+    # hand) takes priority when present, same as before -- otherwise this is
+    # the committed, PD-gated shortlist that ships with the repo.
     demo_path = DATA_DIR / "studio_scores_demo.csv"
-    path = demo_path if demo_path.exists() else DATA_DIR / "studio_scores.csv"
+    if demo_path.exists():
+        with demo_path.open(newline="", encoding="utf-8") as f:
+            rows = list(csv.DictReader(f))
+        if not rows:
+            return None
+        corpus = {b.get("book_id"): b for b in load_corpus_rows()}
+        rows.sort(key=_score, reverse=True)
+        top = []
+        for row in rows[:limit]:
+            book = corpus.get(row.get("book_id"), {})
+            top.append({
+                "title": book.get("title") or row.get("book_id", ""),
+                "author": book.get("author", ""),
+                "score": round(_score(row)),
+                "reasoning": row.get("reasoning", ""),
+            })
+        return top
+
+    path = DATA_DIR / "shortlist.csv"
     if not path.exists():
         return None
     with path.open(newline="", encoding="utf-8") as f:
         rows = list(csv.DictReader(f))
     if not rows:
         return None
-
-    def _score(row):
-        try:
-            return float(row.get("total_score") or 0)
-        except (TypeError, ValueError):
-            return 0.0
-
-    corpus = {b.get("book_id"): b for b in load_corpus_rows()}
-    rows.sort(key=_score, reverse=True)
-    top = []
-    for row in rows[:limit]:
-        book = corpus.get(row.get("book_id"), {})
-        top.append({
-            "title": book.get("title") or row.get("book_id", ""),
-            "author": book.get("author", ""),
-            "score": round(_score(row)),
-            "reasoning": row.get("reasoning", ""),
-        })
-    return top
+    # Already PD-gated, scored, and ranked by build_shortlist.py -- just take
+    # the top `limit` in the order it wrote them.
+    return [
+        {
+            "title": row.get("title", ""),
+            "author": row.get("author", ""),
+            "score": round(_score({"total_score": row.get("total_score")})),
+            "reasoning": row.get("score_reasoning", ""),
+        }
+        for row in rows[:limit]
+    ]
 
 
 def _demo_pool_path():
@@ -407,6 +423,11 @@ def networks():
         failed_count=failed_count,
         blank_keys=_freeform.BLANK_KEYS if SCORING_AVAILABLE else [],
     )
+
+
+@app.route("/under-the-hood")
+def under_the_hood():
+    return render_template("under_the_hood.html", mandate=load_mandate_config())
 
 
 @app.route("/forward-looking")
