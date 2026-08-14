@@ -7,6 +7,7 @@ a dashboard for showing the project to class. No database -- everything is
 computed from the CSVs already checked into the repo.
 """
 import csv
+import datetime as _dt
 import fcntl
 import json
 import os
@@ -16,6 +17,7 @@ import time
 from collections import deque
 from concurrent.futures import ThreadPoolExecutor, as_completed
 from pathlib import Path
+from zoneinfo import ZoneInfo
 
 SCORING_MODEL = "claude-haiku-4-5-20251001"
 
@@ -124,6 +126,46 @@ def load_shortlist():
         return None
     with path.open(newline="", encoding="utf-8") as f:
         return list(csv.DictReader(f))
+
+
+def load_pipeline_funnel_stats():
+    """Real, live-computed counts for the /under-the-hood "by the numbers"
+    strip -- reads the same committed files the rest of the site does,
+    so these numbers can never drift out of sync with what's actually
+    shipped. Mirrors shortlist_output/build_shortlist.py's own join logic
+    for the "confirmed & scored" figure rather than hardcoding it.
+    """
+    corpus_path = DATA_DIR / "book_corpus.csv"
+    verification_path = DATA_DIR / "pd_verification.csv"
+    scores_path = DATA_DIR / "studio_scores.csv"
+    shortlist_path = DATA_DIR / "shortlist.csv"
+    if not corpus_path.exists() or not verification_path.exists():
+        return None
+
+    with corpus_path.open(newline="", encoding="utf-8") as f:
+        total_books = sum(1 for _ in csv.DictReader(f))
+
+    with verification_path.open(newline="", encoding="utf-8") as f:
+        verification_rows = list(csv.DictReader(f))
+    confirmed_ids = {r["book_id"] for r in verification_rows if r.get("pd_status") == "confirmed"}
+
+    confirmed_and_scored = None
+    if scores_path.exists():
+        with scores_path.open(newline="", encoding="utf-8") as f:
+            scored_ids = {r["book_id"] for r in csv.DictReader(f)}
+        confirmed_and_scored = len(confirmed_ids & scored_ids)
+
+    shortlisted = None
+    if shortlist_path.exists():
+        with shortlist_path.open(newline="", encoding="utf-8") as f:
+            shortlisted = sum(1 for _ in csv.DictReader(f))
+
+    return {
+        "total_books": total_books,
+        "confirmed": len(confirmed_ids),
+        "confirmed_and_scored": confirmed_and_scored,
+        "shortlisted": shortlisted,
+    }
 
 
 def _score(row):
@@ -244,6 +286,21 @@ def _rate_limit_error():
 # spending-limit setup in the Anthropic console. Rates are Haiku's approximate published
 # pricing -- close enough to gate on, not a substitute for checking the real usage dashboard.
 _BUDGET_LIMIT_USD = 5.00
+# Reserve: per DJ, $2.50 of the $5 cap is held back and unspendable by anyone
+# poking at the demo before the actual presentation, so there's guaranteed
+# budget left no matter how much pre-presentation testing happens. Opens up
+# to the full $5 automatically at the cutoff -- no manual step needed.
+_RESERVE_CUTOFF = _dt.datetime(2026, 8, 14, 18, 30, tzinfo=ZoneInfo("America/Los_Angeles"))
+_RESERVE_HELD_USD = 2.50
+
+
+def _effective_budget_limit():
+    now = _dt.datetime.now(ZoneInfo("America/Los_Angeles"))
+    if now < _RESERVE_CUTOFF:
+        return _BUDGET_LIMIT_USD - _RESERVE_HELD_USD
+    return _BUDGET_LIMIT_USD
+
+
 _HAIKU_USD_PER_MTOK_INPUT = 1.00
 _HAIKU_USD_PER_MTOK_OUTPUT = 5.00
 # Conservative per-submission estimate (measured actual is ~$0.15-0.20 for a 50-book run) used
@@ -308,20 +365,27 @@ def _usage_cost_usd(usage_totals):
 
 
 def _budget_error():
-    """None if a submission may proceed under the $5 cap; otherwise a message to show
-    instead of spending anything. Checked *before* any API call -- refuses pre-flight
-    using a conservative estimate, rather than letting a submission start and finding
-    out partway through that it should not have."""
+    """None if a submission may proceed under the current effective cap (see
+    _effective_budget_limit -- $2.50 before the presentation-time reserve
+    cutoff, $5.00 after); otherwise a message to show instead of spending
+    anything. Checked *before* any API call -- refuses pre-flight using a
+    conservative estimate, rather than letting a submission start and
+    finding out partway through that it should not have."""
     spent = _read_budget_spent()
-    if spent + _EST_SUBMISSION_COST_USD > _BUDGET_LIMIT_USD:
+    limit = _effective_budget_limit()
+    if spent + _EST_SUBMISSION_COST_USD > limit:
         print(
             f"[BUDGET CAP] Live scoring blocked: ${spent:.2f} already spent of "
-            f"${_BUDGET_LIMIT_USD:.2f} cap -- next submission refused.",
+            f"${limit:.2f} effective cap (full cap ${_BUDGET_LIMIT_USD:.2f}) -- "
+            f"next submission refused.",
             file=sys.stderr,
         )
         return (
-            f"Live scoring has hit its ${_BUDGET_LIMIT_USD:.2f} demo budget cap "
-            f"(${spent:.2f} spent) — showing the results below instead. Ask DJ to reset it."
+            "Well, this is awkward. Even a public-domain adaptation scout runs on a "
+            "real API budget, and this UCLA EMBA team just hit ours for the demo — "
+            "turns out \"unlimited spend\" wasn't in the syllabus. The committed "
+            "results are right below (still real, just not fresh off the press). "
+            "Find DJ if you'd like the meter reset."
         )
     return None
 
@@ -534,7 +598,8 @@ def status():
         corpus=load_corpus_stats(),
         shortlist=load_shortlist(),
         live_scoring_spend=_read_budget_spent(),
-        live_scoring_cap=_BUDGET_LIMIT_USD,
+        live_scoring_cap=_effective_budget_limit(),
+        live_scoring_full_cap=_BUDGET_LIMIT_USD,
     )
 
 
@@ -631,7 +696,11 @@ def networks():
 
 @app.route("/under-the-hood")
 def under_the_hood():
-    return render_template("under_the_hood.html", mandate=load_mandate_config())
+    return render_template(
+        "under_the_hood.html",
+        mandate=load_mandate_config(),
+        funnel=load_pipeline_funnel_stats(),
+    )
 
 
 @app.route("/forward-looking")

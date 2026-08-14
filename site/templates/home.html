@@ -41,6 +41,14 @@
      mobile in favor of the video's whole frame always being visible. */
   @media (max-width: 700px) {
     html, body { height: auto; overflow-y: auto; }
+    /* height:auto above (needed so the video isn't force-stretched) means
+       body is only as tall as its content -- shorter than the actual
+       viewport whenever the video's natural aspect ratio doesn't fill it,
+       leaving the plain background-color fallback visible below the image
+       instead of the dotted background pattern. min-height keeps the
+       image covering the full screen without constraining content that's
+       taller than one screen. */
+    body { min-height: 100vh; min-height: 100dvh; }
     .hero { height: auto; overflow: visible; }
     .hero video { position: static; width: 100%; height: auto; display: block; }
   }
@@ -53,49 +61,39 @@
     z-index: 2;
   }
   .wordmark {
-    max-width: min(230px, 56vw);
+    max-width: min(276px, 67vw);
     width: 100%; height: auto;
     filter: drop-shadow(0 3px 6px rgba(0,0,0,0.5));
   }
-  .status-link {
-    position: absolute;
-    top: max(12px, env(safe-area-inset-top));
-    right: 10px;
-    z-index: 3;
-    font-size: 10px;
-    color: #faf6ec;
-    text-decoration: none;
-    background: rgba(0,0,0,0.35);
-    padding: 4px 9px;
-    border-radius: 12px;
-    border: 1px solid rgba(255,255,255,0.4);
-  }
-  .hood-link {
-    position: absolute;
-    top: max(38px, calc(env(safe-area-inset-top) + 26px));
-    right: 10px;
-    z-index: 3;
-    font-size: 8.5px;
-    color: rgba(250,246,236,0.8);
-    text-decoration: none;
-    background: rgba(0,0,0,0.25);
-    padding: 3px 8px;
-    border-radius: 10px;
-    border: 1px solid rgba(255,255,255,0.3);
-  }
-
   .button-overlay {
     position: absolute;
     bottom: max(10px, env(safe-area-inset-bottom));
     left: 0; right: 0;
-    display: flex; flex-direction: column; align-items: center;
-    gap: 5px;
+    display: grid; grid-template-columns: 1fr 1fr;
+    align-items: center;
+    gap: 8px 10px;
+    max-width: 400px; margin: 0 auto;
     padding: 0 16px;
     z-index: 2;
   }
-  .cta-btn { display: block; line-height: 0; transition: transform 0.15s ease; width: 50%; max-width: 190px; }
+  /* The four button images come from different art sources with different
+     native aspect ratios (the "Under the Hood" banner in particular is
+     much taller relative to its width than the other three). Rendering
+     each at width:100% height:auto let that mismatch show through as
+     uneven row heights. Fixing every button to the same aspect-ratio box
+     with object-fit:contain keeps all four the same height regardless of
+     what shape the underlying artwork is. */
+  .cta-btn {
+    display: flex; align-items: center; justify-content: center;
+    aspect-ratio: 3.6; width: 100%;
+    transition: transform 0.15s ease;
+  }
   .cta-btn:hover { transform: translate(-2px, -3px); }
-  .cta-btn img { width: 100%; height: auto; display: block; filter: drop-shadow(0 2px 5px rgba(0,0,0,0.4)); }
+  .cta-btn img {
+    max-width: 100%; max-height: 100%; width: auto; height: auto;
+    object-fit: contain; display: block;
+    filter: drop-shadow(0 2px 5px rgba(0,0,0,0.4));
+  }
 
   /* Desktop-only: a scannable QR code so a class watching on a projector
      can pull the same site up on their own phone. Hidden on mobile --
@@ -150,8 +148,6 @@
   <div class="logo-overlay">
     <img class="wordmark" src="{{ url_for('static', filename='logo-wordmark.png') }}" alt="Domain Huntress — Public-Domain Adaptation Scout">
   </div>
-  <a class="status-link" href="{{ url_for('status') }}">Status →</a>
-  <a class="hood-link" href="{{ url_for('under_the_hood') }}">Under the hood →</a>
 
   <div class="qr-panel">
     <img src="{{ url_for('static', filename='qr-code.png') }}" alt="Scan to open Domain Huntress on your phone">
@@ -167,6 +163,9 @@
     </a>
     <a class="cta-btn" href="{{ url_for('forward_looking') }}">
       <img src="{{ url_for('static', filename='btn-forward.png') }}" alt="Looking Forward 5 Years — what enters public domain next">
+    </a>
+    <a class="cta-btn" href="{{ url_for('under_the_hood') }}">
+      <img src="{{ url_for('static', filename='under-the-hood-banner.png') }}" alt="Under the Hood — see how the pipeline works">
     </a>
   </div>
 </div>

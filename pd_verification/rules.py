@@ -250,11 +250,19 @@ def evaluate(book: BookInput, *, as_of_year: int) -> Verdict:
             )
         if book.author_death_year is None:
             missing.append("author_death_year")
+        if book.author_death_year_disputed:
+            death_year_clause = "the author's death year is disputed"
+        else:
+            death_year_clause = (
+                "no death year is on file for the author — most likely because "
+                "they're still living, not because the record is incomplete"
+            )
         return _v(
             "uncertain",
             f"'{book.title}' was first published {pub}, so the controlling term is "
-            f"life-of-the-author-plus-70 (17 U.S.C. 302(a)), but the author's death "
-            f"year is {'disputed' if book.author_death_year_disputed else 'not on file'}.",
+            f"life-of-the-author-plus-70 (17 U.S.C. 302(a)), but {death_year_clause}. "
+            f"Either way, the work is still well within its copyright term and is not "
+            f"public domain; an exact expiration date just can't be calculated yet.",
             "life+70-missing-death-year",
             flags,
             missing,
@@ -318,12 +326,20 @@ def evaluate(book: BookInput, *, as_of_year: int) -> Verdict:
             )
         if book.author_death_year is None:
             missing.append("author_death_year")
+        if book.author_death_year_disputed:
+            death_year_clause = "the author's death year is disputed"
+        else:
+            death_year_clause = (
+                "no death year is on file for the author — they may still be "
+                "living, or it may simply not be recorded"
+            )
         return _v(
             "uncertain",
             f"'{book.title}' was first published {pub} (1978-1988 window — mandatory "
-            f"U.S. notice still applied). The controlling term is life+70, but the "
-            f"author's death year is "
-            f"{'disputed' if book.author_death_year_disputed else 'not on file'}.",
+            f"U.S. notice still applied). The controlling term is life+70, but "
+            f"{death_year_clause}. Either way, the work is still well within its "
+            f"copyright term and is not public domain; an exact expiration date just "
+            f"can't be calculated yet.",
             "life+70-missing-death-year-1978-1988",
             flags,
             missing,

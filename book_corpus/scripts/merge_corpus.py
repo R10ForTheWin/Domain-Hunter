@@ -46,6 +46,22 @@ def slugify(text: str) -> str:
     return text or "unknown"
 
 
+_LEADING_ARTICLE_RE = re.compile(r"^(the|a|an)\s+")
+
+
+def normalize_title_for_dedup(title: str) -> str:
+    """Dedup key only, never written to the CSV: strips a leading article
+    and collapses whitespace so "The Hound of the Baskervilles" and "Hound
+    of the Baskervilles" group as the same work. Found live: two source
+    batches disagreed on the leading "The" for the same real book (one
+    Gutenberg+OpenLibrary row with a death year, one OpenLibrary-only row
+    without), so they merged as two separate books and the same title sat
+    at two different ranks on the shortlist.
+    """
+    text = " ".join(title.strip().lower().split())
+    return _LEADING_ARTICLE_RE.sub("", text)
+
+
 def normalize_author(name: str) -> str:
     """Contract requires 'Last, First' -- the three source batches didn't
     agree (Gutenberg/Wikidata already gave 'Last, First'; the pub-year
@@ -124,7 +140,7 @@ def main():
     from collections import defaultdict
     groups = defaultdict(list)
     for r in all_rows:
-        key = (r["title"].strip().lower(), r["author"].strip().lower())
+        key = (normalize_title_for_dedup(r["title"]), r["author"].strip().lower())
         groups[key].append(r)
 
     merged_rows = [merge_group(g) for g in groups.values()]

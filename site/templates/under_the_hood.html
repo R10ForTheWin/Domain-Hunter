@@ -27,14 +27,7 @@
     border: 1px solid rgba(255,255,255,0.4); margin-bottom: 10px;
   }
   .logo { display: block; max-width: 300px; width: 80%; margin: 0 auto 10px auto; }
-  .burst {
-    display: block; margin: 0 auto 18px auto; max-width: 340px; width: 95%;
-    background: var(--gold); color: var(--ink); text-align: center;
-    font-weight: 900; font-style: italic; font-size: 22px; letter-spacing: 0.01em;
-    padding: 14px 20px; border: 4px solid var(--ink); border-radius: 16px;
-    box-shadow: 5px 5px 0 rgba(0,0,0,0.3);
-    text-transform: uppercase;
-  }
+  .burst-banner { display: block; margin: 0 auto 18px auto; max-width: 340px; width: 95%; height: auto; }
   .card {
     background: var(--cream);
     background-image: radial-gradient(rgba(0,0,0,0.05) 1px, transparent 1px);
@@ -44,6 +37,10 @@
     padding: 18px 20px;
     margin-bottom: 16px;
     box-shadow: 5px 5px 0 rgba(0,0,0,0.25);
+  }
+  .loop-video {
+    display: block; width: 100%; border: 3px solid var(--ink); border-radius: 14px;
+    margin-bottom: 16px; box-shadow: 5px 5px 0 rgba(0,0,0,0.25);
   }
   .mandate-studio {
     font-size: 24px; font-weight: 900; font-style: italic; margin: 2px 0 12px 0;
@@ -60,6 +57,15 @@
   }
   .step-body { font-size: 13px; line-height: 1.5; }
   .step-body strong { font-weight: 800; }
+  .funnel-row {
+    display: flex; align-items: baseline; gap: 10px; margin: 8px 0 0 0;
+    padding: 6px 0; border-bottom: 1px solid rgba(0,0,0,0.08);
+  }
+  .funnel-row:last-child { border-bottom: none; }
+  .funnel-n { font-size: 22px; font-weight: 900; font-style: italic; color: var(--red); flex: 0 0 auto; min-width: 60px; }
+  .funnel-label { font-size: 13px; font-weight: 600; }
+  .bug-card { border-color: var(--red); }
+  .bug-card .note { margin-top: 6px; }
 </style>
 </head>
 <body>
@@ -67,20 +73,41 @@
   <a href="{{ url_for('home') }}" class="back-link">← Home</a>
 
   <img class="logo" src="{{ url_for('static', filename='logo-wordmark.png') }}" alt="Domain Huntress">
-  <div class="burst">Under the Hood</div>
+  <img class="burst-banner" src="{{ url_for('static', filename='under-the-hood-banner.png') }}" alt="Under the Hood">
+
+  <video class="loop-video" autoplay muted loop playsinline preload="auto"
+         poster="{{ url_for('static', filename='poster-archer.png') }}">
+    <source src="{{ url_for('static', filename='under-the-hood-loop.mp4') }}" type="video/mp4">
+  </video>
 
   <div class="card">
     <div class="mandate-studio">How a book makes the list</div>
-    <div class="step"><span class="step-n">1</span><span class="step-body"><strong>Package 2</strong> independently confirms public-domain status — no exceptions, no guessing. A book that can't be confirmed never reaches scoring.</span></div>
-    <div class="step"><span class="step-n">2</span><span class="step-body"><strong>Package 4</strong> scores every confirmed book against a studio's creative mandate.</span></div>
-    <div class="step"><span class="step-n">3</span><span class="step-body"><strong>Package 5</strong> joins both, ranks by score, and caps the result at ten.</span></div>
+    <div class="step"><span class="step-n">1</span><span class="step-body"><strong>Package 3</strong> screens candidate public-domain books into the corpus — this is the "BOOKS" station in the loop above.</span></div>
+    <div class="step"><span class="step-n">2</span><span class="step-body"><strong>Package 2</strong> independently confirms public-domain status — no exceptions, no guessing. A book that can't be confirmed never reaches scoring.</span></div>
+    <div class="step"><span class="step-n">3</span><span class="step-body"><strong>Package 4</strong> scores every confirmed book against a studio's creative mandate.</span></div>
+    <div class="step"><span class="step-n">4</span><span class="step-body"><strong>Package 5</strong> joins both, ranks by score, and caps the result at ten.</span></div>
   </div>
+
+  {% if funnel %}
+  <div class="card">
+    <div class="mandate-studio">By the numbers</div>
+    <div class="funnel-row"><span class="funnel-n">{{ "{:,}".format(funnel.total_books) }}</span><span class="funnel-label">books screened</span></div>
+    <div class="funnel-row"><span class="funnel-n">{{ "{:,}".format(funnel.confirmed) }}</span><span class="funnel-label">confirmed public domain</span></div>
+    {% if funnel.confirmed_and_scored %}
+    <div class="funnel-row"><span class="funnel-n">{{ "{:,}".format(funnel.confirmed_and_scored) }}</span><span class="funnel-label">confirmed <em>and</em> scored</span></div>
+    {% endif %}
+    {% if funnel.shortlisted %}
+    <div class="funnel-row"><span class="funnel-n">{{ funnel.shortlisted }}</span><span class="funnel-label">made the final shortlist</span></div>
+    {% endif %}
+  </div>
+  {% endif %}
 
   {% if mandate %}
   <div class="card">
-    <div class="mandate-studio">Target: {{ mandate.studio }}</div>
-    <p class="note">This is the real, evidence-based scoring rubric the team built for {{ mandate.studio }} —
-    not a placeholder. Every book in the corpus is scored against these weighted categories.</p>
+    <div class="mandate-studio">Example target: {{ mandate.studio }}</div>
+    <p class="note">Here's how it works for one studio, {{ mandate.studio }} — a real, evidence-based
+    scoring rubric, not a placeholder, built the same way for any studio or network Domain Huntress
+    targets. Every book in the corpus is scored against these weighted categories.</p>
     {% for name, weight in mandate.weights %}
     <div class="weight-row">
       <span class="weight-label">{{ name.replace('_', ' ') }}</span>
@@ -91,5 +118,21 @@
   </div>
   {% endif %}
 </div>
+
+<script>
+  // Same iOS Safari fix as the home page hero video: autoplay/muted/
+  // playsinline alone don't resume playback after a bfcache restore
+  // (tapping back into the page) or the tab regaining foreground.
+  (function () {
+    var video = document.querySelector('.loop-video');
+    if (!video) return;
+    function tryPlay() { video.play().catch(function () {}); }
+    tryPlay();
+    window.addEventListener('pageshow', tryPlay);
+    document.addEventListener('visibilitychange', function () {
+      if (!document.hidden) tryPlay();
+    });
+  })();
+</script>
 </body>
 </html>
