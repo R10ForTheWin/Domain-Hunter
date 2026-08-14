@@ -81,15 +81,24 @@ def read_supplementary_inputs(path: str) -> Dict[str, Dict[str, str]]:
 
 def find_corpus_row_by_gutenberg_id(corpus_rows: List[Dict[str, str]], gutenberg_id: str) -> Optional[Dict[str, str]]:
     """Best-effort match: does the team's already-researched book_corpus.csv
-    already have a row for this Gutenberg ebook? Matches on `source_url`
-    containing the ebook ID (e.g. ".../ebooks/84"). Used so the public
+    already have a row for this Gutenberg ebook? Matches on `source_url`'s
+    final path segment being exactly the ebook ID. Used so the public
     validator bot can reuse real publication-year/death-year research
     instead of falling back to Gutenberg's own catalog, which doesn't carry
     a first-publication year at all.
+
+    Exact, not substring: a plain `needle in source_url` check (the
+    original approach here) matches ID "10" against ".../ebooks/103",
+    ".../ebooks/1000", ".../ebooks/2910", etc. -- found live when looking
+    up ebook 10 (the King James Bible) returned Jules Verne's "Around the
+    World in Eighty Days" (ebook 103) instead, silently, with a confident
+    wrong verdict. Comparing only the URL's last path segment closes this
+    for every ID, not just the one that happened to be tested.
     """
-    needle = f"ebooks/{gutenberg_id}"
+    target = str(gutenberg_id).strip()
     for row in corpus_rows:
-        if needle in (row.get("source_url") or ""):
+        url = (row.get("source_url") or "").rstrip("/")
+        if url.rsplit("/", 1)[-1] == target:
             return row
     return None
 

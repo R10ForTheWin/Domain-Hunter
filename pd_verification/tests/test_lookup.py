@@ -114,6 +114,29 @@ def test_locate_by_name_multiple_matches_picks_most_relevant(monkeypatch):
     assert result.book == first
 
 
+def test_locate_by_name_known_override_is_network_free(monkeypatch):
+    # "bible" is deliberately overridden (lookup.py's
+    # _KNOWN_AMBIGUOUS_OVERRIDES) to fixed, static data -- not just a
+    # different Gutenberg endpoint -- since Gutendex itself has been
+    # observed flaky/timing out. Neither network function should ever be
+    # called for an overridden query.
+    def _fail_if_called(*_a, **_kw):
+        raise AssertionError("network lookup should not be called for an overridden query")
+
+    monkeypatch.setattr(gutenberg, "search", _fail_if_called)
+    monkeypatch.setattr(gutenberg, "fetch_by_id", _fail_if_called)
+    monkeypatch.setattr(openlibrary, "search_by_title", _fail_if_called)
+
+    result = lookup.locate_book("book_name", "Bible")
+    assert result.status == "found"
+    assert result.book["title"] == "The King James Version of the Bible"
+    assert result.book["publication_year"] == 1611
+
+    # Case-insensitive.
+    result_lower = lookup.locate_book("book_name", "bible")
+    assert result_lower.status == "found"
+
+
 def test_locate_by_name_falls_back_to_open_library_when_gutenberg_empty(monkeypatch):
     monkeypatch.setattr(gutenberg, "search", lambda q, limit=5: [])
     monkeypatch.setattr(
