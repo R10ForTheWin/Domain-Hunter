@@ -14,6 +14,7 @@ needed" approach (see docs/data-contracts.md).
 from __future__ import annotations
 
 import json
+import time
 import urllib.error
 import urllib.parse
 import urllib.request
@@ -21,6 +22,8 @@ from typing import Any, Dict, List, Optional
 
 _BASE_URL = "https://gutendex.com/books"
 _TIMEOUT_SECONDS = 10
+_MAX_ATTEMPTS = 3
+_RETRY_DELAY_SECONDS = 1.5
 
 
 class GutenbergLookupError(Exception):
@@ -32,16 +35,29 @@ class GutenbergLookupError(Exception):
 
 def _get(url: str) -> Dict[str, Any]:
     request = urllib.request.Request(url, headers={"User-Agent": "domain-hunter-pd-verification/1.0"})
-    try:
-        with urllib.request.urlopen(request, timeout=_TIMEOUT_SECONDS) as response:
-            body = response.read()
-    except OSError as exc:
-        # Not (URLError, HTTPError, TimeoutError): on Python 3.9, socket.timeout
-        # is an OSError subclass but NOT a TimeoutError subclass (that alias
-        # was only added in 3.10), so a timeout escaped this handler entirely
-        # on 3.9 -- the system Python on macOS. OSError is a strict superset
-        # of all four previously-caught types.
-        raise GutenbergLookupError(f"Could not reach Gutendex ({url}): {exc}") from exc
+    last_exc: Optional[OSError] = None
+    for attempt in range(_MAX_ATTEMPTS):
+        try:
+            with urllib.request.urlopen(request, timeout=_TIMEOUT_SECONDS) as response:
+                body = response.read()
+            break
+        except OSError as exc:
+            # Not (URLError, HTTPError, TimeoutError): on Python 3.9, socket.timeout
+            # is an OSError subclass but NOT a TimeoutError subclass (that alias
+            # was only added in 3.10), so a timeout escaped this handler entirely
+            # on 3.9 -- the system Python on macOS. OSError is a strict superset
+            # of all four previously-caught types.
+            last_exc = exc
+            if attempt < _MAX_ATTEMPTS - 1:
+                time.sleep(_RETRY_DELAY_SECONDS * (attempt + 1))
+    else:
+        # A single 10s attempt with no retry meant one slow response from a
+        # third-party API (observed happening from Railway's network, not
+        # just a hypothetical) failed the whole lookup outright. Retrying a
+        # transient network hiccup a couple of times before giving up is a
+        # narrow reliability fix, not a behavior change -- still raises the
+        # same error type/message shape callers already handle.
+        raise GutenbergLookupError(f"Could not reach Gutendex ({url}): {last_exc}") from last_exc
     try:
         return json.loads(body)
     except json.JSONDecodeError as exc:

@@ -14,74 +14,111 @@
     margin: 0;
     font-family: -apple-system, "Helvetica Neue", Arial, sans-serif;
     color: var(--ink);
-    background: var(--teal) url("{{ url_for('static', filename='bg-portrait.jpg') }}") center top / cover no-repeat fixed;
+    background: var(--teal) url("{{ url_for('static', filename='bg-portrait.jpg') }}") center top / cover no-repeat;
     min-height: 100vh;
   }
   @media (min-width: 701px) {
     body { background-image: url("{{ url_for('static', filename='bg-landscape.jpg') }}"); }
   }
-  header { text-align: center; padding: 30px 20px 18px 20px; position: relative; }
+  .page { max-width: 480px; margin: 0 auto; padding: 18px 20px 40px 20px; }
   .back-link {
-    position: absolute; top: 18px; left: 20px;
-    font-size: 12px; color: var(--cream); text-decoration: none;
+    display: inline-block; font-size: 11px; color: var(--cream); text-decoration: none;
     background: rgba(0,0,0,0.25); padding: 5px 12px; border-radius: 12px;
-    border: 1px solid rgba(255,255,255,0.4);
+    border: 1px solid rgba(255,255,255,0.4); margin-bottom: 10px;
   }
-  header h1 { color: var(--cream); font-size: 22px; margin: 8px 0 2px 0; }
-  header p { color: var(--cream); opacity: 0.85; font-size: 13px; margin: 0; }
-  main { max-width: 700px; margin: 0 auto; padding: 0 20px 60px 20px; }
+  .logo { display: block; max-width: 300px; width: 80%; margin: 0 auto 10px auto; }
+  .burst {
+    display: block; margin: 0 auto 18px auto; max-width: 340px; width: 95%;
+    background: var(--gold); color: var(--ink); text-align: center;
+    font-weight: 900; font-style: italic; font-size: 22px; letter-spacing: 0.01em;
+    padding: 14px 20px; border: 4px solid var(--ink); border-radius: 16px;
+    box-shadow: 5px 5px 0 rgba(0,0,0,0.3);
+    text-transform: uppercase;
+  }
+
   .card {
     background: var(--cream);
+    background-image: radial-gradient(rgba(0,0,0,0.05) 1px, transparent 1px);
+    background-size: 8px 8px;
     border: 3px solid var(--ink);
     border-radius: 14px;
-    padding: 26px 28px;
-    box-shadow: 6px 6px 0 rgba(0,0,0,0.25);
+    padding: 18px 20px;
+    margin-bottom: 16px;
+    box-shadow: 5px 5px 0 rgba(0,0,0,0.25);
   }
   .badge {
     display: inline-block;
-    background: var(--red);
-    color: var(--cream);
-    font-size: 11px;
+    font-size: 10px;
     font-weight: 800;
     text-transform: uppercase;
-    padding: 5px 14px;
+    letter-spacing: 0.03em;
+    padding: 4px 12px;
     border-radius: 20px;
     border: 2px solid var(--ink);
-    margin-bottom: 14px;
+    margin-bottom: 10px;
   }
-  ul { padding-left: 20px; }
-  li { margin: 6px 0; }
+  .badge.live { background: #b7e0a8; }
+  .badge.pending { background: var(--gold); }
+
+  .mandate-studio {
+    font-size: 24px; font-weight: 900; font-style: italic; margin: 2px 0 12px 0;
+  }
+  .weight-row { display: flex; align-items: center; gap: 8px; margin: 6px 0; font-size: 12.5px; }
+  .weight-label { flex: 0 0 150px; font-weight: 700; text-transform: capitalize; }
+  .weight-bar-track { display: block; flex: 1 1 auto; background: #e6ddc0; border: 2px solid var(--ink); border-radius: 8px; height: 14px; overflow: hidden; }
+  .weight-bar-fill { display: block; height: 100%; background: var(--red); }
+  .weight-pct { flex: 0 0 34px; text-align: right; font-weight: 800; }
+
+  p.note { font-size: 13px; line-height: 1.5; margin: 10px 0 0 0; }
+
   fieldset {
-    margin-top: 20px;
-    border: 2px dashed #cfc6a5;
-    border-radius: 10px;
-    padding: 16px;
-    opacity: 0.6;
+    margin-top: 16px; border: 2px dashed #cfc6a5; border-radius: 10px;
+    padding: 14px; opacity: 0.55;
   }
-  label { display: block; font-size: 12px; font-weight: 700; margin: 10px 0 4px 0; text-transform: uppercase; }
-  input, select { width: 100%; padding: 8px 10px; border: 2px solid var(--ink); border-radius: 8px; font-size: 14px; }
+  label { display: block; font-size: 11px; font-weight: 800; margin: 8px 0 3px 0; text-transform: uppercase; }
+  input, select {
+    width: 100%; padding: 8px 10px; border: 2px solid var(--ink); border-radius: 8px; font-size: 14px;
+    font-family: inherit; background: var(--cream);
+  }
 </style>
 </head>
 <body>
-
-<header>
+<div class="page">
   <a href="{{ url_for('home') }}" class="back-link">← Home</a>
-  <h1>Find Public-Domain Books for Your Mandate</h1>
-  <p>For networks &amp; studios scouting adaptable IP</p>
-</header>
 
-<main>
+  <img class="logo" src="{{ url_for('static', filename='logo-wordmark.png') }}" alt="Domain Huntress">
+  <div class="burst">Find Your Match!</div>
+
+  {% if mandate %}
   <div class="card">
-    <span class="badge">Coming soon</span>
-    <p>This will let you submit your creative mandate — genre, tone, franchise potential,
-    budget/scale, audience — and see which public-domain books in our corpus score well against
-    it.</p>
-    <p style="margin-top:10px;">It depends on the <strong>Studio Mandate Research &amp; Scoring</strong>
-    package, which is still in development — that's the piece that researches an actual target
-    studio's acquisition patterns and turns it into an evidence-based, weighted rubric. Until
-    that exists, there's no real scoring to show here rather than a placeholder built on made-up
-    weights.</p>
+    <span class="badge {{ 'live' if scores_exist else 'pending' }}">
+      {{ 'Scores ready' if scores_exist else 'Mandate built — scoring not run yet' }}
+    </span>
+    <div class="mandate-studio">Target: {{ mandate.studio }}</div>
+    <p class="note">This is the real, evidence-based scoring rubric the team built for {{ mandate.studio }} —
+    not a placeholder. Each book in the corpus gets scored against these weighted categories once
+    the scoring agent runs.</p>
+    {% for name, weight in mandate.weights %}
+    <div class="weight-row">
+      <span class="weight-label">{{ name.replace('_', ' ') }}</span>
+      <span class="weight-bar-track"><span class="weight-bar-fill" style="width:{{ (weight*100)|round|int }}%"></span></span>
+      <span class="weight-pct">{{ (weight*100)|round|int }}%</span>
+    </div>
+    {% endfor %}
+    {% if not scores_exist %}
+    <p class="note">The rubric is done, but it hasn't been run against the real 2,630-book corpus
+    yet — so there's no real score list to show below. Check back soon.</p>
+    {% endif %}
+  </div>
+  {% else %}
+  <div class="card">
+    <span class="badge pending">Coming soon</span>
+    <p class="note">This will let you submit your creative mandate and see which public-domain
+    books score well against it. Still in development.</p>
+  </div>
+  {% endif %}
 
+  <div class="card">
     <fieldset disabled>
       <label>Target studio / network</label>
       <input type="text" placeholder="e.g. A24, Netflix, Amazon MGM...">
@@ -89,10 +126,8 @@
       <input type="text" placeholder="e.g. gothic horror, adventure...">
       <label>Franchise potential</label>
       <select><option>Low</option><option>Medium</option><option>High</option></select>
-      <label style="margin-top:16px;"><input type="checkbox" style="width:auto;display:inline;"> Notify me when this is ready</label>
     </fieldset>
   </div>
-</main>
-
+</div>
 </body>
 </html>
