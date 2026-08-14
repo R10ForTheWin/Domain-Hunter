@@ -249,10 +249,12 @@
   // same script again, which reliably scrolls to #results at that point.
   var form = document.querySelector('form');
   var overlay = document.getElementById('loading-overlay');
+  var orNote = document.querySelector('.or-note');
   if (form && overlay) {
     form.addEventListener('submit', function (e) {
       e.preventDefault();
       form.style.display = 'none';
+      if (orNote) { orNote.style.display = 'none'; }
       overlay.classList.add('active');
       var params = new URLSearchParams(new FormData(form));
       var url = window.location.pathname + '?' + params.toString();

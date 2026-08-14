@@ -102,11 +102,16 @@ def test_locate_by_name_single_gutenberg_match(monkeypatch):
     assert result.book["title"] == "Frankenstein"
 
 
-def test_locate_by_name_multiple_matches_is_ambiguous_not_guessed(monkeypatch):
-    monkeypatch.setattr(gutenberg, "search", lambda q, limit=5: [_gb_book(), _gb_book(title="Frankenstein Junior")])
+def test_locate_by_name_multiple_matches_picks_most_relevant(monkeypatch):
+    # Demo-mode behavior (deliberate presentation-day tradeoff, see
+    # lookup.py's comment on this branch): several plausible matches no
+    # longer stops to ask for a unique identifier -- it takes the first
+    # (most-relevant, per Gutendex/Open Library's own ranking) result.
+    first, second = _gb_book(), _gb_book(title="Frankenstein Junior")
+    monkeypatch.setattr(gutenberg, "search", lambda q, limit=5: [first, second])
     result = lookup.locate_book("book_name", "Frankenstein")
-    assert result.status == "ambiguous"
-    assert "ISBN" in result.message and "OCLC" in result.message and "Gutenberg" in result.message
+    assert result.status == "found"
+    assert result.book == first
 
 
 def test_locate_by_name_falls_back_to_open_library_when_gutenberg_empty(monkeypatch):

@@ -139,30 +139,22 @@ def locate_book(identifier_type: str, query: str) -> LookupResult:
         if local_match is not None:
             return LookupResult("found", book=local_match)
 
+        # Demo-mode simplification (deliberate, presentation-day tradeoff):
+        # a title search with several plausible matches used to come back
+        # "ambiguous" and ask for an ISBN/OCLC/Gutenberg ID instead of ever
+        # guessing -- correct, but a dead end for a live audience typing in
+        # a title they don't have an edition number for (e.g. "Bible", "the
+        # Odyssey"). Gutendex/Open Library already return results
+        # most-relevant-first, so take the top match rather than stopping
+        # to ask. Reverts the "never silently pick one" rule from this
+        # module's own docstring -- worth restoring after presentation day.
         gutenberg_matches = gutenberg.search(query, limit=5)
-        if len(gutenberg_matches) == 1:
+        if gutenberg_matches:
             return LookupResult("found", book=gutenberg_matches[0])
-        if len(gutenberg_matches) > 1:
-            return LookupResult(
-                "ambiguous",
-                message=(
-                    f"Found {len(gutenberg_matches)} possible matches for '{query}' on Project "
-                    f"Gutenberg. Please provide the ISBN, OCLC number, or Project Gutenberg ID "
-                    f"to identify the exact edition."
-                ),
-            )
         # nothing on Gutenberg -- try Open Library before giving up
         ol_matches = _dedupe_source_ids(openlibrary.search_by_title(query, limit=5))
-        if len(ol_matches) == 1:
+        if ol_matches:
             return LookupResult("found", book=ol_matches[0])
-        if len(ol_matches) > 1:
-            return LookupResult(
-                "ambiguous",
-                message=(
-                    f"Found {len(ol_matches)} possible matches for '{query}'. Please provide the "
-                    f"ISBN, OCLC number, or Project Gutenberg ID to identify the exact edition."
-                ),
-            )
         return LookupResult("not_found", message=f"No book found matching '{query}'.")
 
     except (gutenberg.GutenbergLookupError, openlibrary.OpenLibraryLookupError) as exc:
