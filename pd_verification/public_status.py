@@ -75,6 +75,15 @@ def _build_book_input(
         publication_year=located.get("publication_year"),
         author_death_year=death_year,
         author_death_year_disputed=False,
+        # Demo-mode assumption (deliberate presentation-day tradeoff, same
+        # reasoning as data/pd_verification_inputs.csv for the batch
+        # corpus): an ad-hoc Gutenberg/Open Library lookup has no reliable
+        # signal for country of first publication, which otherwise trips a
+        # conservative "could be a foreign work with restored copyright"
+        # flag and lands on "uncertain" far more often than the title
+        # actually warrants for this catalog. Not verified per-book --
+        # revert before any real/professional use.
+        country_of_first_publication="US",
     )
 
 

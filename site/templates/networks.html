@@ -133,8 +133,8 @@
   <div class="card">
     <div class="mandate-studio">Build a mandate</div>
     {% if live_available %}
-    <p class="note">Two ways in — fill the blanks, or just describe it. Either way we score all
-    50 books in the demo set against it live. Takes about 30 seconds.</p>
+    <p class="note">Two ways in — fill the blanks, or just describe it. Either way we score the
+    demo set against it live. Takes about 30 seconds.</p>
 
     {% if live_error %}<p class="err">{{ live_error }}</p>{% endif %}
 
@@ -187,7 +187,7 @@
     <div class="mandate-studio">Top matches</div>
     {% if live_mandate %}
     <p class="live-sentence">{{ live_mandate.sentence }}</p>
-    <p class="note">Scored {{ scored_count }} of the 50 demo books against that mandate just
+    <p class="note">Scored {{ scored_count }} demo books against that mandate just
     now{% if failed_count %} ({{ failed_count }} didn't return a usable score){% endif %}.</p>
     {% endif %}
     <p class="note">Real output from the scoring agent, highest-scoring first.
@@ -195,7 +195,7 @@
     Package 2 before it was ever scored — no exceptions.{% endif %} Scores are
     <strong>relative to one specific creative mandate</strong> — the agent is re-run per mandate,
     so a different brief produces a different ranking.
-    {% if is_demo_run %}Scored live against the 50-book demo set.
+    {% if is_demo_run %}Scored live against the demo set.
     {% else %}From a sample noir-thriller mandate run across the full corpus.{% endif %}</p>
     {% for book in top_scores %}
     <div class="score-row">
@@ -232,12 +232,12 @@
     });
   });
 
-  // Scoring 50 books takes ~30s. Without feedback the page just sits there and people
+  // Scoring the demo set takes ~30s. Without feedback the page just sits there and people
   // click again, firing a second run -- so disable the button and say what's happening.
   document.querySelectorAll('form').forEach(function (form) {
     form.addEventListener('submit', function () {
       var btn = form.querySelector('.go');
-      if (btn) { btn.disabled = true; btn.textContent = 'Scoring 50 books… ~30 seconds'; }
+      if (btn) { btn.disabled = true; btn.textContent = 'Scoring the demo set… ~30 seconds'; }
     });
   });
 </script>
