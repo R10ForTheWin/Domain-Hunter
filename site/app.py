@@ -7,8 +7,11 @@ a dashboard for showing the project to class. No database -- everything is
 computed from the CSVs already checked into the repo.
 """
 import csv
+import fcntl
+import json
 import os
 import sys
+import threading
 import time
 from collections import deque
 from concurrent.futures import ThreadPoolExecutor, as_completed
@@ -236,6 +239,93 @@ def _rate_limit_error():
     return None
 
 
+# Hard dollar ceiling on top of the rate limiter above, per DJ: never let live scoring spend
+# past this without him seeing it, enforced in the app itself rather than requiring a manual
+# spending-limit setup in the Anthropic console. Rates are Haiku's approximate published
+# pricing -- close enough to gate on, not a substitute for checking the real usage dashboard.
+_BUDGET_LIMIT_USD = 5.00
+_HAIKU_USD_PER_MTOK_INPUT = 1.00
+_HAIKU_USD_PER_MTOK_OUTPUT = 5.00
+# Conservative per-submission estimate (measured actual is ~$0.15-0.20 for a 50-book run) used
+# only for the pre-flight check, so a submission is refused *before* spending anything if it
+# could plausibly push the running total over the cap -- the real, exact cost from the API's
+# own usage data is what actually gets added to the persisted total afterward.
+_EST_SUBMISSION_COST_USD = 0.30
+_BUDGET_LOCK = threading.Lock()
+
+
+def _budget_file_path():
+    return DATA_DIR / "_live_scoring_budget.json"
+
+
+def _read_budget_spent():
+    """Persisted to disk (not just in-memory) so the cap survives a process
+    restart, not only individual requests. Note: a fresh `railway up` deploy
+    still resets it -- that builds a brand-new container from scratch, same
+    as it resets any other runtime-written file. A restart within the same
+    deploy does not reset it.
+    """
+    path = _budget_file_path()
+    if not path.exists():
+        return 0.0
+    try:
+        with path.open("r", encoding="utf-8") as f:
+            return float(json.load(f).get("spent_usd", 0.0))
+    except (OSError, ValueError, json.JSONDecodeError):
+        return 0.0
+
+
+def _add_budget_spend(usd_amount):
+    """Atomically add usd_amount to the persisted running total; returns the new total.
+    File-locked (not just the in-process _BUDGET_LOCK) so gunicorn's multiple worker
+    processes don't race each other writing this file.
+    """
+    path = _budget_file_path()
+    path.parent.mkdir(parents=True, exist_ok=True)
+    with _BUDGET_LOCK:
+        with open(path, "a+", encoding="utf-8") as f:
+            fcntl.flock(f, fcntl.LOCK_EX)
+            f.seek(0)
+            raw = f.read()
+            try:
+                data = json.loads(raw) if raw else {}
+            except json.JSONDecodeError:
+                data = {}
+            total = float(data.get("spent_usd", 0.0)) + usd_amount
+            data["spent_usd"] = round(total, 4)
+            f.seek(0)
+            f.truncate()
+            json.dump(data, f)
+            fcntl.flock(f, fcntl.LOCK_UN)
+    return total
+
+
+def _usage_cost_usd(usage_totals):
+    return (
+        usage_totals.get("input_tokens", 0) / 1_000_000 * _HAIKU_USD_PER_MTOK_INPUT
+        + usage_totals.get("output_tokens", 0) / 1_000_000 * _HAIKU_USD_PER_MTOK_OUTPUT
+    )
+
+
+def _budget_error():
+    """None if a submission may proceed under the $5 cap; otherwise a message to show
+    instead of spending anything. Checked *before* any API call -- refuses pre-flight
+    using a conservative estimate, rather than letting a submission start and finding
+    out partway through that it should not have."""
+    spent = _read_budget_spent()
+    if spent + _EST_SUBMISSION_COST_USD > _BUDGET_LIMIT_USD:
+        print(
+            f"[BUDGET CAP] Live scoring blocked: ${spent:.2f} already spent of "
+            f"${_BUDGET_LIMIT_USD:.2f} cap -- next submission refused.",
+            file=sys.stderr,
+        )
+        return (
+            f"Live scoring has hit its ${_BUDGET_LIMIT_USD:.2f} demo budget cap "
+            f"(${spent:.2f} spent) — showing the results below instead. Ask DJ to reset it."
+        )
+    return None
+
+
 def build_mandate_from_form(form):
     """Turn either intake method's form input into the mandate shape scoring_agent expects.
 
@@ -289,6 +379,7 @@ def score_demo_pool(mandate, limit=10):
     client = _scoring.Anthropic()
 
     rows, failures = [], 0
+    usage_totals = {"input_tokens": 0, "output_tokens": 0}
     with ThreadPoolExecutor(max_workers=15) as pool:
         futures = {
             pool.submit(_scoring.score_book_with_retry, client, SCORING_MODEL, book, mandate): book
@@ -297,7 +388,11 @@ def score_demo_pool(mandate, limit=10):
         for fut in as_completed(futures):
             book = futures[fut]
             try:
-                rows.append(_scoring.build_row(book, cfg["studio"], weights, fut.result()))
+                result = fut.result()
+                usage = result.get("_usage") or {}
+                usage_totals["input_tokens"] += usage.get("input_tokens", 0)
+                usage_totals["output_tokens"] += usage.get("output_tokens", 0)
+                rows.append(_scoring.build_row(book, cfg["studio"], weights, result))
             except Exception:  # noqa: BLE001 - one bad book shouldn't sink the demo
                 failures += 1
 
@@ -311,7 +406,7 @@ def score_demo_pool(mandate, limit=10):
         }
         for r in rows[:limit]
     ]
-    return top, len(rows), failures
+    return top, len(rows), failures, usage_totals
 
 
 def load_mandate_config():
@@ -382,6 +477,8 @@ def status():
         stages=STAGES,
         corpus=load_corpus_stats(),
         shortlist=load_shortlist(),
+        live_scoring_spend=_read_budget_spent(),
+        live_scoring_cap=_BUDGET_LIMIT_USD,
     )
 
 
@@ -434,7 +531,7 @@ def networks():
     scored_count = failed_count = 0
 
     if request.method == "POST" and live:
-        limit_error = _rate_limit_error()
+        limit_error = _rate_limit_error() or _budget_error()
         if limit_error:
             live_error = limit_error
             top_scores = load_top_scores()
@@ -442,7 +539,8 @@ def networks():
             live_mandate, live_error = build_mandate_from_form(request.form)
             if live_mandate:
                 try:
-                    top_scores, scored_count, failed_count = score_demo_pool(live_mandate)
+                    top_scores, scored_count, failed_count, usage_totals = score_demo_pool(live_mandate)
+                    _add_budget_spend(_usage_cost_usd(usage_totals))
                     if not scored_count:
                         # Every book failed individually (bad API key, no credit, network down).
                         # score_demo_pool swallows per-book errors by design, so nothing raised --

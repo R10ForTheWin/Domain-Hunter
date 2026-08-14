@@ -180,6 +180,12 @@
   </div>
 
   <div class="card">
+    <h2>Live Scoring Budget</h2>
+    <p>${{ "%.2f"|format(live_scoring_spend) }} spent of ${{ "%.2f"|format(live_scoring_cap) }} cap
+    {% if live_scoring_spend >= live_scoring_cap %}<strong style="color:#d8482f"> — CAP HIT, live scoring is blocked</strong>{% endif %}</p>
+  </div>
+
+  <div class="card">
     <h2>Shortlist</h2>
     {% if shortlist %}
       <table>

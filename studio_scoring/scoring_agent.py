@@ -239,7 +239,17 @@ def score_book(client: Anthropic, model: str, book: dict, mandate: dict) -> dict
     )
     for block in response.content:
         if block.type == "tool_use":
-            return validate_score_result(block.input)
+            result = validate_score_result(block.input)
+            # Real token counts from the API response, not an estimate -- stashed under a
+            # leading-underscore key so build_row() (which reads specific keys only, never
+            # spreads the dict) and the CSV schema are both untouched by this. Consumers that
+            # want cost tracking (site/app.py's live-demo budget cap) read it explicitly;
+            # everyone else can ignore it.
+            result["_usage"] = {
+                "input_tokens": response.usage.input_tokens,
+                "output_tokens": response.usage.output_tokens,
+            }
+            return result
     raise RuntimeError(f"No tool_use block in response for {book['book_id']}")
 
 
