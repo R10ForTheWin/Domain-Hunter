@@ -28,3 +28,8 @@ site/data/
 # Same reasoning for the studio_scoring/ bundle a `railway up` deploy needs to run Package 4's
 # live scoring: a copy staged at deploy time, never a committed duplicate. See site/README.md.
 site/studio_scoring/
+# Same reasoning again for the pd_verification/ bundle a `railway up` deploy needs for the real
+# validator on /producers (app.py checks site/pd_verification/ first, falls back to
+# ../pd_verification/). This one didn't have a gitignore entry originally, which is why it went
+# unbundled and untracked until caught by testing the deployed site directly -- see app.py.
+site/pd_verification/
