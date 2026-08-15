@@ -113,6 +113,33 @@
     border: 2px solid var(--ink); border-radius: 10px;
   }
 
+  /* Loading state: hidden by default, shown by JS the instant a form is
+     submitted. Mirrors producers.html's overlay -- same retro swirl, same
+     reasoning (a plain POST reload isn't guaranteed to paint before the
+     browser tears the page down for navigation, so this is driven by a
+     fetch() instead; see the submit handler below). */
+  .loading-overlay {
+    display: none;
+    flex-direction: column; align-items: center; justify-content: center;
+    gap: 14px;
+    padding: 30px 20px 10px 20px;
+  }
+  .loading-overlay.active { display: flex; }
+  .thinking-graphic {
+    width: 90px;
+    animation: swirlSpin 1.4s linear infinite;
+    filter: drop-shadow(0 4px 8px rgba(0,0,0,0.35));
+  }
+  .thinking-graphic img { display: block; width: 100%; height: auto; }
+  @keyframes swirlSpin {
+    from { transform: rotate(0deg); }
+    to   { transform: rotate(360deg); }
+  }
+  .loading-text {
+    color: var(--ink); font-weight: 900; font-style: italic; font-size: 14px;
+    text-transform: uppercase; letter-spacing: 0.03em; text-align: center;
+  }
+
   fieldset {
     margin-top: 16px; border: 2px dashed #cfc6a5; border-radius: 10px;
     padding: 14px; opacity: 0.55;
@@ -161,6 +188,13 @@
         placeholder="a quirky funny comedy where a prissy girl takes on the big city">{{ live_mandate.raw_input if live_mandate and live_mandate.raw_input else request.form.get('freeform_text', '') }}</textarea>
       <button type="submit" class="go">Find your match</button>
     </form>
+
+    <div class="loading-overlay" id="loading-overlay">
+      <div class="thinking-graphic">
+        <img src="{{ url_for('static', filename='producer/19_loading_swirl.png') }}" alt="">
+      </div>
+      <span class="loading-text">Scoring the demo set&hellip; ~30 seconds</span>
+    </div>
     {% else %}
     <p class="note">The live mandate builder runs on this page when the scoring package and an
     API key are available in the server environment. It isn't on this deploy, so the results
@@ -232,12 +266,45 @@
     });
   });
 
-  // Scoring the demo set takes ~30s. Without feedback the page just sits there and people
-  // click again, firing a second run -- so disable the button and say what's happening.
+  // Scoring the demo set takes ~30s. A plain POST triggers a full page reload, and
+  // browsers aren't obligated to paint a DOM change made in the 'submit' handler
+  // before tearing the page down for that navigation -- so a disabled-button tweak
+  // here could show for 0ms depending on the browser/device (this is the same
+  // failure mode producers.html hit with its GET form). Fetching the same URL from
+  // JS instead guarantees the swirl is on-screen before any network activity
+  // starts, then swaps the whole document for the response once it arrives.
+  var overlay = document.getElementById('loading-overlay');
+  var tabs = document.querySelector('.tabs');
+  var oldMatches = document.querySelectorAll('.card');
   document.querySelectorAll('form').forEach(function (form) {
-    form.addEventListener('submit', function () {
-      var btn = form.querySelector('.go');
-      if (btn) { btn.disabled = true; btn.textContent = 'Scoring the demo set… ~30 seconds'; }
+    if (!overlay) { return; }
+    form.addEventListener('submit', function (e) {
+      e.preventDefault();
+      document.querySelectorAll('.tab-panel').forEach(function (p) { p.style.display = 'none'; });
+      if (tabs) { tabs.style.display = 'none'; }
+      // A previous run's "Top matches" card would otherwise sit there, visible
+      // underneath the new spinner, looking like it belongs to the run still in progress.
+      oldMatches.forEach(function (card) {
+        if (card.querySelector('.mandate-studio') && card.querySelector('.mandate-studio').textContent === 'Top matches') {
+          card.style.display = 'none';
+        }
+      });
+      overlay.classList.add('active');
+      var url = window.location.pathname;
+      fetch(url, { method: 'POST', body: new FormData(form) })
+        .then(function (resp) { return resp.text(); })
+        .then(function (html) {
+          document.open();
+          document.write(html);
+          document.close();
+        })
+        .catch(function () {
+          // The fetch() call itself failed (not a scoring error -- those render as
+          // a normal page from the server) -- fall back to a real submit rather
+          // than leaving the spinner stuck forever. form.submit() bypasses the
+          // 'submit' event entirely, so this won't loop back into this handler.
+          form.submit();
+        });
     });
   });
 </script>

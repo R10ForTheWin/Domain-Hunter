@@ -21,13 +21,16 @@ import urllib.request
 from typing import Any, Dict, List, Optional
 
 _BASE_URL = "https://gutendex.com/books"
-# Shortened from (10s, 3 attempts, 1.5s backoff) -- that combination has a
-# 34.5s worst case before giving up, which is a long silent stall live in
-# front of a class if Gutendex is having a bad moment (observed happening).
-# One retry at a shorter timeout still absorbs a genuine transient blip
-# without making a real outage feel like the page is frozen.
-_TIMEOUT_SECONDS = 5
-_MAX_ATTEMPTS = 2
+# 5s/2 attempts (11s worst case) was too impatient for Gutendex's actual
+# response times from Railway -- observed timing out live even on requests
+# that would have succeeded a couple seconds later. Both producer and network
+# pages now show a loading spinner for the full duration of the request (see
+# their loading-overlay JS), so a longer worst case here is no longer a
+# silent stall -- raised to give real-but-slow responses room to land instead
+# of being killed early. 8s/3 attempts is a 27s worst case, still well inside
+# gunicorn's 180s worker timeout (site/railway.json).
+_TIMEOUT_SECONDS = 8
+_MAX_ATTEMPTS = 3
 _RETRY_DELAY_SECONDS = 1
 
 
