@@ -55,10 +55,12 @@ class Verdict:
     "confirmed") or will enter ("not_confirmed") the public domain, when the
     controlling rule makes that date knowable. It is always None when
     `pd_status == "uncertain"` — an undetermined status has no date to give.
-    For "not_confirmed", every current rule branch that reaches that status
-    does so via a fully-resolved rule (automatic renewal, a known future
-    life+70 date, etc.), so it always carries a date too; see rules.py if
-    that ever stops being true for a new branch.
+    Most "not_confirmed" branches reach that status via a fully-resolved rule
+    (automatic renewal, a known future life+70 date, etc.) and so carry a
+    date too -- except the "no death year on file, but even the earliest
+    possible death still leaves the term unexpired" branches in rules.py,
+    which are certain about current status without being able to compute the
+    real future date. `pd_effective_date` can be None there.
     """
 
     pd_status: str  # "confirmed" | "not_confirmed" | "uncertain" — never anything else

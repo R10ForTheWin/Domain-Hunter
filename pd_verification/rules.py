@@ -58,8 +58,12 @@ in the U.S. within 30 days), assume restoration risk is possible.
 Every Verdict also carries `pd_effective_date` when the controlling rule
 makes one knowable: for "confirmed", the Jan 1 date the work actually
 entered the public domain; for "not_confirmed", the Jan 1 date it WILL
-enter the public domain (every current "not_confirmed" branch is fully
-resolved enough to know this). "uncertain" never carries a date. Where two
+enter the public domain, when that's resolvable. One "not_confirmed" case
+(a post-1978 named author with no death year on file, where even the
+earliest-possible death still leaves the term unexpired) is certain about
+current status but NOT resolved enough to know the real future date -- see
+the life+70 branches below -- so `pd_effective_date` can be None there.
+"uncertain" never carries a date. Where two
 independent theories could each explain a "confirmed" result (the
 foreign/URAA-safe double-expiry case) and we don't know which one is
 legally the real one, the LATER of the two candidate dates is reported —
@@ -248,21 +252,42 @@ def evaluate(book: BookInput, *, as_of_year: int) -> Verdict:
                 missing,
                 _jan1(expiry_year),
             )
+        min_possible_expiry = pub + LIFE70_OFFSET
+        if not book.author_death_year_disputed and as_of_year < min_possible_expiry:
+            # No death year on file at all (not merely disputed) -- but the author
+            # was alive to publish this in `pub`, so even in the earliest possible
+            # case (death the same year) the life+70 term can't expire before
+            # pub + 71. If that floor is still in the future, the CURRENT status is
+            # certain -- not_confirmed, not uncertain -- even though the real future
+            # expiration date isn't knowable without an actual death year.
+            return _v(
+                "not_confirmed",
+                f"'{book.title}' was first published {pub}, so the controlling term is "
+                f"life-of-the-author-plus-70 (17 U.S.C. 302(a)). No death year is on "
+                f"file for the author — most likely because they're still living, not "
+                f"because the record is incomplete — but even in the earliest possible "
+                f"case (the author died the same year this was published), the term "
+                f"couldn't expire before Jan 1, {min_possible_expiry}, which hasn't "
+                f"arrived yet. Definitely still under copyright; the exact expiration "
+                f"date just isn't knowable without a death year on file.",
+                "life+70-not-yet-expired-no-death-year",
+                flags,
+                missing,
+            )
         if book.author_death_year is None:
             missing.append("author_death_year")
         if book.author_death_year_disputed:
             death_year_clause = "the author's death year is disputed"
         else:
             death_year_clause = (
-                "no death year is on file for the author — most likely because "
-                "they're still living, not because the record is incomplete"
+                "no death year is on file for the author, and enough time has passed "
+                "that the term may already have expired if they died long enough ago"
             )
         return _v(
             "uncertain",
             f"'{book.title}' was first published {pub}, so the controlling term is "
             f"life-of-the-author-plus-70 (17 U.S.C. 302(a)), but {death_year_clause}. "
-            f"Either way, the work is still well within its copyright term and is not "
-            f"public domain; an exact expiration date just can't be calculated yet.",
+            f"Get the author's death year before using this.",
             "life+70-missing-death-year",
             flags,
             missing,
@@ -324,22 +349,41 @@ def evaluate(book: BookInput, *, as_of_year: int) -> Verdict:
                 missing,
                 _jan1(expiry_year),
             )
+        min_possible_expiry = pub + LIFE70_OFFSET
+        if not book.author_death_year_disputed and as_of_year < min_possible_expiry:
+            # Same reasoning as the 1989+ branch above: no death year on file (not
+            # disputed) still guarantees the term hasn't expired yet, since the
+            # earliest possible death (the publication year itself) already pushes
+            # expiry past today. Certain current status, unknowable exact date.
+            return _v(
+                "not_confirmed",
+                f"'{book.title}' was first published {pub} (1978-1988 window — "
+                f"mandatory U.S. notice still applied). The controlling term is "
+                f"life-of-the-author-plus-70 (17 U.S.C. 302(a)). No death year is on "
+                f"file for the author — they may still be living, or it may simply "
+                f"not be recorded — but even in the earliest possible case (the "
+                f"author died the same year this was published), the term couldn't "
+                f"expire before Jan 1, {min_possible_expiry}, which hasn't arrived "
+                f"yet. Definitely still under copyright; the exact expiration date "
+                f"just isn't knowable without a death year on file.",
+                "life+70-not-yet-expired-no-death-year-1978-1988",
+                flags,
+                missing,
+            )
         if book.author_death_year is None:
             missing.append("author_death_year")
         if book.author_death_year_disputed:
             death_year_clause = "the author's death year is disputed"
         else:
             death_year_clause = (
-                "no death year is on file for the author — they may still be "
-                "living, or it may simply not be recorded"
+                "no death year is on file for the author, and enough time has passed "
+                "that the term may already have expired if they died long enough ago"
             )
         return _v(
             "uncertain",
             f"'{book.title}' was first published {pub} (1978-1988 window — mandatory "
             f"U.S. notice still applied). The controlling term is life+70, but "
-            f"{death_year_clause}. Either way, the work is still well within its "
-            f"copyright term and is not public domain; an exact expiration date just "
-            f"can't be calculated yet.",
+            f"{death_year_clause}. Get the author's death year before using this.",
             "life+70-missing-death-year-1978-1988",
             flags,
             missing,

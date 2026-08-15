@@ -113,5 +113,12 @@ def test_check_book_openlibrary_match_with_publish_date_resolves_directly(monkey
         "isbn", "0000000001", as_of_year=2026,
         corpus_path=str(empty_corpus), supplementary_path=str(tmp_path / "pd_verification_inputs.csv"),
     )
-    assert result["status"] == "found_uncertain"
+    # No death year on file, but even the earliest possible death (2015, the
+    # publication year) still leaves life+70 unexpired -- current status is
+    # certain (still private), even without a real death year to compute the
+    # exact future date from. Regression coverage for the "Harry Potter" bug:
+    # this used to incorrectly come back "found_uncertain" / "Unclear".
+    assert result["status"] == "found_not_confirmed"
+    assert result["pd_effective_date"] is None
+    assert result["message"].startswith("Private now:")
     assert "death" in result["message"].lower() or "life" in result["message"].lower()

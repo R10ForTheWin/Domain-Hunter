@@ -8,6 +8,7 @@ exactly the shape the bot is supposed to speak in:
 
     "Public as of 2021-01-01."
     "Private now but will be public on 2071-01-01."
+    "Private now: <specific reason>."
     "Unclear because <specific reason>."
     "Couldn't locate a book matching that <identifier type>."
 
@@ -34,7 +35,13 @@ def format_status_message(status: str, reasoning: str, effective_date: Optional[
     if status == "confirmed":
         return f"Public as of {effective_date.isoformat()}."
     if status == "not_confirmed":
-        return f"Private now but will be public on {effective_date.isoformat()}."
+        # Usually resolved enough to give a real date -- except the "no death
+        # year on file, but even the earliest possible death still leaves the
+        # term unexpired" rules.py branches, which are certain about current
+        # status without a computable future date.
+        if effective_date is not None:
+            return f"Private now but will be public on {effective_date.isoformat()}."
+        return f"Private now: {reasoning}"
     return f"Unclear because {reasoning}"
 
 

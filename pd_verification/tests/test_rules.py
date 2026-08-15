@@ -200,9 +200,44 @@ def test_post_1977_domestic_with_expired_life70_is_confirmed():
     assert verdict.rule_applied == "life+70-expired-1978-1988"
 
 
-def test_post_1989_missing_death_year_is_uncertain():
+def test_post_1989_missing_death_year_is_not_confirmed_when_still_certainly_unexpired():
+    # No death year on file, but even the earliest possible death (the
+    # publication year itself) leaves the term unexpired as of AS_OF_YEAR --
+    # current status is certain (still private) even without a real death
+    # year, so this is not_confirmed, not uncertain. Regression test for the
+    # "Harry Potter" bug: a living author's book was reported "Unclear"
+    # instead of "Private now".
     book = _book(publication_year=2000, country_of_first_publication="US")
     verdict = evaluate(book, as_of_year=AS_OF_YEAR)
+    assert verdict.pd_status == "not_confirmed"
+    assert verdict.rule_applied == "life+70-not-yet-expired-no-death-year"
+    assert verdict.missing_fields == []
+    assert verdict.pd_effective_date is None
+
+
+def test_post_1989_disputed_death_year_is_still_uncertain():
+    # A disputed death year is a genuine unknown either way -- the disputed
+    # date could already put the term past expiry -- so this must stay
+    # uncertain rather than being swept into the "certainly not confirmed"
+    # fix above.
+    book = _book(
+        publication_year=2000,
+        author_death_year=1930,
+        author_death_year_disputed=True,
+        country_of_first_publication="US",
+    )
+    verdict = evaluate(book, as_of_year=AS_OF_YEAR)
+    assert verdict.pd_status == "uncertain"
+    assert verdict.rule_applied == "life+70-missing-death-year"
+    assert verdict.pd_effective_date is None
+
+
+def test_post_1989_missing_death_year_far_future_is_genuinely_uncertain():
+    # Once enough time has passed that even the earliest-possible death would
+    # already put the term past expiry, missing (non-disputed) death year is
+    # genuinely unresolved again.
+    book = _book(publication_year=1989, country_of_first_publication="US")
+    verdict = evaluate(book, as_of_year=2200)
     assert verdict.pd_status == "uncertain"
     assert verdict.rule_applied == "life+70-missing-death-year"
     assert "author_death_year" in verdict.missing_fields
@@ -344,9 +379,20 @@ def test_pd_status_is_always_a_valid_enum_value():
 
 # --- pd_effective_date invariants -------------------------------------------
 # The public validator bot's whole "Public as of X" / "Private now but will
-# be public on X" / "Unclear because ..." phrasing depends on this holding
-# for every branch: confirmed/not_confirmed always carry a date, uncertain
-# never does.
+# be public on X" / "Private now: <reason>" / "Unclear because ..." phrasing
+# depends on this holding for every branch: uncertain never carries a date,
+# and confirmed/not_confirmed carry one EXCEPT the one documented case where
+# not_confirmed is certain about current status but not the real future date
+# (no death year on file, but even the earliest possible death still leaves
+# the term unexpired -- see rules.py and the "Harry Potter" regression tests
+# above). That one exception is asserted explicitly by rule_applied below
+# instead of being silently allowed for any not_confirmed branch, so a new
+# no-date branch can't slip in unnoticed.
+_NOT_CONFIRMED_NO_DATE_RULES = {
+    "life+70-not-yet-expired-no-death-year",
+    "life+70-not-yet-expired-no-death-year-1978-1988",
+}
+
 
 def test_effective_date_present_iff_status_is_resolved():
     scenarios = [
@@ -362,11 +408,17 @@ def test_effective_date_present_iff_status_is_resolved():
         _book(publication_year=None),  # uncertain
         _book(publication_year=1930, country_of_first_publication="Spain"),  # uncertain
         _book(publication_year=1935, country_of_first_publication="US"),  # uncertain (renewal unknown)
-        _book(publication_year=2000, country_of_first_publication="US"),  # uncertain (no death year)
+        _book(publication_year=2000, country_of_first_publication="US"),  # not_confirmed, no date (Harry Potter case)
+        _book(
+            publication_year=2000, author_death_year=1930, author_death_year_disputed=True,
+            country_of_first_publication="US",
+        ),  # uncertain (disputed death year)
     ]
     for book in scenarios:
         verdict = evaluate(book, as_of_year=AS_OF_YEAR)
         if verdict.pd_status == "uncertain":
+            assert verdict.pd_effective_date is None, verdict.rule_applied
+        elif verdict.rule_applied in _NOT_CONFIRMED_NO_DATE_RULES:
             assert verdict.pd_effective_date is None, verdict.rule_applied
         else:
             assert verdict.pd_effective_date is not None, verdict.rule_applied
